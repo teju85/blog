@@ -4,7 +4,7 @@ title: "Building 'mu' on cygwin"
 date: 2018-01-07 13:59:00 +0530
 categories: emacs-lisp programming tools
 ---
-Recently, I wanted to play with the popular 'mu' tool for indexing my mails. Started with Matthias' [mu-on-cygwin][https://frosch03.de/blog/2016/05/mu4e-within-cygwin.html] blog. Interestingly, even after following the steps he mentions there, I was welcomed with the below error!
+Recently, I wanted to play with the popular 'mu' tool for indexing my mails. Started with Matthias' [mu-on-cygwin](https://frosch03.de/blog/2016/05/mu4e-within-cygwin.html) blog. Interestingly, even after following the steps he mentions there, I was welcomed with the below error!
 
 {% highlight bash %}
   CXX      utils.lo
