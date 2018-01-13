@@ -17,25 +17,18 @@ default:
 	@echo "               inside the 'master' branch!"
 	@echo " . serve     - start the server to test changes locally. Assumes"
 	@echo "               that you are inside the 'master' branch!"
-	@echo " . clean     - clean temporary files"
 
 build:
-	git checkout $(SRC_BRANCH)
 	jekyll build -s $(SRC_DIR) -d $(SITE_DIR)
-	git checkout $(DST_BRANCH)
-	git rm -qr .
-	cp -r $(SITE_DIR) .
 
-publish:
+publish: build
 	git add -A
-	git commit
+	EDITOR=vi git commit
 	git checkout $(DST_BRANCH)
+	cp -r $(SITE_DIR) .
 	git add -A
-	git commit
+	EDITOR=vi git commit
 	git push origin $(SRC_BRANCH) $(DST_BRANCH)
 
 serve:
 	jekyll serve -s $(SRC_DIR) -d $(SITE_DIR)
-
-clean:
-	rm -f .sass-cache $(SITE_DIR)
