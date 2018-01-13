@@ -6,6 +6,15 @@ SRC_BRANCH = master
 SRC_DIR    = src
 # branch used to publish the static pages
 DST_BRANCH = gh-pages
+# site files to be deleted and freshly built inside DST_BRANCH
+SITE_FILES = 2017 \
+	     2018 \
+	     404.html \
+	     about \
+	     allposts \
+	     assets \
+	     feed.xml \
+	     index.html
 
 
 default:
@@ -25,6 +34,7 @@ publish: build
 	git add -A
 	EDITOR=vi git commit
 	git checkout $(DST_BRANCH)
+	git rm -qr $(SITE_FILES)
 	cp -r $(SITE_DIR)/* .
 	git add -A
 	EDITOR=vi git commit
