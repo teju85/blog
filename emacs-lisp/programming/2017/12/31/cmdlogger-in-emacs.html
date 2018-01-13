@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Building &#39;mu&#39; on cygwin</title>
-  <meta name="description" content="Recently, I wanted to play with the popular ‘mu’ tool for indexing my mails. Started with Matthias’ mu-on-cygwin blog. Interestingly, even after following th...">
+  <title>cmdlogger in emacs</title>
+  <meta name="description" content="Writing after a long time! Happy New Year!">
 
   <link rel="stylesheet" href="/blog/assets/main.css">
-  <link rel="canonical" href="https://teju85.github.io/blog/emacs-lisp/programming/tools/2018/01/07/building-mu-on-cygwin.html">
+  <link rel="canonical" href="https://teju85.github.io/blog/emacs-lisp/programming/2017/12/31/cmdlogger-in-emacs.html">
   <link rel="alternate" type="application/rss+xml" title="Quagmire" href="/blog/feed.xml">
   
   
@@ -70,36 +70,39 @@
         <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">Building &#39;mu&#39; on cygwin</h1>
+    <h1 class="post-title" itemprop="name headline">cmdlogger in emacs</h1>
     <p class="post-meta">
-      <time datetime="2018-01-07T13:59:00+05:30" itemprop="datePublished">
+      <time datetime="2017-12-31T20:31:55+05:30" itemprop="datePublished">
         
-        Jan 7, 2018
+        Dec 31, 2017
       </time>
       </p>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>Recently, I wanted to play with the popular ‘mu’ tool for indexing my mails. Started with Matthias’ <a href="https://frosch03.de/blog/2016/05/mu4e-within-cygwin.html">mu-on-cygwin</a> blog. Interestingly, even after following the steps he mentions there, I was welcomed with the below error!</p>
+    <p>Writing after a long time! Happy New Year!</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">  CXX      utils.lo
-utils.cc: In <span class="k">function</span> ‘std::string Mux::format<span class="o">(</span>const char<span class="k">*</span>, ...<span class="o">)</span>’:
-utils.cc:187:44: error: ‘vasprintf’ was not declared <span class="k">in </span>this scope
-   const auto res <span class="o">=</span> vasprintf <span class="o">(</span>&amp;s, frm, args<span class="o">)</span><span class="p">;</span>
-                                            ^
-utils.cc: In <span class="k">function</span> ‘std::string Mux::date_to_time_t_string<span class="o">(</span>const string&amp;, bool<span class="o">)</span>’:
-utils.cc:313:52: error: ‘strptime’ was not declared <span class="k">in </span>this scope
-  <span class="k">if</span> <span class="o">(!</span>strptime <span class="o">(</span>date.c_str<span class="o">()</span>, <span class="s2">"%Y%m%d%H%M%S"</span>, &amp;tbuf<span class="o">)</span> <span class="o">&amp;&amp;</span>
-                                                    ^
-make[3]: <span class="k">***</span> <span class="o">[</span>Makefile:749: utils.lo] Error 1</code></pre></figure>
+<p>I wanted to log how much time I spend on pressing what keys while in an emacs session. There’s <a href="https://github.com/dacap/keyfreq">keyfreq</a> available on github, but I needed something that would just capture keystrokes (in the unix philosophy) and put them in a text format for a future analysis using any of the famous tools. Hence, wrote <a href="https://github.com/teju85/cmdlogger">cmdlogger</a> and open-sourced it on github.</p>
 
-<p>I had to do the following hack in order to get this working on my cygwin-env. (assuming you’re already inside ‘mu’)</p>
+<h3 id="install">Install</h3>
+<p>Clone the repo. (hope to add this to MELPA soon)</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span><span class="nb">cd </span>lib/parser
-<span class="nv">$ </span><span class="nb">sed</span> <span class="nt">-e</span> <span class="s1">'s/^#define GNU_SOURCE/#define _GNU_SOURCE/'</span> utils.cc  <span class="o">&gt;</span> tmp
-<span class="nv">$ </span><span class="nb">mv </span>tmp utils.cc </code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>git clone https://github.com/teju85/cmdlogger-el</code></pre></figure>
 
-<p>After this, the compilation and installation happened without any errors. Hope this helps others, in case they get stuck with the same error.</p>
+<h3 id="usage">Usage</h3>
+<p>In your .emacs file:</p>
+
+<figure class="highlight"><pre><code class="language-elisp" data-lang="elisp"><span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'load-path</span> <span class="nv">/path/to/cmdlogger-el</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">require</span> <span class="ss">'cmdlogger</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">cmdlogger-mode</span><span class="p">)</span></code></pre></figure>
+
+<h3 id="disabling-logging-temporarily">Disabling logging temporarily</h3>
+<p>Useful, especially, when you are trying to enter passwords and other sensitive info.</p>
+
+<figure class="highlight"><pre><code class="language-elisp" data-lang="elisp"><span class="p">(</span><span class="nv">cmdlogger-mode</span> <span class="no">nil</span><span class="p">)</span>
+<span class="c1">;; do your secret stuff</span>
+<span class="p">(</span><span class="nv">cmdlogger-mode</span> <span class="no">t</span><span class="p">)</span></code></pre></figure>
+
 
   </div>
 
