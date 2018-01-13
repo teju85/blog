@@ -25,9 +25,10 @@ publish: build
 	git add -A
 	EDITOR=vi git commit
 	git checkout $(DST_BRANCH)
-	cp -r $(SITE_DIR) .
+	cp -r $(SITE_DIR)/* .
 	git add -A
 	EDITOR=vi git commit
+	git checkout $(SRC_BRANCH)
 	git push origin $(SRC_BRANCH) $(DST_BRANCH)
 
 serve:
