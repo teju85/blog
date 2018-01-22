@@ -10,18 +10,14 @@ DST_BRANCH = gh-pages
 
 default:
 	@echo "make what? Available targets are:"
-	@echo " . build     - build jekyll pages. Assumes that you are inside"
-	@echo "               the 'master' branch!"
 	@echo " . publish   - publish the built pages as well as original"
 	@echo "               changes to remote repo. Assumes that you are"
 	@echo "               inside the 'master' branch!"
 	@echo " . serve     - start the server to test changes locally. Assumes"
 	@echo "               that you are inside the 'master' branch!"
 
-build:
+publish:
 	jekyll build -s $(SRC_DIR) -d $(SITE_DIR)
-
-publish: build
 	git add -A
 	EDITOR=vi git commit
 	git checkout $(DST_BRANCH)
