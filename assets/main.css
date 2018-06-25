@@ -11,7 +11,7 @@ dl, dd, ol, ul, figure {
  * Basic styling
  */
 body {
-  font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: 400 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   color: #111;
   background-color: #fdfdfd;
   -webkit-text-size-adjust: 100%;
@@ -19,7 +19,10 @@ body {
   -moz-font-feature-settings: "kern" 1;
   -o-font-feature-settings: "kern" 1;
   font-feature-settings: "kern" 1;
-  font-kerning: normal; }
+  font-kerning: normal;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column; }
 
 /**
  * Set `margin-bottom` to maintain vertical rhythm
@@ -29,6 +32,13 @@ p, blockquote, pre,
 ul, ol, dl, figure,
 .highlight {
   margin-bottom: 15px; }
+
+/**
+ * `main` element
+ */
+main {
+  display: block;
+  /* Default value of `display` of `main` element is 'inline' in IE 11. */ }
 
 /**
  * Images
@@ -140,16 +150,90 @@ pre {
 /**
  * Icons
  */
-.icon > svg {
+.svg-icon {
+  width: 16px;
+  height: 16px;
   display: inline-block;
-  vertical-align: middle; }
-  .icon > svg path {
-    fill: #828282; }
+  fill: #828282;
+  padding-right: 5px;
+  vertical-align: text-top; }
 
-.social-media-list .icon {
-  padding-right: 5px; }
 .social-media-list li + li {
   padding-top: 5px; }
+
+/**
+ * Tables
+ */
+table {
+  margin-bottom: 30px;
+  width: 100%;
+  text-align: left;
+  color: #3f3f3f;
+  border-collapse: collapse;
+  border: 1px solid #e8e8e8; }
+  table tr:nth-child(even) {
+    background-color: #f7f7f7; }
+  table th, table td {
+    padding: 10px 15px; }
+  table th {
+    background-color: #f0f0f0;
+    border: 1px solid #dedede;
+    border-bottom-color: #c9c9c9; }
+  table td {
+    border: 1px solid #e8e8e8; }
+
+/**
+ * Tags (From: http://codepen.io/wbeeftink/pen/dIaDH)
+ */
+.tags {
+  list-style: none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0; }
+
+.tags li {
+  float: left; }
+
+.tag {
+  background: #eee;
+  border-radius: 3px 0 0 3px;
+  color: #999;
+  display: inline-block;
+  height: 26px;
+  line-height: 26px;
+  padding: 0 20px 0 23px;
+  position: relative;
+  margin: 0 10px 10px 0;
+  text-decoration: none;
+  -webkit-transition: color 0.2s; }
+
+.tag::before {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
+  content: '';
+  height: 6px;
+  left: 10px;
+  position: absolute;
+  width: 6px;
+  top: 10px; }
+
+.tag::after {
+  background: #fff;
+  border-bottom: 13px solid transparent;
+  border-left: 10px solid #eee;
+  border-top: 13px solid transparent;
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0; }
+
+.tag:hover {
+  background-color: crimson;
+  color: white; }
+
+.tag:hover::after {
+  border-left-color: crimson; }
 
 /**
  * Site header
@@ -206,7 +290,7 @@ pre {
         line-height: 0;
         padding-top: 10px;
         text-align: center; }
-        .site-nav .menu-icon > svg path {
+        .site-nav .menu-icon > svg {
           fill: #424242; }
       .site-nav input ~ .trigger {
         clear: both;
@@ -277,10 +361,14 @@ pre {
  * Page content
  */
 .page-content {
-  padding: 30px 0; }
+  padding: 30px 0;
+  flex: 1 0 auto; }
 
 .page-heading {
-  font-size: 20px; }
+  font-size: 32px; }
+
+.post-list-heading {
+  font-size: 28px; }
 
 .post-list {
   margin-left: 0;
