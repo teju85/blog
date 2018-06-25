@@ -29,3 +29,4 @@ Current release of teditor is at v0.1.0. It can be found [here](https://github.c
 8. keep-lines, remove-lines; just like in emacs
 9. M-x command; just like in emacs
 10. text search and potentially use it as a way to quickly navigate inside the buffer
+11. Stores files opened history for a quicker navigation later
