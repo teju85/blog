@@ -11,6 +11,13 @@ layout: default
       </time>
     </p>
   </header>
+
+  <ul class="tags">
+  {% for tag in page.tags %}
+    <li><a href="/blog/tags.html#{{ tag }}" class="tag">{{ tag }}</a></li>
+  {% endfor %}
+  </ul>
+
   <div class="post-content e-content" itemprop="articleBody">
     {{ content }}
   </div>
