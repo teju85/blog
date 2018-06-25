@@ -1,4 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2018-03-14T10:50:34+05:30</updated><id>https://teju85.github.io/blog/</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">CUDA distutils</title><link href="https://teju85.github.io/blog/2018/03/14/cudistutils.html" rel="alternate" type="text/html" title="CUDA distutils" /><published>2018-03-14T00:00:00+05:30</published><updated>2018-03-14T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2018/03/14/cudistutils</id><content type="html" xml:base="https://teju85.github.io/blog/2018/03/14/cudistutils.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2018-06-25T15:21:50+05:30</updated><id>https://teju85.github.io/blog/</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Teditor</title><link href="https://teju85.github.io/blog/2018/06/24/teditor.html" rel="alternate" type="text/html" title="Teditor" /><published>2018-06-24T00:00:00+05:30</published><updated>2018-06-24T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2018/06/24/teditor</id><content type="html" xml:base="https://teju85.github.io/blog/2018/06/24/teditor.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;Teditor is a terminal based editor completely written in C++. It is inspired from
+&lt;a href=&quot;https://github.com/tomas/eon&quot;&gt;eon&lt;/a&gt; and &lt;a href=&quot;https://www.gnu.org/software/emacs/&quot;&gt;emacs&lt;/a&gt;.
+The project is hosted &lt;a href=&quot;https://github.com/teju85/teditor&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;yet-another-editor&quot;&gt;Yet another editor!?&lt;/h3&gt;
+&lt;p&gt;While all editors support terminal capabilities, how about we try to have a terminal
+support editor capabilities!? teditor is a terminal based editor, written in C++,
+to explore this aspect.&lt;/p&gt;
+
+&lt;p&gt;Besides, writing an editor from scratch is a real practical way to get to know a lot
+about programming, SW life cycle management, OS and terminal concepts!&lt;/p&gt;
+
+&lt;h3 id=&quot;current-release&quot;&gt;Current Release&lt;/h3&gt;
+&lt;p&gt;Current release of teditor is at v0.1.0. It can be found &lt;a href=&quot;https://github.com/teju85/teditor/releases/tag/0.1.0&quot;&gt;here&lt;/a&gt;. Features in this release:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Basic editing features&lt;/li&gt;
+  &lt;li&gt;Support for multiple buffers and switching between them&lt;/li&gt;
+  &lt;li&gt;‘Command’ API to extend functionality&lt;/li&gt;
+  &lt;li&gt;Support for dir-mode; just like in emacs&lt;/li&gt;
+  &lt;li&gt;Region selection&lt;/li&gt;
+  &lt;li&gt;Support for multiple-cursors&lt;/li&gt;
+  &lt;li&gt;Sorting a selected region in the buffer&lt;/li&gt;
+  &lt;li&gt;keep-lines, remove-lines; just like in emacs&lt;/li&gt;
+  &lt;li&gt;M-x command; just like in emacs&lt;/li&gt;
+  &lt;li&gt;text search and potentially use it as a way to quickly navigate inside the buffer&lt;/li&gt;
+&lt;/ol&gt;</content><author><name></name></author><category term="teditor" /><summary type="html">Introduction Teditor is a terminal based editor completely written in C++. It is inspired from eon and emacs. The project is hosted here.</summary></entry><entry><title type="html">CUDA distutils</title><link href="https://teju85.github.io/blog/2018/03/14/cudistutils.html" rel="alternate" type="text/html" title="CUDA distutils" /><published>2018-03-14T00:00:00+05:30</published><updated>2018-03-14T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2018/03/14/cudistutils</id><content type="html" xml:base="https://teju85.github.io/blog/2018/03/14/cudistutils.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;After reading McGibbon’s &lt;a href=&quot;https://github.com/rmcgibbo/npcuda-example&quot;&gt;npcuda-example&lt;/a&gt;,
 I set out on an attempt at creating extension modules by creating a separate
 nvcc cuda compiler to the distutils process.&lt;/p&gt;
