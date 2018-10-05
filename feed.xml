@@ -1,4 +1,92 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2018-06-25T23:22:43+05:30</updated><id>https://teju85.github.io/blog/</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Teditor</title><link href="https://teju85.github.io/blog/2018/06/24/teditor.html" rel="alternate" type="text/html" title="Teditor" /><published>2018-06-24T00:00:00+05:30</published><updated>2018-06-24T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2018/06/24/teditor</id><content type="html" xml:base="https://teju85.github.io/blog/2018/06/24/teditor.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2018-10-05T15:49:05+05:30</updated><id>https://teju85.github.io/blog/</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">LLVM/Clang inside Docker</title><link href="https://teju85.github.io/blog/2018/10/05/llvm-docker.html" rel="alternate" type="text/html" title="LLVM/Clang inside Docker" /><published>2018-10-05T00:00:00+05:30</published><updated>2018-10-05T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2018/10/05/llvm-docker</id><content type="html" xml:base="https://teju85.github.io/blog/2018/10/05/llvm-docker.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;The &lt;a href=&quot;https://clang.llvm.org/get_started.html&quot;&gt;instructions&lt;/a&gt; on building LLVM/Clang
+from source are pretty accurate. That and the fact that it’s dependencies are very
+minimal, building it from source is a cake-walk!&lt;/p&gt;
+
+&lt;h3 id=&quot;setting-up-llvm-inside-docker&quot;&gt;Setting up llvm inside docker&lt;/h3&gt;
+&lt;p&gt;As part of my work, I needed the clang tools for code analysis. I nowadays prefer
+working inside docker. So, as a first shot, here’s how I set up my initial
+Dockerfile.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;RUN apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    apt-get &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--no-install-recommends&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        build-essential &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        ca-certificates &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        cmake &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        git &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        make &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        python &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        zlib1g-dev &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;rm&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-rf&lt;/span&gt; /var/lib/apt/lists&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
+
+RUN &lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /opt/compiler &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /opt/compiler &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    git clone &lt;span class=&quot;s2&quot;&gt;&quot;http://llvm.org/git/llvm&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;llvm/tools &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    git clone &lt;span class=&quot;s2&quot;&gt;&quot;http://llvm.org/git/clang&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;clang/tools &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    git clone &lt;span class=&quot;s2&quot;&gt;&quot;http://llvm.org/git/clang-tools-extra&quot;&lt;/span&gt; extra &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /opt/compiler/build &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /opt/compiler/build &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    cmake &lt;span class=&quot;nt&quot;&gt;-G&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Unix Makefiles&quot;&lt;/span&gt; ../llvm &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    make &lt;span class=&quot;nt&quot;&gt;-j8&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    make &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; / &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;rm&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-rf&lt;/span&gt; /opt/compiler
+
+ENV &lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/usr/local/bin:&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;
+ENV &lt;span class=&quot;nv&quot;&gt;LD_LIBRARY_PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/usr/local/lib:&lt;span class=&quot;nv&quot;&gt;$LD_LIBRARY_PATH&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Interestingly, this ended up generating a really huge docker image!&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker images | &lt;span class=&quot;nb&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-n2&lt;/span&gt;
+REPOSITORY              TAG                  IMAGE ID            CREATED             SIZE
+llvm                    latest-9.2           ba5b2786b5e5        About an hour ago   47.1GB&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;solution-llvm_targets_to_build&quot;&gt;Solution (LLVM_TARGETS_TO_BUILD)&lt;/h3&gt;
+&lt;p&gt;Main reason for this is clang ends up generating cross-compilation for multiple
+targets. (Refer to LLVM_ALL_TARGETS variable inside llvm/CMakeLists.txt) Thus, I
+had to update the cmake command to only build for my targets of interest.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;RUN apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    apt-get &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--no-install-recommends&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        build-essential &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        ca-certificates &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        cmake &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        git &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        make &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        python &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        zlib1g-dev &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;rm&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-rf&lt;/span&gt; /var/lib/apt/lists&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
+
+RUN &lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /opt/compiler &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /opt/compiler &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    git clone &lt;span class=&quot;s2&quot;&gt;&quot;http://llvm.org/git/llvm&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;llvm/tools &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    git clone &lt;span class=&quot;s2&quot;&gt;&quot;http://llvm.org/git/clang&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;clang/tools &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    git clone &lt;span class=&quot;s2&quot;&gt;&quot;http://llvm.org/git/clang-tools-extra&quot;&lt;/span&gt; extra &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /opt/compiler/build &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /opt/compiler/build &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    cmake &lt;span class=&quot;nt&quot;&gt;-G&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Unix Makefiles&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-DLLVM_TARGETS_TO_BUILD&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;X86;NVPTX&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;-DCMAKE_BUILD_TYPE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;Release &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+        ../llvm &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    make &lt;span class=&quot;nt&quot;&gt;-j8&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    make &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; / &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;rm&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-rf&lt;/span&gt; /opt/compiler
+
+ENV &lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/usr/local/bin:&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;
+ENV &lt;span class=&quot;nv&quot;&gt;LD_LIBRARY_PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/usr/local/lib:&lt;span class=&quot;nv&quot;&gt;$LD_LIBRARY_PATH&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This puts me in a more reasonable docker image size. :)&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker images | &lt;span class=&quot;nb&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-n2&lt;/span&gt;
+REPOSITORY              TAG                  IMAGE ID            CREATED             SIZE
+llvm                    latest-9.2           57ee054cbfe8        18 seconds ago      3.62GB&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Hope this is useful to others.&lt;/p&gt;</content><author><name></name></author><category term="compiler" /><summary type="html">Introduction The instructions on building LLVM/Clang from source are pretty accurate. That and the fact that it’s dependencies are very minimal, building it from source is a cake-walk!</summary></entry><entry><title type="html">Teditor</title><link href="https://teju85.github.io/blog/2018/06/24/teditor.html" rel="alternate" type="text/html" title="Teditor" /><published>2018-06-24T00:00:00+05:30</published><updated>2018-06-24T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2018/06/24/teditor</id><content type="html" xml:base="https://teju85.github.io/blog/2018/06/24/teditor.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;Teditor is a terminal based editor completely written in C++. It is inspired from
 &lt;a href=&quot;https://github.com/tomas/eon&quot;&gt;eon&lt;/a&gt; and &lt;a href=&quot;https://www.gnu.org/software/emacs/&quot;&gt;emacs&lt;/a&gt;.
 The project is hosted &lt;a href=&quot;https://github.com/teju85/teditor&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
