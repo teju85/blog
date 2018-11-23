@@ -17,14 +17,17 @@ default:
 	@echo "               that you are inside the 'master' branch!"
 
 publish:
+	@read -p "Enter commit message: " cmtMsg && \
+	    $(MAKE) COMMIT_MSG="$$cmtMsg" _publish
+
+_publish:
 	jekyll build -s $(SRC_DIR) -d $(SITE_DIR)
 	git add -A
-	EDITOR=vi git commit
+	git commit -m "$(COMMIT_MSG)"
 	git checkout $(DST_BRANCH)
-	git rm -qr `ls -I $(SITE_DIR)`
 	cp -r $(SITE_DIR)/* .
 	git add -A
-	EDITOR=vi git commit
+	git commit -m "$(COMMIT_MSG)"
 	git checkout $(SRC_BRANCH)
 	git push origin $(SRC_BRANCH) $(DST_BRANCH)
 
