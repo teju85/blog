@@ -1,4 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2018-10-05T15:49:05+05:30</updated><id>https://teju85.github.io/blog/</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">LLVM/Clang inside Docker</title><link href="https://teju85.github.io/blog/2018/10/05/llvm-docker.html" rel="alternate" type="text/html" title="LLVM/Clang inside Docker" /><published>2018-10-05T00:00:00+05:30</published><updated>2018-10-05T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2018/10/05/llvm-docker</id><content type="html" xml:base="https://teju85.github.io/blog/2018/10/05/llvm-docker.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2018-11-23T20:20:06+05:30</updated><id>https://teju85.github.io/blog/</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Modern Problems and Ancient Solutions</title><link href="https://teju85.github.io/blog/2018/11/23/modern-problems-and-ancient-solutions.html" rel="alternate" type="text/html" title="Modern Problems and Ancient Solutions" /><published>2018-11-23T00:00:00+05:30</published><updated>2018-11-23T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2018/11/23/modern-problems-and-ancient-solutions</id><content type="html" xml:base="https://teju85.github.io/blog/2018/11/23/modern-problems-and-ancient-solutions.html">&lt;h3 id=&quot;the-book&quot;&gt;The Book&lt;/h3&gt;
+&lt;p&gt;This book, written by Swami Harshananda, is available
+&lt;a href=&quot;https://istore.chennaimath.org/product/modern-problems-and-ancient-solutions/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;p&gt;In this book Swami Harshananda starts by showing the problems faced by the
+modern society. Later, he suggests an ‘instant pill’ as a solution to these
+problems.&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;em&gt;Satyam Vada. Dharmam Chara.&lt;/em&gt; (Speak truth always and act righteously).&lt;/li&gt;
+  &lt;li&gt;Keeping our bodies fit through proper food and exercise&lt;/li&gt;
+  &lt;li&gt;Acquiring enough professional competence&lt;/li&gt;
+  &lt;li&gt;Do nothing in excess&lt;/li&gt;
+  &lt;li&gt;Improving our intellect by studying philosophy, logic or social sciences&lt;/li&gt;
+  &lt;li&gt;Developing a sense of appreciating art-forms&lt;/li&gt;
+  &lt;li&gt;Praying and meditating everyday&lt;/li&gt;
+  &lt;li&gt;Practising the three principles of life
+    &lt;ul&gt;
+      &lt;li&gt;&lt;em&gt;ahimsa and daya&lt;/em&gt; (non-violence and compassion)&lt;/li&gt;
+      &lt;li&gt;&lt;em&gt;asteya and aparigraha&lt;/em&gt; (non-greediness and contentment)&lt;/li&gt;
+      &lt;li&gt;&lt;em&gt;brahmacharya&lt;/em&gt; (controlling of base passions)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;</content><author><name></name></author><category term="book-summary" /><summary type="html">The Book This book, written by Swami Harshananda, is available here.</summary></entry><entry><title type="html">LLVM/Clang inside Docker</title><link href="https://teju85.github.io/blog/2018/10/05/llvm-docker.html" rel="alternate" type="text/html" title="LLVM/Clang inside Docker" /><published>2018-10-05T00:00:00+05:30</published><updated>2018-10-05T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2018/10/05/llvm-docker</id><content type="html" xml:base="https://teju85.github.io/blog/2018/10/05/llvm-docker.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;The &lt;a href=&quot;https://clang.llvm.org/get_started.html&quot;&gt;instructions&lt;/a&gt; on building LLVM/Clang
 from source are pretty accurate. That and the fact that it’s dependencies are very
 minimal, building it from source is a cake-walk!&lt;/p&gt;
