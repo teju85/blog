@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "How to be a leader"
-tags: book-summary
+tags: book-notes
 ---
 
 ### The Book

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Modern Problems and Ancient Solutions"
-tags: book-summary
+tags: book-notes
 ---
 
 ### The Book
