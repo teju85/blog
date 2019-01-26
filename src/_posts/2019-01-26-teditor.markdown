@@ -5,10 +5,10 @@ tags: teditor
 ---
 
 ### Teditor v1.0.0!
-In [an old post]({% post_url 2018-06-24-teditor %}) of mine, I had announced
-Teditor, a terminal based editor completely written in C++. Today, I'm glad to
-announce the release of its next version: v1.0.0. It can be found
-[here](https://github.com/teju85/teditor/releases/tag/1.0.0).
+In [an old post]({{ site.baseurl }}{% post_url 2018-06-24-teditor %}) of
+mine, I had announced Teditor, a terminal based editor completely written in
+C++. Today, I'm glad to announce the release of its next version: v1.0.0. It
+can be found [here](https://github.com/teju85/teditor/releases/tag/1.0.0).
 
 ### Changelog
 Changes/features in this release:
