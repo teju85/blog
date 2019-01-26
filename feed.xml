@@ -1,4 +1,186 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2019-01-23T21:05:44+05:30</updated><id>https://teju85.github.io/blog/</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Man’s search for meaning</title><link href="https://teju85.github.io/blog/2019/01/23/mans-search-for-meaning.html" rel="alternate" type="text/html" title="Man's search for meaning" /><published>2019-01-23T00:00:00+05:30</published><updated>2019-01-23T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/01/23/mans-search-for-meaning</id><content type="html" xml:base="https://teju85.github.io/blog/2019/01/23/mans-search-for-meaning.html">&lt;h3 id=&quot;the-book&quot;&gt;The Book&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2019-01-26T09:02:55+05:30</updated><id>https://teju85.github.io/blog/</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Design Principles and Design Patterns</title><link href="https://teju85.github.io/blog/2019/01/26/design-patterns.html" rel="alternate" type="text/html" title="Design Principles and Design Patterns" /><published>2019-01-26T00:00:00+05:30</published><updated>2019-01-26T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/01/26/design-patterns</id><content type="html" xml:base="https://teju85.github.io/blog/2019/01/26/design-patterns.html">&lt;h3 id=&quot;the-book&quot;&gt;The Book&lt;/h3&gt;
+&lt;p&gt;This is a really concise article/chapter on software design principles and
+patterns by Robert C. Martin (commonly called Uncle Bob). The pdf version of
+this book/chapter is available
+&lt;a href=&quot;https://fi.ort.edu.uy/innovaportal/file/2032/1/design_principles.pdf&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;software arch is multi-tiered
+    &lt;ul&gt;
+      &lt;li&gt;At the highest level, there are the architecture patterns that define the
+overall shape and structure of software applications.&lt;/li&gt;
+      &lt;li&gt;Down a level is the architecture that is specifically related to the purpose
+of the software application.&lt;/li&gt;
+      &lt;li&gt;Yet another level down resides the architecture of the modules and their
+interconnections. This is the domain of design patterns, packages,
+components, and classes.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;four symptoms of rotting design: rigidity, fragility, immobility, and
+viscosity.
+    &lt;ul&gt;
+      &lt;li&gt;rigidity: tendency for the sw to be difficult to change&lt;/li&gt;
+      &lt;li&gt;fragility: tendency of sw to break at many places even on a simple change&lt;/li&gt;
+      &lt;li&gt;immobility: inability to reuse parts of other or the same project&lt;/li&gt;
+      &lt;li&gt;viscosity of design: when design preserving solutions are harder to
+implement than hacks&lt;/li&gt;
+      &lt;li&gt;viscosity of environment: development environment is inefficient&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;reasons for sw rot
+    &lt;ul&gt;
+      &lt;li&gt;changing reqs&lt;/li&gt;
+      &lt;li&gt;bad dependency management&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;OCP: open closed principle
+    &lt;ul&gt;
+      &lt;li&gt;A module should be open for extension but closed for modification&lt;/li&gt;
+      &lt;li&gt;the most important rule of sw design&lt;/li&gt;
+      &lt;li&gt;abstraction is the key to OCP&lt;/li&gt;
+      &lt;li&gt;achieved through runtime and static polymorphism&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;If you don’t have to change working code, you aren’t likely to break it.&lt;/li&gt;
+  &lt;li&gt;LSP: liskov substitution principle
+    &lt;ul&gt;
+      &lt;li&gt;Subclasses should be substitutable for their base classes.&lt;/li&gt;
+      &lt;li&gt;best paradox for this is circle/ellipse dillema
+        &lt;ul&gt;
+          &lt;li&gt;designing circle to inherit from ellipse is fine&lt;/li&gt;
+          &lt;li&gt;but users of this code will ruin everything when one wants to pass
+ellipse-like args to a circle object! (think about foci)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;thus the contract of base class must be obeyed by the child class&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;contract of a method consists of precondition and postcondtion&lt;/li&gt;
+  &lt;li&gt;restating LSP in terms of contracts
+    &lt;ul&gt;
+      &lt;li&gt;derived class is substitutable for its base class if:
+        &lt;ul&gt;
+          &lt;li&gt;Its preconditions are no stronger than the base class method.&lt;/li&gt;
+          &lt;li&gt;Its postconditions are no weaker than the base class method.&lt;/li&gt;
+          &lt;li&gt;in other words, derived methods should expect no more and provide no less.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;violations of LSP are latent violations of OCP&lt;/li&gt;
+  &lt;li&gt;DIP: dependency inversion principle
+    &lt;ul&gt;
+      &lt;li&gt;Depend upon Abstractions. Do not depend upon concretions.&lt;/li&gt;
+      &lt;li&gt;If the OCP states the goal of OO architecture, the DIP states the primary
+mechanism.&lt;/li&gt;
+      &lt;li&gt;No dependency should target a concrete class.&lt;/li&gt;
+      &lt;li&gt;concrete things change alot, abstract things change much less frequently&lt;/li&gt;
+      &lt;li&gt;abstractions are “hinge points”, they represent the places where the design
+can bend or be extended, without themselves being modified (OCP)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;ISP: interface segregation principle. Many client specific interfaces are
+better than one general purpose interface&lt;/li&gt;
+  &lt;li&gt;PCP: package cohesion principles
+    &lt;ul&gt;
+      &lt;li&gt;REP: release reuse equivalency principle
+        &lt;ul&gt;
+          &lt;li&gt;The granule of reuse is the granule of release.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;CCP: common closure principle
+        &lt;ul&gt;
+          &lt;li&gt;Classes that change together, belong together.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;CRP: common reuse principle
+        &lt;ul&gt;
+          &lt;li&gt;Classes that aren’t reused together should not be grouped together.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;these three principles are mutually exclusive. All of them cannot be
+simultaneously satisfied&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;PCP: package coupling principles
+    &lt;ul&gt;
+      &lt;li&gt;ADP: acyclic dependencies principle
+        &lt;ul&gt;
+          &lt;li&gt;The dependencies betwen packages must not form cycles&lt;/li&gt;
+          &lt;li&gt;Cycles can be broken in two ways. The first involves creating a new
+package, and the second makes use of the DIP and ISP&lt;/li&gt;
+          &lt;li&gt;Interfaces are very often included in the package that uses them, rather
+than in the package that implements them.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;SDP: stable dependencies principle
+    &lt;ul&gt;
+      &lt;li&gt;Depend in the direction of stability.&lt;/li&gt;
+      &lt;li&gt;package stability measurement
+        &lt;ul&gt;
+          &lt;li&gt;Ca = Afferent Coupling. The number of classes outside the package that
+depend upon classes inside the package. (i.e. incoming dependencies)&lt;/li&gt;
+          &lt;li&gt;Ce = Efferent Coupling. The number of classes outside the package that
+classes inside the package depend upon. (i.e. outgoing dependencies)&lt;/li&gt;
+          &lt;li&gt;I = instability = Ce/(Ca+Ce)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Depend upon packages whose I metric is lower than yours&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;SAP: stable abstractions principle
+    &lt;ul&gt;
+      &lt;li&gt;Stable packages should be abstract packages.&lt;/li&gt;
+      &lt;li&gt;compose application from instable packages that are easy to change, and
+stable packages that are easy to extend.&lt;/li&gt;
+      &lt;li&gt;abstractness metric:
+        &lt;ul&gt;
+          &lt;li&gt;Nc = Number of classes in the package.&lt;/li&gt;
+          &lt;li&gt;Na = Number of abstract classes in the package. Remember, an abstract
+class is a class with at least one pure interface, and cannot be instantiated.&lt;/li&gt;
+          &lt;li&gt;A Abstractness = Na / Nc&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;I should increase as A decreases&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;two zones in the IA graph
+    &lt;ul&gt;
+      &lt;li&gt;upper right corner = zone of uselessness = only abstract classes&lt;/li&gt;
+      &lt;li&gt;lower left corner = zone of pain = lots of dependencies = only concrete
+classes&lt;/li&gt;
+      &lt;li&gt;maximizing distance between these two zones gives us a line called main
+sequence&lt;/li&gt;
+      &lt;li&gt;ideally our packages should sit on this line&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;distance metric
+    &lt;ul&gt;
+      &lt;li&gt;D = Distance from main sequence = |A+I-1|/sqrt(2). This ranges
+from [0,~0.707].&lt;/li&gt;
+      &lt;li&gt;D’ = Normalized Distance = |A+I-1|. This metric is much more convenient than
+D since it ranges from [0,1]. Zero indicates that the package is directly on
+the main sequence. One indicates that the package is as far away as possible
+from the main sequence.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;design patterns = repeating structures of design and architecture&lt;/li&gt;
+  &lt;li&gt;abstract server: when client depends directly on server DIP is violated. Thus
+create an interface which client uses but server implements&lt;/li&gt;
+  &lt;li&gt;adapter: delegator of methods from an abstract interface to the third party
+server implementation&lt;/li&gt;
+  &lt;li&gt;observer: when changes in one object needs to be informed to another without
+each knowing much about the other&lt;/li&gt;
+  &lt;li&gt;bridge: base and child classes are tightly coupled. This creates a strong
+separation between interface and implementation&lt;/li&gt;
+  &lt;li&gt;abstract factory: DIP strongly recommends that modules not depend upon
+concrete classes. However, in order ot create an instance of a class, you must
+depend upon the concrete class. This allows that dependency upon the concrete
+class to exist in one, and only one, place.&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="book-notes" /><summary type="html">The Book This is a really concise article/chapter on software design principles and patterns by Robert C. Martin (commonly called Uncle Bob). The pdf version of this book/chapter is available here</summary></entry><entry><title type="html">Man’s search for meaning</title><link href="https://teju85.github.io/blog/2019/01/23/mans-search-for-meaning.html" rel="alternate" type="text/html" title="Man's search for meaning" /><published>2019-01-23T00:00:00+05:30</published><updated>2019-01-23T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/01/23/mans-search-for-meaning</id><content type="html" xml:base="https://teju85.github.io/blog/2019/01/23/mans-search-for-meaning.html">&lt;h3 id=&quot;the-book&quot;&gt;The Book&lt;/h3&gt;
 &lt;p&gt;This is a phenomenal autobiographical account of Dr. Victor Frankl’s horrific
 experience in concentration camps and his search of meaning for life amongst it.
 The book is available
@@ -746,23 +928,4 @@ should also help others.&lt;/p&gt;
 
 &lt;p&gt;It also open-source so that anyone can contribute to improving its content. This
 project is currently hosted on github &lt;a href=&quot;https://github.com/teju85/ml-glossary&quot;&gt;here&lt;/a&gt;.
-Comments, Issues and PR’s are welcome!&lt;/p&gt;</content><author><name></name></author><category term="machine-learning" /><summary type="html">Introducing ML Glossary which tries to provide a glossary of all ML terms used. This started out as a way for me to quickly access the meaning of a term. Then realized that putting it out there should also help others.</summary></entry><entry><title type="html">Building ‘mu’ on cygwin</title><link href="https://teju85.github.io/blog/2018/01/07/building-mu-on-cygwin.html" rel="alternate" type="text/html" title="Building 'mu' on cygwin" /><published>2018-01-07T00:00:00+05:30</published><updated>2018-01-07T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2018/01/07/building-mu-on-cygwin</id><content type="html" xml:base="https://teju85.github.io/blog/2018/01/07/building-mu-on-cygwin.html">&lt;p&gt;Recently, I wanted to play with the popular ‘mu’ tool for indexing my mails. Started with Matthias’ &lt;a href=&quot;https://frosch03.de/blog/2016/05/mu4e-within-cygwin.html&quot;&gt;mu-on-cygwin&lt;/a&gt; blog. Interestingly, even after following the steps he mentions there, I was welcomed with the below error!&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;  CXX      utils.lo
-utils.cc: In &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; ‘std::string Mux::format&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;const char&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;, ...&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;’:
-utils.cc:187:44: error: ‘vasprintf’ was not declared &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;this scope
-   const auto res &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; vasprintf &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&amp;amp;s, frm, args&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-                                            ^
-utils.cc: In &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; ‘std::string Mux::date_to_time_t_string&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;const string&amp;amp;, bool&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;’:
-utils.cc:313:52: error: ‘strptime’ was not declared &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;this scope
-  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(!&lt;/span&gt;strptime &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;date.c_str&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;%Y%m%d%H%M%S&quot;&lt;/span&gt;, &amp;amp;tbuf&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt;
-                                                    ^
-make[3]: &lt;span class=&quot;k&quot;&gt;***&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Makefile:749: utils.lo] Error 1&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;I had to do the following hack in order to get this working on my cygwin-env. (assuming you’re already inside ‘mu’)&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;lib/parser
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sed&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'s/^#define GNU_SOURCE/#define _GNU_SOURCE/'&lt;/span&gt; utils.cc  &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; tmp
-&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;mv &lt;/span&gt;tmp utils.cc &lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;After this, the compilation and installation happened without any errors. Hope this helps others, in case they get stuck with the same error.&lt;/p&gt;</content><author><name></name></author><category term="tools" /><summary type="html">Recently, I wanted to play with the popular ‘mu’ tool for indexing my mails. Started with Matthias’ mu-on-cygwin blog. Interestingly, even after following the steps he mentions there, I was welcomed with the below error!</summary></entry></feed>
+Comments, Issues and PR’s are welcome!&lt;/p&gt;</content><author><name></name></author><category term="machine-learning" /><summary type="html">Introducing ML Glossary which tries to provide a glossary of all ML terms used. This started out as a way for me to quickly access the meaning of a term. Then realized that putting it out there should also help others.</summary></entry></feed>
