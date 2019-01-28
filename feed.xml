@@ -1,4 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2019-01-26T19:31:22+05:30</updated><id>https://teju85.github.io/blog/</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Teditor v1.0.0</title><link href="https://teju85.github.io/blog/2019/01/26/teditor.html" rel="alternate" type="text/html" title="Teditor v1.0.0" /><published>2019-01-26T00:00:00+05:30</published><updated>2019-01-26T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/01/26/teditor</id><content type="html" xml:base="https://teju85.github.io/blog/2019/01/26/teditor.html">&lt;h3 id=&quot;teditor-v100&quot;&gt;Teditor v1.0.0!&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2019-01-28T09:51:27+05:30</updated><id>https://teju85.github.io/blog/</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">What to trust in a ‘post-truth’ world</title><link href="https://teju85.github.io/blog/2019/01/28/what-to-trust-in-a-post-truth-world.html" rel="alternate" type="text/html" title="What to trust in a 'post-truth' world" /><published>2019-01-28T00:00:00+05:30</published><updated>2019-01-28T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/01/28/what-to-trust-in-a-post-truth-world</id><content type="html" xml:base="https://teju85.github.io/blog/2019/01/28/what-to-trust-in-a-post-truth-world.html">&lt;h3 id=&quot;what-to-trust-in-a-post-truth-world&quot;&gt;What to trust in a ‘post-truth’ world&lt;/h3&gt;
+&lt;p&gt;By Alex Edmonds. The recorded TED talk can be found &lt;a href=&quot;https://www.ted.com/talks/alex_edmans_what_to_trust_in_a_post_truth_world/up-next&quot;&gt;here&lt;/a&gt;.
+Alex talks about how confirmation bias could lead us astray in the current
+world. He then provides a very compelling argument, urging us to consider data
+and evidence very consciously.&lt;/p&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;Confirmation bias - we accept stories that match our beliefs and reject those
+that don’t. This is especially true in politics, business and health.&lt;/li&gt;
+  &lt;li&gt;We need to check if the data supports the theory, but instead we end up
+checking of the data is consistent with the theory!&lt;/li&gt;
+  &lt;li&gt;This consistency is alone not sufficient, because the same data could also be
+consistent with the rival theory! (Due to confirmation bias, we’ll never
+check for this)&lt;/li&gt;
+  &lt;li&gt;Because of this bias we also accept a fact as data. And also accept data as
+evidence, even if it consistent with rival theories.&lt;/li&gt;
+  &lt;li&gt;Data is a collection of facts. Evidence is the data that supports one theory
+while ruling our others.&lt;/li&gt;
+  &lt;li&gt;A story is not fact, because it may not be true.&lt;/li&gt;
+  &lt;li&gt;A fact is not data, because it might not be representative.&lt;/li&gt;
+  &lt;li&gt;Data is not evidence, because it might be consistent with rival theories.&lt;/li&gt;
+  &lt;li&gt;Actively seek out for rival points.&lt;/li&gt;
+  &lt;li&gt;Play devil’s advocate with your decisions/theories.&lt;/li&gt;
+  &lt;li&gt;Pause before sharing anything!&lt;/li&gt;
+  &lt;li&gt;Only if it’s true, it can be a fact. Only if it’s representative, it can be
+data. Only if it’s supportive, can it be evidence.&lt;/li&gt;
+&lt;/ol&gt;</content><author><name></name></author><category term="ted-talks" /><summary type="html">What to trust in a ‘post-truth’ world By Alex Edmonds. The recorded TED talk can be found here. Alex talks about how confirmation bias could lead us astray in the current world. He then provides a very compelling argument, urging us to consider data and evidence very consciously.</summary></entry><entry><title type="html">Teditor v1.0.0</title><link href="https://teju85.github.io/blog/2019/01/26/teditor.html" rel="alternate" type="text/html" title="Teditor v1.0.0" /><published>2019-01-26T00:00:00+05:30</published><updated>2019-01-26T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/01/26/teditor</id><content type="html" xml:base="https://teju85.github.io/blog/2019/01/26/teditor.html">&lt;h3 id=&quot;teditor-v100&quot;&gt;Teditor v1.0.0!&lt;/h3&gt;
 &lt;p&gt;In &lt;a href=&quot;/blog/2018/06/24/teditor.html&quot;&gt;an old post&lt;/a&gt; of
 mine, I had announced Teditor, a terminal based editor completely written in
 C++. Today, I’m glad to announce the release of its next version: v1.0.0. It
@@ -894,46 +921,4 @@ about programming, SW life cycle management, OS and terminal concepts!&lt;/p&gt;
   &lt;li&gt;M-x command; just like in emacs&lt;/li&gt;
   &lt;li&gt;text search and potentially use it as a way to quickly navigate inside the buffer&lt;/li&gt;
   &lt;li&gt;Stores files opened history for a quicker navigation later&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><category term="teditor" /><summary type="html">Introduction Teditor is a terminal based editor completely written in C++. It is inspired from eon and emacs. The project is hosted here.</summary></entry><entry><title type="html">CUDA distutils</title><link href="https://teju85.github.io/blog/2018/03/14/cudistutils.html" rel="alternate" type="text/html" title="CUDA distutils" /><published>2018-03-14T00:00:00+05:30</published><updated>2018-03-14T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2018/03/14/cudistutils</id><content type="html" xml:base="https://teju85.github.io/blog/2018/03/14/cudistutils.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
-&lt;p&gt;After reading McGibbon’s &lt;a href=&quot;https://github.com/rmcgibbo/npcuda-example&quot;&gt;npcuda-example&lt;/a&gt;,
-I set out on an attempt at creating extension modules by creating a separate
-nvcc cuda compiler to the distutils process.&lt;/p&gt;
-
-&lt;p&gt;Obviously, most of the idea is inspired from npcuda-example. But instead of
-doing runtime hot-patches to the compiler object, this goes via the OO way, in
-the hope of keeping things cleaner.&lt;/p&gt;
-
-&lt;h3 id=&quot;example-usage&quot;&gt;Example Usage&lt;/h3&gt;
-&lt;p&gt;Taking the setup.py of npcuda-example/cython/setup.py as an example, here’s
-what it would take to add support for building extension modules having CUDA
-kernels.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;os&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;setuptools&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setup&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;distutils.extension&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Extension&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;cudistutils&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cud&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;numpy&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;env&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cud&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CudaEnv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;ext&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Extension&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gpuadder&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;sources&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;src/manager.cu&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;wrapper.pyx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;library_dirs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lib64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;libraries&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;base_cuda_libs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;language&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;c++&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;runtime_library_dirs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lib64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;extra_compile_args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gcc&quot;&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[],&lt;/span&gt;
-                                    &lt;span class=&quot;s&quot;&gt;&quot;nvcc&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;default_nvcc_opts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()},&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;include_dirs&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_include&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;src&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;setup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;gpuadder&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Robert McGibbon&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0.1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;ext_modules&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;cmdclass&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;build_ext&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cud&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cuda_build_ext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;zip_safe&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;As can be seen, most of your setup.py remains similar to writing C/C++ extension
-modules. Only change comes with passing ‘extra_compile_args’, which is needed
-since the underlying compiler class switches between C/C++ compiler and cuda
-compiler based on the input source file extension.&lt;/p&gt;
-
-&lt;p&gt;The project is hosted &lt;a href=&quot;https://github.com/teju85/cudistutils&quot;&gt;here&lt;/a&gt;.
-Hopefully will spend some time to get it accessible via ‘pip install’.&lt;/p&gt;</content><author><name></name></author><category term="cuda" /><summary type="html">Introduction After reading McGibbon’s npcuda-example, I set out on an attempt at creating extension modules by creating a separate nvcc cuda compiler to the distutils process.</summary></entry></feed>
+&lt;/ol&gt;</content><author><name></name></author><category term="teditor" /><summary type="html">Introduction Teditor is a terminal based editor completely written in C++. It is inspired from eon and emacs. The project is hosted here.</summary></entry></feed>
