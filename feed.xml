@@ -1,4 +1,115 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2019-02-01T19:37:15+05:30</updated><id>https://teju85.github.io/blog/</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Checklist Manifesto: How to get Things Right</title><link href="https://teju85.github.io/blog/2019/02/01/checklist-manifesto.html" rel="alternate" type="text/html" title="Checklist Manifesto: How to get Things Right" /><published>2019-02-01T00:00:00+05:30</published><updated>2019-02-01T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/02/01/checklist-manifesto</id><content type="html" xml:base="https://teju85.github.io/blog/2019/02/01/checklist-manifesto.html">&lt;h3 id=&quot;what-to-trust-in-a-post-truth-world&quot;&gt;What to trust in a ‘post-truth’ world&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2019-02-17T10:34:01+05:30</updated><id>https://teju85.github.io/blog/</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Pragmatic Programmer</title><link href="https://teju85.github.io/blog/2019/02/17/pragmatic-programmer.html" rel="alternate" type="text/html" title="Pragmatic Programmer" /><published>2019-02-17T00:00:00+05:30</published><updated>2019-02-17T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/02/17/pragmatic-programmer</id><content type="html" xml:base="https://teju85.github.io/blog/2019/02/17/pragmatic-programmer.html">&lt;h3 id=&quot;pragmatic-programmer&quot;&gt;Pragmatic Programmer&lt;/h3&gt;
+&lt;p&gt;“Pragmatic Programmer - from journeyman to master” is a book on programming
+written by Andrew Hunt and David Thomas. This book can be found
+&lt;a href=&quot;https://www.amazon.com/Pragmatic-Programmer-Journeyman-Master/dp/020161622X&quot;&gt;here&lt;/a&gt;.
+IMO, every programmer who codes for living should read this in order to understand
+how to convert requirements to specifications to a flexible and maintainable code.
+One message that stands out from this book is “You shouldn’t be wedded to any
+particular technology, but have a broad enough background and experience base to
+allow you to choose good solutions in particular situations.”&lt;/p&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;h4 id=&quot;naming&quot;&gt;Naming&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;Use intention revealing names&lt;/li&gt;
+  &lt;li&gt;Avoid ambiguous variable names&lt;/li&gt;
+  &lt;li&gt;Use pronounceable names&lt;/li&gt;
+  &lt;li&gt;Class names must be nouns&lt;/li&gt;
+  &lt;li&gt;Method names must be verbs&lt;/li&gt;
+  &lt;li&gt;Choose a consistent style and stick to it!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;comments&quot;&gt;Comments&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;Comments Lie!&lt;/li&gt;
+  &lt;li&gt;Avoid them as much as possible&lt;/li&gt;
+  &lt;li&gt;Don’t keep commented code. Delete it!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;data-structures&quot;&gt;Data Structures&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;Don’t blindly add getters and setters&lt;/li&gt;
+  &lt;li&gt;Objects and data structures are anti-symmetric!&lt;/li&gt;
+  &lt;li&gt;Avoid creating hybrid of these two!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;error-handling&quot;&gt;Error Handling&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;Use exceptions rather than error codes&lt;/li&gt;
+  &lt;li&gt;Provide meaningful messages with the exceptions thrown&lt;/li&gt;
+  &lt;li&gt;Create exception classes based on the needs of the caller&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;tdd&quot;&gt;TDD&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;Write tests first, code later!&lt;/li&gt;
+  &lt;li&gt;Test code is as important as production code&lt;/li&gt;
+  &lt;li&gt;When in doubt follow the above rule!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;classes&quot;&gt;Classes&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;Should follow SRP&lt;/li&gt;
+  &lt;li&gt;Should follow OCP&lt;/li&gt;
+  &lt;li&gt;Should follow DIP&lt;/li&gt;
+  &lt;li&gt;When classes lose cohesion, split them&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;systems&quot;&gt;Systems&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;Construction of a system must be separated from its use&lt;/li&gt;
+  &lt;li&gt;One such mechanism is Dependency Injection&lt;/li&gt;
+  &lt;li&gt;Use the simplest thing that can possibly work.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;functions&quot;&gt;Functions&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;Must be small&lt;/li&gt;
+  &lt;li&gt;Must do only one thing&lt;/li&gt;
+  &lt;li&gt;Use descriptive names&lt;/li&gt;
+  &lt;li&gt;Have less number of input arguments&lt;/li&gt;
+  &lt;li&gt;Have no side effects&lt;/li&gt;
+  &lt;li&gt;Try to avoid output arguments&lt;/li&gt;
+  &lt;li&gt;Always follow command-query-separation&lt;/li&gt;
+  &lt;li&gt;Prefer exceptions to returning error codes&lt;/li&gt;
+  &lt;li&gt;Don’t Repeat Yourself (DRY)!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;formatting&quot;&gt;Formatting&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;Small source files preferable over large ones&lt;/li&gt;
+  &lt;li&gt;Use vertical blank lines for visual cues&lt;/li&gt;
+  &lt;li&gt;Concepts closely related must be vertically closer&lt;/li&gt;
+  &lt;li&gt;This is just like paragraphs&lt;/li&gt;
+  &lt;li&gt;Keep all instance variables at one place&lt;/li&gt;
+  &lt;li&gt;Keep the lines short&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;boundaries&quot;&gt;Boundaries&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;User learning-tests to understand third party APIs&lt;/li&gt;
+  &lt;li&gt;Isolate boundaries through wrapping them inside our own class&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;emergence&quot;&gt;Emergence&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;Four rules of simple design:&lt;/li&gt;
+  &lt;li&gt;Runs all tests&lt;/li&gt;
+  &lt;li&gt;Contains no duplication&lt;/li&gt;
+  &lt;li&gt;Expresses programmer’s intent&lt;/li&gt;
+  &lt;li&gt;Minimum number of classes and methods&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;concurrency&quot;&gt;Concurrency&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;Try to avoid sharing data&lt;/li&gt;
+  &lt;li&gt;Keep the concurrent code separate&lt;/li&gt;
+  &lt;li&gt;Avoid using more than one method on shared object&lt;/li&gt;
+  &lt;li&gt;Keep your synchronized sections as small as possible&lt;/li&gt;
+  &lt;li&gt;Treat spurious failures as candidate threading issues&lt;/li&gt;
+  &lt;li&gt;Get your non-threaded code working first&lt;/li&gt;
+  &lt;li&gt;It is better when broken code fails as early as possible&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="book-notes" /><summary type="html">Pragmatic Programmer “Pragmatic Programmer - from journeyman to master” is a book on programming written by Andrew Hunt and David Thomas. This book can be found here. IMO, every programmer who codes for living should read this in order to understand how to convert requirements to specifications to a flexible and maintainable code. One message that stands out from this book is “You shouldn’t be wedded to any particular technology, but have a broad enough background and experience base to allow you to choose good solutions in particular situations.”</summary></entry><entry><title type="html">Checklist Manifesto: How to get Things Right</title><link href="https://teju85.github.io/blog/2019/02/01/checklist-manifesto.html" rel="alternate" type="text/html" title="Checklist Manifesto: How to get Things Right" /><published>2019-02-01T00:00:00+05:30</published><updated>2019-02-01T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/02/01/checklist-manifesto</id><content type="html" xml:base="https://teju85.github.io/blog/2019/02/01/checklist-manifesto.html">&lt;h3 id=&quot;what-to-trust-in-a-post-truth-world&quot;&gt;What to trust in a ‘post-truth’ world&lt;/h3&gt;
 &lt;p&gt;By Dr. Atul Gawande. This book can be found &lt;a href=&quot;https://www.amazon.com/Checklist-Manifesto-How-Things-Right/dp/0312430000&quot;&gt;here&lt;/a&gt;.
 Dr. Atul shows the benefits of a simple checklist against the complexity of
 our lives.&lt;/p&gt;
@@ -936,92 +1047,4 @@ problems.&lt;/p&gt;
       &lt;li&gt;&lt;em&gt;brahmacharya&lt;/em&gt; (controlling of base passions)&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><category term="book-notes" /><summary type="html">The Book This book, written by Swami Harshananda, is available here.</summary></entry><entry><title type="html">LLVM/Clang inside Docker</title><link href="https://teju85.github.io/blog/2018/10/05/llvm-docker.html" rel="alternate" type="text/html" title="LLVM/Clang inside Docker" /><published>2018-10-05T00:00:00+05:30</published><updated>2018-10-05T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2018/10/05/llvm-docker</id><content type="html" xml:base="https://teju85.github.io/blog/2018/10/05/llvm-docker.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
-&lt;p&gt;The &lt;a href=&quot;https://clang.llvm.org/get_started.html&quot;&gt;instructions&lt;/a&gt; on building LLVM/Clang
-from source are pretty accurate. That and the fact that it’s dependencies are very
-minimal, building it from source is a cake-walk!&lt;/p&gt;
-
-&lt;h3 id=&quot;setting-up-llvm-inside-docker&quot;&gt;Setting up llvm inside docker&lt;/h3&gt;
-&lt;p&gt;As part of my work, I needed the clang tools for code analysis. I nowadays prefer
-working inside docker. So, as a first shot, here’s how I set up my initial
-Dockerfile.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;RUN apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    apt-get &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--no-install-recommends&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-        build-essential &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-        ca-certificates &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-        cmake &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-        git &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-        make &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-        python &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-        zlib1g-dev &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;rm&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-rf&lt;/span&gt; /var/lib/apt/lists&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
-
-RUN &lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /opt/compiler &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /opt/compiler &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    git clone &lt;span class=&quot;s2&quot;&gt;&quot;http://llvm.org/git/llvm&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;llvm/tools &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    git clone &lt;span class=&quot;s2&quot;&gt;&quot;http://llvm.org/git/clang&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;clang/tools &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    git clone &lt;span class=&quot;s2&quot;&gt;&quot;http://llvm.org/git/clang-tools-extra&quot;&lt;/span&gt; extra &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /opt/compiler/build &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /opt/compiler/build &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    cmake &lt;span class=&quot;nt&quot;&gt;-G&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Unix Makefiles&quot;&lt;/span&gt; ../llvm &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    make &lt;span class=&quot;nt&quot;&gt;-j8&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    make &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; / &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;rm&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-rf&lt;/span&gt; /opt/compiler
-
-ENV &lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/usr/local/bin:&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;
-ENV &lt;span class=&quot;nv&quot;&gt;LD_LIBRARY_PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/usr/local/lib:&lt;span class=&quot;nv&quot;&gt;$LD_LIBRARY_PATH&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Interestingly, this ended up generating a really huge docker image!&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker images | &lt;span class=&quot;nb&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-n2&lt;/span&gt;
-REPOSITORY              TAG                  IMAGE ID            CREATED             SIZE
-llvm                    latest-9.2           ba5b2786b5e5        About an hour ago   47.1GB&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h3 id=&quot;solution-llvm_targets_to_build&quot;&gt;Solution (LLVM_TARGETS_TO_BUILD)&lt;/h3&gt;
-&lt;p&gt;Main reason for this is clang ends up generating cross-compilation for multiple
-targets. (Refer to LLVM_ALL_TARGETS variable inside llvm/CMakeLists.txt) Thus, I
-had to update the cmake command to only build for my targets of interest.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;RUN apt-get update &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    apt-get &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--no-install-recommends&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-        build-essential &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-        ca-certificates &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-        cmake &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-        git &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-        make &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-        python &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-        zlib1g-dev &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;rm&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-rf&lt;/span&gt; /var/lib/apt/lists&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
-
-RUN &lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /opt/compiler &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /opt/compiler &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    git clone &lt;span class=&quot;s2&quot;&gt;&quot;http://llvm.org/git/llvm&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;llvm/tools &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    git clone &lt;span class=&quot;s2&quot;&gt;&quot;http://llvm.org/git/clang&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;clang/tools &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    git clone &lt;span class=&quot;s2&quot;&gt;&quot;http://llvm.org/git/clang-tools-extra&quot;&lt;/span&gt; extra &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; /opt/compiler/build &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /opt/compiler/build &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    cmake &lt;span class=&quot;nt&quot;&gt;-G&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Unix Makefiles&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;-DLLVM_TARGETS_TO_BUILD&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;X86;NVPTX&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;-DCMAKE_BUILD_TYPE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;Release &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-        ../llvm &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    make &lt;span class=&quot;nt&quot;&gt;-j8&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    make &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; / &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;rm&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-rf&lt;/span&gt; /opt/compiler
-
-ENV &lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/usr/local/bin:&lt;span class=&quot;nv&quot;&gt;$PATH&lt;/span&gt;
-ENV &lt;span class=&quot;nv&quot;&gt;LD_LIBRARY_PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/usr/local/lib:&lt;span class=&quot;nv&quot;&gt;$LD_LIBRARY_PATH&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;This puts me in a more reasonable docker image size. :)&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;docker images | &lt;span class=&quot;nb&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-n2&lt;/span&gt;
-REPOSITORY              TAG                  IMAGE ID            CREATED             SIZE
-llvm                    latest-9.2           57ee054cbfe8        18 seconds ago      3.62GB&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Hope this is useful to others.&lt;/p&gt;</content><author><name></name></author><category term="compiler" /><summary type="html">Introduction The instructions on building LLVM/Clang from source are pretty accurate. That and the fact that it’s dependencies are very minimal, building it from source is a cake-walk!</summary></entry></feed>
+&lt;/ol&gt;</content><author><name></name></author><category term="book-notes" /><summary type="html">The Book This book, written by Swami Harshananda, is available here.</summary></entry></feed>
