@@ -4,4 +4,4 @@ title: About
 permalink: /about/
 ---
 
-My blog! :)
+Notes about things I do/like/read/need.
