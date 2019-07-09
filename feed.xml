@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2019-07-09T09:35:15+05:30</updated><id>https://teju85.github.io/blog/</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Resolving ADB unauthorized issue</title><link href="https://teju85.github.io/blog/2019/07/09/adb-unauthorized.html" rel="alternate" type="text/html" title="Resolving ADB unauthorized issue" /><published>2019-07-09T00:00:00+05:30</published><updated>2019-07-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/07/09/adb-unauthorized</id><content type="html" xml:base="https://teju85.github.io/blog/2019/07/09/adb-unauthorized.html">&lt;h3 id=&quot;issue&quot;&gt;Issue&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.7.0">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2019-07-09T09:38:55+05:30</updated><id>https://teju85.github.io/blog/</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Resolving ADB unauthorized issue</title><link href="https://teju85.github.io/blog/2019/07/09/adb-unauthorized.html" rel="alternate" type="text/html" title="Resolving ADB unauthorized issue" /><published>2019-07-09T00:00:00+05:30</published><updated>2019-07-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/07/09/adb-unauthorized</id><content type="html" xml:base="https://teju85.github.io/blog/2019/07/09/adb-unauthorized.html">&lt;h3 id=&quot;issue&quot;&gt;Issue&lt;/h3&gt;
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$ANDROID_SDK_HOME&lt;/span&gt;/platform-tools
 adb devices
 List of devices attached
@@ -10,6 +10,12 @@ fffffffffffffff        unauthorized
 &lt;h3 id=&quot;solution&quot;&gt;Solution&lt;/h3&gt;
 &lt;ol&gt;
   &lt;li&gt;Unplug your android device from the computer, if it is connected&lt;/li&gt;
+  &lt;li&gt;Inside your computer:
+    &lt;ul&gt;
+      &lt;li&gt;Go to &lt;code class=&quot;highlighter-rouge&quot;&gt;$ANDROID_SDK_HOME/platform-tools&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;Run &lt;code class=&quot;highlighter-rouge&quot;&gt;adb keygen .android/adb_key&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
   &lt;li&gt;Open your android device&lt;/li&gt;
   &lt;li&gt;Go to Settings -&amp;gt; Developer Options&lt;/li&gt;
   &lt;li&gt;Touch ‘Revoke USB debugging authorizations’&lt;/li&gt;
