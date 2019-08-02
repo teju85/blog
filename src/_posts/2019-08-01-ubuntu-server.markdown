@@ -51,3 +51,19 @@ newgrp docker
 4. Install only the driver: `sudo sh cuda_10.1.168_418.67_linux.run --driver`
 5. Disable nouveau driver: `sudo sh -c "echo blacklist nouveau > /etc/modprobe.d/blacklist-nouveau.conf && echo options nouveau modeset=0 >> /etc/modprobe.d/blacklist-nouveau.conf && update-initramfs -u && reboot"`
 6. `nvidia-smi` should now run successfully.
+
+### nvidia-docker
+```bash
+curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
+  sudo apt-key add -
+# this is because 19.04 is not yet supported, at the time of this writing
+# thus, force fallback on 18.04 version's release
+# that seems to be working fine
+#distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+distribution=18.04
+curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | \
+  sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+sudo apt-get update
+sudo apt-get install nvidia-docker2
+sudo pkill -SIGHUP dockerd
+```
