@@ -1,0 +1,15 @@
+---
+layout: post
+title: "Teditor v1.2.0"
+tags: teditor
+---
+
+### Teditor v1.2.0!
+Glad to announce the release of the next version of teditor: v1.2.0. It
+can be found [here](https://github.com/teju85/teditor/releases/tag/1.2.0).
+
+### Changelog
+Changes/features in this release:
+1. Various fixes to the bugs in draw calls of the main window
+2. Proper resizing now handled directly by Windows class, out of Buffer class
+3. Full support for a vertical window split
