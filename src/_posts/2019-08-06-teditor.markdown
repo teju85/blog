@@ -11,3 +11,4 @@ can be found [here](https://github.com/teju85/teditor/releases/tag/1.1.0).
 ### Changelog
 Changes/features in this release:
 1. Initial set of code changes for an upcoming multiple windows support.
+2. Proper wrapper for tree-sitter (soon to be used for code tree traversals)
