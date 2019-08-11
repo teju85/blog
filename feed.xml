@@ -1,4 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2019-08-07T20:02:01+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Teditor v1.2.0</title><link href="https://teju85.github.io/blog/2019/08/07/teditor.html" rel="alternate" type="text/html" title="Teditor v1.2.0" /><published>2019-08-07T00:00:00+05:30</published><updated>2019-08-07T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/08/07/teditor</id><content type="html" xml:base="https://teju85.github.io/blog/2019/08/07/teditor.html">&lt;h3 id=&quot;teditor-v120&quot;&gt;Teditor v1.2.0!&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2019-08-11T09:28:57+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Teditor v1.3.0</title><link href="https://teju85.github.io/blog/2019/08/11/teditor.html" rel="alternate" type="text/html" title="Teditor v1.3.0" /><published>2019-08-11T00:00:00+05:30</published><updated>2019-08-11T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/08/11/teditor</id><content type="html" xml:base="https://teju85.github.io/blog/2019/08/11/teditor.html">&lt;h3 id=&quot;teditor-v130&quot;&gt;Teditor v1.3.0!&lt;/h3&gt;
+&lt;p&gt;Glad to announce the release of the next version of teditor: v1.3.0. It
+can be found &lt;a href=&quot;https://github.com/teju85/teditor/releases/tag/1.3.0&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;changelog&quot;&gt;Changelog&lt;/h3&gt;
+&lt;p&gt;Changes/features in this release:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Adds support for ledger-like text file based syntax for personal finanace
+accounting.&lt;/li&gt;
+  &lt;li&gt;Reintroduces proper kill-line command based on the new undo/redo stack.&lt;/li&gt;
+  &lt;li&gt;More unittests improve coverage&lt;/li&gt;
+  &lt;li&gt;Bug fixes to the undo/redo for insert-char command.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;ledger-mode&quot;&gt;Ledger Mode&lt;/h3&gt;
+&lt;p&gt;To start using this for tracking your personal finances:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Create a file named &lt;code class=&quot;highlighter-rouge&quot;&gt;ledger.lg&lt;/code&gt; inside your &lt;code class=&quot;highlighter-rouge&quot;&gt;~/.teditor&lt;/code&gt; folder. (one can
+also create such a file elsewhere and then use the &lt;code class=&quot;highlighter-rouge&quot;&gt;-ledger-file&lt;/code&gt; option)&lt;/li&gt;
+  &lt;li&gt;Refer to the file &lt;code class=&quot;highlighter-rouge&quot;&gt;samples/ledger/sample.lg&lt;/code&gt; to know its syntax. It is very
+simplified version of the &lt;a href=&quot;https://www.ledger-cli.org/&quot;&gt;ledger-cli&lt;/a&gt; syntax.&lt;/li&gt;
+  &lt;li&gt;Once you have this file populated with information, get back to the teditor
+window and press &lt;code class=&quot;highlighter-rouge&quot;&gt;C-l C-d&lt;/code&gt; in order to see the summary of your transactions.&lt;/li&gt;
+  &lt;li&gt;By default, it shows a summary report of all transactions grouped under the
+top-level accounts. Press &lt;code class=&quot;highlighter-rouge&quot;&gt;A&lt;/code&gt; to show them for all accounts.&lt;/li&gt;
+&lt;/ol&gt;</content><author><name></name></author><category term="teditor" /><summary type="html">Teditor v1.3.0! Glad to announce the release of the next version of teditor: v1.3.0. It can be found here.</summary></entry><entry><title type="html">Teditor v1.2.0</title><link href="https://teju85.github.io/blog/2019/08/07/teditor.html" rel="alternate" type="text/html" title="Teditor v1.2.0" /><published>2019-08-07T00:00:00+05:30</published><updated>2019-08-07T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/08/07/teditor</id><content type="html" xml:base="https://teju85.github.io/blog/2019/08/07/teditor.html">&lt;h3 id=&quot;teditor-v120&quot;&gt;Teditor v1.2.0!&lt;/h3&gt;
 &lt;p&gt;Glad to announce the release of the next version of teditor: v1.2.0. It
 can be found &lt;a href=&quot;https://github.com/teju85/teditor/releases/tag/1.2.0&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
@@ -480,186 +505,4 @@ easier.&lt;/li&gt;
   &lt;li&gt;Every new command can be made to self-document and now there’s a help command
 to query just that!&lt;/li&gt;
   &lt;li&gt;Fixes to many bugs in editing commands, especially with active regions.&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><category term="teditor" /><summary type="html">Teditor v1.0.0! In an old post of mine, I had announced Teditor, a terminal based editor completely written in C++. Today, I’m glad to announce the release of its next version: v1.0.0. It can be found here.</summary></entry><entry><title type="html">Design Principles and Design Patterns</title><link href="https://teju85.github.io/blog/2019/01/26/design-patterns.html" rel="alternate" type="text/html" title="Design Principles and Design Patterns" /><published>2019-01-26T00:00:00+05:30</published><updated>2019-01-26T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/01/26/design-patterns</id><content type="html" xml:base="https://teju85.github.io/blog/2019/01/26/design-patterns.html">&lt;h3 id=&quot;the-book&quot;&gt;The Book&lt;/h3&gt;
-&lt;p&gt;This is a really concise article/chapter on software design principles and
-patterns by Robert C. Martin (commonly called Uncle Bob). The pdf version of
-this book/chapter is available
-&lt;a href=&quot;https://fi.ort.edu.uy/innovaportal/file/2032/1/design_principles.pdf&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;software arch is multi-tiered
-    &lt;ul&gt;
-      &lt;li&gt;At the highest level, there are the architecture patterns that define the
-overall shape and structure of software applications.&lt;/li&gt;
-      &lt;li&gt;Down a level is the architecture that is specifically related to the purpose
-of the software application.&lt;/li&gt;
-      &lt;li&gt;Yet another level down resides the architecture of the modules and their
-interconnections. This is the domain of design patterns, packages,
-components, and classes.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;four symptoms of rotting design: rigidity, fragility, immobility, and
-viscosity.
-    &lt;ul&gt;
-      &lt;li&gt;rigidity: tendency for the sw to be difficult to change&lt;/li&gt;
-      &lt;li&gt;fragility: tendency of sw to break at many places even on a simple change&lt;/li&gt;
-      &lt;li&gt;immobility: inability to reuse parts of other or the same project&lt;/li&gt;
-      &lt;li&gt;viscosity of design: when design preserving solutions are harder to
-implement than hacks&lt;/li&gt;
-      &lt;li&gt;viscosity of environment: development environment is inefficient&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;reasons for sw rot
-    &lt;ul&gt;
-      &lt;li&gt;changing reqs&lt;/li&gt;
-      &lt;li&gt;bad dependency management&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;OCP: open closed principle
-    &lt;ul&gt;
-      &lt;li&gt;A module should be open for extension but closed for modification&lt;/li&gt;
-      &lt;li&gt;the most important rule of sw design&lt;/li&gt;
-      &lt;li&gt;abstraction is the key to OCP&lt;/li&gt;
-      &lt;li&gt;achieved through runtime and static polymorphism&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;If you don’t have to change working code, you aren’t likely to break it.&lt;/li&gt;
-  &lt;li&gt;LSP: liskov substitution principle
-    &lt;ul&gt;
-      &lt;li&gt;Subclasses should be substitutable for their base classes.&lt;/li&gt;
-      &lt;li&gt;best paradox for this is circle/ellipse dillema
-        &lt;ul&gt;
-          &lt;li&gt;designing circle to inherit from ellipse is fine&lt;/li&gt;
-          &lt;li&gt;but users of this code will ruin everything when one wants to pass
-ellipse-like args to a circle object! (think about foci)&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;thus the contract of base class must be obeyed by the child class&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;contract of a method consists of precondition and postcondtion&lt;/li&gt;
-  &lt;li&gt;restating LSP in terms of contracts
-    &lt;ul&gt;
-      &lt;li&gt;derived class is substitutable for its base class if:
-        &lt;ul&gt;
-          &lt;li&gt;Its preconditions are no stronger than the base class method.&lt;/li&gt;
-          &lt;li&gt;Its postconditions are no weaker than the base class method.&lt;/li&gt;
-          &lt;li&gt;in other words, derived methods should expect no more and provide no less.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;violations of LSP are latent violations of OCP&lt;/li&gt;
-  &lt;li&gt;DIP: dependency inversion principle
-    &lt;ul&gt;
-      &lt;li&gt;Depend upon Abstractions. Do not depend upon concretions.&lt;/li&gt;
-      &lt;li&gt;If the OCP states the goal of OO architecture, the DIP states the primary
-mechanism.&lt;/li&gt;
-      &lt;li&gt;No dependency should target a concrete class.&lt;/li&gt;
-      &lt;li&gt;concrete things change alot, abstract things change much less frequently&lt;/li&gt;
-      &lt;li&gt;abstractions are “hinge points”, they represent the places where the design
-can bend or be extended, without themselves being modified (OCP)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;ISP: interface segregation principle. Many client specific interfaces are
-better than one general purpose interface&lt;/li&gt;
-  &lt;li&gt;PCP: package cohesion principles
-    &lt;ul&gt;
-      &lt;li&gt;REP: release reuse equivalency principle
-        &lt;ul&gt;
-          &lt;li&gt;The granule of reuse is the granule of release.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;CCP: common closure principle
-        &lt;ul&gt;
-          &lt;li&gt;Classes that change together, belong together.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;CRP: common reuse principle
-        &lt;ul&gt;
-          &lt;li&gt;Classes that aren’t reused together should not be grouped together.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;these three principles are mutually exclusive. All of them cannot be
-simultaneously satisfied&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;PCP: package coupling principles
-    &lt;ul&gt;
-      &lt;li&gt;ADP: acyclic dependencies principle
-        &lt;ul&gt;
-          &lt;li&gt;The dependencies betwen packages must not form cycles&lt;/li&gt;
-          &lt;li&gt;Cycles can be broken in two ways. The first involves creating a new
-package, and the second makes use of the DIP and ISP&lt;/li&gt;
-          &lt;li&gt;Interfaces are very often included in the package that uses them, rather
-than in the package that implements them.&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;SDP: stable dependencies principle
-    &lt;ul&gt;
-      &lt;li&gt;Depend in the direction of stability.&lt;/li&gt;
-      &lt;li&gt;package stability measurement
-        &lt;ul&gt;
-          &lt;li&gt;Ca = Afferent Coupling. The number of classes outside the package that
-depend upon classes inside the package. (i.e. incoming dependencies)&lt;/li&gt;
-          &lt;li&gt;Ce = Efferent Coupling. The number of classes outside the package that
-classes inside the package depend upon. (i.e. outgoing dependencies)&lt;/li&gt;
-          &lt;li&gt;I = instability = Ce/(Ca+Ce)&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;Depend upon packages whose I metric is lower than yours&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;SAP: stable abstractions principle
-    &lt;ul&gt;
-      &lt;li&gt;Stable packages should be abstract packages.&lt;/li&gt;
-      &lt;li&gt;compose application from instable packages that are easy to change, and
-stable packages that are easy to extend.&lt;/li&gt;
-      &lt;li&gt;abstractness metric:
-        &lt;ul&gt;
-          &lt;li&gt;Nc = Number of classes in the package.&lt;/li&gt;
-          &lt;li&gt;Na = Number of abstract classes in the package. Remember, an abstract
-class is a class with at least one pure interface, and cannot be instantiated.&lt;/li&gt;
-          &lt;li&gt;A Abstractness = Na / Nc&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;I should increase as A decreases&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;two zones in the IA graph
-    &lt;ul&gt;
-      &lt;li&gt;upper right corner = zone of uselessness = only abstract classes&lt;/li&gt;
-      &lt;li&gt;lower left corner = zone of pain = lots of dependencies = only concrete
-classes&lt;/li&gt;
-      &lt;li&gt;maximizing distance between these two zones gives us a line called main
-sequence&lt;/li&gt;
-      &lt;li&gt;ideally our packages should sit on this line&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;distance metric
-    &lt;ul&gt;
-      &lt;li&gt;D = Distance from main sequence = |A+I-1|/sqrt(2). This ranges
-from [0,~0.707].&lt;/li&gt;
-      &lt;li&gt;D’ = Normalized Distance = |A+I-1|. This metric is much more convenient than
-D since it ranges from [0,1]. Zero indicates that the package is directly on
-the main sequence. One indicates that the package is as far away as possible
-from the main sequence.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;design patterns = repeating structures of design and architecture&lt;/li&gt;
-  &lt;li&gt;abstract server: when client depends directly on server DIP is violated. Thus
-create an interface which client uses but server implements&lt;/li&gt;
-  &lt;li&gt;adapter: delegator of methods from an abstract interface to the third party
-server implementation&lt;/li&gt;
-  &lt;li&gt;observer: when changes in one object needs to be informed to another without
-each knowing much about the other&lt;/li&gt;
-  &lt;li&gt;bridge: base and child classes are tightly coupled. This creates a strong
-separation between interface and implementation&lt;/li&gt;
-  &lt;li&gt;abstract factory: DIP strongly recommends that modules not depend upon
-concrete classes. However, in order ot create an instance of a class, you must
-depend upon the concrete class. This allows that dependency upon the concrete
-class to exist in one, and only one, place.&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="book-notes" /><summary type="html">The Book This is a really concise article/chapter on software design principles and patterns by Robert C. Martin (commonly called Uncle Bob). The pdf version of this book/chapter is available here</summary></entry></feed>
+&lt;/ol&gt;</content><author><name></name></author><category term="teditor" /><summary type="html">Teditor v1.0.0! In an old post of mine, I had announced Teditor, a terminal based editor completely written in C++. Today, I’m glad to announce the release of its next version: v1.0.0. It can be found here.</summary></entry></feed>
