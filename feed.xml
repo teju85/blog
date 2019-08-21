@@ -1,4 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2019-08-11T09:28:57+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Teditor v1.3.0</title><link href="https://teju85.github.io/blog/2019/08/11/teditor.html" rel="alternate" type="text/html" title="Teditor v1.3.0" /><published>2019-08-11T00:00:00+05:30</published><updated>2019-08-11T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/08/11/teditor</id><content type="html" xml:base="https://teju85.github.io/blog/2019/08/11/teditor.html">&lt;h3 id=&quot;teditor-v130&quot;&gt;Teditor v1.3.0!&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2019-08-21T15:01:12+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Handling of enum overflows in C/C++</title><link href="https://teju85.github.io/blog/2019/08/21/enums.html" rel="alternate" type="text/html" title="Handling of enum overflows in C/C++" /><published>2019-08-21T00:00:00+05:30</published><updated>2019-08-21T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/08/21/enums</id><content type="html" xml:base="https://teju85.github.io/blog/2019/08/21/enums.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;Save the below code in a file named &lt;code class=&quot;highlighter-rouge&quot;&gt;enum.c&lt;/code&gt; and try to compile it using the
+following command: &lt;code class=&quot;highlighter-rouge&quot;&gt;gcc enum.c -o enum &amp;amp;&amp;amp; ./enum&lt;/code&gt;. This will give the following
+error:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;enum.c:8:3: error: overflow in enumeration values
+   _4
+   ^
+enum.c: In function ‘main’:
+enum.c:11:48: error: ‘FourBytes’ undeclared (first use in this function)
+   printf(&quot;sizeof(FourBytes)=%d\n&quot;, (int)sizeof(FourBytes));
+                                                ^
+enum.c:11:48: note: each undeclared identifier is reported only once for each function it appears in
+enum.c:12:49: error: ‘EightBytes’ undeclared (first use in this function)
+   printf(&quot;sizeof(EightBytes)=%d\n&quot;, (int)sizeof(EightBytes));&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;However, if you save this same code as &lt;code class=&quot;highlighter-rouge&quot;&gt;enum.cpp&lt;/code&gt; and compile it as:
+&lt;code class=&quot;highlighter-rouge&quot;&gt;g++ enum.cpp -o enum &amp;amp;&amp;amp; ./enum&lt;/code&gt;. This will compile successfully and gives the
+following output!&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;sizeof(FourBytes)=4
+sizeof(EightBytes)=8&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Yes! The C++ compiler automatically takes care of overflows by ‘upgrading’ the
+enum to be of 8 bytes!&lt;/p&gt;
+
+&lt;h3 id=&quot;code&quot;&gt;Code&lt;/h3&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;stdio.h&amp;gt;
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FourBytes&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;_1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;_2&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EightBytes&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;_3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xffffffff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;_4&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;**&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sizeof(FourBytes)=%d&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FourBytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sizeof(EightBytes)=%d&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EightBytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;</content><author><name></name></author><category term="c" /><category term="cpp" /><summary type="html">Introduction Save the below code in a file named enum.c and try to compile it using the following command: gcc enum.c -o enum &amp;amp;&amp;amp; ./enum. This will give the following error: enum.c:8:3: error: overflow in enumeration values _4 ^ enum.c: In function ‘main’: enum.c:11:48: error: ‘FourBytes’ undeclared (first use in this function) printf(&quot;sizeof(FourBytes)=%d\n&quot;, (int)sizeof(FourBytes)); ^ enum.c:11:48: note: each undeclared identifier is reported only once for each function it appears in enum.c:12:49: error: ‘EightBytes’ undeclared (first use in this function) printf(&quot;sizeof(EightBytes)=%d\n&quot;, (int)sizeof(EightBytes));</summary></entry><entry><title type="html">Teditor v1.3.0</title><link href="https://teju85.github.io/blog/2019/08/11/teditor.html" rel="alternate" type="text/html" title="Teditor v1.3.0" /><published>2019-08-11T00:00:00+05:30</published><updated>2019-08-11T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/08/11/teditor</id><content type="html" xml:base="https://teju85.github.io/blog/2019/08/11/teditor.html">&lt;h3 id=&quot;teditor-v130&quot;&gt;Teditor v1.3.0!&lt;/h3&gt;
 &lt;p&gt;Glad to announce the release of the next version of teditor: v1.3.0. It
 can be found &lt;a href=&quot;https://github.com/teju85/teditor/releases/tag/1.3.0&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
@@ -490,19 +531,4 @@ while ruling our others.&lt;/li&gt;
   &lt;li&gt;Pause before sharing anything!&lt;/li&gt;
   &lt;li&gt;Only if it’s true, it can be a fact. Only if it’s representative, it can be
 data. Only if it’s supportive, can it be evidence.&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><category term="ted-talks" /><summary type="html">What to trust in a ‘post-truth’ world By Alex Edmonds. The recorded TED talk can be found here. Alex talks about how confirmation bias could lead us astray in the current world. He then provides a very compelling argument, urging us to consider data and evidence very consciously.</summary></entry><entry><title type="html">Teditor v1.0.0</title><link href="https://teju85.github.io/blog/2019/01/26/teditor.html" rel="alternate" type="text/html" title="Teditor v1.0.0" /><published>2019-01-26T00:00:00+05:30</published><updated>2019-01-26T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/01/26/teditor</id><content type="html" xml:base="https://teju85.github.io/blog/2019/01/26/teditor.html">&lt;h3 id=&quot;teditor-v100&quot;&gt;Teditor v1.0.0!&lt;/h3&gt;
-&lt;p&gt;In &lt;a href=&quot;/blog/2018/06/24/teditor.html&quot;&gt;an old post&lt;/a&gt; of
-mine, I had announced Teditor, a terminal based editor completely written in
-C++. Today, I’m glad to announce the release of its next version: v1.0.0. It
-can be found &lt;a href=&quot;https://github.com/teju85/teditor/releases/tag/1.0.0&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;changelog&quot;&gt;Changelog&lt;/h3&gt;
-&lt;p&gt;Changes/features in this release:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;Completely revamped command interface, so that users don’t have explicitly
-encode undo/redo commands. This makes writing of commands/extensions much
-easier.&lt;/li&gt;
-  &lt;li&gt;Every new command can be made to self-document and now there’s a help command
-to query just that!&lt;/li&gt;
-  &lt;li&gt;Fixes to many bugs in editing commands, especially with active regions.&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><category term="teditor" /><summary type="html">Teditor v1.0.0! In an old post of mine, I had announced Teditor, a terminal based editor completely written in C++. Today, I’m glad to announce the release of its next version: v1.0.0. It can be found here.</summary></entry></feed>
+&lt;/ol&gt;</content><author><name></name></author><category term="ted-talks" /><summary type="html">What to trust in a ‘post-truth’ world By Alex Edmonds. The recorded TED talk can be found here. Alex talks about how confirmation bias could lead us astray in the current world. He then provides a very compelling argument, urging us to consider data and evidence very consciously.</summary></entry></feed>
