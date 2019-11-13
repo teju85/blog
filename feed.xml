@@ -1,4 +1,97 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2019-09-03T14:07:23+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Writing a 3x3 sudoku solver in C++</title><link href="https://teju85.github.io/blog/2019/08/23/solving-sudoku.html" rel="alternate" type="text/html" title="Writing a 3x3 sudoku solver in C++" /><published>2019-08-23T00:00:00+05:30</published><updated>2019-08-23T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/08/23/solving-sudoku</id><content type="html" xml:base="https://teju85.github.io/blog/2019/08/23/solving-sudoku.html">&lt;p&gt;&lt;a href=&quot;https://gist.github.com/teju85/2cfc3934f3697aaff324b77e693010a0&quot;&gt;Here&lt;/a&gt; is a
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2019-11-13T22:15:18+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">The subtle art of not giving a f**k</title><link href="https://teju85.github.io/blog/2019/11/13/subtle-art-of-not-giving-a-fk.html" rel="alternate" type="text/html" title="The subtle art of not giving a f**k" /><published>2019-11-13T00:00:00+05:30</published><updated>2019-11-13T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/11/13/subtle-art-of-not-giving-a-fk</id><content type="html" xml:base="https://teju85.github.io/blog/2019/11/13/subtle-art-of-not-giving-a-fk.html">&lt;h3 id=&quot;the-subtle-art-of-not-giving-a-fk&quot;&gt;The subtle art of not giving a f**k&lt;/h3&gt;
+&lt;p&gt;By Mark Manson. This book can be found &lt;a href=&quot;https://www.amazon.com/Subtle-Art-Not-Giving-Counterintuitive/dp/0062457713&quot;&gt;here&lt;/a&gt;.
+Mark talks about how to give our limited f**ks to only where they matter the most
+and thereby showing us a way to leader happier lives.&lt;/p&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;backwards law&lt;/li&gt;
+  &lt;li&gt;Wanting positive experience is a negative experience; accepting negative experience is a positive experience.&lt;/li&gt;
+  &lt;li&gt;Everything worthwhile in life is won through surmounting the associated negative experience.&lt;/li&gt;
+  &lt;li&gt;Any attempt to escape the negative, to avoid it or quash it or silence it, only backfires.&lt;/li&gt;
+  &lt;li&gt;The avoidance of suffering is a form of suffering.&lt;/li&gt;
+  &lt;li&gt;The avoidance of struggle is a struggle.&lt;/li&gt;
+  &lt;li&gt;The denial of failure is a failure.&lt;/li&gt;
+  &lt;li&gt;Hiding what is shameful is itself a form of shame.&lt;/li&gt;
+  &lt;li&gt;not giving a fuck doesn’t mean being indifferent, it means being comfortable with being different.&lt;/li&gt;
+  &lt;li&gt;to not give a fuck about adversity, one must first have something more important than this adversity to give a fuck about.&lt;/li&gt;
+  &lt;li&gt;maturity is what happens when you decide to give a fuck to only things that are fuckworthy.&lt;/li&gt;
+  &lt;li&gt;the only way to overcome pain is first to learn how to bear it.&lt;/li&gt;
+  &lt;li&gt;happiness is not a solvable equation. Dissatisfaction, suffering and uneasiness are inherent parts of our lives.&lt;/li&gt;
+  &lt;li&gt;there’s no life without problems. Thus, hope for a life with good problems.&lt;/li&gt;
+  &lt;li&gt;we find happiness by solving problems. Thus happiness is an action.&lt;/li&gt;
+  &lt;li&gt;2 main ways we fuck our lives are via: denial and victim-mentality.&lt;/li&gt;
+  &lt;li&gt;negative emotions mean a call to action. Positive ones are an indication of something done right. But that doesn’t mean the emotions are always correct. We should make a habit of questioning our emotions.&lt;/li&gt;
+  &lt;li&gt;whatever makes us feel good will also inevitably make us feel bad.&lt;/li&gt;
+  &lt;li&gt;nobody asks themselves “what pain do they want in their life? For what cause are they willing to struggle?”. The answer to this question is typically the determinant of one’s life.&lt;/li&gt;
+  &lt;li&gt;solution to pain and suffering is the acceptance of it and not their denial.&lt;/li&gt;
+  &lt;li&gt;who you are is defined by what you are willing to struggle for.&lt;/li&gt;
+  &lt;li&gt;true measurement of one’s self-worth is not based on how one feels about one’s positive experiences, but how they fell about their negative ones.&lt;/li&gt;
+  &lt;li&gt;under negative experiences, many folks become entitled: either they are special and everybody is stupid or everybody’s smart and they are stupid. In both cases they are the special ones.&lt;/li&gt;
+  &lt;li&gt;vast majority of life is unextraordinary. However, media always bombards us with those exceptional ones (good or bad) only. This leads to entitlement issues.&lt;/li&gt;
+  &lt;li&gt;people become exceptional because they are obsessed with improvement and beacuse they believe that they are not that great currently. It is actually anti-entitlement!&lt;/li&gt;
+  &lt;li&gt;living a normal life, making friends, reading a good book, spending time with your family. These are all ordinary things. But maybe they are ordinary beacuse these are the ones we actually want.&lt;/li&gt;
+  &lt;li&gt;self-awareness is like an onion. The more you peel the more you start crying at inappropriate times.&lt;/li&gt;
+  &lt;li&gt;we control what our problems mean by choosing the standard we use to measure them&lt;/li&gt;
+  &lt;li&gt;we will eventually compare ourselves with others. So, the real question is by what standard are we going to compare ourselves to others and also what values to use to set this standard?&lt;/li&gt;
+  &lt;li&gt;the following values create really poor problems for people:
+    &lt;ul&gt;
+      &lt;li&gt;pleasure&lt;/li&gt;
+      &lt;li&gt;material success&lt;/li&gt;
+      &lt;li&gt;always being right&lt;/li&gt;
+      &lt;li&gt;always staying positive&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;because these things are really just the side effects of having good values. They by themselves are just empty highs.&lt;/li&gt;
+  &lt;li&gt;set good values/metrics for yourselves. This helps you give fucks only where it matters. Thus in turn gets you to a state of well-being whose side effects are happiness, pleasure and success.&lt;/li&gt;
+  &lt;li&gt;depending upon whether we chose the problems or it was forced down upon us, we will feel empowered or miserable.&lt;/li&gt;
+  &lt;li&gt;we cannot control what happens to us. But we can always control how we interpret it and respond to it.&lt;/li&gt;
+  &lt;li&gt;accepting responsibility for our problems is the first step in solving them.&lt;/li&gt;
+  &lt;li&gt;we are responsible for experiences which are not our fault at all. This is life.&lt;/li&gt;
+  &lt;li&gt;no one else is responsible for your situation but you.&lt;/li&gt;
+  &lt;li&gt;fault is past tense. Responsibility is present and future tense.&lt;/li&gt;
+  &lt;li&gt;others can be blamed for how we feel, but they can’t be held responsible for how we feel.&lt;/li&gt;
+  &lt;li&gt;growth is an endlessly iterative process. When we learn something new, we go from wrong to slightly less wrong.&lt;/li&gt;
+  &lt;li&gt;analogy to ML!
+    &lt;ul&gt;
+      &lt;li&gt;our values are optimisation functions&lt;/li&gt;
+      &lt;li&gt;our actions = fwd prop&lt;/li&gt;
+      &lt;li&gt;resulting emotions and thoughts = bwd prop&lt;/li&gt;
+      &lt;li&gt;life itself = weights to be optimised&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;nothing is certain until it has already happened and even then it’s debatable. So, certainty is enemy of growth.&lt;/li&gt;
+  &lt;li&gt;all beliefs are wrong. Some are just less wrong than others.&lt;/li&gt;
+  &lt;li&gt;remember how the telephone game works? (whisper what you heard into next person’s ears) our memories are just like that!&lt;/li&gt;
+  &lt;li&gt;our beliefs are malleable and our memories are horribly unreliable.&lt;/li&gt;
+  &lt;li&gt;uncertainty removes the need to judge others (as well as ourselves!) and to have biased views.&lt;/li&gt;
+  &lt;li&gt;unless we are uncertain about how successful we’ll be, we won’t be able to strive towards it&lt;/li&gt;
+  &lt;li&gt;the openness to being wrong must exist in order for us to grow or change ourselves.&lt;/li&gt;
+  &lt;li&gt;Manson’s law of avoidance: the more something threatens your identity, the more you’ll avoid it.&lt;/li&gt;
+  &lt;li&gt;how to breed a little uncertainty in us:
+    &lt;ul&gt;
+      &lt;li&gt;what if I’m wrong?&lt;/li&gt;
+      &lt;li&gt;what would it mean if I were wrong?&lt;/li&gt;
+      &lt;li&gt;would being wrong create a better or worse problem than the current one for myself and others?&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;as kids we fall many times while trying to walk. But we just get up and try again. However, as adults we somehow end up learning to avoid failures!&lt;/li&gt;
+  &lt;li&gt;if someone is better than us at something, then he has failed at it more times than we are.&lt;/li&gt;
+  &lt;li&gt;if we are unwilling to fail then we’ll also be unwilling to succeed.&lt;/li&gt;
+  &lt;li&gt;for many of us, our proudest moments come at the face of greatest adversity.&lt;/li&gt;
+  &lt;li&gt;rather than numbing it out, learn to withstand the pain you’ve chosen.&lt;/li&gt;
+  &lt;li&gt;action isn’t just the effect of motivation, it’s also the cause of it. So always “do something”.&lt;/li&gt;
+  &lt;li&gt;motivation-loop: inspiration -&amp;gt; motivation -&amp;gt; action -&amp;gt; inspiration …&lt;/li&gt;
+  &lt;li&gt;we are defined by what we choose to reject&lt;/li&gt;
+  &lt;li&gt;part of becoming honest is to develop the ability to say and receive ‘no’&lt;/li&gt;
+  &lt;li&gt;acts of love are valid only if they’re performed unconditionally and without expectations&lt;/li&gt;
+  &lt;li&gt;without conflict there can be no trust&lt;/li&gt;
+  &lt;li&gt;breadth helps realize what is worth your faculty. Depth is where the gold is buried. You’ve to commit yourself and dig deeper to find it. This applies to relationships, careers and life in general.&lt;/li&gt;
+  &lt;li&gt;death is the light by which the shadow of all of life’s meanings are measured&lt;/li&gt;
+  &lt;li&gt;death is inevitable. If we come to terms with it, then we suddenly become free to choose greater values to measure ourselves against.&lt;/li&gt;
+  &lt;li&gt;without the acknowledge of the presence of death, superficial will seem important and important will seem superficial.&lt;/li&gt;
+  &lt;li&gt;death is the correct answer to all the important life questions we never dare asking&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="book-notes" /><summary type="html">The subtle art of not giving a f**k By Mark Manson. This book can be found here. Mark talks about how to give our limited f**ks to only where they matter the most and thereby showing us a way to leader happier lives.</summary></entry><entry><title type="html">Writing a 3x3 sudoku solver in C++</title><link href="https://teju85.github.io/blog/2019/08/23/solving-sudoku.html" rel="alternate" type="text/html" title="Writing a 3x3 sudoku solver in C++" /><published>2019-08-23T00:00:00+05:30</published><updated>2019-08-23T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/08/23/solving-sudoku</id><content type="html" xml:base="https://teju85.github.io/blog/2019/08/23/solving-sudoku.html">&lt;p&gt;&lt;a href=&quot;https://gist.github.com/teju85/2cfc3934f3697aaff324b77e693010a0&quot;&gt;Here&lt;/a&gt; is a
 short c++ code to solve the popular 3x3 sudoku puzzle. Follow the instructions
 at the top of the source file to compile and run the code. It only uses the
 logical elimination-based method to converge to the right solution. This appears
@@ -378,134 +471,4 @@ allow you to choose good solutions in particular situations.”&lt;/p&gt;
   &lt;li&gt;Treat spurious failures as candidate threading issues&lt;/li&gt;
   &lt;li&gt;Get your non-threaded code working first&lt;/li&gt;
   &lt;li&gt;It is better when broken code fails as early as possible&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="book-notes" /><summary type="html">Pragmatic Programmer “Pragmatic Programmer - from journeyman to master” is a book on programming written by Andrew Hunt and David Thomas. This book can be found here. IMO, every programmer who codes for living should read this in order to understand how to convert requirements to specifications to a flexible and maintainable code. One message that stands out from this book is “You shouldn’t be wedded to any particular technology, but have a broad enough background and experience base to allow you to choose good solutions in particular situations.”</summary></entry><entry><title type="html">Checklist Manifesto: How to get Things Right</title><link href="https://teju85.github.io/blog/2019/02/01/checklist-manifesto.html" rel="alternate" type="text/html" title="Checklist Manifesto: How to get Things Right" /><published>2019-02-01T00:00:00+05:30</published><updated>2019-02-01T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/02/01/checklist-manifesto</id><content type="html" xml:base="https://teju85.github.io/blog/2019/02/01/checklist-manifesto.html">&lt;h3 id=&quot;what-to-trust-in-a-post-truth-world&quot;&gt;What to trust in a ‘post-truth’ world&lt;/h3&gt;
-&lt;p&gt;By Dr. Atul Gawande. This book can be found &lt;a href=&quot;https://www.amazon.com/Checklist-Manifesto-How-Things-Right/dp/0312430000&quot;&gt;here&lt;/a&gt;.
-Dr. Atul shows the benefits of a simple checklist against the complexity of
-our lives.&lt;/p&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;h4 id=&quot;introduction&quot;&gt;Introduction&lt;/h4&gt;
-&lt;p&gt;Three types of failures:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;Task itself is impossible&lt;/li&gt;
-  &lt;li&gt;failure due to ignorance&lt;/li&gt;
-  &lt;li&gt;failure due to ineptitude&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h4 id=&quot;problem-of-extreme-complexity&quot;&gt;Problem of extreme complexity&lt;/h4&gt;
-&lt;p&gt;We are living in a world of super specialization. Even then there are mistakes
-committed due to extremely complex procedures and scenarios, especially in
-medicine.&lt;/p&gt;
-
-&lt;h4 id=&quot;the-checklist&quot;&gt;The checklist&lt;/h4&gt;
-&lt;ol&gt;
-  &lt;li&gt;our world/fields today have become too complex to be put into our memory&lt;/li&gt;
-  &lt;li&gt;example of WWII Boeing model 299 plane: Too complex for one pilot. But with a
-simple checklist the pilots were able to fly without accident&lt;/li&gt;
-  &lt;li&gt;two ways one fails in a complex environment: failure to remember steps - its
-easy to miss mundane steps when there are more pressing events at hand. Easy
-to convince ourselves to skip a simple step&lt;/li&gt;
-  &lt;li&gt;checklists are a way to discipline ourselves into following these steps&lt;/li&gt;
-  &lt;li&gt;they also help in our memory recall especially while under pressure&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h4 id=&quot;end-of-the-master-builder&quot;&gt;End of the master builder&lt;/h4&gt;
-&lt;p&gt;Checklists are a cognitive net against our inherent flaws in memory, attention
-and thoroughness. 3 types of problems:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;simple: Like preparing a dish. Once a recipe is prepared that’s good enough&lt;/li&gt;
-  &lt;li&gt;complicated: Like building rocket. Can be broken down into series of simple
-problems. But there are unforeseen issues even for the experienced.&lt;/li&gt;
-  &lt;li&gt;complex: Like raising a child. Experience in raising one’s child well may not
-guarantee success with another. There’s no recipe!&lt;/li&gt;
-  &lt;li&gt;master builder era is long gone. The complexity in today’s world is too much
-for one guy to manage and track. The idea is to have experts in multiple
-sub-specializations manage individual problems. But the crucial aspect is
-that those experts need to get together to resolve any unexpected scenarios
-or issues that span across multiple specializations. Man is fallible not men
-less so! Fine example to this is the construction industry&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h4 id=&quot;the-idea&quot;&gt;The idea&lt;/h4&gt;
-&lt;p&gt;In case of routine tasks and problems, we need a central authority who dictates
-what needs to be done to their subordinates. In case of complex, unforeseen
-circumstances, this power needs to be as far away from the center as possible.
-Best example was 2005’s Katrina hurricane. Where government wasn’t still sure
-who should provide help to stranded citizens, Walmart had supplied loads of help
-already. This worked because Walmart decentralized the power away from center to
-the local employees in wake of this incident. Under very complex scenarios
-decentralization of power is the right approach. Under cases of extreme
-complexity, which is behind anyone persons’ capacity, we need to decentralize
-power and distribute it to respective front-lines.&lt;/p&gt;
-
-&lt;h4 id=&quot;the-first-try&quot;&gt;The first try&lt;/h4&gt;
-&lt;p&gt;The author recounts his experience while consulting for WHO regarding surgical
-safety procedures world wide. Describes various hospitals trying to implement
-checklists during surgery. And the importance of communication between the OR
-group. The author tries to give such a checklist a try in his own hospital. Also
-mentions a peculiar (yet intuitive) study where just by knowing the names of the
-members in a group increased the communication in it. But because of ambiguities
-and the length of the checklist, they had to stop using it!&lt;/p&gt;
-
-&lt;h4 id=&quot;the-checklist-factory&quot;&gt;The checklist factory&lt;/h4&gt;
-&lt;p&gt;There are 2 kinds of checklists:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;bad ones - very long, detailed, treat people as dumb and list out every steps&lt;/li&gt;
-  &lt;li&gt;good ones - very short and precise, only list the most critical steps&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;But checklists can’t make people to follow them!&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;READ-DO checklist - people read items off the checklist, execute them and
-then tick them off&lt;/li&gt;
-  &lt;li&gt;DO-CONFIRM checklist - everyone executes a few steps from their memory and
-then pauses to confirm whether all items from the list have been executed or
-not.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;A good checklist typically contains about 5 to 9 items. Most importantly the
-checklist should be tested out in real world, at least once, before deploying it
-widely!!&lt;/p&gt;
-
-&lt;h4 id=&quot;the-test&quot;&gt;The test&lt;/h4&gt;
-&lt;p&gt;Keeping the list minimal is the biggest challenge:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;prune too many items, checklist could be too short to be effective in
-preventing errors&lt;/li&gt;
-  &lt;li&gt;keep too many items, people hate to follow long lists&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;There’s a delicate balance between brevity and effectiveness&lt;/p&gt;
-
-&lt;h4 id=&quot;hero-in-the-age-of-checklists&quot;&gt;Hero in the age of checklists&lt;/h4&gt;
-&lt;p&gt;Its just not about ticking-off items in checklist, it is about teamwork. Even
-these checklists have found to be very useful in other fields like investing.
-But very few have become the fan of checklists, despite their proven checklists!
-We still think that people who follow their intuition are heroes and are real
-men!&lt;/p&gt;
-
-&lt;p&gt;The fear people have on checklists is rigidity:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;they think checklists will make them mindless automatons&lt;/li&gt;
-  &lt;li&gt;but in reality its the opposite!&lt;/li&gt;
-  &lt;li&gt;checklists take the routine (but important) stuffs off the brain’s working
-memory&lt;/li&gt;
-  &lt;li&gt;thus checklists will enable us in our fields&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Heroes in today’s world are those who&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;know when to improvise and when not to&lt;/li&gt;
-  &lt;li&gt;understand the importance of teamwork&lt;/li&gt;
-  &lt;li&gt;know how to work in today’s complex environments&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Checklists must aid, not hinder. We are meant to be for excitement and novelty.
-Never to give attention to details and be disciplined. That’s where checklists
-come to help us. Under the complexity of today’s world we have nothing else left
-but to try checklists!&lt;/p&gt;
-
-&lt;h4 id=&quot;the-save&quot;&gt;The save&lt;/h4&gt;
-&lt;p&gt;Interesting story of an operation where the author accidentally tore the
-patient’s vena-cava. But due to checklist they followed and worked as a team
-they were able to atleast save the patient.&lt;/p&gt;</content><author><name></name></author><category term="book-notes" /><summary type="html">What to trust in a ‘post-truth’ world By Dr. Atul Gawande. This book can be found here. Dr. Atul shows the benefits of a simple checklist against the complexity of our lives.</summary></entry></feed>
+&lt;/ul&gt;</content><author><name></name></author><category term="book-notes" /><summary type="html">Pragmatic Programmer “Pragmatic Programmer - from journeyman to master” is a book on programming written by Andrew Hunt and David Thomas. This book can be found here. IMO, every programmer who codes for living should read this in order to understand how to convert requirements to specifications to a flexible and maintainable code. One message that stands out from this book is “You shouldn’t be wedded to any particular technology, but have a broad enough background and experience base to allow you to choose good solutions in particular situations.”</summary></entry></feed>
