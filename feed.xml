@@ -1,4 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2019-11-13T22:15:18+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">The subtle art of not giving a f**k</title><link href="https://teju85.github.io/blog/2019/11/13/subtle-art-of-not-giving-a-fk.html" rel="alternate" type="text/html" title="The subtle art of not giving a f**k" /><published>2019-11-13T00:00:00+05:30</published><updated>2019-11-13T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/11/13/subtle-art-of-not-giving-a-fk</id><content type="html" xml:base="https://teju85.github.io/blog/2019/11/13/subtle-art-of-not-giving-a-fk.html">&lt;h3 id=&quot;the-subtle-art-of-not-giving-a-fk&quot;&gt;The subtle art of not giving a f**k&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2019-11-18T14:27:48+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Teditor v1.4.0</title><link href="https://teju85.github.io/blog/2019/11/18/teditor.html" rel="alternate" type="text/html" title="Teditor v1.4.0" /><published>2019-11-18T00:00:00+05:30</published><updated>2019-11-18T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/11/18/teditor</id><content type="html" xml:base="https://teju85.github.io/blog/2019/11/18/teditor.html">&lt;h3 id=&quot;teditor-v140&quot;&gt;Teditor v1.4.0!&lt;/h3&gt;
+&lt;p&gt;Glad to announce the release of the next version of teditor: v1.4.0. It
+can be found &lt;a href=&quot;https://github.com/teju85/teditor/releases/tag/1.4.0&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;changelog&quot;&gt;Changelog&lt;/h3&gt;
+&lt;p&gt;Changes/features in this release:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Complete removal of multiple-cursors from the editor. (reason below)&lt;/li&gt;
+  &lt;li&gt;Bug fixes to highlighting the empty lines under selection.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;why-no-multiple-cursors&quot;&gt;Why no Multiple Cursors?&lt;/h3&gt;
+&lt;p&gt;There are multiple reasons for this:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;We’ll introduce more macro-like interface that’ll void the need for such a
+thing. Many blogs have been written about this &lt;a href=&quot;https://medium.com/@schtoeffel/you-don-t-need-more-than-one-cursor-in-vim-2c44117d51db&quot;&gt;here&lt;/a&gt;
+and &lt;a href=&quot;https://nullprogram.com/blog/2017/09/07/&quot;&gt;here&lt;/a&gt;. Thus I do not want to
+elaborate further on this.&lt;/li&gt;
+  &lt;li&gt;In future, underlying implementation of buffers can be optimized very easily
+without multiple-cursors support &lt;a href=&quot;https://nullprogram.com/blog/2017/09/07/&quot;&gt;Reference&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content><author><name></name></author><category term="teditor" /><summary type="html">Teditor v1.4.0! Glad to announce the release of the next version of teditor: v1.4.0. It can be found here.</summary></entry><entry><title type="html">The subtle art of not giving a f**k</title><link href="https://teju85.github.io/blog/2019/11/13/subtle-art-of-not-giving-a-fk.html" rel="alternate" type="text/html" title="The subtle art of not giving a f**k" /><published>2019-11-13T00:00:00+05:30</published><updated>2019-11-13T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/11/13/subtle-art-of-not-giving-a-fk</id><content type="html" xml:base="https://teju85.github.io/blog/2019/11/13/subtle-art-of-not-giving-a-fk.html">&lt;h3 id=&quot;the-subtle-art-of-not-giving-a-fk&quot;&gt;The subtle art of not giving a f**k&lt;/h3&gt;
 &lt;p&gt;By Mark Manson. This book can be found &lt;a href=&quot;https://www.amazon.com/Subtle-Art-Not-Giving-Counterintuitive/dp/0062457713&quot;&gt;here&lt;/a&gt;.
 Mark talks about how to give our limited f**ks to only where they matter the most
 and thereby showing us a way to leader happier lives.&lt;/p&gt;
@@ -360,115 +380,4 @@ gunas, respectively.&lt;/p&gt;
 sadhana or japa are converted into impersonal force, which is the power of God,
 and the miracle is worked by God himself. Prayers are powers.&lt;/p&gt;
 
-&lt;p&gt;With japa sadhana we attune our inner pysche with the Ishvara-Shakti (Divine Will).&lt;/p&gt;</content><author><name></name></author><category term="book-notes" /><summary type="html">Yoga, Meditation and Japa Sadhana This book by Swami Krishnananda can be found here. Swami Krishnananda introduces us to the concepts of yoga, meditation and japa sadhana starting from the basic concept of consciousness. I feel like this is an ideal read for someone starting along the spiritual practice (sadhana).</summary></entry><entry><title type="html">Pragmatic Programmer</title><link href="https://teju85.github.io/blog/2019/02/17/pragmatic-programmer.html" rel="alternate" type="text/html" title="Pragmatic Programmer" /><published>2019-02-17T00:00:00+05:30</published><updated>2019-02-17T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/02/17/pragmatic-programmer</id><content type="html" xml:base="https://teju85.github.io/blog/2019/02/17/pragmatic-programmer.html">&lt;h3 id=&quot;pragmatic-programmer&quot;&gt;Pragmatic Programmer&lt;/h3&gt;
-&lt;p&gt;“Pragmatic Programmer - from journeyman to master” is a book on programming
-written by Andrew Hunt and David Thomas. This book can be found
-&lt;a href=&quot;https://www.amazon.com/Pragmatic-Programmer-Journeyman-Master/dp/020161622X&quot;&gt;here&lt;/a&gt;.
-IMO, every programmer who codes for living should read this in order to understand
-how to convert requirements to specifications to a flexible and maintainable code.
-One message that stands out from this book is “You shouldn’t be wedded to any
-particular technology, but have a broad enough background and experience base to
-allow you to choose good solutions in particular situations.”&lt;/p&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;h4 id=&quot;naming&quot;&gt;Naming&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;Use intention revealing names&lt;/li&gt;
-  &lt;li&gt;Avoid ambiguous variable names&lt;/li&gt;
-  &lt;li&gt;Use pronounceable names&lt;/li&gt;
-  &lt;li&gt;Class names must be nouns&lt;/li&gt;
-  &lt;li&gt;Method names must be verbs&lt;/li&gt;
-  &lt;li&gt;Choose a consistent style and stick to it!&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;comments&quot;&gt;Comments&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;Comments Lie!&lt;/li&gt;
-  &lt;li&gt;Avoid them as much as possible&lt;/li&gt;
-  &lt;li&gt;Don’t keep commented code. Delete it!&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;data-structures&quot;&gt;Data Structures&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;Don’t blindly add getters and setters&lt;/li&gt;
-  &lt;li&gt;Objects and data structures are anti-symmetric!&lt;/li&gt;
-  &lt;li&gt;Avoid creating hybrid of these two!&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;error-handling&quot;&gt;Error Handling&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;Use exceptions rather than error codes&lt;/li&gt;
-  &lt;li&gt;Provide meaningful messages with the exceptions thrown&lt;/li&gt;
-  &lt;li&gt;Create exception classes based on the needs of the caller&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;tdd&quot;&gt;TDD&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;Write tests first, code later!&lt;/li&gt;
-  &lt;li&gt;Test code is as important as production code&lt;/li&gt;
-  &lt;li&gt;When in doubt follow the above rule!&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;classes&quot;&gt;Classes&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;Should follow SRP&lt;/li&gt;
-  &lt;li&gt;Should follow OCP&lt;/li&gt;
-  &lt;li&gt;Should follow DIP&lt;/li&gt;
-  &lt;li&gt;When classes lose cohesion, split them&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;systems&quot;&gt;Systems&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;Construction of a system must be separated from its use&lt;/li&gt;
-  &lt;li&gt;One such mechanism is Dependency Injection&lt;/li&gt;
-  &lt;li&gt;Use the simplest thing that can possibly work.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;functions&quot;&gt;Functions&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;Must be small&lt;/li&gt;
-  &lt;li&gt;Must do only one thing&lt;/li&gt;
-  &lt;li&gt;Use descriptive names&lt;/li&gt;
-  &lt;li&gt;Have less number of input arguments&lt;/li&gt;
-  &lt;li&gt;Have no side effects&lt;/li&gt;
-  &lt;li&gt;Try to avoid output arguments&lt;/li&gt;
-  &lt;li&gt;Always follow command-query-separation&lt;/li&gt;
-  &lt;li&gt;Prefer exceptions to returning error codes&lt;/li&gt;
-  &lt;li&gt;Don’t Repeat Yourself (DRY)!&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;formatting&quot;&gt;Formatting&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;Small source files preferable over large ones&lt;/li&gt;
-  &lt;li&gt;Use vertical blank lines for visual cues&lt;/li&gt;
-  &lt;li&gt;Concepts closely related must be vertically closer&lt;/li&gt;
-  &lt;li&gt;This is just like paragraphs&lt;/li&gt;
-  &lt;li&gt;Keep all instance variables at one place&lt;/li&gt;
-  &lt;li&gt;Keep the lines short&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;boundaries&quot;&gt;Boundaries&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;User learning-tests to understand third party APIs&lt;/li&gt;
-  &lt;li&gt;Isolate boundaries through wrapping them inside our own class&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;emergence&quot;&gt;Emergence&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;Four rules of simple design:&lt;/li&gt;
-  &lt;li&gt;Runs all tests&lt;/li&gt;
-  &lt;li&gt;Contains no duplication&lt;/li&gt;
-  &lt;li&gt;Expresses programmer’s intent&lt;/li&gt;
-  &lt;li&gt;Minimum number of classes and methods&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;concurrency&quot;&gt;Concurrency&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;Try to avoid sharing data&lt;/li&gt;
-  &lt;li&gt;Keep the concurrent code separate&lt;/li&gt;
-  &lt;li&gt;Avoid using more than one method on shared object&lt;/li&gt;
-  &lt;li&gt;Keep your synchronized sections as small as possible&lt;/li&gt;
-  &lt;li&gt;Treat spurious failures as candidate threading issues&lt;/li&gt;
-  &lt;li&gt;Get your non-threaded code working first&lt;/li&gt;
-  &lt;li&gt;It is better when broken code fails as early as possible&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="book-notes" /><summary type="html">Pragmatic Programmer “Pragmatic Programmer - from journeyman to master” is a book on programming written by Andrew Hunt and David Thomas. This book can be found here. IMO, every programmer who codes for living should read this in order to understand how to convert requirements to specifications to a flexible and maintainable code. One message that stands out from this book is “You shouldn’t be wedded to any particular technology, but have a broad enough background and experience base to allow you to choose good solutions in particular situations.”</summary></entry></feed>
+&lt;p&gt;With japa sadhana we attune our inner pysche with the Ishvara-Shakti (Divine Will).&lt;/p&gt;</content><author><name></name></author><category term="book-notes" /><summary type="html">Yoga, Meditation and Japa Sadhana This book by Swami Krishnananda can be found here. Swami Krishnananda introduces us to the concepts of yoga, meditation and japa sadhana starting from the basic concept of consciousness. I feel like this is an ideal read for someone starting along the spiritual practice (sadhana).</summary></entry></feed>
