@@ -1,4 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2019-11-30T22:37:44+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Teditor v1.6.0</title><link href="https://teju85.github.io/blog/2019/11/30/teditor.html" rel="alternate" type="text/html" title="Teditor v1.6.0" /><published>2019-11-30T00:00:00+05:30</published><updated>2019-11-30T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/11/30/teditor</id><content type="html" xml:base="https://teju85.github.io/blog/2019/11/30/teditor.html">&lt;h3 id=&quot;teditor-v160&quot;&gt;Teditor v1.6.0!&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2019-12-18T16:34:03+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">RAPIDS ML dev setup</title><link href="https://teju85.github.io/blog/2019/12/18/rapids-ml-dev-setup.html" rel="alternate" type="text/html" title="RAPIDS ML dev setup" /><published>2019-12-18T00:00:00+05:30</published><updated>2019-12-18T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/12/18/rapids-ml-dev-setup</id><content type="html" xml:base="https://teju85.github.io/blog/2019/12/18/rapids-ml-dev-setup.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;This blog post is an attempt to simplify the process of setting up of an
+environment for &lt;a href=&quot;https://github.com/rapidsai/cuml&quot;&gt;cuML&lt;/a&gt; development. If your
+environment already has docker and you have access to building images and
+running containers using them, then the Dockerfile shipped with cuML repo is the
+easiest way to get started.&lt;/p&gt;
+
+&lt;h3 id=&quot;pre-reqs&quot;&gt;Pre-reqs&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;Install the &lt;a href=&quot;https://developer.nvidia.com/cuda-downloads&quot;&gt;cuda toolkit&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Download the bash script from the github gist &lt;a href=&quot;https://gist.github.com/teju85/51ff12886f5ae9967a4cab6fd0376953&quot;&gt;here&lt;/a&gt; and save it as &lt;code class=&quot;highlighter-rouge&quot;&gt;rapids-setup&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;~10-15GB of free disk-space.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;instructions&quot;&gt;Instructions&lt;/h3&gt;
+&lt;p&gt;Run the bash script to install cuML and its dependencies. Recommended approach
+is to use &lt;a href=&quot;https://www.anaconda.com/&quot;&gt;anaconda&lt;/a&gt;. This script installs all the
+needed dependencies in a stand-alone folder and thus does not need root access.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;bash ./rapids-setup installCuml&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;At the end, it prints a couple of environment variables to be set in your bash
+terminal. Execute them and you should now be ready to run tests and develop!&lt;/p&gt;</content><author><name></name></author><category term="cuda" /><category term="rapids" /><category term="cuml" /><summary type="html">Introduction This blog post is an attempt to simplify the process of setting up of an environment for cuML development. If your environment already has docker and you have access to building images and running containers using them, then the Dockerfile shipped with cuML repo is the easiest way to get started.</summary></entry><entry><title type="html">Teditor v1.6.0</title><link href="https://teju85.github.io/blog/2019/11/30/teditor.html" rel="alternate" type="text/html" title="Teditor v1.6.0" /><published>2019-11-30T00:00:00+05:30</published><updated>2019-11-30T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/11/30/teditor</id><content type="html" xml:base="https://teju85.github.io/blog/2019/11/30/teditor.html">&lt;h3 id=&quot;teditor-v160&quot;&gt;Teditor v1.6.0!&lt;/h3&gt;
 &lt;p&gt;Glad to announce the release of the next version of teditor: v1.6.0. It
 can be found &lt;a href=&quot;https://github.com/teju85/teditor/releases/tag/1.6.0&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
@@ -249,66 +271,4 @@ can be found &lt;a href=&quot;https://github.com/teju85/teditor/releases/tag/1.1
 &lt;ol&gt;
   &lt;li&gt;Initial set of code changes for an upcoming multiple windows support.&lt;/li&gt;
   &lt;li&gt;Proper wrapper for tree-sitter (soon to be used for code tree traversals)&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><category term="teditor" /><summary type="html">Teditor v1.1.0! Glad to announce the release of the next version of teditor: v1.1.0. It can be found here.</summary></entry><entry><title type="html">Installing Ubuntu 19.04 Server on desktop with Nvidia GPUs</title><link href="https://teju85.github.io/blog/2019/08/01/ubuntu-server.html" rel="alternate" type="text/html" title="Installing Ubuntu 19.04 Server on desktop with Nvidia GPUs" /><published>2019-08-01T00:00:00+05:30</published><updated>2019-08-01T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/08/01/ubuntu-server</id><content type="html" xml:base="https://teju85.github.io/blog/2019/08/01/ubuntu-server.html">&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;Notes based on my experience installing and setting up a desktop machine to run
-Ubuntu 19.04 server.&lt;/p&gt;
-
-&lt;h2 id=&quot;installing-ubuntu&quot;&gt;Installing Ubuntu&lt;/h2&gt;
-&lt;ol&gt;
-  &lt;li&gt;Download iso from &lt;a href=&quot;https://ubuntu.com/download/server&quot;&gt;here&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Download unetbootin from &lt;a href=&quot;https://unetbootin.github.io/&quot;&gt;here&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Have an empty ~4GB USB pen drive&lt;/li&gt;
-  &lt;li&gt;Use unetbootin to flash the above iso into this usb drive&lt;/li&gt;
-  &lt;li&gt;Boot via this usb drive on your desktop&lt;/li&gt;
-  &lt;li&gt;In boot menu select ‘Install Ubuntu …’&lt;/li&gt;
-  &lt;li&gt;Follow the instructions on screen&lt;/li&gt;
-  &lt;li&gt;Don’t forget to select “Install OpenSSH”, if you want remote access&lt;/li&gt;
-  &lt;li&gt;Select to upgrade and install ubuntu (optional)&lt;/li&gt;
-  &lt;li&gt;Provide hostname, username and credentials&lt;/li&gt;
-  &lt;li&gt;Wait until finished!&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;setting-up&quot;&gt;Setting up&lt;/h2&gt;
-&lt;h3 id=&quot;basics&quot;&gt;Basics&lt;/h3&gt;
-&lt;p&gt;My personal preference is to use python3. So, I just remove python2.7.&lt;/p&gt;
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt remove python2.7 python python2.7-minimal
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt purge python2.7 python python2.7-minimal
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt autoremove
-&lt;span class=&quot;nb&quot;&gt;sudo ln&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; /usr/bin/python3 /usr/bin/python
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;Some essentials:&lt;/p&gt;
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;curl g++ gcc git make tmux
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;docker&quot;&gt;docker&lt;/h3&gt;
-&lt;p&gt;Following steps will let you run docker commands without &lt;code class=&quot;highlighter-rouge&quot;&gt;sudo&lt;/code&gt;:&lt;/p&gt;
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl &lt;span class=&quot;nt&quot;&gt;-sSL&lt;/span&gt; https://get.docker.com/ | &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;sh
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;groupadd docker
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;usermod &lt;span class=&quot;nt&quot;&gt;-aG&lt;/span&gt; docker &lt;span class=&quot;nv&quot;&gt;$USER&lt;/span&gt;
-newgrp docker
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;nvidia-driver&quot;&gt;nvidia driver&lt;/h3&gt;
-&lt;ol&gt;
-  &lt;li&gt;Make sure card is getting detected: &lt;code class=&quot;highlighter-rouge&quot;&gt;lspci | grep -i nv&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;Install kernel headers: &lt;code class=&quot;highlighter-rouge&quot;&gt;sudo apt-get install linux-headers-$(uname -r)&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Download toolkit installer: &lt;code class=&quot;highlighter-rouge&quot;&gt;wget https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda_10.1.168_418.67_linux.run&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Install only the driver: &lt;code class=&quot;highlighter-rouge&quot;&gt;sudo sh cuda_10.1.168_418.67_linux.run --driver&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Disable nouveau driver: &lt;code class=&quot;highlighter-rouge&quot;&gt;sudo sh -c &quot;echo blacklist nouveau &amp;gt; /etc/modprobe.d/blacklist-nouveau.conf &amp;amp;&amp;amp; echo options nouveau modeset=0 &amp;gt;&amp;gt; /etc/modprobe.d/blacklist-nouveau.conf &amp;amp;&amp;amp; update-initramfs -u &amp;amp;&amp;amp; reboot&quot;&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;nvidia-smi&lt;/code&gt; should now run successfully.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;nvidia-docker&quot;&gt;nvidia-docker&lt;/h3&gt;
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-L&lt;/span&gt; https://nvidia.github.io/nvidia-docker/gpgkey | &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-key add -
-&lt;span class=&quot;c&quot;&gt;# this is because 19.04 is not yet supported, at the time of this writing&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# thus, force fallback on 18.04 version's release&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# that seems to be working fine&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;#distribution=$(. /etc/os-release;echo $ID$VERSION_ID)&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;distribution&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;18.04
-curl &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-L&lt;/span&gt; https://nvidia.github.io/nvidia-docker/&lt;span class=&quot;nv&quot;&gt;$distribution&lt;/span&gt;/nvidia-docker.list | &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;sudo tee&lt;/span&gt; /etc/apt/sources.list.d/nvidia-docker.list
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;nvidia-docker2
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;pkill &lt;span class=&quot;nt&quot;&gt;-SIGHUP&lt;/span&gt; dockerd
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="linux" /><summary type="html">Introduction Notes based on my experience installing and setting up a desktop machine to run Ubuntu 19.04 server.</summary></entry></feed>
+&lt;/ol&gt;</content><author><name></name></author><category term="teditor" /><summary type="html">Teditor v1.1.0! Glad to announce the release of the next version of teditor: v1.1.0. It can be found here.</summary></entry></feed>
