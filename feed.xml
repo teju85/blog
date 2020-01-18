@@ -1,4 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2019-12-18T16:34:03+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">RAPIDS ML dev setup</title><link href="https://teju85.github.io/blog/2019/12/18/rapids-ml-dev-setup.html" rel="alternate" type="text/html" title="RAPIDS ML dev setup" /><published>2019-12-18T00:00:00+05:30</published><updated>2019-12-18T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/12/18/rapids-ml-dev-setup</id><content type="html" xml:base="https://teju85.github.io/blog/2019/12/18/rapids-ml-dev-setup.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-01-18T17:59:22+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Drop your tools - Does Expertise have a dark side?</title><link href="https://teju85.github.io/blog/2020/01/18/drop-your-tools.html" rel="alternate" type="text/html" title="Drop your tools - Does Expertise have a dark side?" /><published>2020-01-18T00:00:00+05:30</published><updated>2020-01-18T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/01/18/drop-your-tools</id><content type="html" xml:base="https://teju85.github.io/blog/2020/01/18/drop-your-tools.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;This is my notes after watching Dr. Sean Brady’s Keynote talk at LCA-2020. The full
+recorded video can be found &lt;a href=&quot;https://www.youtube.com/watch?v=Yv4tI6939q0&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;p&gt;Expertise is certainly necessary for us to be better at our jobs and do less
+mistakes. However, there are cases when expertise can &lt;a href=&quot;https://en.wikipedia.org/wiki/Negative_priming&quot;&gt;negatively prime&lt;/a&gt;
+us down the wrong solution path! He uses the examples of
+&lt;a href=&quot;https://www.nytimes.com/1978/01/19/archives/new-jersey-pages-coliseum-roof-collapses-at-hartford-civic-center.html&quot;&gt;Hartford convention center collapse&lt;/a&gt;
+and the &lt;a href=&quot;https://en.wikipedia.org/wiki/Mann_Gulch_fire&quot;&gt;Mann Gulch wildfire&lt;/a&gt; to
+show that in the moments of pressure we continue to cling onto our expertise
+despite of all the warning signs to the contrary. In some scenarios, our
+expertise itself can be the greatest source of negative priming since we use it
+sub-consciously (and automatically) at all times!&lt;/p&gt;
+
+&lt;p&gt;When we end up trying to solve a problem that’s slightly outside our expertise,
+even if we know that our “tools” aren’t giving us the right solution, we continue
+to hold onto them (just like the firefighters of Mann Gulch did)! It is hard for
+all of us to accept the fact that the tools we currently use are not the right
+ones for the job.&lt;/p&gt;
+
+&lt;p&gt;Some nice quotes from this talk:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;“The greatest obstacle to knowledge is not ignorance. It is the illusion of knowledge”&lt;/li&gt;
+  &lt;li&gt;“We all see the world with the prism of our expertise”&lt;/li&gt;
+  &lt;li&gt;“In pursuit of knowledge, everyday something is acquired. In the pursuit of wisdom, everyday something is dropped”&lt;/li&gt;
+&lt;/ol&gt;</content><author><name></name></author><category term="psychology" /><summary type="html">Introduction This is my notes after watching Dr. Sean Brady’s Keynote talk at LCA-2020. The full recorded video can be found here.</summary></entry><entry><title type="html">RAPIDS ML dev setup</title><link href="https://teju85.github.io/blog/2019/12/18/rapids-ml-dev-setup.html" rel="alternate" type="text/html" title="RAPIDS ML dev setup" /><published>2019-12-18T00:00:00+05:30</published><updated>2019-12-18T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/12/18/rapids-ml-dev-setup</id><content type="html" xml:base="https://teju85.github.io/blog/2019/12/18/rapids-ml-dev-setup.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;This blog post is an attempt to simplify the process of setting up of an
 environment for &lt;a href=&quot;https://github.com/rapidsai/cuml&quot;&gt;cuML&lt;/a&gt; development. If your
 environment already has docker and you have access to building images and
@@ -262,13 +288,4 @@ can be found &lt;a href=&quot;https://github.com/teju85/teditor/releases/tag/1.2
   &lt;li&gt;Various fixes to the bugs in draw calls of the main window&lt;/li&gt;
   &lt;li&gt;Proper resizing now handled directly by Windows class, out of Buffer class&lt;/li&gt;
   &lt;li&gt;Full support for a vertical window split&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><category term="teditor" /><summary type="html">Teditor v1.2.0! Glad to announce the release of the next version of teditor: v1.2.0. It can be found here.</summary></entry><entry><title type="html">Teditor v1.1.0</title><link href="https://teju85.github.io/blog/2019/08/06/teditor.html" rel="alternate" type="text/html" title="Teditor v1.1.0" /><published>2019-08-06T00:00:00+05:30</published><updated>2019-08-06T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/08/06/teditor</id><content type="html" xml:base="https://teju85.github.io/blog/2019/08/06/teditor.html">&lt;h3 id=&quot;teditor-v110&quot;&gt;Teditor v1.1.0!&lt;/h3&gt;
-&lt;p&gt;Glad to announce the release of the next version of teditor: v1.1.0. It
-can be found &lt;a href=&quot;https://github.com/teju85/teditor/releases/tag/1.1.0&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;changelog&quot;&gt;Changelog&lt;/h3&gt;
-&lt;p&gt;Changes/features in this release:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;Initial set of code changes for an upcoming multiple windows support.&lt;/li&gt;
-  &lt;li&gt;Proper wrapper for tree-sitter (soon to be used for code tree traversals)&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><category term="teditor" /><summary type="html">Teditor v1.1.0! Glad to announce the release of the next version of teditor: v1.1.0. It can be found here.</summary></entry></feed>
+&lt;/ol&gt;</content><author><name></name></author><category term="teditor" /><summary type="html">Teditor v1.2.0! Glad to announce the release of the next version of teditor: v1.2.0. It can be found here.</summary></entry></feed>
