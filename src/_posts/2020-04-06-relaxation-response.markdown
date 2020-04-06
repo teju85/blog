@@ -78,3 +78,9 @@ the benefits of this response and simple steps to elicit this response.
   - RR is associated with this state
   - it is one of the states in between coma -> sleep -> drowsiness -> alert -> hyper-alert
   - this state needs to be purposefully evoked
+- people going psychoanalysis sessions will find it hard to assume passive
+  attitude, thus difficult for them to elicit RR
+- excessive daily elicitation of RR can lead to hallucinations due to sensory
+  deprivation
+- within few weeks of stopping RR, our body typically goes back to its original
+  state, so better to be regular with this process
