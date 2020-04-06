@@ -48,7 +48,8 @@ the benefits of this response and simple steps to elicit this response.
     - a mental device (a word, phrase or mantra) that should be repeated. This
       repetition helps avoid distracting thoughts
     - a passive attitude (by disregarding other thoughts and returning to the
-      mental device in case of any distraction)
+      mental device in case of any distraction). This is one of the key things
+      to elicit RR!
     - a comfortable position
   - the above process is also known as Transcendental Meditation, a refined yoga
     practice developed by Maharishi Mahesh Yogi
