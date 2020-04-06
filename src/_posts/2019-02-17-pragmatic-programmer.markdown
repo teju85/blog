@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Pragmatic Programmer"
-tags: book-notes
+tags: book-notes programming
 ---
 
 ### Pragmatic Programmer

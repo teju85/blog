@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Never Split the Difference"
-tags: book-notes
+tags: book-notes self-help
 ---
 
 ### Never Split the Difference

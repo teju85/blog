@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Design Principles and Design Patterns"
-tags: book-notes
+tags: book-notes programming
 ---
 
 ### The Book

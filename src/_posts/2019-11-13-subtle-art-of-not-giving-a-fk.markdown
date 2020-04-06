@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The subtle art of not giving a f**k"
-tags: book-notes
+tags: book-notes self-help
 ---
 
 ### The subtle art of not giving a f**k

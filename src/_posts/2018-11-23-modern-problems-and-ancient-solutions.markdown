@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Modern Problems and Ancient Solutions"
-tags: book-notes
+tags: book-notes spirituality
 ---
 
 ### The Book

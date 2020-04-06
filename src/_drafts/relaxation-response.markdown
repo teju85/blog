@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The Relaxation Response"
-tags: book-notes
+tags: book-notes self-help
 ---
 
 ### The Relaxation Response

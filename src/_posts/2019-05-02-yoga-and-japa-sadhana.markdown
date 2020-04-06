@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Yoga, Meditation and Japa Sadhana"
-tags: book-notes
+tags: book-notes spirituality
 ---
 
 ### Yoga, Meditation and Japa Sadhana

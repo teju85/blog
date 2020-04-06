@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Man's search for meaning"
-tags: book-notes
+tags: book-notes philosophy
 ---
 
 ### The Book

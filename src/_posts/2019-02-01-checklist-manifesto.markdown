@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Checklist Manifesto: How to get Things Right"
-tags: book-notes
+tags: book-notes self-help
 ---
 
 ### What to trust in a 'post-truth' world

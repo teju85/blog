@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "You are not so smart"
-tags: book-notes
+tags: book-notes self-help
 ---
 
 ### The Book

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Essentials of Hinduism"
-tags: book-notes
+tags: book-notes spirituality
 ---
 
 ### The Book
