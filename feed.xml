@@ -1,4 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-04-06T22:40:59+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">The Relaxation Response</title><link href="https://teju85.github.io/blog/2020/04/06/relaxation-response.html" rel="alternate" type="text/html" title="The Relaxation Response" /><published>2020-04-06T00:00:00+05:30</published><updated>2020-04-06T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/04/06/relaxation-response</id><content type="html" xml:base="https://teju85.github.io/blog/2020/04/06/relaxation-response.html">&lt;h3 id=&quot;the-relaxation-response&quot;&gt;The Relaxation Response&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-04-09T12:10:57+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Using google Hangouts video call from android</title><link href="https://teju85.github.io/blog/2020/04/09/using-hangouts-video-call-android.html" rel="alternate" type="text/html" title="Using google Hangouts video call from android" /><published>2020-04-09T00:00:00+05:30</published><updated>2020-04-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/04/09/using-hangouts-video-call-android</id><content type="html" xml:base="https://teju85.github.io/blog/2020/04/09/using-hangouts-video-call-android.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;This blog shows step-by-step process on using Google’s Hangouts apps to do video
+calls from your android device.&lt;/p&gt;
+
+&lt;h3 id=&quot;step-1-install-googles-hangouts-app-from-playstore&quot;&gt;Step 1. Install Google’s Hangouts app from playstore&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;/blog/assets/google-hangouts-tutorial/01-install-google-hangouts.jpg&quot; alt=&quot;Install Google Hangouts app&quot; /&gt;
+This is needed for you join the video call later.&lt;/p&gt;
+
+&lt;h3 id=&quot;step-2-install-googles-hangouts-meet-app-from-playstore&quot;&gt;Step 2. Install Google’s Hangouts Meet app from playstore&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;/blog/assets/google-hangouts-tutorial/02-install-google-hangouts-meet.jpg&quot; alt=&quot;Install Google Hangouts Meet app&quot; /&gt;
+Note that both ‘Hangouts’ as well as ‘Hangouts Meet’ are required to
+successfully join the video call!&lt;/p&gt;
+
+&lt;h3 id=&quot;step-3-open-hangouts-meet-app&quot;&gt;Step 3. Open Hangouts Meet app&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;/blog/assets/google-hangouts-tutorial/03-open-meet-app.jpg&quot; alt=&quot;Open Hangouts Meet app&quot; /&gt;
+If you calendar has already been updated, an event will show up at the bottom.
+Tap on the ‘Join’ button.&lt;/p&gt;
+
+&lt;h3 id=&quot;step-4-join-the-video-call&quot;&gt;Step 4. Join the video call&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;/blog/assets/google-hangouts-tutorial/04-join-the-video-call.jpg&quot; alt=&quot;Join video call&quot; /&gt;
+The previous step will start the ‘Hangouts’ app. In here, tap on the
+‘JOIN VIDEO CALL’ button at the bottom of your screen to join your video call.&lt;/p&gt;</content><author><name></name></author><category term="tutorial" /><summary type="html">Introduction This blog shows step-by-step process on using Google’s Hangouts apps to do video calls from your android device.</summary></entry><entry><title type="html">The Relaxation Response</title><link href="https://teju85.github.io/blog/2020/04/06/relaxation-response.html" rel="alternate" type="text/html" title="The Relaxation Response" /><published>2020-04-06T00:00:00+05:30</published><updated>2020-04-06T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/04/06/relaxation-response</id><content type="html" xml:base="https://teju85.github.io/blog/2020/04/06/relaxation-response.html">&lt;h3 id=&quot;the-relaxation-response&quot;&gt;The Relaxation Response&lt;/h3&gt;
 &lt;p&gt;By Dr. Herbert Benson. This book can be found
 &lt;a href=&quot;https://www.amazon.com/Relaxation-Response-Herbert-Benson/dp/0380006766&quot;&gt;here&lt;/a&gt;.
 In this book, Dr. Benson writes about a response that is opposite to
@@ -887,45 +908,4 @@ and thereby showing us a way to leader happier lives.&lt;/p&gt;
 short c++ code to solve the popular 3x3 sudoku puzzle. Follow the instructions
 at the top of the source file to compile and run the code. It only uses the
 logical elimination-based method to converge to the right solution. This appears
-to solve even the “hard” problems from &lt;a href=&quot;https://websudoku.com&quot;&gt;websudoku&lt;/a&gt; portal.&lt;/p&gt;</content><author><name></name></author><category term="cpp" /><category term="puzzles" /><summary type="html">Here is a short c++ code to solve the popular 3x3 sudoku puzzle. Follow the instructions at the top of the source file to compile and run the code. It only uses the logical elimination-based method to converge to the right solution. This appears to solve even the “hard” problems from websudoku portal.</summary></entry><entry><title type="html">Handling of enum overflows in C/C++</title><link href="https://teju85.github.io/blog/2019/08/21/enums.html" rel="alternate" type="text/html" title="Handling of enum overflows in C/C++" /><published>2019-08-21T00:00:00+05:30</published><updated>2019-08-21T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/08/21/enums</id><content type="html" xml:base="https://teju85.github.io/blog/2019/08/21/enums.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
-&lt;p&gt;Save the below code in a file named &lt;code class=&quot;highlighter-rouge&quot;&gt;enum.c&lt;/code&gt; and try to compile it using the
-following command: &lt;code class=&quot;highlighter-rouge&quot;&gt;gcc enum.c -o enum &amp;amp;&amp;amp; ./enum&lt;/code&gt;. This will give the following
-error:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;enum.c:8:3: error: overflow in enumeration values
-   _4
-   ^
-enum.c: In function ‘main’:
-enum.c:11:48: error: ‘FourBytes’ undeclared (first use in this function)
-   printf(&quot;sizeof(FourBytes)=%d\n&quot;, (int)sizeof(FourBytes));
-                                                ^
-enum.c:11:48: note: each undeclared identifier is reported only once for each function it appears in
-enum.c:12:49: error: ‘EightBytes’ undeclared (first use in this function)
-   printf(&quot;sizeof(EightBytes)=%d\n&quot;, (int)sizeof(EightBytes));&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;However, if you save this same code as &lt;code class=&quot;highlighter-rouge&quot;&gt;enum.cpp&lt;/code&gt; and compile it as:
-&lt;code class=&quot;highlighter-rouge&quot;&gt;g++ enum.cpp -o enum &amp;amp;&amp;amp; ./enum&lt;/code&gt;. This will compile successfully and gives the
-following output!&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;sizeof(FourBytes)=4
-sizeof(EightBytes)=8&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Yes! The C++ compiler automatically takes care of overflows by ‘upgrading’ the
-enum to be of 8 bytes!&lt;/p&gt;
-
-&lt;h3 id=&quot;code&quot;&gt;Code&lt;/h3&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-cpp&quot; data-lang=&quot;cpp&quot;&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;stdio.h&amp;gt;
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FourBytes&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;_1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;_2&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EightBytes&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;_3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xffffffff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;_4&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;**&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sizeof(FourBytes)=%d&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FourBytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sizeof(EightBytes)=%d&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EightBytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;</content><author><name></name></author><category term="c" /><category term="cpp" /><summary type="html">Introduction Save the below code in a file named enum.c and try to compile it using the following command: gcc enum.c -o enum &amp;amp;&amp;amp; ./enum. This will give the following error: enum.c:8:3: error: overflow in enumeration values _4 ^ enum.c: In function ‘main’: enum.c:11:48: error: ‘FourBytes’ undeclared (first use in this function) printf(&quot;sizeof(FourBytes)=%d\n&quot;, (int)sizeof(FourBytes)); ^ enum.c:11:48: note: each undeclared identifier is reported only once for each function it appears in enum.c:12:49: error: ‘EightBytes’ undeclared (first use in this function) printf(&quot;sizeof(EightBytes)=%d\n&quot;, (int)sizeof(EightBytes));</summary></entry></feed>
+to solve even the “hard” problems from &lt;a href=&quot;https://websudoku.com&quot;&gt;websudoku&lt;/a&gt; portal.&lt;/p&gt;</content><author><name></name></author><category term="cpp" /><category term="puzzles" /><summary type="html">Here is a short c++ code to solve the popular 3x3 sudoku puzzle. Follow the instructions at the top of the source file to compile and run the code. It only uses the logical elimination-based method to converge to the right solution. This appears to solve even the “hard” problems from websudoku portal.</summary></entry></feed>
