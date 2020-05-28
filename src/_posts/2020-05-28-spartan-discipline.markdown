@@ -5,7 +5,7 @@ tags: book-notes self-help
 ---
 
 ### Spartan Discipline
-By Dominic Mann. This book can be found [here](https://www.amazon.com/Never-Split-Difference-Negotiating-Depended/dp/0062407805).
+By Dominic Mann. This book can be found [here](https://www.amazon.com/Spartan-Discipline-Unbreakable-Toughness-Relentless/dp/1539143066).
 Mann gives tips, tricks, suggestions and analogies from Spartan's lifestyle
 to illustrate how to develop self-discipline and be productive in our lives.
 
