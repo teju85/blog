@@ -1,0 +1,47 @@
+---
+layout: post
+title: "LightGCN"
+needmath: true
+tags: tech-notes paper-notes graph gnn
+---
+
+### LightGCN - Simplifying and Powering Graph ConvolutionNetwork for Recommendation
+Main paper can be found [here](https://arxiv.org/pdf/2002.02126.pdf)
+
+#### Proposal
+For collaborative filtering, instead of using full GCNs they only keep the
+neighborhood aggregation function and discard feature transformation and the
+non-linear activation functions, thereby gaining better final accuracy as well
+as simplifying the implementation.
+
+#### Details
+GCN was originally proposed for classification on rich attributes graph. However
+in the case of CF, there are only user-item interaction graphs. They emperically
+find that the NGCF's (Neural Graph Collaborative Filtering, inspired from GCN)
+feature transformation and non-linear functions cause accuracy degradation. They
+also needlessly increase the complexity of the model. Thus, in LightGCN, they
+propose to remove these 2 operations and only keep the neighborhood aggregation.
+They create an ID embedding for each user and item and use the user-item
+interaction graph to propagate the current embeddings.
+
+The core graph convolution operation that they are proposing is:
+
+$$e_u^{k+1} = \sum_{i \epsilon N_u} \frac{1}{\sqrt{N_i N_u}} e_i^k$$
+
+$$e_i^{k+1} = \sum_{i \epsilon N_i} \frac{1}{\sqrt{N_i N_u}} e_u^k$$
+
+Note that self-connections are ignored here! As this will be handled in the
+final layer combination phase. Final representation (aka combination phase) is:
+
+$$e_u = \sum_{k=0}^K \alpha_k e_u^k$$
+
+$$e_i = \sum_{k=0}^K \alpha_k e_i^k$$
+
+$$\alpha_k$$ can be hyper-params are model-params. In this paper, however, they
+are setting them to be $$\frac{1}{K+1}$$ for simplicity.
+
+Final model prediction is: $$y_{ui} = e_u^T * e_i$$
+
+Their code can be found:
+1. [here](https://github.com/kuandeng/LightGCN) for TF
+2. [here](https://github.com/gusye1234/pytorch-light-gcn) for pytorch
