@@ -1,0 +1,97 @@
+---
+layout: post
+title: "GNU Octave - quick reference"
+tags: tools
+---
+
+### GNU Octave - Quick reference
+- matlab-like syntax
+- elementary arithmetic ops are supported
+- `%` is comment
+- `==` and `~=` for equality comparisons
+- `^` is exponentation
+- `&&`, `||`, `xor` logical operations
+- `PS1(...)` to change the prompt
+- if you don't want to print the output use `;` at the end of expression
+- strings can be declared using `"` or `'`.
+- `pi` is our math-pi.
+- `disp` used to print any variables, `sprintf` to format strings
+- matrices/vectors
+  - use `;` to start the next row
+  - use a space or `,` to write elements in the columns of current row
+  - `start:step:end` can also be used to create a vector (`end` included in the output)
+  - default `step` is 1
+  - `ones` generates matrices of all ones, similarly `zeros`
+  - `eye` generates identity matrices
+  - `rand` generates random matrices uniformly between [0,1]
+  - `randn` for gaussian dist with mean=0 var=1
+  - `sqrt` for square root
+  - `var'` for matrix transpose
+  - `size(var)` gives the matrix dimension
+  - `size(var, i)` gives size of ith dimension
+  - `length(var)` gives size of the longest dimension - mostly applied on vectors
+  - can apply splicing on the matrices and vectors as well
+  - `var(indices)` to access the corresponding element
+    - `:` means every element in that dimension
+    - in each dimension, one can pass vectors!
+    - elements are 1-indexed in octave
+  - can append rows/columns/matrices to matrices as well
+  - `var(:)` puts all elements into a single column vector
+  - `.` mostly denotes element-wise ops
+    - `.*` is element-wise multiplication
+    - `a .^ n`  element-wise exponentiation
+    - `1 ./ a`  element-wise reciprocal
+  - `[val,ind] = max(a)`  maximum value of a and its index - on matrices, it does column-wise max!
+  - `a < 3` returns a logical matrix with element-wise comparison
+  - `find(a < 3)` returns those elements
+  - `magic` = returns magic squares
+  - `[r,c] = find(A >= 7)` returns row/col indices
+  - `sum(a)`, `prod(a)` add/mult reduction
+  - `floor(a)`, `ceil(a)` for floor and ceil
+  - `max(matA, matB)` gives element-wise maximum
+  - `flipud` = flip up-down
+  - `pinv` = pseudo-inverse of matrix, essentially matrix-inverse
+- file system
+  - `pwd` current directory of the session
+  - usual `ls`, `cd`, commands work!
+  - use `load` function to load inputs from file system
+  - `save('out.mat', 'varName')` will store the variable into file system
+    - use `-ascii` option to store as plain text
+- environment
+  - `who` shows all currently defined variables, `whos` gives detailed info
+  - `clear` will remove all variables in the current session
+    - with an argument, it'll only clear that
+- `help <cmd>` to show the documentation
+- `cmd1, cmd2, cmd3;` chaining commands in a single line
+- loops
+  - `for i=1:10, cmds end`
+  - `while condition, cmds end`
+  - `break` and `continue` can also be used
+- conditionals
+  - `if condition, cmds end`
+  - `if condition, cmds elseif condition, cmds else cmds end`
+- plotting
+  - `hist` plots histogram of the input vector - can also set bins as an input param
+  - `plot` can be used to simply generate lineplots
+  - use `hold on` to plot multiple plots (default is to overwrite)
+  - use `legend` and `title` for legend and title of the plots
+  - `print('-dpng', 'out.png')` to store the plot as an image
+  - `close` to close the plot window
+  - `figure(<index>); plot(...)` opens plots in different windows
+  - `subplot(row, col, startIndex)`
+    - partitions the plot into grid and starts with startIndex
+    - disperse this call between 'plot' calls
+  - `axis` = to set x and y range
+  - `clf` = clears the current figure
+  - `imagesc` = used to visualize a matrix. Quite useful!
+- `exit`, `quit` to quit the session
+- function
+  - create a file with the function name and store it with .m extension!
+  - functions can return multiple values as well!
+  - default, octave looks for this .m in the current directory
+  - better to update search path using `addpath` call
+  - comments at the beginning of function used by `help`!
+  - in case you want to put multiple functions in one file, use script-files!
+  - then just call `source("script-file")` to import all those functions
+- take advantage of vectorization
+  - writing your own loops on the data might be a lot slower!
