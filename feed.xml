@@ -1,49 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-09T23:58:24+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Power of GCNs</title><link href="https://teju85.github.io/blog/2020/06/09/power-of-GCNs.html" rel="alternate" type="text/html" title="Power of GCNs" /><published>2020-06-09T00:00:00+05:30</published><updated>2020-06-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/09/power-of-GCNs</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/09/power-of-GCNs.html">&lt;h3 id=&quot;power-of-gcns&quot;&gt;Power of GCNs&lt;/h3&gt;
-&lt;p&gt;Summary of the content of the blog found &lt;a href=&quot;https://www.inference.vc/how-powerful-are-graph-convolutions-review-of-kipf-welling-2016-2/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-10T16:09:46+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">PinSage</title><link href="https://teju85.github.io/blog/2020/06/10/pinsage.html" rel="alternate" type="text/html" title="PinSage" /><published>2020-06-10T00:00:00+05:30</published><updated>2020-06-10T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/10/pinsage</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/10/pinsage.html">&lt;h3 id=&quot;pinsage---graph-convolutional-neural-networks-for-web-scalerecommender-systems&quot;&gt;PinSage - Graph Convolutional Neural Networks for Web-ScaleRecommender Systems&lt;/h3&gt;
+&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1806.01973.pdf&quot;&gt;here&lt;/a&gt; and a more
+digestable version is presented in a blog format &lt;a href=&quot;https://medium.com/pinterest-engineering/pinsage-a-new-graph-convolutional-neural-network-for-web-scale-recommender-systems-88795a107f48&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Author seems to claim that due to 1st order approximation of Chebyshev polynomials
-as the convolution filter, their expressive power might not be good&lt;/li&gt;
-  &lt;li&gt;that’s because this approximation, when applied to the special case of regular
-graphs (2D images, eg), will lead to severely weak models&lt;/li&gt;
-  &lt;li&gt;But the &lt;a href=&quot;https://tkipf.github.io/graph-convolutional-networks&quot;&gt;main authors of the GCN&lt;/a&gt;
-paper also note that the Weisfeiler-Lehman algo also doesn’t converge on
-regular graphs!&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Power of GCNs Summary of the content of the blog found here.</summary></entry><entry><title type="html">Graph Convolutional Networks</title><link href="https://teju85.github.io/blog/2020/06/09/graph-convolutional-networks.html" rel="alternate" type="text/html" title="Graph Convolutional Networks" /><published>2020-06-09T00:00:00+05:30</published><updated>2020-06-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/09/graph-convolutional-networks</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/09/graph-convolutional-networks.html">&lt;h3 id=&quot;graph-convolutional-networks&quot;&gt;Graph Convolutional Networks&lt;/h3&gt;
-&lt;p&gt;Summary of the content of the blog found &lt;a href=&quot;https://tkipf.github.io/graph-convolutional-networks&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h4 id=&quot;proposal&quot;&gt;Proposal&lt;/h4&gt;
+&lt;p&gt;A scalable random-walk GCN to learn embeddings on attribute graphs with billions
+of nodes. They demonstrate this on Pinterest’s data with billions of nodes and
+tens of billions of edges. They also present an efficient way to do inferencing
+on the resulting model via MapReduce paradigm.&lt;/p&gt;
 
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Inputs:
-    &lt;ul&gt;
-      &lt;li&gt;N = number of nodes&lt;/li&gt;
-      &lt;li&gt;D = dimensionality of input feature vector for each node&lt;/li&gt;
-      &lt;li&gt;A = adjacency matrix&lt;/li&gt;
-      &lt;li&gt;L = number of layers&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;L_i&lt;/script&gt; = output features at each layer&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;f_i&lt;/script&gt; = output activation at each layer&lt;/li&gt;
-      &lt;li&gt;X = feature matrix [dim = N x D]&lt;/li&gt;
-      &lt;li&gt;F = output feature vector dimension&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Weights
-    &lt;ul&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;W_i&lt;/script&gt; = weight matrix at each layer [dim = &lt;script type=&quot;math/tex&quot;&gt;L_{i-1}&lt;/script&gt; x &lt;script type=&quot;math/tex&quot;&gt;L_i&lt;/script&gt;], with &lt;script type=&quot;math/tex&quot;&gt;L_0&lt;/script&gt; = D&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Outputs:
-    &lt;ul&gt;
-      &lt;li&gt;Z = transformed feature vector for each node [dim = N x F]&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;L layers means that this network does “convolution” with neighbor nodes upto L hops from a given node&lt;/li&gt;
-  &lt;li&gt;A’ = A + I, in order introduce self-loops&lt;/li&gt;
-  &lt;li&gt;D = diagonal matrix of node degrees (very useful in normalizing the adjacency matrix)&lt;/li&gt;
-  &lt;li&gt;each layer’s operation = &lt;script type=&quot;math/tex&quot;&gt;f_i(D^{-0.5} A' D^{-0.5} X_i W_i)&lt;/script&gt;&lt;/li&gt;
-  &lt;li&gt;author’s show forward prop on this network is generalized, differentiable version of Weisfeiler-Lehman algo!&lt;/li&gt;
-  &lt;li&gt;code is on &lt;a href=&quot;https://github.com/tkipf/gcn&quot;&gt;github&lt;/a&gt;. Uses TF&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Graph Convolutional Networks Summary of the content of the blog found here.</summary></entry><entry><title type="html">LightGCN</title><link href="https://teju85.github.io/blog/2020/06/09/lightgcn.html" rel="alternate" type="text/html" title="LightGCN" /><published>2020-06-09T00:00:00+05:30</published><updated>2020-06-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/09/lightgcn</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/09/lightgcn.html">&lt;h3 id=&quot;lightgcn---simplifying-and-powering-graph-convolutionnetwork-for-recommendation&quot;&gt;LightGCN - Simplifying and Powering Graph ConvolutionNetwork for Recommendation&lt;/h3&gt;
+&lt;h4 id=&quot;details&quot;&gt;Details&lt;/h4&gt;
+&lt;p&gt;Current GCNs expect the availability of full graph Laplacian during training.
+This is very infeasible for web-scale graphs with billions of nodes and edges.&lt;/p&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">PinSage - Graph Convolutional Neural Networks for Web-ScaleRecommender Systems Main paper can be found here and a more digestable version is presented in a blog format here.</summary></entry><entry><title type="html">LightGCN</title><link href="https://teju85.github.io/blog/2020/06/09/lightgcn.html" rel="alternate" type="text/html" title="LightGCN" /><published>2020-06-09T00:00:00+05:30</published><updated>2020-06-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/09/lightgcn</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/09/lightgcn.html">&lt;h3 id=&quot;lightgcn---simplifying-and-powering-graph-convolutionnetwork-for-recommendation&quot;&gt;LightGCN - Simplifying and Powering Graph ConvolutionNetwork for Recommendation&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/2002.02126.pdf&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
 
 &lt;h4 id=&quot;proposal&quot;&gt;Proposal&lt;/h4&gt;
@@ -84,7 +51,52 @@ are setting them to be &lt;script type=&quot;math/tex&quot;&gt;\frac{1}{K+1}&lt;
 &lt;ol&gt;
   &lt;li&gt;&lt;a href=&quot;https://github.com/kuandeng/LightGCN&quot;&gt;here&lt;/a&gt; for TF&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://github.com/gusye1234/pytorch-light-gcn&quot;&gt;here&lt;/a&gt; for pytorch&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">LightGCN - Simplifying and Powering Graph ConvolutionNetwork for Recommendation Main paper can be found here</summary></entry><entry><title type="html">Spartan Discipline</title><link href="https://teju85.github.io/blog/2020/05/28/spartan-discipline.html" rel="alternate" type="text/html" title="Spartan Discipline" /><published>2020-05-28T00:00:00+05:30</published><updated>2020-05-28T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/05/28/spartan-discipline</id><content type="html" xml:base="https://teju85.github.io/blog/2020/05/28/spartan-discipline.html">&lt;h3 id=&quot;spartan-discipline&quot;&gt;Spartan Discipline&lt;/h3&gt;
+&lt;/ol&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">LightGCN - Simplifying and Powering Graph ConvolutionNetwork for Recommendation Main paper can be found here</summary></entry><entry><title type="html">Graph Convolutional Networks</title><link href="https://teju85.github.io/blog/2020/06/09/graph-convolutional-networks.html" rel="alternate" type="text/html" title="Graph Convolutional Networks" /><published>2020-06-09T00:00:00+05:30</published><updated>2020-06-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/09/graph-convolutional-networks</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/09/graph-convolutional-networks.html">&lt;h3 id=&quot;graph-convolutional-networks&quot;&gt;Graph Convolutional Networks&lt;/h3&gt;
+&lt;p&gt;Summary of the content of the blog found &lt;a href=&quot;https://tkipf.github.io/graph-convolutional-networks&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Inputs:
+    &lt;ul&gt;
+      &lt;li&gt;N = number of nodes&lt;/li&gt;
+      &lt;li&gt;D = dimensionality of input feature vector for each node&lt;/li&gt;
+      &lt;li&gt;A = adjacency matrix&lt;/li&gt;
+      &lt;li&gt;L = number of layers&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;L_i&lt;/script&gt; = output features at each layer&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;f_i&lt;/script&gt; = output activation at each layer&lt;/li&gt;
+      &lt;li&gt;X = feature matrix [dim = N x D]&lt;/li&gt;
+      &lt;li&gt;F = output feature vector dimension&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Weights
+    &lt;ul&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;W_i&lt;/script&gt; = weight matrix at each layer [dim = &lt;script type=&quot;math/tex&quot;&gt;L_{i-1}&lt;/script&gt; x &lt;script type=&quot;math/tex&quot;&gt;L_i&lt;/script&gt;], with &lt;script type=&quot;math/tex&quot;&gt;L_0&lt;/script&gt; = D&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Outputs:
+    &lt;ul&gt;
+      &lt;li&gt;Z = transformed feature vector for each node [dim = N x F]&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;L layers means that this network does “convolution” with neighbor nodes upto L hops from a given node&lt;/li&gt;
+  &lt;li&gt;A’ = A + I, in order introduce self-loops&lt;/li&gt;
+  &lt;li&gt;D = diagonal matrix of node degrees (very useful in normalizing the adjacency matrix)&lt;/li&gt;
+  &lt;li&gt;each layer’s operation = &lt;script type=&quot;math/tex&quot;&gt;f_i(D^{-0.5} A' D^{-0.5} X_i W_i)&lt;/script&gt;&lt;/li&gt;
+  &lt;li&gt;author’s show forward prop on this network is generalized, differentiable version of Weisfeiler-Lehman algo!&lt;/li&gt;
+  &lt;li&gt;code is on &lt;a href=&quot;https://github.com/tkipf/gcn&quot;&gt;github&lt;/a&gt;. Uses TF&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Graph Convolutional Networks Summary of the content of the blog found here.</summary></entry><entry><title type="html">Power of GCNs</title><link href="https://teju85.github.io/blog/2020/06/09/power-of-GCNs.html" rel="alternate" type="text/html" title="Power of GCNs" /><published>2020-06-09T00:00:00+05:30</published><updated>2020-06-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/09/power-of-GCNs</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/09/power-of-GCNs.html">&lt;h3 id=&quot;power-of-gcns&quot;&gt;Power of GCNs&lt;/h3&gt;
+&lt;p&gt;Summary of the content of the blog found &lt;a href=&quot;https://www.inference.vc/how-powerful-are-graph-convolutions-review-of-kipf-welling-2016-2/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Author seems to claim that due to 1st order approximation of Chebyshev polynomials
+as the convolution filter, their expressive power might not be good&lt;/li&gt;
+  &lt;li&gt;that’s because this approximation, when applied to the special case of regular
+graphs (2D images, eg), will lead to severely weak models&lt;/li&gt;
+  &lt;li&gt;But the &lt;a href=&quot;https://tkipf.github.io/graph-convolutional-networks&quot;&gt;main authors of the GCN&lt;/a&gt;
+paper also note that the Weisfeiler-Lehman algo also doesn’t converge on
+regular graphs!&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Power of GCNs Summary of the content of the blog found here.</summary></entry><entry><title type="html">Spartan Discipline</title><link href="https://teju85.github.io/blog/2020/05/28/spartan-discipline.html" rel="alternate" type="text/html" title="Spartan Discipline" /><published>2020-05-28T00:00:00+05:30</published><updated>2020-05-28T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/05/28/spartan-discipline</id><content type="html" xml:base="https://teju85.github.io/blog/2020/05/28/spartan-discipline.html">&lt;h3 id=&quot;spartan-discipline&quot;&gt;Spartan Discipline&lt;/h3&gt;
 &lt;p&gt;By Dominic Mann. This book can be found &lt;a href=&quot;https://www.amazon.com/Spartan-Discipline-Unbreakable-Toughness-Relentless/dp/1539143066&quot;&gt;here&lt;/a&gt;.
 Mann gives tips, tricks, suggestions and analogies from Spartan’s lifestyle
 to illustrate how to develop self-discipline and be productive in our lives.&lt;/p&gt;
@@ -871,27 +883,4 @@ needed dependencies in a stand-alone folder and thus does not need root access.&
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;bash ./rapids-setup installCuml&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;At the end, it prints a couple of environment variables to be set in your bash
-terminal. Execute them and you should now be ready to run tests and develop!&lt;/p&gt;</content><author><name></name></author><category term="cuda" /><category term="rapids" /><category term="cuml" /><summary type="html">Introduction This blog post is an attempt to simplify the process of setting up of an environment for cuML development. If your environment already has docker and you have access to building images and running containers using them, then the Dockerfile shipped with cuML repo is the easiest way to get started.</summary></entry><entry><title type="html">Teditor v1.6.0</title><link href="https://teju85.github.io/blog/2019/11/30/teditor.html" rel="alternate" type="text/html" title="Teditor v1.6.0" /><published>2019-11-30T00:00:00+05:30</published><updated>2019-11-30T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/11/30/teditor</id><content type="html" xml:base="https://teju85.github.io/blog/2019/11/30/teditor.html">&lt;h3 id=&quot;teditor-v160&quot;&gt;Teditor v1.6.0!&lt;/h3&gt;
-&lt;p&gt;Glad to announce the release of the next version of teditor: v1.6.0. It
-can be found &lt;a href=&quot;https://github.com/teju85/teditor/releases/tag/1.6.0&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;changelog&quot;&gt;Changelog&lt;/h3&gt;
-&lt;p&gt;Changes/features in this release:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;grep mode&lt;/li&gt;
-  &lt;li&gt;Support for working with remote files&lt;/li&gt;
-  &lt;li&gt;Simplified indent/unindent logic&lt;/li&gt;
-  &lt;li&gt;File history storage syntax update in light of remote file syntax&lt;/li&gt;
-  &lt;li&gt;Enabled keep-lines/remove-lines command and also their undo/redo&lt;/li&gt;
-  &lt;li&gt;Alert users about working on remote buffers&lt;/li&gt;
-  &lt;li&gt;Case insensitive searching via a rc option&lt;/li&gt;
-  &lt;li&gt;Various fixes to improve perf on remote buffers (eg: usage of DirCache)&lt;/li&gt;
-  &lt;li&gt;Various bug fixes and addition of utility methods&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;grep-mode&quot;&gt;grep mode&lt;/h3&gt;
-&lt;p&gt;This is similar to the grep mode in emacs. &lt;code class=&quot;highlighter-rouge&quot;&gt;M-x grep &amp;lt;enter&amp;gt;&lt;/code&gt; type the regex
-to search for and the file/dir where to search and then press enter. This should
-open a buffer with all grep results highlighted. From then onwards, pressing
-enter on each result of grep will take you to that file and line (similar to
-what happens in grep mode of emacs).&lt;/p&gt;</content><author><name></name></author><category term="teditor" /><summary type="html">Teditor v1.6.0! Glad to announce the release of the next version of teditor: v1.6.0. It can be found here.</summary></entry></feed>
+terminal. Execute them and you should now be ready to run tests and develop!&lt;/p&gt;</content><author><name></name></author><category term="cuda" /><category term="rapids" /><category term="cuml" /><summary type="html">Introduction This blog post is an attempt to simplify the process of setting up of an environment for cuML development. If your environment already has docker and you have access to building images and running containers using them, then the Dockerfile shipped with cuML repo is the easiest way to get started.</summary></entry></feed>
