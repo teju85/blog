@@ -36,7 +36,6 @@ _commit:
 	git add -A
 	git commit -m "$(COMMIT_MSG)"
 	git checkout $(SRC_BRANCH)
-	git push origin $(SRC_BRANCH) $(DST_BRANCH)
 
 serve:
 	jekyll serve -s $(SRC_DIR) -d $(SITE_DIR)
