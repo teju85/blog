@@ -10,17 +10,24 @@ DST_BRANCH = gh-pages
 
 default:
 	@echo "make what? Available targets are:"
-	@echo " . publish   - publish the built pages as well as original"
-	@echo "               changes to remote repo. Assumes that you are"
-	@echo "               inside the 'master' branch!"
+	@echo " . commit    - commit all the changes locally. Assumes that you"
+	@echo "               are inside the '$(SRC_BRANCH)' branch!"
+	@echo " . push      - push the changes to remote repo."
+	@echo " . publish   - commit and then push to remote repo"
 	@echo " . serve     - start the server to test changes locally. Assumes"
-	@echo "               that you are inside the 'master' branch!"
+	@echo "               that you are inside the '$(SRC_BRANCH)' branch!"
 
 publish:
-	@read -p "Enter commit message: " cmtMsg && \
-	    $(MAKE) COMMIT_MSG="$$cmtMsg" _publish
+	$(MAKE) commit push
 
-_publish:
+push:
+	git push origin $(SRC_BRANCH) $(DST_BRANCH)
+
+commit:
+	@read -p "Enter commit message: " cmtMsg && \
+	    $(MAKE) COMMIT_MSG="$$cmtMsg" _commit
+
+_commit:
 	jekyll build -s $(SRC_DIR) -d $(SITE_DIR)
 	git add -A
 	git commit -m "$(COMMIT_MSG)"

@@ -1,0 +1,20 @@
+---
+layout: post
+title: "PinSage"
+needmath: true
+tags: tech-notes paper-notes graph gnn
+---
+
+### PinSage - Graph Convolutional Neural Networks for Web-ScaleRecommender Systems
+Main paper can be found [here](https://arxiv.org/pdf/1806.01973.pdf) and a more
+digestable version is presented in a blog format [here](https://medium.com/pinterest-engineering/pinsage-a-new-graph-convolutional-neural-network-for-web-scale-recommender-systems-88795a107f48).
+
+#### Proposal
+A scalable random-walk GCN to learn embeddings on attribute graphs with billions
+of nodes. They demonstrate this on Pinterest's data with billions of nodes and
+tens of billions of edges. They also present an efficient way to do inferencing
+on the resulting model via MapReduce paradigm.
+
+#### Details
+Current GCNs expect the availability of full graph Laplacian during training.
+This is very infeasible for web-scale graphs with billions of nodes and edges.
