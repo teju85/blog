@@ -1,16 +1,121 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-10T16:10:30+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">PinSage</title><link href="https://teju85.github.io/blog/2020/06/10/pinsage.html" rel="alternate" type="text/html" title="PinSage" /><published>2020-06-10T00:00:00+05:30</published><updated>2020-06-10T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/10/pinsage</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/10/pinsage.html">&lt;h3 id=&quot;pinsage---graph-convolutional-neural-networks-for-web-scalerecommender-systems&quot;&gt;PinSage - Graph Convolutional Neural Networks for Web-ScaleRecommender Systems&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-11T12:19:45+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">PinSage</title><link href="https://teju85.github.io/blog/2020/06/10/pinsage.html" rel="alternate" type="text/html" title="PinSage" /><published>2020-06-10T00:00:00+05:30</published><updated>2020-06-10T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/10/pinsage</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/10/pinsage.html">&lt;h3 id=&quot;pinsage---graph-convolutional-neural-networks-for-web-scalerecommender-systems&quot;&gt;PinSage - Graph Convolutional Neural Networks for Web-ScaleRecommender Systems&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1806.01973.pdf&quot;&gt;here&lt;/a&gt; and a more
-digestable version is presented in a blog format &lt;a href=&quot;https://medium.com/pinterest-engineering/pinsage-a-new-graph-convolutional-neural-network-for-web-scale-recommender-systems-88795a107f48&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h4 id=&quot;proposal&quot;&gt;Proposal&lt;/h4&gt;
-&lt;p&gt;A scalable random-walk GCN to learn embeddings on attribute graphs with billions
+digestable version is presented in a blog format &lt;a href=&quot;https://medium.com/pinterest-engineering/pinsage-a-new-graph-convolutional-neural-network-for-web-scale-recommender-systems-88795a107f48&quot;&gt;here&lt;/a&gt;.
+A scalable random-walk GCN to learn embeddings on attribute graphs with billions
 of nodes. They demonstrate this on Pinterest’s data with billions of nodes and
 tens of billions of edges. They also present an efficient way to do inferencing
 on the resulting model via MapReduce paradigm.&lt;/p&gt;
 
+&lt;h4 id=&quot;proposal&quot;&gt;Proposal&lt;/h4&gt;
+&lt;p&gt;For improving scalability:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;on-the-fly convolutions: sampling the neighborhood to dynamically construct
+the computation graph&lt;/li&gt;
+  &lt;li&gt;producer-consumer minibatch construction: CPU producing minibatches via
+efficiently sampling the neighborhood GPU performs SGD.&lt;/li&gt;
+  &lt;li&gt;efficient MapReduce based inference
+For improving accuracy:&lt;/li&gt;
+  &lt;li&gt;constructing convs via random walks: sampling of neighbors is done via random
+walks on the graph. This also helps provide weightage during aggregation.&lt;/li&gt;
+  &lt;li&gt;importance pooling - same as above&lt;/li&gt;
+  &lt;li&gt;Curriculum training&lt;/li&gt;
+&lt;/ol&gt;
+
 &lt;h4 id=&quot;details&quot;&gt;Details&lt;/h4&gt;
 &lt;p&gt;Current GCNs expect the availability of full graph Laplacian during training.
-This is very infeasible for web-scale graphs with billions of nodes and edges.&lt;/p&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">PinSage - Graph Convolutional Neural Networks for Web-ScaleRecommender Systems Main paper can be found here and a more digestable version is presented in a blog format here.</summary></entry><entry><title type="html">LightGCN</title><link href="https://teju85.github.io/blog/2020/06/09/lightgcn.html" rel="alternate" type="text/html" title="LightGCN" /><published>2020-06-09T00:00:00+05:30</published><updated>2020-06-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/09/lightgcn</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/09/lightgcn.html">&lt;h3 id=&quot;lightgcn---simplifying-and-powering-graph-convolutionnetwork-for-recommendation&quot;&gt;LightGCN - Simplifying and Powering Graph ConvolutionNetwork for Recommendation&lt;/h3&gt;
+This is very infeasible for web-scale graphs with billions of nodes and edges.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Inputs&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;G = Graph in CSR representation&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;x_u&lt;/script&gt; = node features for each &lt;script type=&quot;math/tex&quot;&gt;u \epsilon G&lt;/script&gt;&lt;/li&gt;
+  &lt;li&gt;d = dimensionality of the features. This is also the dimensionality of the
+output of each layer.&lt;/li&gt;
+  &lt;li&gt;L = labelled pairs &lt;script type=&quot;math/tex&quot;&gt;(q, i)&lt;/script&gt;, where &lt;script type=&quot;math/tex&quot;&gt;i&lt;/script&gt; represents a good recommendation
+if the input query is &lt;script type=&quot;math/tex&quot;&gt;q&lt;/script&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Hyper-params&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;m = dimensionality of the output vector of the aggregation step. This is
+assumed to be the same value across all layers&lt;/li&gt;
+  &lt;li&gt;K = number of layers&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\Delta&lt;/script&gt; = max-margin used in the loss function&lt;/li&gt;
+  &lt;li&gt;B = batch size&lt;/li&gt;
+  &lt;li&gt;T = max number of neighbors to be sampled for any node&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Model&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;Q^k&lt;/script&gt; = neighborhood feature transformation matrix for &lt;script type=&quot;math/tex&quot;&gt;convolve_k&lt;/script&gt; at kth
+layer of the network. Dim = m x d&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;q^k&lt;/script&gt; = bias vector for this operation at kth layer. Length = m&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;W^k&lt;/script&gt; = feature transformation matrix after aggregation at kth layer.
+Dim = d x (d + m)&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;w^k&lt;/script&gt; = bias vector for this operation at kth layer. Length = d&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;G_1&lt;/script&gt; = 1st feature transformation matrix at final layer. Dim = d x d&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;g&lt;/script&gt; = bias vector for this operation. Length = d&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;G_2&lt;/script&gt; = 2nd feature transformation at final layer. Dim = d x d&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Local convolutions algorithm at kth layer&lt;/strong&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;n_u = \gamma(relu(Q^k h_v^k + q^k), \alpha) | v \epsilon N(u)&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;m_u = concat(h_u^k, n_u)&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;h_u^{k+1} = relu(W^k m_u + w^k)&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;h_u^{k+1} = \frac{h_u^{k+1}}{||h_u^{k+1}||_2}&lt;/script&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\alpha&lt;/script&gt; = set of neighbor weights computed based on random-walk. These are
+computed as &lt;script type=&quot;math/tex&quot;&gt;L_1&lt;/script&gt; norm of visit counts of each node during random-walk.&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\gamma&lt;/script&gt; = aggregation function. Assumed to be weighted-mean&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;N(u)&lt;/script&gt; = sampled neighborhood for node u&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;minibatch preparation&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Happens on CPU for the next batch while current batch is running on GPU. Uses
+openmp for parallelization.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Model propagation&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Compute the neighbors for each layer starting from the topmost K-th layer&lt;/li&gt;
+  &lt;li&gt;Compute the K-layers of convolve operation&lt;/li&gt;
+  &lt;li&gt;Finally apply &lt;script type=&quot;math/tex&quot;&gt;G_1&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;G_2&lt;/script&gt; transformations&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Loss function&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Max-margin ranking loss. Dot product of the embeddings of negative samples is
+atleast &lt;script type=&quot;math/tex&quot;&gt;\Delta&lt;/script&gt; distance lesser than that of &lt;script type=&quot;math/tex&quot;&gt;(q, i)&lt;/script&gt;. In other words:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;loss(q, i) = max(0, z_q . z_{n_k} - z_q . z_i + \Delta)&lt;/script&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;n_k&lt;/script&gt; = negative sample for query &lt;script type=&quot;math/tex&quot;&gt;q&lt;/script&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;training&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Multi-GPU training. Each GPU gets equal amount from the minibatch. Standard
+synchronous SGD is used with the following learning rate policy:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;At first epoch, learning rate is linearly increased from a small value to the
+peak value.&lt;/li&gt;
+  &lt;li&gt;At subsequent epochs, learning rate is exponentially decayed.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;strong&gt;negative sampling&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Each positive training example &lt;script type=&quot;math/tex&quot;&gt;(q, i)&lt;/script&gt; contains multiple “hard” negative
+samples too. These hard negative samples are generated via personalized
+pagerank scores. To reduce the number of epochs, curriculum training is being
+used. At n-th epoch, n - 1 hard negative samples are added for each positive
+training sample.&lt;/p&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">PinSage - Graph Convolutional Neural Networks for Web-ScaleRecommender Systems Main paper can be found here and a more digestable version is presented in a blog format here. A scalable random-walk GCN to learn embeddings on attribute graphs with billions of nodes. They demonstrate this on Pinterest’s data with billions of nodes and tens of billions of edges. They also present an efficient way to do inferencing on the resulting model via MapReduce paradigm.</summary></entry><entry><title type="html">LightGCN</title><link href="https://teju85.github.io/blog/2020/06/09/lightgcn.html" rel="alternate" type="text/html" title="LightGCN" /><published>2020-06-09T00:00:00+05:30</published><updated>2020-06-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/09/lightgcn</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/09/lightgcn.html">&lt;h3 id=&quot;lightgcn---simplifying-and-powering-graph-convolutionnetwork-for-recommendation&quot;&gt;LightGCN - Simplifying and Powering Graph ConvolutionNetwork for Recommendation&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/2002.02126.pdf&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
 
 &lt;h4 id=&quot;proposal&quot;&gt;Proposal&lt;/h4&gt;
