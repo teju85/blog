@@ -8,13 +8,102 @@ tags: tech-notes paper-notes graph gnn
 ### PinSage - Graph Convolutional Neural Networks for Web-ScaleRecommender Systems
 Main paper can be found [here](https://arxiv.org/pdf/1806.01973.pdf) and a more
 digestable version is presented in a blog format [here](https://medium.com/pinterest-engineering/pinsage-a-new-graph-convolutional-neural-network-for-web-scale-recommender-systems-88795a107f48).
-
-#### Proposal
 A scalable random-walk GCN to learn embeddings on attribute graphs with billions
 of nodes. They demonstrate this on Pinterest's data with billions of nodes and
 tens of billions of edges. They also present an efficient way to do inferencing
 on the resulting model via MapReduce paradigm.
 
+#### Proposal
+For improving scalability:
+1. on-the-fly convolutions: sampling the neighborhood to dynamically construct
+   the computation graph
+2. producer-consumer minibatch construction: CPU producing minibatches via
+   efficiently sampling the neighborhood GPU performs SGD.
+3. efficient MapReduce based inference
+For improving accuracy:
+1. constructing convs via random walks: sampling of neighbors is done via random
+   walks on the graph. This also helps provide weightage during aggregation.
+2. importance pooling - same as above
+3. Curriculum training
+
 #### Details
 Current GCNs expect the availability of full graph Laplacian during training.
 This is very infeasible for web-scale graphs with billions of nodes and edges.
+
+__Inputs__
+* G = Graph in CSR representation
+* $$x_u$$ = node features for each $$u \epsilon G$$
+* d = dimensionality of the features. This is also the dimensionality of the
+  output of each layer.
+* L = labelled pairs $$(q, i)$$, where $$i$$ represents a good recommendation
+  if the input query is $$q$$
+
+__Hyper-params__
+* m = dimensionality of the output vector of the aggregation step. This is
+  assumed to be the same value across all layers
+* K = number of layers
+* $$\Delta$$ = max-margin used in the loss function
+* B = batch size
+* T = max number of neighbors to be sampled for any node
+
+__Model__
+* $$Q^k$$ = neighborhood feature transformation matrix for $$convolve_k$$ at kth
+  layer of the network. Dim = m x d
+* $$q^k$$ = bias vector for this operation at kth layer. Length = m
+* $$W^k$$ = feature transformation matrix after aggregation at kth layer.
+  Dim = d x (d + m)
+* $$w^k$$ = bias vector for this operation at kth layer. Length = d
+* $$G_1$$ = 1st feature transformation matrix at final layer. Dim = d x d
+* $$g$$ = bias vector for this operation. Length = d
+* $$G_2$$ = 2nd feature transformation at final layer. Dim = d x d
+
+__Local convolutions algorithm at kth layer__
+
+$$n_u = \gamma(relu(Q^k h_v^k + q^k), \alpha) | v \epsilon N(u)$$
+
+$$m_u = concat(h_u^k, n_u)$$
+
+$$h_u^{k+1} = relu(W^k m_u + w^k)$$
+
+$$h_u^{k+1} = \frac{h_u^{k+1}}{||h_u^{k+1}||_2}$$
+
+* $$\alpha$$ = set of neighbor weights computed based on random-walk. These are
+  computed as $$L_1$$ norm of visit counts of each node during random-walk.
+* $$\gamma$$ = aggregation function. Assumed to be weighted-mean
+* $$N(u)$$ = sampled neighborhood for node u
+
+__minibatch preparation__
+
+Happens on CPU for the next batch while current batch is running on GPU. Uses
+openmp for parallelization.
+
+__Model propagation__
+
+* Compute the neighbors for each layer starting from the topmost K-th layer
+* Compute the K-layers of convolve operation
+* Finally apply $$G_1$$ and $$G_2$$ transformations
+
+__Loss function__
+
+Max-margin ranking loss. Dot product of the embeddings of negative samples is
+atleast $$\Delta$$ distance lesser than that of $$(q, i)$$. In other words:
+
+$$ loss(q, i) = max(0, z_q . z_{n_k} - z_q . z_i + \Delta)$$
+
+* $$n_k$$ = negative sample for query $$q$$
+
+__training__
+
+Multi-GPU training. Each GPU gets equal amount from the minibatch. Standard
+synchronous SGD is used with the following learning rate policy:
+1. At first epoch, learning rate is linearly increased from a small value to the
+   peak value.
+2. At subsequent epochs, learning rate is exponentially decayed.
+
+__negative sampling__
+
+Each positive training example $$(q, i)$$ contains multiple "hard" negative
+samples too. These hard negative samples are generated via personalized
+pagerank scores. To reduce the number of epochs, curriculum training is being
+used. At n-th epoch, n - 1 hard negative samples are added for each positive
+training sample.
