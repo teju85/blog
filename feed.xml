@@ -1,4 +1,91 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-11T12:19:45+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">PinSage</title><link href="https://teju85.github.io/blog/2020/06/10/pinsage.html" rel="alternate" type="text/html" title="PinSage" /><published>2020-06-10T00:00:00+05:30</published><updated>2020-06-10T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/10/pinsage</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/10/pinsage.html">&lt;h3 id=&quot;pinsage---graph-convolutional-neural-networks-for-web-scalerecommender-systems&quot;&gt;PinSage - Graph Convolutional Neural Networks for Web-ScaleRecommender Systems&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-12T11:38:28+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Pixie</title><link href="https://teju85.github.io/blog/2020/06/12/pixie.html" rel="alternate" type="text/html" title="Pixie" /><published>2020-06-12T00:00:00+05:30</published><updated>2020-06-12T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/12/pixie</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/12/pixie.html">&lt;h3 id=&quot;pixie-a-system-for-recommending-3-billion-items-to200-million-users-in-real-time&quot;&gt;Pixie: A System for Recommending 3+ Billion Items to200+ Million Users in Real-Time&lt;/h3&gt;
+&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1711.07601.pdf&quot;&gt;here&lt;/a&gt; and a more
+digestable version is presented in a blog format &lt;a href=&quot;https://medium.com/pinterest-engineering/introducing-pixie-an-advanced-graph-based-recommendation-system-e7b4229b664b&quot;&gt;here&lt;/a&gt;
+and &lt;a href=&quot;https://medium.com/pinterest-engineering/an-update-on-pixie-pinterests-recommendation-system-6f273f737e1b&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;proposal&quot;&gt;Proposal&lt;/h4&gt;
+&lt;p&gt;Provide real-time recommendations to the users via:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Pixie random walk algorithm to generate recommendations whose runtime is
+constant wrt the size of the input graph.&lt;/li&gt;
+  &lt;li&gt;description of the implementation (in production) based on C++ on top of
+&lt;a href=&quot;http://snap.stanford.edu/&quot;&gt;SNAP&lt;/a&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;details&quot;&gt;Details&lt;/h4&gt;
+&lt;p&gt;Input to this system is a query set &lt;script type=&quot;math/tex&quot;&gt;Q = {(q, w_q)}&lt;/script&gt;, which is a collection of
+pins with associated weights to represent its importance in current query set.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Pixie random walk&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;em&gt;Biased walks&lt;/em&gt;: walks are biased for a query set &lt;script type=&quot;math/tex&quot;&gt;Q&lt;/script&gt; based on the user. This
+helps provide personalized recommendations.&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;multiple query pins with weights&lt;/em&gt;: weights to the input query pins are
+assigned based on the time since the user interacted with this pin and the
+interaction type.&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;sample walk length&lt;/em&gt;: helps provide enough walks for pins with lower degree
+but also reduces runtime cost for pins with higher degree.&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;multi-hit booster&lt;/em&gt;: weightage given to the candidate pins which have high
+visit counts for all the pins in the &lt;script type=&quot;math/tex&quot;&gt;Q&lt;/script&gt;. &lt;script type=&quot;math/tex&quot;&gt;V[p] = (\sum_{q \epsilon Q}\sqrt{V_q[p]})^2&lt;/script&gt;
+where &lt;script type=&quot;math/tex&quot;&gt;V_q&lt;/script&gt; is visit count for the query &lt;script type=&quot;math/tex&quot;&gt;q \epsilon Q&lt;/script&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;early stopping&lt;/em&gt;: stop the random walk when the top visited candidates have
+crossed certain threshold.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Computation of walk length for a given pin is as follows:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;s_q = \|E(q)\|.(C - log\|E(q)\|)&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Nq = N w_q \frac{s_q}{\sum_{r \epsilon Q} s_r}&lt;/script&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;Nq&lt;/script&gt; = walk length for random walk starting from pin q&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\|E(q)\|&lt;/script&gt; = degree of pin q&lt;/li&gt;
+  &lt;li&gt;C = max degree of all pins&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Algorithm for a single query is as follows:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PixieRandomWalk(q, E, U, alpha, Nq, nv, np):
+  totSteps = nHighVisited = 0
+  V = {0}
+  do
+    currPin = q
+    currSteps = SampleWalkLength(alpha)
+    for i in range(currSteps):
+      currBoard = E(currPin)[PersonalizedNeighbor(E, U)]
+      currPin = E(currBoard)[PersonalizedNeighbor(E, U)]
+      V[currPin]++
+      if V[currPin] == nv:
+        nHighVisited++
+    totSteps += currSteps
+  while totSteps &amp;lt; Nq and nHighVisited &amp;lt; np
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;q = query pin&lt;/li&gt;
+  &lt;li&gt;E = edges in the graph&lt;/li&gt;
+  &lt;li&gt;U = user features&lt;/li&gt;
+  &lt;li&gt;alpha = helps determine the number of steps per random walk&lt;/li&gt;
+  &lt;li&gt;PersonalizedNeighbor(E, U) = randomized method to return neighbors, but
+edges being weighted by user features&lt;/li&gt;
+  &lt;li&gt;Nq = total number of steps taken in the random walk&lt;/li&gt;
+  &lt;li&gt;nv and np = used for early stopping. the random walk is terminated when there
+are np number of pins that have been visited atleast nv number of times&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;graph pruning&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Prunes the graph to fit in RAM and thus do not have to distribute it.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Removes duplicate pins&lt;/li&gt;
+  &lt;li&gt;Removes pins assigned to incorrect boards&lt;/li&gt;
+  &lt;li&gt;Removes boards with larger entropy: computes LDA on each pin description and
+computes entropy for a board by combining LDA vectors from all pins associated
+with this board.&lt;/li&gt;
+  &lt;li&gt;Prune the degree (or remove) pins with abnormally high degree: only keep the
+edges with highest cosine similarity. Threshold is determined by the pruning
+factor &lt;script type=&quot;math/tex&quot;&gt;\delta&lt;/script&gt;.&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><summary type="html">Pixie: A System for Recommending 3+ Billion Items to200+ Million Users in Real-Time Main paper can be found here and a more digestable version is presented in a blog format here and here.</summary></entry><entry><title type="html">PinSage</title><link href="https://teju85.github.io/blog/2020/06/10/pinsage.html" rel="alternate" type="text/html" title="PinSage" /><published>2020-06-10T00:00:00+05:30</published><updated>2020-06-10T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/10/pinsage</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/10/pinsage.html">&lt;h3 id=&quot;pinsage---graph-convolutional-neural-networks-for-web-scalerecommender-systems&quot;&gt;PinSage - Graph Convolutional Neural Networks for Web-ScaleRecommender Systems&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1806.01973.pdf&quot;&gt;here&lt;/a&gt; and a more
 digestable version is presented in a blog format &lt;a href=&quot;https://medium.com/pinterest-engineering/pinsage-a-new-graph-convolutional-neural-network-for-web-scale-recommender-systems-88795a107f48&quot;&gt;here&lt;/a&gt;.
 A scalable random-walk GCN to learn embeddings on attribute graphs with billions
@@ -115,7 +202,19 @@ peak value.&lt;/li&gt;
 samples too. These hard negative samples are generated via personalized
 pagerank scores. To reduce the number of epochs, curriculum training is being
 used. At n-th epoch, n - 1 hard negative samples are added for each positive
-training sample.&lt;/p&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">PinSage - Graph Convolutional Neural Networks for Web-ScaleRecommender Systems Main paper can be found here and a more digestable version is presented in a blog format here. A scalable random-walk GCN to learn embeddings on attribute graphs with billions of nodes. They demonstrate this on Pinterest’s data with billions of nodes and tens of billions of edges. They also present an efficient way to do inferencing on the resulting model via MapReduce paradigm.</summary></entry><entry><title type="html">LightGCN</title><link href="https://teju85.github.io/blog/2020/06/09/lightgcn.html" rel="alternate" type="text/html" title="LightGCN" /><published>2020-06-09T00:00:00+05:30</published><updated>2020-06-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/09/lightgcn</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/09/lightgcn.html">&lt;h3 id=&quot;lightgcn---simplifying-and-powering-graph-convolutionnetwork-for-recommendation&quot;&gt;LightGCN - Simplifying and Powering Graph ConvolutionNetwork for Recommendation&lt;/h3&gt;
+training sample.&lt;/p&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">PinSage - Graph Convolutional Neural Networks for Web-ScaleRecommender Systems Main paper can be found here and a more digestable version is presented in a blog format here. A scalable random-walk GCN to learn embeddings on attribute graphs with billions of nodes. They demonstrate this on Pinterest’s data with billions of nodes and tens of billions of edges. They also present an efficient way to do inferencing on the resulting model via MapReduce paradigm.</summary></entry><entry><title type="html">Power of GCNs</title><link href="https://teju85.github.io/blog/2020/06/09/power-of-GCNs.html" rel="alternate" type="text/html" title="Power of GCNs" /><published>2020-06-09T00:00:00+05:30</published><updated>2020-06-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/09/power-of-GCNs</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/09/power-of-GCNs.html">&lt;h3 id=&quot;power-of-gcns&quot;&gt;Power of GCNs&lt;/h3&gt;
+&lt;p&gt;Summary of the content of the blog found &lt;a href=&quot;https://www.inference.vc/how-powerful-are-graph-convolutions-review-of-kipf-welling-2016-2/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Author seems to claim that due to 1st order approximation of Chebyshev polynomials
+as the convolution filter, their expressive power might not be good&lt;/li&gt;
+  &lt;li&gt;that’s because this approximation, when applied to the special case of regular
+graphs (2D images, eg), will lead to severely weak models&lt;/li&gt;
+  &lt;li&gt;But the &lt;a href=&quot;https://tkipf.github.io/graph-convolutional-networks&quot;&gt;main authors of the GCN&lt;/a&gt;
+paper also note that the Weisfeiler-Lehman algo also doesn’t converge on
+regular graphs!&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Power of GCNs Summary of the content of the blog found here.</summary></entry><entry><title type="html">LightGCN</title><link href="https://teju85.github.io/blog/2020/06/09/lightgcn.html" rel="alternate" type="text/html" title="LightGCN" /><published>2020-06-09T00:00:00+05:30</published><updated>2020-06-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/09/lightgcn</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/09/lightgcn.html">&lt;h3 id=&quot;lightgcn---simplifying-and-powering-graph-convolutionnetwork-for-recommendation&quot;&gt;LightGCN - Simplifying and Powering Graph ConvolutionNetwork for Recommendation&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/2002.02126.pdf&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
 
 &lt;h4 id=&quot;proposal&quot;&gt;Proposal&lt;/h4&gt;
@@ -189,19 +288,7 @@ are setting them to be &lt;script type=&quot;math/tex&quot;&gt;\frac{1}{K+1}&lt;
   &lt;li&gt;each layer’s operation = &lt;script type=&quot;math/tex&quot;&gt;f_i(D^{-0.5} A' D^{-0.5} X_i W_i)&lt;/script&gt;&lt;/li&gt;
   &lt;li&gt;author’s show forward prop on this network is generalized, differentiable version of Weisfeiler-Lehman algo!&lt;/li&gt;
   &lt;li&gt;code is on &lt;a href=&quot;https://github.com/tkipf/gcn&quot;&gt;github&lt;/a&gt;. Uses TF&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Graph Convolutional Networks Summary of the content of the blog found here.</summary></entry><entry><title type="html">Power of GCNs</title><link href="https://teju85.github.io/blog/2020/06/09/power-of-GCNs.html" rel="alternate" type="text/html" title="Power of GCNs" /><published>2020-06-09T00:00:00+05:30</published><updated>2020-06-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/09/power-of-GCNs</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/09/power-of-GCNs.html">&lt;h3 id=&quot;power-of-gcns&quot;&gt;Power of GCNs&lt;/h3&gt;
-&lt;p&gt;Summary of the content of the blog found &lt;a href=&quot;https://www.inference.vc/how-powerful-are-graph-convolutions-review-of-kipf-welling-2016-2/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Author seems to claim that due to 1st order approximation of Chebyshev polynomials
-as the convolution filter, their expressive power might not be good&lt;/li&gt;
-  &lt;li&gt;that’s because this approximation, when applied to the special case of regular
-graphs (2D images, eg), will lead to severely weak models&lt;/li&gt;
-  &lt;li&gt;But the &lt;a href=&quot;https://tkipf.github.io/graph-convolutional-networks&quot;&gt;main authors of the GCN&lt;/a&gt;
-paper also note that the Weisfeiler-Lehman algo also doesn’t converge on
-regular graphs!&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Power of GCNs Summary of the content of the blog found here.</summary></entry><entry><title type="html">Spartan Discipline</title><link href="https://teju85.github.io/blog/2020/05/28/spartan-discipline.html" rel="alternate" type="text/html" title="Spartan Discipline" /><published>2020-05-28T00:00:00+05:30</published><updated>2020-05-28T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/05/28/spartan-discipline</id><content type="html" xml:base="https://teju85.github.io/blog/2020/05/28/spartan-discipline.html">&lt;h3 id=&quot;spartan-discipline&quot;&gt;Spartan Discipline&lt;/h3&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Graph Convolutional Networks Summary of the content of the blog found here.</summary></entry><entry><title type="html">Spartan Discipline</title><link href="https://teju85.github.io/blog/2020/05/28/spartan-discipline.html" rel="alternate" type="text/html" title="Spartan Discipline" /><published>2020-05-28T00:00:00+05:30</published><updated>2020-05-28T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/05/28/spartan-discipline</id><content type="html" xml:base="https://teju85.github.io/blog/2020/05/28/spartan-discipline.html">&lt;h3 id=&quot;spartan-discipline&quot;&gt;Spartan Discipline&lt;/h3&gt;
 &lt;p&gt;By Dominic Mann. This book can be found &lt;a href=&quot;https://www.amazon.com/Spartan-Discipline-Unbreakable-Toughness-Relentless/dp/1539143066&quot;&gt;here&lt;/a&gt;.
 Mann gives tips, tricks, suggestions and analogies from Spartan’s lifestyle
 to illustrate how to develop self-discipline and be productive in our lives.&lt;/p&gt;
@@ -966,26 +1053,4 @@ ones for the job.&lt;/p&gt;
   &lt;li&gt;“The greatest obstacle to knowledge is not ignorance. It is the illusion of knowledge”&lt;/li&gt;
   &lt;li&gt;“We all see the world with the prism of our expertise”&lt;/li&gt;
   &lt;li&gt;“In pursuit of knowledge, everyday something is acquired. In the pursuit of wisdom, everyday something is dropped”&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><category term="psychology" /><summary type="html">Introduction This is my notes after watching Dr. Sean Brady’s Keynote talk at LCA-2020. The full recorded video can be found here.</summary></entry><entry><title type="html">RAPIDS ML dev setup</title><link href="https://teju85.github.io/blog/2019/12/18/rapids-ml-dev-setup.html" rel="alternate" type="text/html" title="RAPIDS ML dev setup" /><published>2019-12-18T00:00:00+05:30</published><updated>2019-12-18T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2019/12/18/rapids-ml-dev-setup</id><content type="html" xml:base="https://teju85.github.io/blog/2019/12/18/rapids-ml-dev-setup.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
-&lt;p&gt;This blog post is an attempt to simplify the process of setting up of an
-environment for &lt;a href=&quot;https://github.com/rapidsai/cuml&quot;&gt;cuML&lt;/a&gt; development. If your
-environment already has docker and you have access to building images and
-running containers using them, then the Dockerfile shipped with cuML repo is the
-easiest way to get started.&lt;/p&gt;
-
-&lt;h3 id=&quot;pre-reqs&quot;&gt;Pre-reqs&lt;/h3&gt;
-&lt;ol&gt;
-  &lt;li&gt;Install the &lt;a href=&quot;https://developer.nvidia.com/cuda-downloads&quot;&gt;cuda toolkit&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Download the bash script from the github gist &lt;a href=&quot;https://gist.github.com/teju85/51ff12886f5ae9967a4cab6fd0376953&quot;&gt;here&lt;/a&gt; and save it as &lt;code class=&quot;highlighter-rouge&quot;&gt;rapids-setup&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;~10-15GB of free disk-space.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;instructions&quot;&gt;Instructions&lt;/h3&gt;
-&lt;p&gt;Run the bash script to install cuML and its dependencies. Recommended approach
-is to use &lt;a href=&quot;https://www.anaconda.com/&quot;&gt;anaconda&lt;/a&gt;. This script installs all the
-needed dependencies in a stand-alone folder and thus does not need root access.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;bash ./rapids-setup installCuml&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;At the end, it prints a couple of environment variables to be set in your bash
-terminal. Execute them and you should now be ready to run tests and develop!&lt;/p&gt;</content><author><name></name></author><category term="cuda" /><category term="rapids" /><category term="cuml" /><summary type="html">Introduction This blog post is an attempt to simplify the process of setting up of an environment for cuML development. If your environment already has docker and you have access to building images and running containers using them, then the Dockerfile shipped with cuML repo is the easiest way to get started.</summary></entry></feed>
+&lt;/ol&gt;</content><author><name></name></author><category term="psychology" /><summary type="html">Introduction This is my notes after watching Dr. Sean Brady’s Keynote talk at LCA-2020. The full recorded video can be found here.</summary></entry></feed>
