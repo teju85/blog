@@ -1,0 +1,33 @@
+---
+layout: post
+title: "EMD - A Metric for distributions with applications to image databases"
+needmath: true
+tags: tech-notes paper-notes
+---
+
+### EMD - A Metric for distributions with applications to image databases
+Summary of the article found [here](https://users.cs.duke.edu/~tomasi/papers/rubner/rubnerIccv98.pdf).
+
+- proposes a distance metric - EMD - Earth Mover's Distance
+- instead of fixed size bins (aka histograms), they propose generic versions
+  called signatures
+  - a signature is a tuple - $$(m_j, w_j)$$
+  - $$m_j$$ = mean value of the cluster center
+  - $$w_j$$ = weight of (or number of points in) the cluster
+- then, EMD is defined as a solution to the flow problem:
+  - $$\sum_i \sum_j c_{ij} * f_{ij}$$
+  - $$c_{ij}$$ = distance between 2 signatures i and j
+  - $$f_{ij}$$ = flow from source signature distribution to the destination
+  - $$f_{ij}$$ >= 0
+  - $$\sum_i f_{ij} = y_j$$
+  - $$\sum_j f_{ij} \leq x_i$$
+- if $$\sum_j y_j != \sum_i x_i$$, choose the one with higher summation to be
+  the source distribution
+- $$EMD(x,y) = \frac{\sum_i \sum_j c_{ij} * f_{ij}}{\sum_i \sum_j f_{ij}}$$
+- OR $$EMD(x,y) = \frac{\sum_i \sum_j c_{ij} * f_{ij}}{\sum_j y_j}$$
+- if weights of 2 distributions and their signature counts are same, then this
+  is a true metric
+- but by nature of above equations, it can allow partial matches
+- finally, solving this is a special case of transportation problem
+  - where the graph is bipartite
+  - this is being solved using the simplex method
