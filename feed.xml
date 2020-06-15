@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-15T17:19:13+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">A comprehensive survey on Graph Neural Networks</title><link href="https://teju85.github.io/blog/2020/06/14/survey-of-gnns.html" rel="alternate" type="text/html" title="A comprehensive survey on Graph Neural Networks" /><published>2020-06-14T00:00:00+05:30</published><updated>2020-06-14T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/14/survey-of-gnns</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/14/survey-of-gnns.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-15T23:42:10+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">A comprehensive survey on Graph Neural Networks</title><link href="https://teju85.github.io/blog/2020/06/14/survey-of-gnns.html" rel="alternate" type="text/html" title="A comprehensive survey on Graph Neural Networks" /><published>2020-06-14T00:00:00+05:30</published><updated>2020-06-14T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/14/survey-of-gnns</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/14/survey-of-gnns.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
 &lt;p&gt;Main survey paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1901.00596.pdf&quot;&gt;here&lt;/a&gt;.
 Divides GNNs into the following top-level four categories:&lt;/p&gt;
 &lt;ol&gt;
@@ -84,6 +84,32 @@ ChebNet at first-order and simplifying learnable parameters.&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h4 id=&quot;spatial-based&quot;&gt;spatial based&lt;/h4&gt;
+&lt;p&gt;All these methods aggregate neighbor information in some form and propagate this
+to the current node. Multiple such layers are stacked upon each other to
+increase the neighborhood definition.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Neural Network for Graphs: Somewhat resembles GCN.
+&lt;script type=&quot;math/tex&quot;&gt;H^{(k)} = f(X W^{(k)} + \sum_{i=1}^{k - 1} A H^{(k-1)} \Theta^{(k)})&lt;/script&gt;&lt;/li&gt;
+  &lt;li&gt;Diffusion CNNs: &lt;script type=&quot;math/tex&quot;&gt;H^{(k)} = f(W^{(k)} \odot P^k X)&lt;/script&gt;&lt;/li&gt;
+  &lt;li&gt;Diffusion Graph Convolution: &lt;script type=&quot;math/tex&quot;&gt;H = \sum_{k=0}^K f(p^k X W^{(k)})&lt;/script&gt;&lt;/li&gt;
+  &lt;li&gt;Message Passing NN&lt;/li&gt;
+  &lt;li&gt;GraphSage: samples the neighbors in order to avoid needing full-batch&lt;/li&gt;
+  &lt;li&gt;fast-GCN: samples a fixed number of nodes instead of neighbors&lt;/li&gt;
+  &lt;li&gt;Graph Attention Network
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_v^{(k)} = \sigma(\sum_{u \epsilon N(v) \cup v} \alpha_{vu}^{(k)} W^{(k)} h_u^{(k-1)})&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_v^{(0)} = x_v&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;\alpha_{vu}^{(k)} = softmax(leakyReLU(a^T [W^{(k)}h_v^{(k-1)} || W^{(k)}h_u^{(k-1)}]))&lt;/script&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h4 id=&quot;spectral-vs-spatial&quot;&gt;spectral vs spatial&lt;/h4&gt;
 &lt;ul&gt;
@@ -94,14 +120,30 @@ ChebNet at first-order and simplifying learnable parameters.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h4 id=&quot;graph-pooling-modules&quot;&gt;graph pooling modules&lt;/h4&gt;
+&lt;p&gt;coarsen the graph representation to reduce computationaly complexity for graph
+classification and such other tasks next in the pipeline. Popular approach is to
+use mean/max/sum based pooling functions:
+&lt;script type=&quot;math/tex&quot;&gt;h_G = poolFunction(h_1^{(K)}, h_2^{(K)}, ..., h_n^{(K)})&lt;/script&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;graph-autoencoders&quot;&gt;Graph autoencoders&lt;/h3&gt;
 
 &lt;h4 id=&quot;network-embedding&quot;&gt;network embedding&lt;/h4&gt;
+&lt;p&gt;Low dimensional representation of nodes which preserves the topological info.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Graph AutoEncoder: uses GCN in encoder phase and decoder phase tries to
+reconstruct the adjacency matrix based on the generated embedding&lt;/li&gt;
+  &lt;li&gt;Variational GAE: Variational version of the above, using KL divergence as the
+metric&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h4 id=&quot;graph-generation&quot;&gt;graph generation&lt;/h4&gt;
+&lt;p&gt;Beneficial in solving molecular graph generation problem. There are methods
+which try to generate graphs globally or sequentially.&lt;/p&gt;
 
 &lt;h3 id=&quot;spatio-temporal-gnns&quot;&gt;spatio-temporal GNNs&lt;/h3&gt;
+&lt;p&gt;Capture both spatial and temporal dependencies together. eg: traffic speed
+forecasting. Most simple way is to feed the output of convGNNs into recurrent
+layer like RNNs/LSTMs.&lt;/p&gt;
 
 &lt;h3 id=&quot;future-directions&quot;&gt;future directions&lt;/h3&gt;
 &lt;ol&gt;
