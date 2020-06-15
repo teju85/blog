@@ -73,6 +73,21 @@ Some methods are:
    ChebNet at first-order and simplifying learnable parameters.
 
 #### spatial based
+All these methods aggregate neighbor information in some form and propagate this
+to the current node. Multiple such layers are stacked upon each other to
+increase the neighborhood definition.
+
+* Neural Network for Graphs: Somewhat resembles GCN.
+  $$H^{(k)} = f(X W^{(k)} + \sum_{i=1}^{k - 1} A H^{(k-1)} \Theta^{(k)})$$
+* Diffusion CNNs: $$H^{(k)} = f(W^{(k)} \odot P^k X)$$
+* Diffusion Graph Convolution: $$H = \sum_{k=0}^K f(p^k X W^{(k)})$$
+* Message Passing NN
+* GraphSage: samples the neighbors in order to avoid needing full-batch
+* fast-GCN: samples a fixed number of nodes instead of neighbors
+* Graph Attention Network
+  - $$h_v^{(k)} = \sigma(\sum_{u \epsilon N(v) \cup v} \alpha_{vu}^{(k)} W^{(k)} h_u^{(k-1)})$$
+  - $$h_v^{(0)} = x_v$$
+  - $$\alpha_{vu}^{(k)} = softmax(leakyReLU(a^T [W^{(k)}h_v^{(k-1)} || W^{(k)}h_u^{(k-1)}]))$$
 
 #### spectral vs spatial
 - spectral methods have theoretical framework
@@ -81,14 +96,28 @@ Some methods are:
 - spectral methods only work with undirected graphs
 
 #### graph pooling modules
+coarsen the graph representation to reduce computationaly complexity for graph
+classification and such other tasks next in the pipeline. Popular approach is to
+use mean/max/sum based pooling functions:
+$$h_G = poolFunction(h_1^{(K)}, h_2^{(K)}, ..., h_n^{(K)})$$
 
 ### Graph autoencoders
 
 #### network embedding
+Low dimensional representation of nodes which preserves the topological info.
+* Graph AutoEncoder: uses GCN in encoder phase and decoder phase tries to
+  reconstruct the adjacency matrix based on the generated embedding
+* Variational GAE: Variational version of the above, using KL divergence as the
+  metric
 
 #### graph generation
+Beneficial in solving molecular graph generation problem. There are methods
+which try to generate graphs globally or sequentially.
 
 ### spatio-temporal GNNs
+Capture both spatial and temporal dependencies together. eg: traffic speed
+forecasting. Most simple way is to feed the output of convGNNs into recurrent
+layer like RNNs/LSTMs.
 
 ### future directions
 1. model depth - going infinite depth will pull all nodes into a single point!
