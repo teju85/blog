@@ -1,4 +1,59 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-12T11:38:28+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Pixie</title><link href="https://teju85.github.io/blog/2020/06/12/pixie.html" rel="alternate" type="text/html" title="Pixie" /><published>2020-06-12T00:00:00+05:30</published><updated>2020-06-12T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/12/pixie</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/12/pixie.html">&lt;h3 id=&quot;pixie-a-system-for-recommending-3-billion-items-to200-million-users-in-real-time&quot;&gt;Pixie: A System for Recommending 3+ Billion Items to200+ Million Users in Real-Time&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-15T15:28:40+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">cmus installation and usage on cygwin</title><link href="https://teju85.github.io/blog/2020/06/13/cmus-on-cygwin.html" rel="alternate" type="text/html" title="cmus installation and usage on cygwin" /><published>2020-06-13T00:00:00+05:30</published><updated>2020-06-13T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/13/cmus-on-cygwin</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/13/cmus-on-cygwin.html">&lt;h3 id=&quot;cmus&quot;&gt;cmus&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://cmus.github.io/&quot;&gt;cmus&lt;/a&gt; is a lightweight console player for unix-like
+operating systems. Given here are the steps to build it on cygwin.&lt;/p&gt;
+
+&lt;h4 id=&quot;steps&quot;&gt;Steps&lt;/h4&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lynx -source rawgit.com/transcode-open/apt-cyg/master/apt-cyg &amp;gt; apt-cyg
+install apt-cyg /bin
+apt-cyg install ncurses ncursesw pkg-config
+apt-cyg install libncursesw-devel libncurses-devel
+apt-cyg install libopus-devel libwavpack-devel
+apt-cyg install libtool flac-devel
+
+cd ~
+wget ftp://ftp.mars.org/pub/mpeg/libmad-0.15.1b.tar.gz
+tar xf
+cd libmad-0.15.1b
+wget 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD' -O config.guess
+wget 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD' -O config.sub
+sed -i '/-fforce-mem/d' configure
+./configure
+make
+make install
+
+cd ~
+git clone https://github.com/cmus/cmus.git
+cd cmus
+./configure CPPFLAGS=-I/usr/local/include LDFLAGS=-L/usr/local/lib
+make
+make install
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;key-controls&quot;&gt;Key controls&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;v: stop playback&lt;/li&gt;
+  &lt;li&gt;b: next track&lt;/li&gt;
+  &lt;li&gt;z: previous track&lt;/li&gt;
+  &lt;li&gt;c: pause playback&lt;/li&gt;
+  &lt;li&gt;s: toggle shuffle (read about the m key below if you’re going to use shuffle)&lt;/li&gt;
+  &lt;li&gt;m: toggles the “aaa mode.”&lt;/li&gt;
+  &lt;li&gt;x: restart track&lt;/li&gt;
+  &lt;li&gt;i: jump view to the currently playing track (handy when in shuffle mode)&lt;/li&gt;
+  &lt;li&gt;o: toggle sorting&lt;/li&gt;
+  &lt;li&gt;/: searching cmus works as in many Unix programs.
+    &lt;ul&gt;
+      &lt;li&gt;Typing slash, a string, and enter will find the first instance of that
+string in your library.&lt;/li&gt;
+      &lt;li&gt;Press n to go to the next string, N to go to the previous.&lt;/li&gt;
+      &lt;li&gt;cmus’s search isn’t case sensitive and is quite smart; a search for damned
+insurrection will return Bulldozer’s “Insurrection of the Living Damned”
+(rad tune).&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;-: reduce the volume by 10%&lt;/li&gt;
+  &lt;li&gt;+: increase the volume by 10%&lt;/li&gt;
+  &lt;li&gt;:add path  - to add a playlist&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tools" /><summary type="html">cmus cmus is a lightweight console player for unix-like operating systems. Given here are the steps to build it on cygwin.</summary></entry><entry><title type="html">Pixie</title><link href="https://teju85.github.io/blog/2020/06/12/pixie.html" rel="alternate" type="text/html" title="Pixie" /><published>2020-06-12T00:00:00+05:30</published><updated>2020-06-12T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/12/pixie</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/12/pixie.html">&lt;h3 id=&quot;pixie-a-system-for-recommending-3-billion-items-to200-million-users-in-real-time&quot;&gt;Pixie: A System for Recommending 3+ Billion Items to200+ Million Users in Real-Time&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1711.07601.pdf&quot;&gt;here&lt;/a&gt; and a more
 digestable version is presented in a blog format &lt;a href=&quot;https://medium.com/pinterest-engineering/introducing-pixie-an-advanced-graph-based-recommendation-system-e7b4229b664b&quot;&gt;here&lt;/a&gt;
 and &lt;a href=&quot;https://medium.com/pinterest-engineering/an-update-on-pixie-pinterests-recommendation-system-6f273f737e1b&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
@@ -1027,30 +1082,4 @@ meetings&lt;/li&gt;
   &lt;li&gt;labels and accusation audit&lt;/li&gt;
   &lt;li&gt;calibrated questions&lt;/li&gt;
   &lt;li&gt;non-cash offers&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="book-notes" /><category term="self-help" /><summary type="html">Never Split the Difference By Christopher Voss. This book can be found here. Voss talks about how some of the inter-personal skills like active-listening, empathy, mirroring and calibrated questions can take you a long way when it comes to negotiation!</summary></entry><entry><title type="html">Drop your tools - Does Expertise have a dark side?</title><link href="https://teju85.github.io/blog/2020/01/18/drop-your-tools.html" rel="alternate" type="text/html" title="Drop your tools - Does Expertise have a dark side?" /><published>2020-01-18T00:00:00+05:30</published><updated>2020-01-18T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/01/18/drop-your-tools</id><content type="html" xml:base="https://teju85.github.io/blog/2020/01/18/drop-your-tools.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
-&lt;p&gt;This is my notes after watching Dr. Sean Brady’s Keynote talk at LCA-2020. The full
-recorded video can be found &lt;a href=&quot;https://www.youtube.com/watch?v=Yv4tI6939q0&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;p&gt;Expertise is certainly necessary for us to be better at our jobs and do less
-mistakes. However, there are cases when expertise can &lt;a href=&quot;https://en.wikipedia.org/wiki/Negative_priming&quot;&gt;negatively prime&lt;/a&gt;
-us down the wrong solution path! He uses the examples of
-&lt;a href=&quot;https://www.nytimes.com/1978/01/19/archives/new-jersey-pages-coliseum-roof-collapses-at-hartford-civic-center.html&quot;&gt;Hartford convention center collapse&lt;/a&gt;
-and the &lt;a href=&quot;https://en.wikipedia.org/wiki/Mann_Gulch_fire&quot;&gt;Mann Gulch wildfire&lt;/a&gt; to
-show that in the moments of pressure we continue to cling onto our expertise
-despite of all the warning signs to the contrary. In some scenarios, our
-expertise itself can be the greatest source of negative priming since we use it
-sub-consciously (and automatically) at all times!&lt;/p&gt;
-
-&lt;p&gt;When we end up trying to solve a problem that’s slightly outside our expertise,
-even if we know that our “tools” aren’t giving us the right solution, we continue
-to hold onto them (just like the firefighters of Mann Gulch did)! It is hard for
-all of us to accept the fact that the tools we currently use are not the right
-ones for the job.&lt;/p&gt;
-
-&lt;p&gt;Some nice quotes from this talk:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;“The greatest obstacle to knowledge is not ignorance. It is the illusion of knowledge”&lt;/li&gt;
-  &lt;li&gt;“We all see the world with the prism of our expertise”&lt;/li&gt;
-  &lt;li&gt;“In pursuit of knowledge, everyday something is acquired. In the pursuit of wisdom, everyday something is dropped”&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><category term="psychology" /><summary type="html">Introduction This is my notes after watching Dr. Sean Brady’s Keynote talk at LCA-2020. The full recorded video can be found here.</summary></entry></feed>
+&lt;/ul&gt;</content><author><name></name></author><category term="book-notes" /><category term="self-help" /><summary type="html">Never Split the Difference By Christopher Voss. This book can be found here. Voss talks about how some of the inter-personal skills like active-listening, empathy, mirroring and calibrated questions can take you a long way when it comes to negotiation!</summary></entry></feed>
