@@ -1,4 +1,76 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-15T23:42:10+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">A comprehensive survey on Graph Neural Networks</title><link href="https://teju85.github.io/blog/2020/06/14/survey-of-gnns.html" rel="alternate" type="text/html" title="A comprehensive survey on Graph Neural Networks" /><published>2020-06-14T00:00:00+05:30</published><updated>2020-06-14T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/14/survey-of-gnns</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/14/survey-of-gnns.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-16T11:28:03+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">DeepWalk: Online Learning of Social Representations</title><link href="https://teju85.github.io/blog/2020/06/16/deepwalk.html" rel="alternate" type="text/html" title="DeepWalk: Online Learning of Social Representations" /><published>2020-06-16T00:00:00+05:30</published><updated>2020-06-16T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/16/deepwalk</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/16/deepwalk.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1403.6652.pdf&quot;&gt;here&lt;/a&gt; and a quick
+summary of the techniques of this paper can be found in &lt;a href=&quot;https://medium.com/analytics-vidhya/an-intuitive-explanation-of-deepwalk-84177f7f2b72&quot;&gt;this blog&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Learns representations of the nodes in a graph, inspired from word2vec.&lt;/li&gt;
+  &lt;li&gt;Treats the list of nodes from a random walk as sentences&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Authors note a striking similarity of power-law distribution of nodes in the
+random walk and words in natural languages&lt;/li&gt;
+  &lt;li&gt;Such random walks are also helpful from implementation PoV, as they are easy
+to parallelize&lt;/li&gt;
+  &lt;li&gt;They are also helpful when the graph changes and we need to iteratively update
+the learnings, instead of costly global recomputation&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;algorithm&quot;&gt;Algorithm&lt;/h4&gt;
+&lt;p&gt;Inputs:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;G(V, E)&lt;/script&gt; graph
+    &lt;ul&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt; number of nodes&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;m&lt;/script&gt; number of edges&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;w&lt;/script&gt; window size&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;d&lt;/script&gt; output embedding size&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\gamma&lt;/script&gt; walks per node&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;t&lt;/script&gt; walk length&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Output:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\Phi \epsilon R^{n x d}&lt;/script&gt; the embeddings for each node&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;DeepWalk algo:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Randomly initialize &lt;script type=&quot;math/tex&quot;&gt;\Phi&lt;/script&gt;&lt;/li&gt;
+  &lt;li&gt;for i from 0 to &lt;script type=&quot;math/tex&quot;&gt;\gamma&lt;/script&gt;
+    &lt;ol&gt;
+      &lt;li&gt;for each &lt;script type=&quot;math/tex&quot;&gt;v_i&lt;/script&gt; in shuffle(V)
+        &lt;ul&gt;
+          &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;W_{v_i}&lt;/script&gt; = randomwalk(G, &lt;script type=&quot;math/tex&quot;&gt;v_i&lt;/script&gt;, t)&lt;/li&gt;
+          &lt;li&gt;skipgram(&lt;script type=&quot;math/tex&quot;&gt;\Phi&lt;/script&gt;, $$W_{v_i}, w)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;skipgram algo:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;for each &lt;script type=&quot;math/tex&quot;&gt;v_j \epsilon W_{v_i}&lt;/script&gt;
+    &lt;ol&gt;
+      &lt;li&gt;for each &lt;script type=&quot;math/tex&quot;&gt;u_k \epsilon W_{v_i}[j - w : j + w]&lt;/script&gt;
+        &lt;ul&gt;
+          &lt;li&gt;
+            &lt;script type=&quot;math/tex; mode=display&quot;&gt;J(\Phi) = -log(Pr(u_k || \Phi(v_j)))&lt;/script&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+            &lt;script type=&quot;math/tex; mode=display&quot;&gt;\Phi = \Phi - \alpha \frac{\partial J}{\partial \Phi}&lt;/script&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;Pr(.)&lt;/script&gt; above uses hierarchical softmax to be computationally more efficient.&lt;/p&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here and a quick summary of the techniques of this paper can be found in this blog.</summary></entry><entry><title type="html">A comprehensive survey on Graph Neural Networks</title><link href="https://teju85.github.io/blog/2020/06/14/survey-of-gnns.html" rel="alternate" type="text/html" title="A comprehensive survey on Graph Neural Networks" /><published>2020-06-14T00:00:00+05:30</published><updated>2020-06-14T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/14/survey-of-gnns</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/14/survey-of-gnns.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
 &lt;p&gt;Main survey paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1901.00596.pdf&quot;&gt;here&lt;/a&gt;.
 Divides GNNs into the following top-level four categories:&lt;/p&gt;
 &lt;ol&gt;
@@ -563,115 +635,4 @@ Tap on the ‘Join’ button.&lt;/p&gt;
 &lt;h3 id=&quot;step-4-join-the-video-call&quot;&gt;Step 4. Join the video call&lt;/h3&gt;
 &lt;p&gt;&lt;img src=&quot;/blog/assets/google-hangouts-tutorial/04-join-the-video-call.jpg&quot; alt=&quot;Join video call&quot; /&gt;
 The previous step will start the ‘Hangouts’ app. In here, tap on the
-‘JOIN VIDEO CALL’ button at the bottom of your screen to join your video call.&lt;/p&gt;</content><author><name></name></author><category term="tutorial" /><summary type="html">Introduction This blog shows step-by-step process on using Google’s Hangouts apps to do video calls from your android device.</summary></entry><entry><title type="html">The Relaxation Response</title><link href="https://teju85.github.io/blog/2020/04/06/relaxation-response.html" rel="alternate" type="text/html" title="The Relaxation Response" /><published>2020-04-06T00:00:00+05:30</published><updated>2020-04-06T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/04/06/relaxation-response</id><content type="html" xml:base="https://teju85.github.io/blog/2020/04/06/relaxation-response.html">&lt;h3 id=&quot;the-relaxation-response&quot;&gt;The Relaxation Response&lt;/h3&gt;
-&lt;p&gt;By Dr. Herbert Benson. This book can be found
-&lt;a href=&quot;https://www.amazon.com/Relaxation-Response-Herbert-Benson/dp/0380006766&quot;&gt;here&lt;/a&gt;.
-In this book, Dr. Benson writes about a response that is opposite to
-“fight or flight” response, which is called relaxation response (RR). He lists
-the benefits of this response and simple steps to elicit this response.&lt;/p&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Field of medicine can be construed as a 3-legged sturdy stool
-    &lt;ul&gt;
-      &lt;li&gt;medications&lt;/li&gt;
-      &lt;li&gt;surgery and similar medical procedures&lt;/li&gt;
-      &lt;li&gt;self-care&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;belief is potentially central to our health&lt;/li&gt;
-  &lt;li&gt;remembered wellness (aka placebo effect) also elicits RR&lt;/li&gt;
-  &lt;li&gt;2 step process in the mind/body technique:
-    &lt;ul&gt;
-      &lt;li&gt;elicit RR to quiet the mind&lt;/li&gt;
-      &lt;li&gt;after the mind has become quiet rewire the thoughts and actions in the
-desired direction&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;have a balanced approach to all 3 of the legs of this stool. When in doubt,
-do consult your physician&lt;/li&gt;
-  &lt;li&gt;technology instead of easing our lives has only resulted in more stress&lt;/li&gt;
-  &lt;li&gt;we are frustrated that we can’t even solve simple problems like being on time,
-due to congestion. Thus we become victims of stress.&lt;/li&gt;
-  &lt;li&gt;stress not only affects us mentally, but also physically.
-    &lt;ul&gt;
-      &lt;li&gt;hypertension is currently a worldwide phenomenon as well as an epidemic.
-        &lt;ul&gt;
-          &lt;li&gt;It is caused by
-            &lt;ul&gt;
-              &lt;li&gt;bad diet&lt;/li&gt;
-              &lt;li&gt;lack of exercise&lt;/li&gt;
-              &lt;li&gt;family disposition&lt;/li&gt;
-              &lt;li&gt;environmental stress&lt;/li&gt;
-            &lt;/ul&gt;
-          &lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;all animals respond to chronic stressful conditions via the
-“fight or flight” response (needed for survival)&lt;/li&gt;
-      &lt;li&gt;situations that demand we adjust our behavior elicit this response&lt;/li&gt;
-      &lt;li&gt;this response involves increased BP, shallow breath, increased heart rate.&lt;/li&gt;
-      &lt;li&gt;this response needs to be used, for eg, running away from or fighting with
-the enemy. If it is not used, over periods of time, it can lead to
-disastrous consequences, which is what is happening nowadays.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;the opposite of “fight or flight” response is the RR
-    &lt;ul&gt;
-      &lt;li&gt;it reverses the adverse effects of “fight or flight” response&lt;/li&gt;
-      &lt;li&gt;evoking RR is to be done via these steps
-        &lt;ul&gt;
-          &lt;li&gt;a quiet environment&lt;/li&gt;
-          &lt;li&gt;a mental device (a word, phrase or mantra) that should be repeated. This
-repetition helps avoid distracting thoughts&lt;/li&gt;
-          &lt;li&gt;a passive attitude (by disregarding other thoughts and returning to the
-mental device in case of any distraction). This is one of the key things
-to elicit RR!&lt;/li&gt;
-          &lt;li&gt;a comfortable position&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;the above process is also known as Transcendental Meditation, a refined yoga
-practice developed by Maharishi Mahesh Yogi&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;the risk of developing atherosclerosis is directly related to the BP as well
-as cholesterol levels&lt;/li&gt;
-  &lt;li&gt;HBP directly affects 3 organs: heart, brain and kidneys&lt;/li&gt;
-  &lt;li&gt;events which require adjusting of our behavior cause stress in us. A stressful
-person is more susceptible to diseases and having more BP&lt;/li&gt;
-  &lt;li&gt;we simply cannot deal with the complexities the life throws at us. So, better
-to learn effective ways to cope with those&lt;/li&gt;
-  &lt;li&gt;it has been shown now that through voluntary mental acts, one can control the
-“involuntary” bodily mechanisms like BP, heart-rate, oxygen consumption,
-(aka metabolism) etc.&lt;/li&gt;
-  &lt;li&gt;alpha waves are the brain waves which indicate the feeling of well-being&lt;/li&gt;
-  &lt;li&gt;major physiologic change due to meditation is the decrease in metabolism
-    &lt;ul&gt;
-      &lt;li&gt;aka hypometabolism&lt;/li&gt;
-      &lt;li&gt;only 3 things cause this: meditation, sleep or hibernation&lt;/li&gt;
-      &lt;li&gt;hibernation is shows a drop in rectal temperatures, meditation doesn’t&lt;/li&gt;
-      &lt;li&gt;sleep and meditation
-        &lt;ul&gt;
-          &lt;li&gt;in sleep metabolism decreases gradually until 4-5 hrs&lt;/li&gt;
-          &lt;li&gt;in meditation it decreases rapidly in the first 2-3 mins&lt;/li&gt;
-          &lt;li&gt;meditation increases alpha waves in brain&lt;/li&gt;
-          &lt;li&gt;meditation decreases blood lactate content (associated with anxiety)&lt;/li&gt;
-          &lt;li&gt;thus meditation and sleep can’t be substituted for one another!&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;altered state of consciousness
-    &lt;ul&gt;
-      &lt;li&gt;RR is associated with this state&lt;/li&gt;
-      &lt;li&gt;it is one of the states in between coma -&amp;gt; sleep -&amp;gt; drowsiness -&amp;gt; alert -&amp;gt; hyper-alert&lt;/li&gt;
-      &lt;li&gt;this state needs to be purposefully evoked&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;people going psychoanalysis sessions will find it hard to assume passive
-attitude, thus difficult for them to elicit RR&lt;/li&gt;
-  &lt;li&gt;excessive daily elicitation of RR can lead to hallucinations due to sensory
-deprivation&lt;/li&gt;
-  &lt;li&gt;within few weeks of stopping RR, our body typically goes back to its original
-state, so better to be regular with this process&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="book-notes" /><category term="self-help" /><summary type="html">The Relaxation Response By Dr. Herbert Benson. This book can be found here. In this book, Dr. Benson writes about a response that is opposite to “fight or flight” response, which is called relaxation response (RR). He lists the benefits of this response and simple steps to elicit this response.</summary></entry></feed>
+‘JOIN VIDEO CALL’ button at the bottom of your screen to join your video call.&lt;/p&gt;</content><author><name></name></author><category term="tutorial" /><summary type="html">Introduction This blog shows step-by-step process on using Google’s Hangouts apps to do video calls from your android device.</summary></entry></feed>
