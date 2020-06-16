@@ -1,0 +1,49 @@
+---
+layout: post
+title: "DeepWalk: Online Learning of Social Representations"
+needmath: true
+tags: tech-notes paper-notes graph gnn
+---
+
+### Proposal
+Main paper can be found [here](https://arxiv.org/pdf/1403.6652.pdf) and a quick
+summary of the techniques of this paper can be found in [this blog](https://medium.com/analytics-vidhya/an-intuitive-explanation-of-deepwalk-84177f7f2b72).
+
+* Learns representations of the nodes in a graph, inspired from word2vec.
+* Treats the list of nodes from a random walk as sentences
+
+### Summary
+- Authors note a striking similarity of power-law distribution of nodes in the
+  random walk and words in natural languages
+- Such random walks are also helpful from implementation PoV, as they are easy
+  to parallelize
+- They are also helpful when the graph changes and we need to iteratively update
+  the learnings, instead of costly global recomputation
+
+#### Algorithm
+Inputs:
+- $$G(V, E)$$ graph
+  - $$n$$ number of nodes
+  - $$m$$ number of edges
+- $$w$$ window size
+- $$d$$ output embedding size
+- $$\gamma$$ walks per node
+- $$t$$ walk length
+
+Output:
+- $$\Phi \epsilon R^{n x d}$$ the embeddings for each node
+
+DeepWalk algo:
+1. Randomly initialize $$\Phi$$
+2. for i from 0 to $$\gamma$$
+   1. for each $$v_i$$ in shuffle(V)
+       - $$W_{v_i}$$ = randomwalk(G, $$v_i$$, t)
+       - skipgram($$\Phi$$, $$W_{v_i}, w)
+
+skipgram algo:
+1. for each $$v_j \epsilon W_{v_i}$$
+   1. for each $$u_k \epsilon W_{v_i}[j - w : j + w]$$
+      - $$J(\Phi) = -log(Pr(u_k || \Phi(v_j)))$$
+      - $$\Phi = \Phi - \alpha \frac{\partial J}{\partial \Phi}$$
+
+$$Pr(.)$$ above uses hierarchical softmax to be computationally more efficient.
