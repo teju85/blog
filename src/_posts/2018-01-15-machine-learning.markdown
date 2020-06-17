@@ -1,0 +1,539 @@
+---
+layout: post
+title: "Machine Learning Coursera notes"
+needmath: true
+tags: course-notes machine-learning
+---
+
+My notes while taking the ML course from Dr. Andrew Ng on coursera.
+
+### Week1
+- ML grew out of work in AI
+- ML is also used where applications can't be programmed by hand
+  - NLP, Comp.Vision, etc
+  - self-customizing programs
+  - understanding human learning
+- most common ML algos: supervised and unsupervised
+- other algos: reinforcement learning, recommender systems, etc
+- supervised learning:
+  - regression = predict continuous output variable
+  - classification = predict/classify discreet valued output
+- unsupervised learning:
+  - clustering of unlabeled data
+- supervised learning:
+  - training set = data-set (labelled)
+  - m = num of training examples
+  - x = 'input' variable/features
+  - y = 'output' variable/ 'target' variable
+  - $$x_i$$, $$y_i$$ - ith training sample
+  - its flow:
+    - training-set --> learning algo --> h (hypothesis)
+    - test/real-world-input --> h --> prediction/classification
+- univariate linear regression:
+  - $$h(x) = t_0 + t_1 x$$
+  - cost function: $$J(t_0,t_1) = \frac{\sum(h(x_i) - y_i)^2}{2 * m}$$
+    - $$min_{(t_0,t_1)} J(t_0,t_1)$$
+    - also called squared-error function
+    - most commonly used cost function
+    - gives a nice quadratic surface to minimize
+  - gradient descent
+    - start with some initial value
+    - keep following down the gradient and hopefully will reach minimum
+    - local minima can trip us here!
+    - repeat until convergence:
+      - $$t_i -= \alpha \frac{\partial J(t0,..)}{\partial t_i}$$
+      - for every parameter $$t_i$$
+      - these updates are concurrent for all params!
+      - $$\alpha$$ = learning rate (controls the step size)
+    - convex functions always ensure that gradient descent will converge to global optimum
+    - the above algo is 'batch' gradient descent
+      - meaning at each step, we are using all  - of the training samples
+  - linear algebra: notation and set of ops using matrices and vectors
+
+### Week2
+- multi-variate linear regression
+  - n = number of features
+  - x(i) = input features of ith training sample
+  - x(i)(j) = feature j value in ith training sample
+  - h(x) = sum(ti *xi) i=0:n
+  - vectorized version:  h(X) = T'   - X   x0 is always 1!
+- gradient descent for multivariate linear regression
+  - J(T) = sum(((T'   - X) - Y).^2) / (2*m)
+  - T = n+1 x 1
+  - X = m x n+1
+  - Y = m x 1
+  - updation:  T = T - alpha   - d(J(T))/dT
+  - T = T - alpha   - (((X   - T) - Y)'   - X)' / m
+  - such an X is called design matrix
+- gradient descent - feature scaling
+  - make sure features are on a similar scale
+  - convergence is quicker this way!
+  - because the contour plots of cost function will have incredibly skewed ellipses. Thus, the convergence will take quite a long time
+  - generally, get the feature into [-1, 1] range
+  - Can this be the reason we have sigmoid functions in neural nets!??
+  - use mean normalization brings features to [-0.5, 0.5] range with mean=0
+    - (xi - meani) / range
+    - mean can be the mean of that feature in the training set
+    - range can be (max - min) or standard-deviation
+- gradient descent - learning rate
+  - plot J(T) over iterations, should help debug the learning algo
+  - J(T) should decrease after every iteration
+  - this will also tell us when to stop running more iterations
+  - one other approach is to monitor the changes in J(T) over the iterations and stop when the decrease is 'insignificant'
+  - but better to not automate this and use plots to confirm
+  - if J(T) is increasing over iterations, choose a smaller alpha
+  - but if alpha is too small, convergence might be slower!
+- depending on the insight into the problem, by defining new features based on the training set, we might get better model
+- looking at the data, we could also decide to probably use polynomial model or cubic model, so on...
+  - for such models, the feature scaling becomes increasingly important!
+- normal equation:
+  - solve for T analytically, instead of iterative gradient descent
+  - T = pinv(X' - X) - X' - Y
+  - for this method, feature scaling is not required
+  - thus doesn't need to iterate and no need to choose alpha
+  - becomes very slow for large values of 'n'
+- normal equation non-invertibility
+  - what if (X' - X) is non-invertible (singular/degenerate)?
+  - pretty rare case
+  - however, as long as we use "pinv" for inverse of X'*X, we are OK
+  - causes for it to be singular:
+    - redundant features (linearly dependent)
+    - too many features (m <= n)
+      - Better to delete some features or use regularization
+
+### Week3
+  - Binary classification: y in {0,1}  0=negative-class, 1=positive-class
+  - There's multi-class classification problem as well.
+  - threshold classifier:
+    - fit linear regression and then apply a threshold on its output
+    - but this is very sensitive to the position of inputs passed!
+      - example: think what happens if there's an outlier far away from the current set of poinets?
+    - output needs to be either 0 or 1, but linear regression outputs continuous values
+  - that's where logistic regression is applied for classification problem
+  - hypothesis representation for logistic regression
+    - want h(x) in [0,1]
+    - h(x) = g(theta'   - x)
+    - g(i) = 1 / (1 + e^-i)
+    - g = logistic function or sigmoid function
+  - one interpretation of the above h(x) is probability that y=1 on input x
+    - ie. h(x) = P(y=1|x;theta)
+  - this basically means y=1 whenever theta'   - x >= 0, and y=0 otherwise
+    - this is the decision boundary for logistic regression hypothesis
+    - in this particular case this boundary is linear
+    - if we need a non-linear decision boundary, then use non-linear terms in the logistic regression equation (similar to what was discussed in linear regression lecture)
+  - if we use quadratic cost function as was used in linear regression model, now it will be a non-convex function
+  - cost function for logistic regression:
+    - cost(h(x),y) = -log(h(x)) if y=1, -log(1-h(x)) if y=0
+    - intuition is that for correct classification there is no penalty and for incorrect, there's a very large cost
+    - this is gives us a convex function which only one minima
+  - simplified cost function for the above:
+    - cost(h(x),y) = -y*log(h(x)) - (1-y)*log(1-h(x))
+  - gradient descent on this will now be:
+    - T = T - alpha   - ((h(X)-Y)'   - X)'
+    - looks similar to logistic regression!
+    - feature scaling also works here.
+  - optimization algos:
+    - gradient descent
+    - conjugate descent
+    - BFGS
+    - LBFGS
+    - these only require J(theta) and d(J(theta))/d(theta)
+  - advantages of the other 3 algos
+    - no need to manually pick alpha
+    - faster than gradient descent in terms of convergence
+  - disadvantages of these:
+    - more complex
+  - use 'fminunc' (function minimization unconstrained) for optimization using these different optimization techniques
+  - logistic regression on multi-class classification:
+    - one-vs-all classification (one-vs-rest)
+      - make all others under one class, except the current class
+      - apply logistic regression for binary classification
+      - repeat this for all classes
+      - pick the class that has highest probability (max value of h(x))
+  - Regularization (problem of overfitting)
+    - under fitting (high bias)
+    - over fitting (high variance)
+    - over fitting - if we have too many features in the learned hypothesis, it may fit the training set very well, but fail to generalize on new examples
+    - lot of features and very less training data can also lead to this
+    - to address overfitting:
+      - reduce number of features
+        - manually select which features to keep
+        - model selection algo
+      - regularization
+        - keep all features, but reduce the magnitude/values of params
+        - works well when there are lot of features
+    - having small values for params
+      - 'simpler' hypothesis
+      - less prone to overfitting
+    - J(theta) = (sum((h(x)-y)^2) + lambda*T(1:)'*T(1:))/(2*m)
+      - theta(0) is not part of the above sum!
+      - lambda - regularization param
+        - controls trade off between fitting to training data well at the same time keeping params small
+        - if it is large, then we will see underfitting
+    - the gradient for the descent also changes according to this regularizer
+    - for normal equation with regularization
+      - m = eye(n+1,n+1)
+      - m[0,0] = 0
+      - T = pinv((X'   - X) + (lambda   - m))   - X'   - Y
+      - as long as lambda > 0, the above matrix is invertible!
+
+### Week4
+  - non-linear hypotheses (neural networks representation)
+    - using quadratic features leads to huge number of features
+    - can lead to overfitting of the data as well
+    - this is especially difficult with image applications!
+  - neural networks are algos designed to mimic brain
+  - neuron model and logistic unit
+    - bias unit
+    - inputs
+    - input wires/params/weights
+    - sigmoid (logistic) activation function
+  - neural network is now a collection of these neurons stacked into layers
+    - first layer is input layer
+    - last layer is output layer
+    - in between layers are hidden layers
+    - a[i][j] = 'activation' of unit i in layer j
+    - theta[j] = matrix of weights from layer j to j+1
+    - if net has s[j] units in layer j and s[j+1] in j+1, then theta[j] is of dimension s[j+1]x(s[j]+1).  +1 for bias unit
+    - vectorization of this computation is basically matrix-vector multiplication
+    - a[i+1] = g(theta[i]   - a[i])    (add bias unit at each layer!)
+    - a[1] = input layer
+    - this process is called forward propagation
+    - forward propagation of input activation to output activations
+  - neural net learning its own features
+    - hidden and output layer look like a logistic regression
+    - each unit in hidden layer is set of new features learned from the input!
+    - ANN can use this hidden layer to learn more complex features to feed to the output layer
+  - neural nets for multi-class classification
+    - by using multiple units in the output layer
+
+### Week5
+  - nomenclature
+    - L = total no. of layers in network
+    - s(l) = no. of units (w/o bias unit) in layer l
+  - neural net cost function will be (using NLL with L2-norm)
+    - NLL will be the same except that h(x) will now be the entire MLP!
+    - regularization will be summed across all weights on all layers
+  - backpropagation algo
+    - del[l][j] = 'error' of node j in layer l
+    - then propagate back these 'del' till the input layer is reached
+    - del[l] = (theta[l]'   - del[l+1]) .  -  g'(z[l])
+      - g' is derivative of g
+      - theta' is matrix transpose
+    - dJ/d(theta[l][i][j]) = (a[l][j]   - del[l+1][i]) + (lambda   - theta[l][i][j])
+  - gradient checking
+    - can catch bugs in the forward/backward prop implementation
+    - estimate slope using theta-eps and theta+eps
+    - such a two-sided difference gives better estimation than theta-eps, theta (one-sided).
+    - call your implementation for evaluating gradients
+    - compare them!
+    - for vectors, partial derivatives can be obtained using the same principle
+      - just work on each dimension, one at a time!
+  - initial value of theta
+    - cannot initialize all theta in a net to zero
+      - after each gradient update, params corresponding to inputs to each hidden units will be identical
+      - this is the problem of symmetric weights
+    - thus for symmetry-breaking, we'll have to perform random init.
+      - init each theta between [-eps, eps]
+  - putting it all together
+    - number of inputs = dimension of input features
+    - number of outputs = number of classes (For a classification problem)
+    - reasonable default: have same of number of hidden units in each layer
+    - can usually start with 1 hidden layer
+    - usually the more the hidden layers, the better the network
+
+### Week6
+  - debugging a learning algo
+    - if the system shows huge prediction errors on new data
+      - get more training data
+      - try smaller set of features
+      - try to get additional features
+      - try adding polynomial features
+      - play with lambda value
+  - machine learning diagnostic:
+    - a test to gain insight on what is/isnt working with a learning algo and how to best improve its performance.
+  - evaluating a hypothesis
+    - split dataset into training/test set (70:30 split)
+      - train using training set and measure its performance using test set
+      - another way can be to just measure the misclassification rate
+  - training error is usually lower than the generalization error
+  - model selection
+    - select those hyper-params for which we get the lowest test error
+    - but we cannot estimate generalization error for this, since we had selected the model based on the test error itself!
+    - hence, split dataset into training/cross-validation/test sets. (split ratio: 60:20:20)
+    - now measure the model's performance on the CV set.
+    - pick the hypothesis with the lowest CV error
+  - diagnosis bias vs variance (under vs over fitting)
+    - both high training and high CV error = bias problem (simple model)
+    - low training and high CV error = variance problem (complex model)
+  - choosing lambda
+    - in this case, the training/CV errors do not contain regularization param
+    - only the cost function during training the model itself, contains so!
+    - to choose an optimal lambda, then use similar approach as before in model selection
+    - both high training and high CV error = bias problem (large lambda)
+    - low training and high CV error = variance problem (small lambda)
+  - learning curves
+    - plot training/CV errors as a function of dataset size
+    - here average training error grows with dataset size
+    - average CV errors decays with dataset size
+    - for large data if training error ~= CV error => bias problem (with high error value)
+    - high bias problem cannot be solved using more data!
+    - for large data if training error != CV error and there's a large difference between them => variance problem (training error smaller than CV error)
+    - high variance problem cannot be somewhat reduced with more data
+  - What to do next?
+    - getting more training examples (helps for high variance case)
+    - try smaller set of features (high variance)
+    - try getting additional features (helps for high bias problem)
+    - try adding polynomial features (high bias)
+    - try decreasing lambda (high bias)
+    - try increasing lambda (high variance)
+  - neural nets
+    - smaller neural net (less params) = more prone to underfitting
+    - larger neural net = more prone to overfitting
+    - use regularization to address overfitting
+  - ML system design
+    - prioritizing what to work on: collect more data or planning what features to use
+    - have a single evaluation metric (eg: error percentage) to evaluate different ideas/approaches
+    - for skewed classes (rare classes in the dataset)
+      - usual classification accuracy is bad!
+      - in such cases, use confusion matrix to measure error rates in classification
+      - can also use precision/recall technique
+    - precision/recall
+      - precision = #true positives / #positives predicted
+      - recall = #true positives / #actual positives
+  - trading off between precision and recall
+    - lower precision; higher recall (avoid false negatives)
+    - higher precision; lower recall (avoid false positives)
+  - comparing precision/recall (F score): F = 2   - P   - R / (P + R)
+  - how much data to train on?
+    - in ML, it is not who has the best system that wins, but the one who has the most data!
+
+### Week7
+  - logistic regression optimization objective
+    - y=1, we need theta'   - x >> 0 and for y=0, << 0
+    - instead of putting lambda hyper-parameter on regularization, in SVMs people putting the inverse of it onto the cost itself.
+    - and they don't use '1/m' multiplier as convention
+  - Support Vector Machines (SVMs)
+    - instead of giving out probabilities like in logistic regression, SVM hypothesis directly gives out y=0/1.
+    - meaning, h(x) = 1 if theta'   - x >= 0, and 0 otherwise
+    - they are also called as large margin classifiers
+    - they create a more robust decision boundary
+    - but these classifiers can be sensitive to outliers! (in which case, the regularization parameter 'C' plays vital role, similar to lambda)
+  - kernels (non-linear decision boundary) - to classify complex non-linear functions
+  - gaussian kernel
+    - fi = exp(-||x-li||^2 / (2*sigma^2))
+    - features used in the "x" vector of: theta'   - x
+    - li = landmarks (manually chosen)
+    - i = 1,...n
+    - we could use other similarity functions as well
+  - how to get these landmarks?
+    - to begin with make each training example as a landmark
+    - but the number of features with this approach = number of training samples!
+  - bias/variance trade-off:
+    - C = 1/lambda
+    - large C = lower bias, higher variance
+    - small C = higher bias, lower variance
+    - in gaussian kernel
+    - large sigma = features vary smoothly = higher bias, lower variance
+    - small sigma = features vary sharply = lower bias, higher variance
+  - Using SVM
+    - choice of C
+    - choice of kernel (and its parameter values)
+    - no kernel = linear kernel
+    - if using gaussian kernel, do perform feature scaling
+  - not all kernels are valid kernels!
+    - they need to satisfy 'mercers theorem' for them to be valid
+    - this will make sure that the SVM optimizations run correctly to convergence
+    - other kernels are
+      - polynomial kernel: (x'   - l  + c)^d. Performs worse than gaussian kernel
+      - string kernel
+      - chi-square kernel
+      - histogram intersection kernel
+  - multi-class classification
+    - one vs all method
+    - some SVMs have multi-class classification built-in
+  - logistic regression vs SVMs
+    - n = number of features, m = number of training samples
+    - if n is large compared to m, use logistic regression or linear kernel SVMs
+    - if n is small and m is intermediate, use gaussian kernel SVMs
+    - if n is small and m is large, create more features and then use logistic regression or linear kernel SVMs
+  - neural nets will work well for all these cases, but for some of these problems, these nets can be slower to train
+  - SVM optimization is a convex optimization problem
+
+### Week8
+  - unsupervised learning
+    - work with unlabelled data
+    - ask it to find some structure in the data
+  - k-means algo
+    - most popular algo
+    - randomly initialize 'k' cluster centroids
+    - cluster assignment - depending upon the distance, datapoints are assigned to these centroids
+    - centroids evaluation - move centroids to the average of these newly assigned clusters
+    - repeat until convergence/max-iterations
+  - optimization objective
+    - J = 1/m   - sum(||xi - uci||^2)
+    - m = dataset size
+    - uci = cluster centroid to which xi is assigned
+  - cluster centroid initialization
+    - random works ok, but not good
+    - randomly pick K training examples and set centroids to these
+      - this can avoid getting stuck at local optimum
+  - one better approach to avoid local optima
+    - run K-means with random initializations and repeat this multiple times
+    - [50,1000] times is a good number
+    - pick the output of that initialization with results in the lowest cost function
+    - this can work for K=[2,10], for higher values of K, you might not need this
+  - how to choose K?
+    - by far the best way to do is choose it manually!
+    - one other method is 'elbow method'
+      - basically pick that value of K which results in an 'elbow' in the plot of cost function vs K
+      - but sometimes, if there are no elbows, this becomes ambiguous!
+    - evaluate K-means using on another metric based on its application
+  - dimensionality reduction
+    - in case we have highly correlated features, we dont need all of them
+    - used for data compression too
+    - it is also used to visualize data (specifically for input data in many ML applications)
+  - Principal Component Analysis - PCA
+    - tries to find a direction (vectors) on which to project the data which reduces the projection error
+    - PCA is not linear regression!
+      - we try to minimize squared error in linear regression
+      - we try to minimize projection error in PCA
+    - Step1: data preprocessing or feature-scaling or mean normalization
+      - perform x[i] = (x[i] - u[i]), where u[i] is mean over all x[i]'s
+      - if different features are on different scales, scale them to be on similar ranges
+    - Step2: calculate covariance matrix
+    - Step3: compute eigen vectors of this matrix (using 'svd')
+    - Step4: if you take the first 'k' columns of the output U matrix from svd, you've got k vectors on which to project the data
+    - Step5: to reduce dim of input data, perform: z = Ured'   - X
+  - choosing 'k' for PCA
+    - typically choose 'k' to be the smallest value such that
+      - sum(|| x[i] - xapprox[i] ||^2) /  sum(|| x[i] ||^2)  <= 0.01
+      - ie, 99% of the data variance is retained
+      - 'S' diagonal matrix given as output by 'svd' can be used for this
+      - 1 - sum_to_k(S[i][i]) / sum_to_n(S[i][i]). This is the same as above!
+  - reconstructing the original data: Xapprox = Ured   - z
+  - applying PCA
+    - used to speedup supervised learning problem. But always make sure that you've tried the learning problem without PCA too!
+    - but the Ureduce should be calculated using only the training set
+    - then apply the mapping on all of training/cv/test sets
+    - PCA should not be used to address overfitting. Use regularization instead!
+
+### Week9
+  - anamoly detection
+    - somewhat like unsupervised learning
+    - perform density estimation and build a model 'p' based on the input feature vectors
+    - now for the test case, if p(x) < eps, then flag it as an anamoly
+    - eg: fraud detection, manufacturing
+  - gaussian distribution (normal distribution)
+    - p(x) = exp(-(x-u)/2*sigma*sigma)/sqrt(2*pi*sigma*sigma)
+    - parameter estimation
+      - u = mean(x)
+      - sigma^2 = variance(x)
+  - density estimation
+    - p(x) = prod(p(xi))   for each element xi in the feature vector x
+    - each p(xi) is a gaussian distribution
+    - this assumes that each element xi are independent of each other
+    - then use the above gaussian parameter estimation equation on all the feature elements
+    - now to detect anamoly, apply the above density equation using a 'eps' value to flag the output as anamoly or not
+  - it is always better to have a way to evaluate the learning algorithm
+    - becomes easy to fine-tune hyper-parameters
+  - evaluation
+    - lets assume now that these examples are labelled as anamolous and non-anamolous
+    - split this into training/cross-validation/test sets, as usual
+    - typically there are no anamolous examples kept in the training set!
+    - then perform density estimation on the training set
+    - predict its performance on cv and test sets
+      - can use f1-score, precision/recall, ...
+      - because the data set is very skewed
+    - use cv set to estimate a good value for 'eps'
+  - choosing features
+    - try plotting the histogram of data to confirm whether it could fit a bell-shaped curve or not
+    - if it doesn't fit gaussian, try using other distributions
+    - try to see if 'log' can convert this into gaussian, or any other transformations
+    - use cv set extensively to choose features
+  - multi-variate gaussian
+    - in case we have features related to each other, then the previous gaussian approach might miss some anamolies
+    - u = mean vector of all features, cov = covariance matrix
+    - p(x) = exp(-(x-u)'   - cov^-1   - (x-u) / 2) / ((2   - pi)^(n/2)   - sqrt(det(cov)))
+    - u = mean(x)
+    - cov = mean((x-u)*(x-u)')
+  - recommender systems:
+    - nu = number of users
+    - nm = number of items to be rated
+    - y(i,j) = rating by user j to item i
+    - predict ratings for all items and recommend items to the users
+  - content based recommendations (CBR)
+    - assume certain features for the items
+    - use linear regression on each user to predict his rating
+    - can also apply regularization while learning these params
+  - collaborative filtering (CF)
+    - its hard to get features for all the items!
+    - this approach can self-learn these features!
+    - but now lets say that each user has given us how much they like each of these features
+    - so using these preferences for each user as params, we can learn the features for each items!
+    - for each item, repeat this process
+    - one can also apply regularization here (not on the params, but now on the features!)
+    - initially guess the theta values, then using CF, estimate x's.
+    - then, using CBR, get better values for theta.
+  - CF algo
+    - we don't need to go back and forth between theta and x
+    - we could just put both optimizations in a single equation and optimize for both simultaneously
+    - however, there's no intercept term used here
+  - vectorization
+    - low rank matrix factorization
+    - predict user ratings using: X*Theta'
+  - using these learned features/params, we can also find related items (just measure feature vector distance between the 2 items)
+  - mean normalization
+    - what if a user has not rated any items?!
+    - this leads to params/features to converge to zero
+    - in this case, calculate the mean rating for each row (item)
+    - subtract this mean from every element in the Y matrix
+    - then while predicting the rating, add back the mean
+    - so for this user, we'll predict his rating to be mean for each item!
+    - same thing applies to items which might not have any ratings (but better to not recommend it since it has no ratings!)
+
+### Week10
+  - its not who has the best algo that wins, it's who has the most data
+  - with large datasets, we can't update the params using the gradient descent, because 'm' is too large! computationally inhibitive!
+  - SGD: Stochastic Gradient Descent
+    - GD (or BGD = Batch Gradient Descent) becomes very expensive for large datasets
+    - SGD works as follows:
+      - randomly shuffle the dataset
+      - perform the params update stage, one sample at a time! (as opposed to BGD)
+    - but it performs somewhat like a random walk in the 'J' space
+  - Mini BGD
+    - sometimes can be even faster than SGD
+    - it basically uses 'b' examples in each iteration to update params
+    - b = batch size
+    - in-between BGD and SGD
+    - MBGD helps in vectorizing the training wrt SGD, thus can be faster (more parallel stuff to do!)
+  - checking for SGD convergence:
+    - for every P iterations, calculate the average 'cost' of all the previous P examples
+    - plot the same
+    - but the plot can be a bit noisy compared to GD
+    - increasing P can give smoother curve, but after longer duration
+    - can also decrease alpha over epochs to make theta converge
+  - online learning
+    - learning on a stream of data
+    - one way is to apply SGD on the current data to learn the params
+    - estimate predicted CTR (Click Through Rate)
+  - map-reduce and data parallelism
+    - can be used to split training session on machines
+  - ML pipeline:
+    - image -> object detection -> object segmentation -> object recognition
+    - to detect, create a rectangle BB (bounding box) and slide it across the image to detect the object and using a classifier
+    - slide speed on the image is decided by the stride across vertical and horizontal directions
+    - can also apply expansion operator in the output image
+    - then use connected components and draw BB
+  - data augmentation
+    - creating artificial data
+    - put artificial distortions (or warping)
+    - change contrast, color, rotate the image, crop the image
+    - adding noise (especially audio)
+    - but does NOT help to add meaningless noise to the data!
+  - ceiling analysis
+    - deciding what part of pipeline to work on next
+    - first create a measure of performance (accuracy, cost, ...)
+    - in the pipeline, replace each stage and manually pass the 'correct' inputs to its next stage.
+    - this way measure the performance of the system
+    - this will tell us which part of pipeline is lagging behind, and we can spend more effort there.
