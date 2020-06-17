@@ -1,4 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-17T09:48:26+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">DeepWalk: Online Learning of Social Representations</title><link href="https://teju85.github.io/blog/2020/06/16/deepwalk.html" rel="alternate" type="text/html" title="DeepWalk: Online Learning of Social Representations" /><published>2020-06-16T00:00:00+05:30</published><updated>2020-06-16T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/16/deepwalk</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/16/deepwalk.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-17T10:48:37+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Open Graph Benchmark: Datasets for Machine Learning on Graphs</title><link href="https://teju85.github.io/blog/2020/06/17/open-graph-benchmark.html" rel="alternate" type="text/html" title="Open Graph Benchmark: Datasets for Machine Learning on Graphs" /><published>2020-06-17T00:00:00+05:30</published><updated>2020-06-17T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/17/open-graph-benchmark</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/17/open-graph-benchmark.html">&lt;h3 id=&quot;proposal&quot;&gt;proposal&lt;/h3&gt;
+&lt;p&gt;Main paper can be found &lt;a href=&quot;&quot;&gt;here&lt;/a&gt; and the code for it is found &lt;a href=&quot;https://ogb.stanford.edu&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Provides diverse datasets from different domains&lt;/li&gt;
+  &lt;li&gt;Various sizes to test scalability&lt;/li&gt;
+  &lt;li&gt;Fully automated data loader, train-test split and evaluation methods for every dataset&lt;/li&gt;
+  &lt;li&gt;Different categories of tasks - node, link, graph property prediction&lt;/li&gt;
+  &lt;li&gt;Finally public leaderboard for inviting community contributions&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;ogb-package&quot;&gt;ogb package&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;provides utilities to download the datset and train/test split them.&lt;/li&gt;
+  &lt;li&gt;such utilities are provided for multiple datasets&lt;/li&gt;
+  &lt;li&gt;also provides utility methods to evaluate the resulting graph model too&lt;/li&gt;
+  &lt;li&gt;it is compatible with pytorch-geometric and DGL&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">proposal Main paper can be found here and the code for it is found here.</summary></entry><entry><title type="html">DeepWalk: Online Learning of Social Representations</title><link href="https://teju85.github.io/blog/2020/06/16/deepwalk.html" rel="alternate" type="text/html" title="DeepWalk: Online Learning of Social Representations" /><published>2020-06-16T00:00:00+05:30</published><updated>2020-06-16T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/16/deepwalk</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/16/deepwalk.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1403.6652.pdf&quot;&gt;here&lt;/a&gt; and a quick
 summary of the techniques of this paper can be found in &lt;a href=&quot;https://medium.com/analytics-vidhya/an-intuitive-explanation-of-deepwalk-84177f7f2b72&quot;&gt;this blog&lt;/a&gt;.&lt;/p&gt;
 
@@ -614,25 +631,4 @@ over, no willpower is required&lt;/li&gt;
   &lt;li&gt;we eventually get adjusted to new circumstances and get back to our normalcy.
 So we’ll be just as happy with a disciplined life as we were if continued to
 be lazy and comfortable&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="book-notes" /><category term="self-help" /><summary type="html">Spartan Discipline By Dominic Mann. This book can be found here. Mann gives tips, tricks, suggestions and analogies from Spartan’s lifestyle to illustrate how to develop self-discipline and be productive in our lives.</summary></entry><entry><title type="html">Using google Hangouts video call from android</title><link href="https://teju85.github.io/blog/2020/04/09/using-hangouts-video-call-android.html" rel="alternate" type="text/html" title="Using google Hangouts video call from android" /><published>2020-04-09T00:00:00+05:30</published><updated>2020-04-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/04/09/using-hangouts-video-call-android</id><content type="html" xml:base="https://teju85.github.io/blog/2020/04/09/using-hangouts-video-call-android.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
-&lt;p&gt;This blog shows step-by-step process on using Google’s Hangouts apps to do video
-calls from your android device.&lt;/p&gt;
-
-&lt;h3 id=&quot;step-1-install-googles-hangouts-app-from-playstore&quot;&gt;Step 1. Install Google’s Hangouts app from playstore&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;/blog/assets/google-hangouts-tutorial/01-install-google-hangouts.jpg&quot; alt=&quot;Install Google Hangouts app&quot; /&gt;
-This is needed for you join the video call later.&lt;/p&gt;
-
-&lt;h3 id=&quot;step-2-install-googles-hangouts-meet-app-from-playstore&quot;&gt;Step 2. Install Google’s Hangouts Meet app from playstore&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;/blog/assets/google-hangouts-tutorial/02-install-google-hangouts-meet.jpg&quot; alt=&quot;Install Google Hangouts Meet app&quot; /&gt;
-Note that both ‘Hangouts’ as well as ‘Hangouts Meet’ are required to
-successfully join the video call!&lt;/p&gt;
-
-&lt;h3 id=&quot;step-3-open-hangouts-meet-app&quot;&gt;Step 3. Open Hangouts Meet app&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;/blog/assets/google-hangouts-tutorial/03-open-meet-app.jpg&quot; alt=&quot;Open Hangouts Meet app&quot; /&gt;
-If you calendar has already been updated, an event will show up at the bottom.
-Tap on the ‘Join’ button.&lt;/p&gt;
-
-&lt;h3 id=&quot;step-4-join-the-video-call&quot;&gt;Step 4. Join the video call&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;/blog/assets/google-hangouts-tutorial/04-join-the-video-call.jpg&quot; alt=&quot;Join video call&quot; /&gt;
-The previous step will start the ‘Hangouts’ app. In here, tap on the
-‘JOIN VIDEO CALL’ button at the bottom of your screen to join your video call.&lt;/p&gt;</content><author><name></name></author><category term="tutorial" /><summary type="html">Introduction This blog shows step-by-step process on using Google’s Hangouts apps to do video calls from your android device.</summary></entry></feed>
+&lt;/ul&gt;</content><author><name></name></author><category term="book-notes" /><category term="self-help" /><summary type="html">Spartan Discipline By Dominic Mann. This book can be found here. Mann gives tips, tricks, suggestions and analogies from Spartan’s lifestyle to illustrate how to develop self-discipline and be productive in our lives.</summary></entry></feed>
