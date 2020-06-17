@@ -1,0 +1,32 @@
+---
+layout: post
+title: "Roofline analysis"
+tags: tech-notes performance
+---
+
+### Summary
+Slides of the talk can be found [here](http://crd.lbl.gov/assets/pubs_presos/parlab08-roofline-talk.pdf)
+
+#### The Roofline Model
+- realistic expectations of perf and productivity
+- show inherent h/w limitations for a given kernel
+- potential benefits and priority of optimizations
+- computation is free, communication is expensive
+
+#### principal components of performance
+- they are:
+  - computation (Gflops/s is of main interest)
+  - communication (GBps is of main interest)
+  - locality (maximize locality to minimize communication)
+- each architecture and kernel has different balance between these
+
+#### arithmetic intensity
+- relates computation with communication
+- flops to bytes ratio
+- to measure total bytes, all caches should be considered
+
+#### roofline
+- upper bound to perf is given by
+  - achieved flops/s = min(peak flops/s,  streaming-BW * flops-to-bytes-ratio)
+  - assume complete overlap of computation with communication
+- provides intuitive graph for kernel analysis and optimization
