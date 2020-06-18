@@ -1,4 +1,84 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-17T11:28:56+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Open Graph Benchmark: Datasets for Machine Learning on Graphs</title><link href="https://teju85.github.io/blog/2020/06/17/open-graph-benchmark.html" rel="alternate" type="text/html" title="Open Graph Benchmark: Datasets for Machine Learning on Graphs" /><published>2020-06-17T00:00:00+05:30</published><updated>2020-06-17T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/17/open-graph-benchmark</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/17/open-graph-benchmark.html">&lt;h3 id=&quot;proposal&quot;&gt;proposal&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-18T12:08:34+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Learning Graph Neural Networks with Deep Graph Library</title><link href="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html" rel="alternate" type="text/html" title="Learning Graph Neural Networks with Deep Graph Library" /><published>2020-06-18T00:00:00+05:30</published><updated>2020-06-18T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html">&lt;p&gt;Recording of the talk can be found &lt;a href=&quot;https://www.youtube.com/watch?v=bD6S3xUXNds&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;overview-of-graph-neural-networks&quot;&gt;Overview of Graph Neural Networks&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Tasks in graph learning
+    &lt;ul&gt;
+      &lt;li&gt;node classification (fraud detection)&lt;/li&gt;
+      &lt;li&gt;link prediction (eg: recsys)&lt;/li&gt;
+      &lt;li&gt;graph classification (eg: drug discovery)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;graph learning has 2 steps:
+    &lt;ul&gt;
+      &lt;li&gt;generate low-dim embedding of node&lt;/li&gt;
+      &lt;li&gt;use standard classifiers from there onwards&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;GNNs can learn node, edge, graph embeddings in an end-to-end fashion and are
+based on message-passing between neighbors
+    &lt;ul&gt;
+      &lt;li&gt;aggregation operation needs to be permutation invariant&lt;/li&gt;
+      &lt;li&gt;thereby these nets integrate node/edge/graph features as well as topology in
+a non-linear fashion&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;for graph classification, there’ll be a final “readout” layer to compute the
+overall graph embedding based on embeddings of each node&lt;/li&gt;
+  &lt;li&gt;training of large graphs is done via mini-batch training
+    &lt;ul&gt;
+      &lt;li&gt;with pruning of neighborhood via sampling to reduce computational complexity&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;deep-graph-library---an-update&quot;&gt;Deep Graph Library - an update&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;/blog/assets/dgl/01-dgl-stack.png&quot; alt=&quot;DGL stack&quot; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;already having active customers using DGL via AWS Sagemaker&lt;/li&gt;
+  &lt;li&gt;started out with multiple backends&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;flexible-message-propagation&quot;&gt;flexible message propagation&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&quot;/blog/assets/dgl/02-flexible-message-handling.png&quot; alt=&quot;Flexible message handling&quot; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;full propagation&lt;/li&gt;
+  &lt;li&gt;propagation by graph traversal: sampling on ego-network&lt;/li&gt;
+  &lt;li&gt;propagation by random walk&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;dgl-programming-interface&quot;&gt;DGL programming interface&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&quot;/blog/assets/dgl/03-dgl-api.png&quot; alt=&quot;DGL API&quot; /&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;DGLGraph&lt;/code&gt; is the core abstraction
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;DGLGraph.ndata[&quot;h&quot;]&lt;/code&gt; - the node representation matrix&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;simple and flexible message passing APIs
+    &lt;ul&gt;
+      &lt;li&gt;&lt;em&gt;active set&lt;/em&gt; - set of nodes/edges to trigger computation on&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;three user defined functions
+    &lt;ul&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\phi^v&lt;/script&gt; - transformation function on vertices&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\bigoplus&lt;/script&gt; - reduction or aggregation function&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\phi^e&lt;/script&gt; - transformation function on edges&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;update_all&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;shortcut for &lt;code class=&quot;highlighter-rouge&quot;&gt;send(G.edges()); recv(G.nodes());&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;in other words, do a full propagation&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;now heterogeneous graph is supported&lt;/li&gt;
+  &lt;li&gt;new sampling API is introduced in v0.43 release&lt;/li&gt;
+  &lt;li&gt;next plan is to look at distributed training&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Currently stopped at 1:22:49&lt;/p&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Recording of the talk can be found here.</summary></entry><entry><title type="html">Open Graph Benchmark: Datasets for Machine Learning on Graphs</title><link href="https://teju85.github.io/blog/2020/06/17/open-graph-benchmark.html" rel="alternate" type="text/html" title="Open Graph Benchmark: Datasets for Machine Learning on Graphs" /><published>2020-06-17T00:00:00+05:30</published><updated>2020-06-17T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/17/open-graph-benchmark</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/17/open-graph-benchmark.html">&lt;h3 id=&quot;proposal&quot;&gt;proposal&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;&quot;&gt;here&lt;/a&gt; and the code for it is found &lt;a href=&quot;https://ogb.stanford.edu&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
@@ -588,47 +668,4 @@ are setting them to be &lt;script type=&quot;math/tex&quot;&gt;\frac{1}{K+1}&lt;
   &lt;li&gt;each layer’s operation = &lt;script type=&quot;math/tex&quot;&gt;f_i(D^{-0.5} A' D^{-0.5} X_i W_i)&lt;/script&gt;&lt;/li&gt;
   &lt;li&gt;author’s show forward prop on this network is generalized, differentiable version of Weisfeiler-Lehman algo!&lt;/li&gt;
   &lt;li&gt;code is on &lt;a href=&quot;https://github.com/tkipf/gcn&quot;&gt;github&lt;/a&gt;. Uses TF&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Graph Convolutional Networks Summary of the content of the blog found here.</summary></entry><entry><title type="html">Spartan Discipline</title><link href="https://teju85.github.io/blog/2020/05/28/spartan-discipline.html" rel="alternate" type="text/html" title="Spartan Discipline" /><published>2020-05-28T00:00:00+05:30</published><updated>2020-05-28T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/05/28/spartan-discipline</id><content type="html" xml:base="https://teju85.github.io/blog/2020/05/28/spartan-discipline.html">&lt;h3 id=&quot;spartan-discipline&quot;&gt;Spartan Discipline&lt;/h3&gt;
-&lt;p&gt;By Dominic Mann. This book can be found &lt;a href=&quot;https://www.amazon.com/Spartan-Discipline-Unbreakable-Toughness-Relentless/dp/1539143066&quot;&gt;here&lt;/a&gt;.
-Mann gives tips, tricks, suggestions and analogies from Spartan’s lifestyle
-to illustrate how to develop self-discipline and be productive in our lives.&lt;/p&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;full bellies never plough fields&lt;/li&gt;
-  &lt;li&gt;choose delayed gratification over the instant one&lt;/li&gt;
-  &lt;li&gt;accept minimalism as it allows to inculcate lazer sharp focus, by eliminating
-distractions. For someone with no junk in kitchen shelf, eating healthy
-becomes easier.&lt;/li&gt;
-  &lt;li&gt;willpower is like muscle. More you exercise it, the stronger it becomes&lt;/li&gt;
-  &lt;li&gt;your body can stand almost anything. It’s the mind that’s the bottleneck&lt;/li&gt;
-  &lt;li&gt;Mind over matter!&lt;/li&gt;
-  &lt;li&gt;a healthy mind and body can go a long way in developing self-discipline&lt;/li&gt;
-  &lt;li&gt;external events are not under your control, but how you react to them is&lt;/li&gt;
-  &lt;li&gt;start with the end in mind (what do you want people to say at your funeral)&lt;/li&gt;
-  &lt;li&gt;conquering yourself is the first step to conquering the world.&lt;/li&gt;
-  &lt;li&gt;use your emotions as a tool rather than becoming a tool for them.&lt;/li&gt;
-  &lt;li&gt;Conquer your emotions, not the other way around!&lt;/li&gt;
-  &lt;li&gt;there are 2 kinds of wants
-    &lt;ul&gt;
-      &lt;li&gt;wants of the body&lt;/li&gt;
-      &lt;li&gt;wants of the mind&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;it is the wants of the mind that you truly want&lt;/li&gt;
-  &lt;li&gt;go all the way in or don’t even start. Don’t give yourself any exceptions, or
-else, those exceptions can become the norm.&lt;/li&gt;
-  &lt;li&gt;to make big gains avoid tiny losses&lt;/li&gt;
-  &lt;li&gt;it is through hardship, challenges and adversity that we grow in life&lt;/li&gt;
-  &lt;li&gt;developing discipline in one key area of life also leads to being disciplined
-in all areas of life. It’s called developing a “keystone habit”&lt;/li&gt;
-  &lt;li&gt;Spartans used to not ask how enemies, but where they are. If you truly want to
-do something, find a way to do it.&lt;/li&gt;
-  &lt;li&gt;give your 100% in everything you do.&lt;/li&gt;
-  &lt;li&gt;do one thing at a time, but with lazer sharp focus. Intensity beats extensity&lt;/li&gt;
-  &lt;li&gt;you just only need enough willpower to get a habit in motion. Once habit takes
-over, no willpower is required&lt;/li&gt;
-  &lt;li&gt;we eventually get adjusted to new circumstances and get back to our normalcy.
-So we’ll be just as happy with a disciplined life as we were if continued to
-be lazy and comfortable&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="book-notes" /><category term="self-help" /><summary type="html">Spartan Discipline By Dominic Mann. This book can be found here. Mann gives tips, tricks, suggestions and analogies from Spartan’s lifestyle to illustrate how to develop self-discipline and be productive in our lives.</summary></entry></feed>
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Graph Convolutional Networks Summary of the content of the blog found here.</summary></entry></feed>
