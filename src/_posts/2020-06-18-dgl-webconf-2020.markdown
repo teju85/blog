@@ -1,0 +1,56 @@
+---
+layout: post
+title: "Learning Graph Neural Networks with Deep Graph Library"
+needmath: true
+tags: tech-notes graph gnn
+---
+
+Recording of the talk can be found [here](https://www.youtube.com/watch?v=bD6S3xUXNds).
+
+### Overview of Graph Neural Networks
+- Tasks in graph learning
+  - node classification (fraud detection)
+  - link prediction (eg: recsys)
+  - graph classification (eg: drug discovery)
+- graph learning has 2 steps:
+  - generate low-dim embedding of node
+  - use standard classifiers from there onwards
+- GNNs can learn node, edge, graph embeddings in an end-to-end fashion and are
+  based on message-passing between neighbors
+  - aggregation operation needs to be permutation invariant
+  - thereby these nets integrate node/edge/graph features as well as topology in
+    a non-linear fashion
+- for graph classification, there'll be a final "readout" layer to compute the
+  overall graph embedding based on embeddings of each node
+- training of large graphs is done via mini-batch training
+  - with pruning of neighborhood via sampling to reduce computational complexity
+
+### Deep Graph Library - an update
+![DGL stack]({{ site.baseurl }}/assets/dgl/01-dgl-stack.png)
+- already having active customers using DGL via AWS Sagemaker
+- started out with multiple backends
+
+#### flexible message propagation
+![Flexible message handling]({{ site.baseurl }}/assets/dgl/02-flexible-message-handling.png)
+- full propagation
+- propagation by graph traversal: sampling on ego-network
+- propagation by random walk
+
+#### DGL programming interface
+![DGL API]({{ site.baseurl }}/assets/dgl/03-dgl-api.png)
+- `DGLGraph` is the core abstraction
+  - `DGLGraph.ndata["h"]` - the node representation matrix
+- simple and flexible message passing APIs
+  - *active set* - set of nodes/edges to trigger computation on
+- three user defined functions
+  - $$\phi^v$$ - transformation function on vertices
+  - $$\bigoplus$$ - reduction or aggregation function
+  - $$\phi^e$$ - transformation function on edges
+- `update_all`
+  - shortcut for `send(G.edges()); recv(G.nodes());`
+  - in other words, do a full propagation
+- now heterogeneous graph is supported
+- new sampling API is introduced in v0.43 release
+- next plan is to look at distributed training
+
+Currently stopped at 1:22:49
