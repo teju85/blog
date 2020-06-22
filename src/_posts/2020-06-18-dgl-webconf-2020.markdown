@@ -93,6 +93,9 @@ How to customize graph-conv using message passing APIs
 - eg: recommender systems using GCMC
 - introduced traditional collaborative filtering based approaches
 - such a user-item matrix can be converted into bipartite graphs
-- 
-
-Currently stopped at 4:09:00
+- `apply_edges()` computes edge features
+- heterogenous graphs:
+  - graphs with different types of nodes and/or edges. (eg: user-item graphs)
+  - `dgl.heterograph` for creating such graphs
+  - accessing node features is via: `g.nodes["ntype"].data["name"]`
+  - accessing edge features is via: `g.edges["etype"].data["name"]`
