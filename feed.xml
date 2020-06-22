@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-22T11:04:22+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Learning Graph Neural Networks with Deep Graph Library</title><link href="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html" rel="alternate" type="text/html" title="Learning Graph Neural Networks with Deep Graph Library" /><published>2020-06-18T00:00:00+05:30</published><updated>2020-06-18T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html">&lt;p&gt;Recording of the talk can be found &lt;a href=&quot;https://www.youtube.com/watch?v=bD6S3xUXNds&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-22T13:15:54+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Learning Graph Neural Networks with Deep Graph Library</title><link href="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html" rel="alternate" type="text/html" title="Learning Graph Neural Networks with Deep Graph Library" /><published>2020-06-18T00:00:00+05:30</published><updated>2020-06-18T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html">&lt;p&gt;Recording of the talk can be found &lt;a href=&quot;https://www.youtube.com/watch?v=bD6S3xUXNds&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h3 id=&quot;overview-of-graph-neural-networks&quot;&gt;Overview of Graph Neural Networks&lt;/h3&gt;
 &lt;ul&gt;
@@ -78,7 +78,7 @@ overall graph embedding based on embeddings of each node&lt;/li&gt;
   &lt;li&gt;next plan is to look at distributed training&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&quot;using-gnns-for-basic-graph-tasks&quot;&gt;Using GNNs for basic graph tasks&lt;/h4&gt;
+&lt;h3 id=&quot;using-gnns-for-basic-graph-tasks&quot;&gt;Using GNNs for basic graph tasks&lt;/h3&gt;
 &lt;ul&gt;
   &lt;li&gt;using Zachary’s karate class network to demo APIs of DGL&lt;/li&gt;
   &lt;li&gt;DGL expects node id’s to be consecutive integers starting from 0&lt;/li&gt;
@@ -88,9 +88,31 @@ overall graph embedding based on embeddings of each node&lt;/li&gt;
   &lt;li&gt;definition of models (and their training) in dgl is very similar to that of pytorch&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;how-to-customize-graph-conv-using-message-passing-apis&quot;&gt;How to customize graph-conv using message passing APIs&lt;/h2&gt;
+&lt;p&gt;How to customize graph-conv using message passing APIs&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.graph.ndata&lt;/code&gt; (and &lt;code class=&quot;highlighter-rouge&quot;&gt;edata&lt;/code&gt;) can be locally updated using &lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.graph.local_scope()&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Message passing APIs in DGL are a generalization as found in
+&lt;em&gt;Message Passing Neural Network&lt;/em&gt;s. The relevant equations are as follows:
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;m_{uv}^{(l)} = Message^{(l)}(h_u^{(l-1)}, h_v^{(l-1)}, e_{uv}^{(l)})&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;m_v^{(l)} = Aggregation_{u \epsilon N(v)}(m_{uv}^{(l)})&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_v^{(l)} = Update^{(l)}(h_v^{(l-1)}, m_v^{(l)})&lt;/script&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;Currently stopped at 2:19:35&lt;/p&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Recording of the talk can be found here.</summary></entry><entry><title type="html">Open Graph Benchmark: Datasets for Machine Learning on Graphs</title><link href="https://teju85.github.io/blog/2020/06/17/open-graph-benchmark.html" rel="alternate" type="text/html" title="Open Graph Benchmark: Datasets for Machine Learning on Graphs" /><published>2020-06-17T00:00:00+05:30</published><updated>2020-06-17T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/17/open-graph-benchmark</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/17/open-graph-benchmark.html">&lt;h3 id=&quot;proposal&quot;&gt;proposal&lt;/h3&gt;
+&lt;h3 id=&quot;scale-gnn-to-giant-graphs-using-dgl&quot;&gt;Scale GNN to giant graphs using DGL&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;for large batches it is recommended to use mini-batch training procedure&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Currently stopped at 2:46:17&lt;/p&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Recording of the talk can be found here.</summary></entry><entry><title type="html">Open Graph Benchmark: Datasets for Machine Learning on Graphs</title><link href="https://teju85.github.io/blog/2020/06/17/open-graph-benchmark.html" rel="alternate" type="text/html" title="Open Graph Benchmark: Datasets for Machine Learning on Graphs" /><published>2020-06-17T00:00:00+05:30</published><updated>2020-06-17T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/17/open-graph-benchmark</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/17/open-graph-benchmark.html">&lt;h3 id=&quot;proposal&quot;&gt;proposal&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;&quot;&gt;here&lt;/a&gt; and the code for it is found &lt;a href=&quot;https://ogb.stanford.edu&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
