@@ -59,10 +59,11 @@ Recording of the talk can be found [here](https://www.youtube.com/watch?v=bD6S3x
 - `dgl.graph` is the main graph structure which provides IO and query methods
 - `dgl.graph.ndata` member is a dict that holds node features as tensor
 - `dgl.graph.edata` member is a dict that holds edge features as tensor
-- definition of models (and their training) in dgl is very similar to that of pytorch
+- definition of models (and their training) in dgl is similar to pytorch
 
 How to customize graph-conv using message passing APIs
-- `dgl.graph.ndata` (and `edata`) can be locally updated using `dgl.graph.local_scope()`
+- `dgl.graph.ndata` (and `edata`) can be locally updated using
+  `dgl.graph.local_scope()`
 - Message passing APIs in DGL are a generalization as found in
   *Message Passing Neural Network*s. The relevant equations are as follows:
   - $$m_{uv}^{(l)} = Message^{(l)}(h_u^{(l-1)}, h_v^{(l-1)}, e_{uv}^{(l)})$$
@@ -71,6 +72,27 @@ How to customize graph-conv using message passing APIs
 
 ### Scale GNN to giant graphs using DGL
 - for large batches it is recommended to use mini-batch training procedure
+- minibatch generation on graphs
+  - sample the target nodes
+    - not done inside DGL
+    - using `numpy.random.choice` or `torch.utils.data.DataLoader`
+  - randomly sample the neighbors (multi-hop)
+    - `dgl.sampling.sample_neighbors` for one layer
+    - `dgl.in_subgraph` similar to the above, but will copy all edges
+  - construct the minibatch
+    - `dgl.to_block`
+    - renames nodes to be consecutive (for memory efficiency as well as perf)
+    - constructs a bipartite graph for message passing (COO format)
+- `to_block()` has an option `include_dst_in_src` to help with self-loops during
+   aggregation
+- inference
+  - we need to infer for all nodes in each layer
+  - thus, inference is typically costlier than training!
 
+### DGL on real world applications
+- eg: recommender systems using GCMC
+- introduced traditional collaborative filtering based approaches
+- such a user-item matrix can be converted into bipartite graphs
+- 
 
-Currently stopped at 2:46:17
+Currently stopped at 4:09:00
