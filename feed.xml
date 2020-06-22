@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-22T13:15:54+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Learning Graph Neural Networks with Deep Graph Library</title><link href="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html" rel="alternate" type="text/html" title="Learning Graph Neural Networks with Deep Graph Library" /><published>2020-06-18T00:00:00+05:30</published><updated>2020-06-18T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html">&lt;p&gt;Recording of the talk can be found &lt;a href=&quot;https://www.youtube.com/watch?v=bD6S3xUXNds&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-22T17:42:11+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Learning Graph Neural Networks with Deep Graph Library</title><link href="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html" rel="alternate" type="text/html" title="Learning Graph Neural Networks with Deep Graph Library" /><published>2020-06-18T00:00:00+05:30</published><updated>2020-06-18T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html">&lt;p&gt;Recording of the talk can be found &lt;a href=&quot;https://www.youtube.com/watch?v=bD6S3xUXNds&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h3 id=&quot;overview-of-graph-neural-networks&quot;&gt;Overview of Graph Neural Networks&lt;/h3&gt;
 &lt;ul&gt;
@@ -85,12 +85,13 @@ overall graph embedding based on embeddings of each node&lt;/li&gt;
   &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.graph&lt;/code&gt; is the main graph structure which provides IO and query methods&lt;/li&gt;
   &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.graph.ndata&lt;/code&gt; member is a dict that holds node features as tensor&lt;/li&gt;
   &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.graph.edata&lt;/code&gt; member is a dict that holds edge features as tensor&lt;/li&gt;
-  &lt;li&gt;definition of models (and their training) in dgl is very similar to that of pytorch&lt;/li&gt;
+  &lt;li&gt;definition of models (and their training) in dgl is similar to pytorch&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;How to customize graph-conv using message passing APIs&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.graph.ndata&lt;/code&gt; (and &lt;code class=&quot;highlighter-rouge&quot;&gt;edata&lt;/code&gt;) can be locally updated using &lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.graph.local_scope()&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.graph.ndata&lt;/code&gt; (and &lt;code class=&quot;highlighter-rouge&quot;&gt;edata&lt;/code&gt;) can be locally updated using
+&lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.graph.local_scope()&lt;/code&gt;&lt;/li&gt;
   &lt;li&gt;Message passing APIs in DGL are a generalization as found in
 &lt;em&gt;Message Passing Neural Network&lt;/em&gt;s. The relevant equations are as follows:
     &lt;ul&gt;
@@ -110,9 +111,48 @@ overall graph embedding based on embeddings of each node&lt;/li&gt;
 &lt;h3 id=&quot;scale-gnn-to-giant-graphs-using-dgl&quot;&gt;Scale GNN to giant graphs using DGL&lt;/h3&gt;
 &lt;ul&gt;
   &lt;li&gt;for large batches it is recommended to use mini-batch training procedure&lt;/li&gt;
+  &lt;li&gt;minibatch generation on graphs
+    &lt;ul&gt;
+      &lt;li&gt;sample the target nodes
+        &lt;ul&gt;
+          &lt;li&gt;not done inside DGL&lt;/li&gt;
+          &lt;li&gt;using &lt;code class=&quot;highlighter-rouge&quot;&gt;numpy.random.choice&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;torch.utils.data.DataLoader&lt;/code&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;randomly sample the neighbors (multi-hop)
+        &lt;ul&gt;
+          &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.sampling.sample_neighbors&lt;/code&gt; for one layer&lt;/li&gt;
+          &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.in_subgraph&lt;/code&gt; similar to the above, but will copy all edges&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;construct the minibatch
+        &lt;ul&gt;
+          &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.to_block&lt;/code&gt;&lt;/li&gt;
+          &lt;li&gt;renames nodes to be consecutive (for memory efficiency as well as perf)&lt;/li&gt;
+          &lt;li&gt;constructs a bipartite graph for message passing (COO format)&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;to_block()&lt;/code&gt; has an option &lt;code class=&quot;highlighter-rouge&quot;&gt;include_dst_in_src&lt;/code&gt; to help with self-loops during
+ aggregation&lt;/li&gt;
+  &lt;li&gt;inference
+    &lt;ul&gt;
+      &lt;li&gt;we need to infer for all nodes in each layer&lt;/li&gt;
+      &lt;li&gt;thus, inference is typically costlier than training!&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;Currently stopped at 2:46:17&lt;/p&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Recording of the talk can be found here.</summary></entry><entry><title type="html">Open Graph Benchmark: Datasets for Machine Learning on Graphs</title><link href="https://teju85.github.io/blog/2020/06/17/open-graph-benchmark.html" rel="alternate" type="text/html" title="Open Graph Benchmark: Datasets for Machine Learning on Graphs" /><published>2020-06-17T00:00:00+05:30</published><updated>2020-06-17T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/17/open-graph-benchmark</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/17/open-graph-benchmark.html">&lt;h3 id=&quot;proposal&quot;&gt;proposal&lt;/h3&gt;
+&lt;h3 id=&quot;dgl-on-real-world-applications&quot;&gt;DGL on real world applications&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;eg: recommender systems using GCMC&lt;/li&gt;
+  &lt;li&gt;introduced traditional collaborative filtering based approaches&lt;/li&gt;
+  &lt;li&gt;such a user-item matrix can be converted into bipartite graphs&lt;/li&gt;
+  &lt;li&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Currently stopped at 4:09:00&lt;/p&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Recording of the talk can be found here.</summary></entry><entry><title type="html">Open Graph Benchmark: Datasets for Machine Learning on Graphs</title><link href="https://teju85.github.io/blog/2020/06/17/open-graph-benchmark.html" rel="alternate" type="text/html" title="Open Graph Benchmark: Datasets for Machine Learning on Graphs" /><published>2020-06-17T00:00:00+05:30</published><updated>2020-06-17T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/17/open-graph-benchmark</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/17/open-graph-benchmark.html">&lt;h3 id=&quot;proposal&quot;&gt;proposal&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;&quot;&gt;here&lt;/a&gt; and the code for it is found &lt;a href=&quot;https://ogb.stanford.edu&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
