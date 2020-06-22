@@ -53,7 +53,7 @@ Recording of the talk can be found [here](https://www.youtube.com/watch?v=bD6S3x
 - new sampling API is introduced in v0.43 release
 - next plan is to look at distributed training
 
-#### Using GNNs for basic graph tasks
+### Using GNNs for basic graph tasks
 - using Zachary's karate class network to demo APIs of DGL
 - DGL expects node id's to be consecutive integers starting from 0
 - `dgl.graph` is the main graph structure which provides IO and query methods
@@ -62,6 +62,15 @@ Recording of the talk can be found [here](https://www.youtube.com/watch?v=bD6S3x
 - definition of models (and their training) in dgl is very similar to that of pytorch
 
 How to customize graph-conv using message passing APIs
-- 
+- `dgl.graph.ndata` (and `edata`) can be locally updated using `dgl.graph.local_scope()`
+- Message passing APIs in DGL are a generalization as found in
+  *Message Passing Neural Network*s. The relevant equations are as follows:
+  - $$m_{uv}^{(l)} = Message^{(l)}(h_u^{(l-1)}, h_v^{(l-1)}, e_{uv}^{(l)})$$
+  - $$m_v^{(l)} = Aggregation_{u \epsilon N(v)}(m_{uv}^{(l)})$$
+  - $$h_v^{(l)} = Update^{(l)}(h_v^{(l-1)}, m_v^{(l)})$$
 
-Currently stopped at 2:19:35
+### Scale GNN to giant graphs using DGL
+- for large batches it is recommended to use mini-batch training procedure
+
+
+Currently stopped at 2:46:17
