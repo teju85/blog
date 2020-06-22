@@ -53,4 +53,15 @@ Recording of the talk can be found [here](https://www.youtube.com/watch?v=bD6S3x
 - new sampling API is introduced in v0.43 release
 - next plan is to look at distributed training
 
-Currently stopped at 1:22:49
+#### Using GNNs for basic graph tasks
+- using Zachary's karate class network to demo APIs of DGL
+- DGL expects node id's to be consecutive integers starting from 0
+- `dgl.graph` is the main graph structure which provides IO and query methods
+- `dgl.graph.ndata` member is a dict that holds node features as tensor
+- `dgl.graph.edata` member is a dict that holds edge features as tensor
+- definition of models (and their training) in dgl is very similar to that of pytorch
+
+How to customize graph-conv using message passing APIs
+- 
+
+Currently stopped at 2:19:35
