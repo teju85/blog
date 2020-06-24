@@ -1,4 +1,107 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-23T00:27:37+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Learning Graph Neural Networks with Deep Graph Library</title><link href="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html" rel="alternate" type="text/html" title="Learning Graph Neural Networks with Deep Graph Library" /><published>2020-06-18T00:00:00+05:30</published><updated>2020-06-18T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html">&lt;p&gt;Recording of the talk can be found &lt;a href=&quot;https://www.youtube.com/watch?v=bD6S3xUXNds&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-24T15:57:16+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">GraphSAGE</title><link href="https://teju85.github.io/blog/2020/06/24/graphsage.html" rel="alternate" type="text/html" title="GraphSAGE" /><published>2020-06-24T00:00:00+05:30</published><updated>2020-06-24T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/24/graphsage</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/24/graphsage.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1706.02216.pdf&quot;&gt;here&lt;/a&gt;.
+SaGe = Sample and Aggregation functions&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Learns parametric functions in order to generate low dimensional embeddings of
+the nodes in the graph&lt;/li&gt;
+  &lt;li&gt;These functions can also be used to generate embeddings of unseen nodes too&lt;/li&gt;
+  &lt;li&gt;It can also optionally use node features as starting points for embeddings&lt;/li&gt;
+  &lt;li&gt;Configurable number of layers representing the number of hops for each node&lt;/li&gt;
+  &lt;li&gt;Custom loss function (based on negative-sampling) for unsupervised learning&lt;/li&gt;
+  &lt;li&gt;Also supports supervised learning&lt;/li&gt;
+  &lt;li&gt;Scales to large graphs through neighborhood sampling and minibatch techniques&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;forward-propagation-algo&quot;&gt;forward propagation algo&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_v^0 = x_v&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;for k = 1 to K
+    &lt;ul&gt;
+      &lt;li&gt;for v in minibatch
+        &lt;ul&gt;
+          &lt;li&gt;
+            &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_{N(v)}^k = aggregator_k(h_u^{k-1}, u \epsilon N(v))&lt;/script&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+            &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_v^k = \sigma(W^k concat(h_v^{k-1}, h_{N(v)}^k))&lt;/script&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+            &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_v^k = \frac{h_v^k}{L2norm(h_v^k)}&lt;/script&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;z_v = h_v^K&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Where:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;h^k&lt;/script&gt; = hidden vectors at each layer for all vertices&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;V&lt;/script&gt; = nodes&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;N(v)&lt;/script&gt; = sampled neighborhood for each node&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;K&lt;/script&gt; = number of layers (hyperparameter)&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\sigma&lt;/script&gt; = a non-linear activation function&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;W^k&lt;/script&gt; = learnable weights for each layer&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;z&lt;/script&gt; = output embedding&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In paper the authors show the similarity of this algo with the popular
+&lt;a href=&quot;https://www.davidbieber.com/post/2019-05-10-weisfeiler-lehman-isomorphism-test/&quot;&gt;Weisfeiler-Lehman&lt;/a&gt;
+graph isomorphism test.&lt;/p&gt;
+
+&lt;h3 id=&quot;neighborhood-sampling&quot;&gt;neighborhood sampling&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;performs uniform sampling&lt;/li&gt;
+  &lt;li&gt;different samples are drawn for each layer based on different sampling rates
+&lt;script type=&quot;math/tex&quot;&gt;S_i&lt;/script&gt;, for each layer&lt;/li&gt;
+  &lt;li&gt;authors recommend to keep &lt;script type=&quot;math/tex&quot;&gt;\Pi_i S_i \le 500&lt;/script&gt;&lt;/li&gt;
+  &lt;li&gt;sampling technique is pretty much the same as seen in
+&lt;a href=&quot;/blog/2020/06/10/pinsage.html&quot;&gt;PinSage&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;They recommend &lt;script type=&quot;math/tex&quot;&gt;K = 2, S_1 = 25, S_2 = 10&lt;/script&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;learning&quot;&gt;learning&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;via SGD + using Adam optimizer&lt;/li&gt;
+  &lt;li&gt;loss function for unsupervised mode is based on negative sampling and its
+equation is as follows: &lt;script type=&quot;math/tex&quot;&gt;J(z_u) = -log(sigmoid(z_u^T z_v)) - Q E[log(sigmoid(z_u^T z_{v_n}))]&lt;/script&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;Q&lt;/script&gt; = number of negative samples&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;v_n&lt;/script&gt; = negative sample&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;v&lt;/script&gt; = node that is a neighbor of &lt;script type=&quot;math/tex&quot;&gt;u&lt;/script&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;aggregators&quot;&gt;aggregators&lt;/h3&gt;
+&lt;p&gt;These must be permutation invariant. They test the following aggregators&lt;/p&gt;
+
+&lt;h4 id=&quot;mean-aggregator&quot;&gt;mean aggregator&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_v^k = \sigma(W^k Mean(h_u^{k-1} with u \epsilon N(v), h_v^{k-1}))&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;note that this uses &lt;script type=&quot;math/tex&quot;&gt;h_v^{k-1}&lt;/script&gt; in the aggregation itself!&lt;/li&gt;
+  &lt;li&gt;thus this can be thought of as “skip connection” between layers&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;lstm-aggregator&quot;&gt;LSTM aggregator&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;LSTM’s are not permutation invariant&lt;/li&gt;
+  &lt;li&gt;So they make it to be invariant by randomly permuting the inputs&lt;/li&gt;
+  &lt;li&gt;this seems to show the best accuracy in their experimentation&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;pooling-aggregator&quot;&gt;pooling aggregator&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_{N(v)}^k = max_{u \epsilon N(v)}(\sigma(W_{pool}^k h_u^k + b^k))&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;aggregator can be either max or mean, both seem to provide similar accuracy&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here. SaGe = Sample and Aggregation functions</summary></entry><entry><title type="html">Learning Graph Neural Networks with Deep Graph Library</title><link href="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html" rel="alternate" type="text/html" title="Learning Graph Neural Networks with Deep Graph Library" /><published>2020-06-18T00:00:00+05:30</published><updated>2020-06-18T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html">&lt;p&gt;Recording of the talk can be found &lt;a href=&quot;https://www.youtube.com/watch?v=bD6S3xUXNds&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h3 id=&quot;overview-of-graph-neural-networks&quot;&gt;Overview of Graph Neural Networks&lt;/h3&gt;
 &lt;ul&gt;
@@ -715,37 +818,4 @@ are setting them to be &lt;script type=&quot;math/tex&quot;&gt;\frac{1}{K+1}&lt;
 &lt;ol&gt;
   &lt;li&gt;&lt;a href=&quot;https://github.com/kuandeng/LightGCN&quot;&gt;here&lt;/a&gt; for TF&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://github.com/gusye1234/pytorch-light-gcn&quot;&gt;here&lt;/a&gt; for pytorch&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">LightGCN - Simplifying and Powering Graph ConvolutionNetwork for Recommendation Main paper can be found here</summary></entry><entry><title type="html">Graph Convolutional Networks</title><link href="https://teju85.github.io/blog/2020/06/09/graph-convolutional-networks.html" rel="alternate" type="text/html" title="Graph Convolutional Networks" /><published>2020-06-09T00:00:00+05:30</published><updated>2020-06-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/09/graph-convolutional-networks</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/09/graph-convolutional-networks.html">&lt;h3 id=&quot;graph-convolutional-networks&quot;&gt;Graph Convolutional Networks&lt;/h3&gt;
-&lt;p&gt;Summary of the content of the blog found &lt;a href=&quot;https://tkipf.github.io/graph-convolutional-networks&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Inputs:
-    &lt;ul&gt;
-      &lt;li&gt;N = number of nodes&lt;/li&gt;
-      &lt;li&gt;D = dimensionality of input feature vector for each node&lt;/li&gt;
-      &lt;li&gt;A = adjacency matrix&lt;/li&gt;
-      &lt;li&gt;L = number of layers&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;L_i&lt;/script&gt; = output features at each layer&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;f_i&lt;/script&gt; = output activation at each layer&lt;/li&gt;
-      &lt;li&gt;X = feature matrix [dim = N x D]&lt;/li&gt;
-      &lt;li&gt;F = output feature vector dimension&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Weights
-    &lt;ul&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;W_i&lt;/script&gt; = weight matrix at each layer [dim = &lt;script type=&quot;math/tex&quot;&gt;L_{i-1}&lt;/script&gt; x &lt;script type=&quot;math/tex&quot;&gt;L_i&lt;/script&gt;], with &lt;script type=&quot;math/tex&quot;&gt;L_0&lt;/script&gt; = D&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Outputs:
-    &lt;ul&gt;
-      &lt;li&gt;Z = transformed feature vector for each node [dim = N x F]&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;L layers means that this network does “convolution” with neighbor nodes upto L hops from a given node&lt;/li&gt;
-  &lt;li&gt;A’ = A + I, in order introduce self-loops&lt;/li&gt;
-  &lt;li&gt;D = diagonal matrix of node degrees (very useful in normalizing the adjacency matrix)&lt;/li&gt;
-  &lt;li&gt;each layer’s operation = &lt;script type=&quot;math/tex&quot;&gt;f_i(D^{-0.5} A' D^{-0.5} X_i W_i)&lt;/script&gt;&lt;/li&gt;
-  &lt;li&gt;author’s show forward prop on this network is generalized, differentiable version of Weisfeiler-Lehman algo!&lt;/li&gt;
-  &lt;li&gt;code is on &lt;a href=&quot;https://github.com/tkipf/gcn&quot;&gt;github&lt;/a&gt;. Uses TF&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Graph Convolutional Networks Summary of the content of the blog found here.</summary></entry></feed>
+&lt;/ol&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">LightGCN - Simplifying and Powering Graph ConvolutionNetwork for Recommendation Main paper can be found here</summary></entry></feed>
