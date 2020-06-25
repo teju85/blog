@@ -1,4 +1,65 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-24T15:57:16+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">GraphSAGE</title><link href="https://teju85.github.io/blog/2020/06/24/graphsage.html" rel="alternate" type="text/html" title="GraphSAGE" /><published>2020-06-24T00:00:00+05:30</published><updated>2020-06-24T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/24/graphsage</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/24/graphsage.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-25T11:01:41+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Tree-LSTM’s</title><link href="https://teju85.github.io/blog/2020/06/25/tree-lstms.html" rel="alternate" type="text/html" title="Tree-LSTM's" /><published>2020-06-25T00:00:00+05:30</published><updated>2020-06-25T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/25/tree-lstms</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/25/tree-lstms.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1503.00075.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Generalization of LSTMs to tree structured network topologies, with arbitrary
+branching factor&lt;/li&gt;
+  &lt;li&gt;demonstrate better results than “linear” LSTMs on SemEval and SSTB datasets&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;tree-lstms&quot;&gt;Tree LSTMs&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;“linear” LSTMs compute their current hidden state based on previous hidden
+state and current input&lt;/li&gt;
+  &lt;li&gt;tree LSTMs compute their current hidden state from current input and hidden
+states of children. There will be one forget gate for each child and only the
+leaf nodes get to take in the input vectors&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;child-tree-lstms&quot;&gt;Child tree LSTMs&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;useful for unordered children&lt;/li&gt;
+  &lt;li&gt;eg: dependency trees&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;C(j)&lt;/script&gt; = children of j-th node&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\sigma&lt;/script&gt; = sigmoid function&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;x_j&lt;/script&gt; inputs to the j-th node&lt;/li&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;k \epsilon C(j)&lt;/script&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;h_j' = \sum_k h_k&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;i_j = \sigma(W^{(i)}x_j + U^{(i)}h_j' + b^{(i)})&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;f_{jk} = \sigma(W^{(f)}x_j + U^{(f)}h_k + b^{(f)})&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;o_j = \sigma(W^{(o)}x_j + U^{(o)}h_j' + b^{(o)})&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;u_j = tanh(W^{(u)}x_j + U^{(u)}h_j' + b^{(u)})&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;c_j = i_j \odot u_j + \sum_k f_{jk} c_k&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;h_j = o_j \odot tanh(c_j)&lt;/script&gt;
+
+&lt;h4 id=&quot;n-ary-tree-lstms&quot;&gt;N-ary tree LSTMs&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;useful when branching factor is atmost N&lt;/li&gt;
+  &lt;li&gt;has finer grained control over forget gates from each child node&lt;/li&gt;
+  &lt;li&gt;child nodes are expected to be ordered&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;i_j = \sigma(W^{(i)}x_j + \sum_{l=1}^N U_l^{(i)}h_{jl} + b^{(i)})&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;f_{jk} = \sigma(W^{(f)}x_j + \sum_{l=1}^N U_{kl}^{(f)}h_{jl} + b^{(i)})&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;o_j = \sigma(W^{(o)}x_j + \sum_{l=1}^N U_l^{(o)}h_{jl} + b^{(o)})&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;u_j = tanh(W^{(u)}x_j + \sum_{l=1}^N U_l^{(u)}h_{jl} + b^{(u)})&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;c_j = i_j \odot u_j + \sum_{l=1}^N f_{jl} \odot c_{jl}&lt;/script&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;h_j = o_j \odot tanh(c_j)&lt;/script&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">GraphSAGE</title><link href="https://teju85.github.io/blog/2020/06/24/graphsage.html" rel="alternate" type="text/html" title="GraphSAGE" /><published>2020-06-24T00:00:00+05:30</published><updated>2020-06-24T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/24/graphsage</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/24/graphsage.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1706.02216.pdf&quot;&gt;here&lt;/a&gt;.
 SaGe = Sample and Aggregation functions&lt;/p&gt;
 
@@ -101,7 +162,7 @@ equation is as follows: &lt;script type=&quot;math/tex&quot;&gt;J(z_u) = -log(si
     &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_{N(v)}^k = max_{u \epsilon N(v)}(\sigma(W_{pool}^k h_u^k + b^k))&lt;/script&gt;
   &lt;/li&gt;
   &lt;li&gt;aggregator can be either max or mean, both seem to provide similar accuracy&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here. SaGe = Sample and Aggregation functions</summary></entry><entry><title type="html">Learning Graph Neural Networks with Deep Graph Library</title><link href="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html" rel="alternate" type="text/html" title="Learning Graph Neural Networks with Deep Graph Library" /><published>2020-06-18T00:00:00+05:30</published><updated>2020-06-18T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html">&lt;p&gt;Recording of the talk can be found &lt;a href=&quot;https://www.youtube.com/watch?v=bD6S3xUXNds&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here. SaGe = Sample and Aggregation functions</summary></entry><entry><title type="html">Learning Graph Neural Networks with Deep Graph Library</title><link href="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html" rel="alternate" type="text/html" title="Learning Graph Neural Networks with Deep Graph Library" /><published>2020-06-18T00:00:00+05:30</published><updated>2020-06-18T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html">&lt;p&gt;Recording of the talk can be found &lt;a href=&quot;https://www.youtube.com/watch?v=bD6S3xUXNds&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h3 id=&quot;overview-of-graph-neural-networks&quot;&gt;Overview of Graph Neural Networks&lt;/h3&gt;
 &lt;ul&gt;
@@ -777,45 +838,4 @@ graphs (2D images, eg), will lead to severely weak models&lt;/li&gt;
   &lt;li&gt;But the &lt;a href=&quot;https://tkipf.github.io/graph-convolutional-networks&quot;&gt;main authors of the GCN&lt;/a&gt;
 paper also note that the Weisfeiler-Lehman algo also doesn’t converge on
 regular graphs!&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Power of GCNs Summary of the content of the blog found here.</summary></entry><entry><title type="html">LightGCN</title><link href="https://teju85.github.io/blog/2020/06/09/lightgcn.html" rel="alternate" type="text/html" title="LightGCN" /><published>2020-06-09T00:00:00+05:30</published><updated>2020-06-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/09/lightgcn</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/09/lightgcn.html">&lt;h3 id=&quot;lightgcn---simplifying-and-powering-graph-convolutionnetwork-for-recommendation&quot;&gt;LightGCN - Simplifying and Powering Graph ConvolutionNetwork for Recommendation&lt;/h3&gt;
-&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/2002.02126.pdf&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;proposal&quot;&gt;Proposal&lt;/h4&gt;
-&lt;p&gt;For collaborative filtering, instead of using full GCNs they only keep the
-neighborhood aggregation function and discard feature transformation and the
-non-linear activation functions, thereby gaining better final accuracy as well
-as simplifying the implementation.&lt;/p&gt;
-
-&lt;h4 id=&quot;details&quot;&gt;Details&lt;/h4&gt;
-&lt;p&gt;GCN was originally proposed for classification on rich attributes graph. However
-in the case of CF, there are only user-item interaction graphs. They emperically
-find that the NGCF’s (Neural Graph Collaborative Filtering, inspired from GCN)
-feature transformation and non-linear functions cause accuracy degradation. They
-also needlessly increase the complexity of the model. Thus, in LightGCN, they
-propose to remove these 2 operations and only keep the neighborhood aggregation.
-They create an ID embedding for each user and item and use the user-item
-interaction graph to propagate the current embeddings.&lt;/p&gt;
-
-&lt;p&gt;The core graph convolution operation that they are proposing is:&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;e_u^{k+1} = \sum_{i \epsilon N_u} \frac{1}{\sqrt{N_i N_u}} e_i^k&lt;/script&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;e_i^{k+1} = \sum_{i \epsilon N_i} \frac{1}{\sqrt{N_i N_u}} e_u^k&lt;/script&gt;
-
-&lt;p&gt;Note that self-connections are ignored here! As this will be handled in the
-final layer combination phase. Final representation (aka combination phase) is:&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;e_u = \sum_{k=0}^K \alpha_k e_u^k&lt;/script&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;e_i = \sum_{k=0}^K \alpha_k e_i^k&lt;/script&gt;
-
-&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;\alpha_k&lt;/script&gt; can be hyper-params are model-params. In this paper, however, they
-are setting them to be &lt;script type=&quot;math/tex&quot;&gt;\frac{1}{K+1}&lt;/script&gt; for simplicity.&lt;/p&gt;
-
-&lt;p&gt;Final model prediction is: &lt;script type=&quot;math/tex&quot;&gt;y_{ui} = e_u^T * e_i&lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;Their code can be found:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/kuandeng/LightGCN&quot;&gt;here&lt;/a&gt; for TF&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/gusye1234/pytorch-light-gcn&quot;&gt;here&lt;/a&gt; for pytorch&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">LightGCN - Simplifying and Powering Graph ConvolutionNetwork for Recommendation Main paper can be found here</summary></entry></feed>
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Power of GCNs Summary of the content of the blog found here.</summary></entry></feed>
