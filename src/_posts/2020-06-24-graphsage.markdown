@@ -2,7 +2,7 @@
 layout: post
 title: "GraphSAGE"
 needmath: true
-tags: tech-notes graph gnn
+tags: tech-notes paper-notes graph gnn
 ---
 
 ### Proposal
