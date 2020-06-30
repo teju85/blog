@@ -1,4 +1,64 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-25T11:01:41+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Tree-LSTM’s</title><link href="https://teju85.github.io/blog/2020/06/25/tree-lstms.html" rel="alternate" type="text/html" title="Tree-LSTM's" /><published>2020-06-25T00:00:00+05:30</published><updated>2020-06-25T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/25/tree-lstms</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/25/tree-lstms.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-06-30T11:12:45+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Shapley Values</title><link href="https://teju85.github.io/blog/2020/06/30/shapley-values.html" rel="alternate" type="text/html" title="Shapley Values" /><published>2020-06-30T00:00:00+05:30</published><updated>2020-06-30T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/30/shapley-values</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/30/shapley-values.html">&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;p&gt;The reference chapter can be found in &lt;a href=&quot;https://christophm.github.io/interpretable-ml-book/shapley.html&quot;&gt;this&lt;/a&gt;
+book.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Shapley Values (SV) explain prediction via considering each feature as a
+player and prediction as the payout and deals with how to fairly distribute
+the payout among the players&lt;/li&gt;
+  &lt;li&gt;has solid base in coalitional game theory&lt;/li&gt;
+  &lt;li&gt;gain (payout) here is the difference between actual prediction and average&lt;/li&gt;
+  &lt;li&gt;SV for an instance is the average marginal  contribution of a feature value
+across all possible coalitions (weighted average, to be precise)&lt;/li&gt;
+  &lt;li&gt;marginal contribution = difference between prediction with and without this
+feature value&lt;/li&gt;
+  &lt;li&gt;computing SV for linear models is very straightforward&lt;/li&gt;
+  &lt;li&gt;SV satisfy the following properties
+    &lt;ul&gt;
+      &lt;li&gt;Efficiency - feature contributions add upto difference between predicted and
+mean prediction&lt;/li&gt;
+      &lt;li&gt;Symmetry - SV of 2 feature values should be the same if they contribute
+equally for all coalitions&lt;/li&gt;
+      &lt;li&gt;Dummy - if a feature value does not contribute to the output, then its value
+should be 0&lt;/li&gt;
+      &lt;li&gt;Additivity - for ensemble models, final SV can be computed by adding up the
+individual SV from each of the underlying models&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;computating-sv&quot;&gt;Computating SV&lt;/h4&gt;
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;\phi_j = \sum_{S \subset {x} - {x_j}} \frac{len(S)! (p - len(S) - 1)!}{p!} (val(S \bigcup {x_j}) - val(S))&lt;/script&gt;&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;val(S) = \int_{x \notin S} f(x_1, ..., x_p) - E[f(X)]&lt;/script&gt;
+
+&lt;p&gt;Where:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\phi_j&lt;/script&gt; - SV for j-th feature value&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;p&lt;/script&gt; - number of features&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;f&lt;/script&gt; - the model&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;approximating-sv-via-monte-carlo-sampling&quot;&gt;Approximating SV via Monte-Carlo sampling&lt;/h4&gt;
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;\phi'_j = \frac{1}{M} \sum_{m=1}^M f(x_{+j}^m) - f(x_{-j}^m)&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;Where:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;M&lt;/script&gt; - number of samples&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;f(x_{+j}^m)&lt;/script&gt; - prediction where the feature values are first randomly
+permuted and then the first j feature values are kept from the input sample
+while the rest are randomly picked from another sample in the dataset.&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;f(x_{-j}^m)&lt;/script&gt; - same as above but with j-th feature value also chosen at
+random from another sample&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;disadvantages&quot;&gt;Disadvantages&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;suffers from inclusion of unrealistic feature values&lt;/li&gt;
+  &lt;li&gt;computationally super expensive&lt;/li&gt;
+  &lt;li&gt;explanation involves all the features, which can be difficult for humans to
+further interpret, as opposed to explainer models like LIME.&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="book-notes" /><category term="interpretable-machine-learning" /><category term="machine-learning" /><summary type="html">Summary The reference chapter can be found in this book.</summary></entry><entry><title type="html">Tree-LSTM’s</title><link href="https://teju85.github.io/blog/2020/06/25/tree-lstms.html" rel="alternate" type="text/html" title="Tree-LSTM's" /><published>2020-06-25T00:00:00+05:30</published><updated>2020-06-25T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/25/tree-lstms</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/25/tree-lstms.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1503.00075.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
@@ -826,16 +886,4 @@ peak value.&lt;/li&gt;
 samples too. These hard negative samples are generated via personalized
 pagerank scores. To reduce the number of epochs, curriculum training is being
 used. At n-th epoch, n - 1 hard negative samples are added for each positive
-training sample.&lt;/p&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">PinSage - Graph Convolutional Neural Networks for Web-ScaleRecommender Systems Main paper can be found here and a more digestable version is presented in a blog format here. A scalable random-walk GCN to learn embeddings on attribute graphs with billions of nodes. They demonstrate this on Pinterest’s data with billions of nodes and tens of billions of edges. They also present an efficient way to do inferencing on the resulting model via MapReduce paradigm.</summary></entry><entry><title type="html">Power of GCNs</title><link href="https://teju85.github.io/blog/2020/06/09/power-of-GCNs.html" rel="alternate" type="text/html" title="Power of GCNs" /><published>2020-06-09T00:00:00+05:30</published><updated>2020-06-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/09/power-of-GCNs</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/09/power-of-GCNs.html">&lt;h3 id=&quot;power-of-gcns&quot;&gt;Power of GCNs&lt;/h3&gt;
-&lt;p&gt;Summary of the content of the blog found &lt;a href=&quot;https://www.inference.vc/how-powerful-are-graph-convolutions-review-of-kipf-welling-2016-2/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Author seems to claim that due to 1st order approximation of Chebyshev polynomials
-as the convolution filter, their expressive power might not be good&lt;/li&gt;
-  &lt;li&gt;that’s because this approximation, when applied to the special case of regular
-graphs (2D images, eg), will lead to severely weak models&lt;/li&gt;
-  &lt;li&gt;But the &lt;a href=&quot;https://tkipf.github.io/graph-convolutional-networks&quot;&gt;main authors of the GCN&lt;/a&gt;
-paper also note that the Weisfeiler-Lehman algo also doesn’t converge on
-regular graphs!&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Power of GCNs Summary of the content of the blog found here.</summary></entry></feed>
+training sample.&lt;/p&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">PinSage - Graph Convolutional Neural Networks for Web-ScaleRecommender Systems Main paper can be found here and a more digestable version is presented in a blog format here. A scalable random-walk GCN to learn embeddings on attribute graphs with billions of nodes. They demonstrate this on Pinterest’s data with billions of nodes and tens of billions of edges. They also present an efficient way to do inferencing on the resulting model via MapReduce paradigm.</summary></entry></feed>
