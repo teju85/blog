@@ -1,0 +1,17 @@
+---
+layout: post
+title: "Wombat - GPU implementation of word2vec"
+tags: tech-notes paper-notes machine-learning word2vec
+---
+
+Summary of [this](https://ieeexplore.ieee.org/document/8091076) paper on
+parallelizing word2vec model training on GPUs.
+
+- fast SGHS and SGNS implementations
+- allocates one threadblock per sentence in the batch
+- a single kernel for forward and backward passes, with a __syncthreads calls separating these
+- share the negative samples across the current window
+- use a custom 4x8 tiled matrix multiplication implementation
+- word pre-processing completely happens on multi-threaded CPU
+- they assume CPU preprocessing to completely overlap with GPU computations
+- code can be found [here](https://github.com/tmsimont/wombat)
