@@ -1,0 +1,90 @@
+---
+layout: post
+title: "All about NVSHMEM"
+tags: cuda
+---
+
+# NVSHMEM
+
+## Intro
+API document can be found [here](https://docs.nvidia.com/hpc-sdk/nvshmem/api/docs/index.html)
+and developer guide can be found [here](https://docs.nvidia.com/hpc-sdk/nvshmem/developer-guide/index.html).
+
+nvshmem is an extension of openshmem API for the GPU clusters. nvshmem provides
+a PGAS (Partitioned Global Address Space) for the buffers on GPU cluster.
+Enables fine-grained computation/communication overlap and also performing
+synchronization, all from the CUDA kernels itself. Thus, this feature is very
+helpful in achieving strong scaling on our apps. However, it also provides
+CPU-side APIs to initiate communication, for flexibility.
+
+## Programming model
+Types of data objects
+1. Symmetric data objects - objects can be shared across remote PE's. These are
+   allocated from a __symmetric heap__ using `nvshmem_malloc()`.
+2. Private data objects - objects that private to the PE which owns them
+
+openshmem provides strong ordering guarantees. However, for perf reasons,
+nvshmem doesn't provide this guarantee and thus it is expected of the devs to
+use `nvshmem_fence()` when such an ordering is required! But, non-blocking calls
+are not ordered with this call and for those, we need to use `nvshmem_quiet()`.
+
+Execution model is typically SPMD (Single Program Multiple Data), but this is
+not required by nvshmem. Work is done by PEs, which are typically OS processes.
+These PEs are further allowed to create threads, if there's a support for it.
+nvshmem phase begins with the call to either `nvshmem_init()` or
+`nvshmem_init_thread()` and concludes with the call to `nvshmem_finalize()`
+done by all PEs or `nvshmem_global_exit()` by any PE. We cannot reinitialize the
+nvshmem after finalization! (similar to MPI) Each PE has an integer ID, similar
+to the concept of MPI ranks.
+
+Since nvshmem provides one-sided communication API's, even if the target PE is
+not involved in any nvshmem calls, other PE's can continue to communicate with
+this PE and make progress. This is unlike MPI communication model.
+
+There's also threadgroup communication with multiple threads can collectively be
+part of a single communication operation.
+
+nvshmem expects all buffer arguments to nvhsmem communication routines to be
+symmetric objects.
+
+symmetric address returned by nvhsmem allocation routine is also a valid local
+addresses. However, trying to use a mix of symmetric address and local address
+to nvshmem routines can lead to undefined behavior.
+
+## Communication model
+Provides __get__ and __put__ methods for working with symmetric objects. Has all
+the bulk, scalar and interleaved transfer schemes available. Also supports
+atomic memory operations (AMO). There are methods can be initiated from CUDA
+kernels or from the host too. All the CPU-side calls are stream-ordered.
+
+`nvshmem_ptr()` provides raw address pointer to be used for issuing explicit
+loads/stores to local or remote PEs, as long as they are accessible to each
+other.
+
+All nvshmem symmmetric memory is pinned GPU memory.
+
+nvshmem assumes a one-to-one mapping between PE and GPU.
+
+The usual data coalescing policies/guidelines as seen in CUDA programming model
+also apply here for efficiency.
+
+cuda kernels needing sync/collective APIs must be launched using the collective
+launch APIs only.
+
+## memory model
+List of operations supported:
+- Remote Memory Access (RMA) - PUT/GET
+- Atomic Memory Operations (AMO)
+- single ops
+- direct loads/stores (via the pointer returned by `nvshmem_ptr()`
+- collective ops
+- wait and test functions
+
+Since GPUs expose only a weak memory model, nvshmem does introduce a few
+exceptions to the openshmem memory model
+- no guarantees to the order of writes to a symmetric memory, as seen by PEs
+- to enforce ordering to target PE use `nvshmem_fence()`
+- to enforce ordering to all other PE's use `nvshmem_quiet()`
+- to enforce ordering for nonblocking calls use `nvshmem_quiet()`
+
+Result of the get or AMO operations will appear in the program order, however.
