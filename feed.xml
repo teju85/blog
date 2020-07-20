@@ -1,4 +1,93 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-07-05T16:59:13+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">How to stop worrying and start living</title><link href="https://teju85.github.io/blog/2020/07/05/how-to-stop-worrying.html" rel="alternate" type="text/html" title="How to stop worrying and start living" /><published>2020-07-05T00:00:00+05:30</published><updated>2020-07-05T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/07/05/how-to-stop-worrying</id><content type="html" xml:base="https://teju85.github.io/blog/2020/07/05/how-to-stop-worrying.html">&lt;p&gt;By Dale Carnegie. This book can be found &lt;a href=&quot;https://www.amazon.in/How-Stop-Worrying-Start-Living/dp/0671733354&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-07-20T07:17:31+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">All about NVSHMEM</title><link href="https://teju85.github.io/blog/2020/07/17/nvhsmem.html" rel="alternate" type="text/html" title="All about NVSHMEM" /><published>2020-07-17T00:00:00+05:30</published><updated>2020-07-17T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/07/17/nvhsmem</id><content type="html" xml:base="https://teju85.github.io/blog/2020/07/17/nvhsmem.html">&lt;h1 id=&quot;nvshmem&quot;&gt;NVSHMEM&lt;/h1&gt;
+
+&lt;h2 id=&quot;intro&quot;&gt;Intro&lt;/h2&gt;
+&lt;p&gt;API document can be found &lt;a href=&quot;https://docs.nvidia.com/hpc-sdk/nvshmem/api/docs/index.html&quot;&gt;here&lt;/a&gt;
+and developer guide can be found &lt;a href=&quot;https://docs.nvidia.com/hpc-sdk/nvshmem/developer-guide/index.html&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;nvshmem is an extension of openshmem API for the GPU clusters. nvshmem provides
+a PGAS (Partitioned Global Address Space) for the buffers on GPU cluster.
+Enables fine-grained computation/communication overlap and also performing
+synchronization, all from the CUDA kernels itself. Thus, this feature is very
+helpful in achieving strong scaling on our apps. However, it also provides
+CPU-side APIs to initiate communication, for flexibility.&lt;/p&gt;
+
+&lt;h2 id=&quot;programming-model&quot;&gt;Programming model&lt;/h2&gt;
+&lt;p&gt;Types of data objects&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Symmetric data objects - objects can be shared across remote PE’s. These are
+allocated from a &lt;strong&gt;symmetric heap&lt;/strong&gt; using &lt;code class=&quot;highlighter-rouge&quot;&gt;nvshmem_malloc()&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Private data objects - objects that private to the PE which owns them&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;openshmem provides strong ordering guarantees. However, for perf reasons,
+nvshmem doesn’t provide this guarantee and thus it is expected of the devs to
+use &lt;code class=&quot;highlighter-rouge&quot;&gt;nvshmem_fence()&lt;/code&gt; when such an ordering is required! But, non-blocking calls
+are not ordered with this call and for those, we need to use &lt;code class=&quot;highlighter-rouge&quot;&gt;nvshmem_quiet()&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Execution model is typically SPMD (Single Program Multiple Data), but this is
+not required by nvshmem. Work is done by PEs, which are typically OS processes.
+These PEs are further allowed to create threads, if there’s a support for it.
+nvshmem phase begins with the call to either &lt;code class=&quot;highlighter-rouge&quot;&gt;nvshmem_init()&lt;/code&gt; or
+&lt;code class=&quot;highlighter-rouge&quot;&gt;nvshmem_init_thread()&lt;/code&gt; and concludes with the call to &lt;code class=&quot;highlighter-rouge&quot;&gt;nvshmem_finalize()&lt;/code&gt;
+done by all PEs or &lt;code class=&quot;highlighter-rouge&quot;&gt;nvshmem_global_exit()&lt;/code&gt; by any PE. We cannot reinitialize the
+nvshmem after finalization! (similar to MPI) Each PE has an integer ID, similar
+to the concept of MPI ranks.&lt;/p&gt;
+
+&lt;p&gt;Since nvshmem provides one-sided communication API’s, even if the target PE is
+not involved in any nvshmem calls, other PE’s can continue to communicate with
+this PE and make progress. This is unlike MPI communication model.&lt;/p&gt;
+
+&lt;p&gt;There’s also threadgroup communication with multiple threads can collectively be
+part of a single communication operation.&lt;/p&gt;
+
+&lt;p&gt;nvshmem expects all buffer arguments to nvhsmem communication routines to be
+symmetric objects.&lt;/p&gt;
+
+&lt;p&gt;symmetric address returned by nvhsmem allocation routine is also a valid local
+addresses. However, trying to use a mix of symmetric address and local address
+to nvshmem routines can lead to undefined behavior.&lt;/p&gt;
+
+&lt;h2 id=&quot;communication-model&quot;&gt;Communication model&lt;/h2&gt;
+&lt;p&gt;Provides &lt;strong&gt;get&lt;/strong&gt; and &lt;strong&gt;put&lt;/strong&gt; methods for working with symmetric objects. Has all
+the bulk, scalar and interleaved transfer schemes available. Also supports
+atomic memory operations (AMO). There are methods can be initiated from CUDA
+kernels or from the host too. All the CPU-side calls are stream-ordered.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;nvshmem_ptr()&lt;/code&gt; provides raw address pointer to be used for issuing explicit
+loads/stores to local or remote PEs, as long as they are accessible to each
+other.&lt;/p&gt;
+
+&lt;p&gt;All nvshmem symmmetric memory is pinned GPU memory.&lt;/p&gt;
+
+&lt;p&gt;nvshmem assumes a one-to-one mapping between PE and GPU.&lt;/p&gt;
+
+&lt;p&gt;The usual data coalescing policies/guidelines as seen in CUDA programming model
+also apply here for efficiency.&lt;/p&gt;
+
+&lt;p&gt;cuda kernels needing sync/collective APIs must be launched using the collective
+launch APIs only.&lt;/p&gt;
+
+&lt;h2 id=&quot;memory-model&quot;&gt;memory model&lt;/h2&gt;
+&lt;p&gt;List of operations supported:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Remote Memory Access (RMA) - PUT/GET&lt;/li&gt;
+  &lt;li&gt;Atomic Memory Operations (AMO)&lt;/li&gt;
+  &lt;li&gt;single ops&lt;/li&gt;
+  &lt;li&gt;direct loads/stores (via the pointer returned by &lt;code class=&quot;highlighter-rouge&quot;&gt;nvshmem_ptr()&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;collective ops&lt;/li&gt;
+  &lt;li&gt;wait and test functions&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Since GPUs expose only a weak memory model, nvshmem does introduce a few
+exceptions to the openshmem memory model&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;no guarantees to the order of writes to a symmetric memory, as seen by PEs&lt;/li&gt;
+  &lt;li&gt;to enforce ordering to target PE use &lt;code class=&quot;highlighter-rouge&quot;&gt;nvshmem_fence()&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;to enforce ordering to all other PE’s use &lt;code class=&quot;highlighter-rouge&quot;&gt;nvshmem_quiet()&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;to enforce ordering for nonblocking calls use &lt;code class=&quot;highlighter-rouge&quot;&gt;nvshmem_quiet()&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Result of the get or AMO operations will appear in the program order, however.&lt;/p&gt;</content><author><name></name></author><category term="cuda" /><summary type="html">NVSHMEM</summary></entry><entry><title type="html">How to stop worrying and start living</title><link href="https://teju85.github.io/blog/2020/07/05/how-to-stop-worrying.html" rel="alternate" type="text/html" title="How to stop worrying and start living" /><published>2020-07-05T00:00:00+05:30</published><updated>2020-07-05T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/07/05/how-to-stop-worrying</id><content type="html" xml:base="https://teju85.github.io/blog/2020/07/05/how-to-stop-worrying.html">&lt;p&gt;By Dale Carnegie. This book can be found &lt;a href=&quot;https://www.amazon.in/How-Stop-Worrying-Start-Living/dp/0671733354&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Carnegie walks us through a list of time-tested rules/ideas/guidelines to help
 us stop our greatest enemy, worry. When you have gone through this list, you’ll
@@ -1023,91 +1112,4 @@ insurrection will return Bulldozer’s “Insurrection of the Living Damned”
   &lt;li&gt;-: reduce the volume by 10%&lt;/li&gt;
   &lt;li&gt;+: increase the volume by 10%&lt;/li&gt;
   &lt;li&gt;:add path  - to add a playlist&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tools" /><summary type="html">cmus cmus is a lightweight console player for unix-like operating systems. Given here are the steps to build it on cygwin.</summary></entry><entry><title type="html">Pixie</title><link href="https://teju85.github.io/blog/2020/06/12/pixie.html" rel="alternate" type="text/html" title="Pixie" /><published>2020-06-12T00:00:00+05:30</published><updated>2020-06-12T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/12/pixie</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/12/pixie.html">&lt;h3 id=&quot;pixie-a-system-for-recommending-3-billion-items-to200-million-users-in-real-time&quot;&gt;Pixie: A System for Recommending 3+ Billion Items to200+ Million Users in Real-Time&lt;/h3&gt;
-&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1711.07601.pdf&quot;&gt;here&lt;/a&gt; and a more
-digestable version is presented in a blog format &lt;a href=&quot;https://medium.com/pinterest-engineering/introducing-pixie-an-advanced-graph-based-recommendation-system-e7b4229b664b&quot;&gt;here&lt;/a&gt;
-and &lt;a href=&quot;https://medium.com/pinterest-engineering/an-update-on-pixie-pinterests-recommendation-system-6f273f737e1b&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h4 id=&quot;proposal&quot;&gt;Proposal&lt;/h4&gt;
-&lt;p&gt;Provide real-time recommendations to the users via:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;Pixie random walk algorithm to generate recommendations whose runtime is
-constant wrt the size of the input graph.&lt;/li&gt;
-  &lt;li&gt;description of the implementation (in production) based on C++ on top of
-&lt;a href=&quot;http://snap.stanford.edu/&quot;&gt;SNAP&lt;/a&gt;.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h4 id=&quot;details&quot;&gt;Details&lt;/h4&gt;
-&lt;p&gt;Input to this system is a query set &lt;script type=&quot;math/tex&quot;&gt;Q = {(q, w_q)}&lt;/script&gt;, which is a collection of
-pins with associated weights to represent its importance in current query set.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Pixie random walk&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;em&gt;Biased walks&lt;/em&gt;: walks are biased for a query set &lt;script type=&quot;math/tex&quot;&gt;Q&lt;/script&gt; based on the user. This
-helps provide personalized recommendations.&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;multiple query pins with weights&lt;/em&gt;: weights to the input query pins are
-assigned based on the time since the user interacted with this pin and the
-interaction type.&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;sample walk length&lt;/em&gt;: helps provide enough walks for pins with lower degree
-but also reduces runtime cost for pins with higher degree.&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;multi-hit booster&lt;/em&gt;: weightage given to the candidate pins which have high
-visit counts for all the pins in the &lt;script type=&quot;math/tex&quot;&gt;Q&lt;/script&gt;. &lt;script type=&quot;math/tex&quot;&gt;V[p] = (\sum_{q \epsilon Q}\sqrt{V_q[p]})^2&lt;/script&gt;
-where &lt;script type=&quot;math/tex&quot;&gt;V_q&lt;/script&gt; is visit count for the query &lt;script type=&quot;math/tex&quot;&gt;q \epsilon Q&lt;/script&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;early stopping&lt;/em&gt;: stop the random walk when the top visited candidates have
-crossed certain threshold.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Computation of walk length for a given pin is as follows:&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;s_q = \|E(q)\|.(C - log\|E(q)\|)&lt;/script&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;Nq = N w_q \frac{s_q}{\sum_{r \epsilon Q} s_r}&lt;/script&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;Nq&lt;/script&gt; = walk length for random walk starting from pin q&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\|E(q)\|&lt;/script&gt; = degree of pin q&lt;/li&gt;
-  &lt;li&gt;C = max degree of all pins&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Algorithm for a single query is as follows:&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;PixieRandomWalk(q, E, U, alpha, Nq, nv, np):
-  totSteps = nHighVisited = 0
-  V = {0}
-  do
-    currPin = q
-    currSteps = SampleWalkLength(alpha)
-    for i in range(currSteps):
-      currBoard = E(currPin)[PersonalizedNeighbor(E, U)]
-      currPin = E(currBoard)[PersonalizedNeighbor(E, U)]
-      V[currPin]++
-      if V[currPin] == nv:
-        nHighVisited++
-    totSteps += currSteps
-  while totSteps &amp;lt; Nq and nHighVisited &amp;lt; np
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;ul&gt;
-  &lt;li&gt;q = query pin&lt;/li&gt;
-  &lt;li&gt;E = edges in the graph&lt;/li&gt;
-  &lt;li&gt;U = user features&lt;/li&gt;
-  &lt;li&gt;alpha = helps determine the number of steps per random walk&lt;/li&gt;
-  &lt;li&gt;PersonalizedNeighbor(E, U) = randomized method to return neighbors, but
-edges being weighted by user features&lt;/li&gt;
-  &lt;li&gt;Nq = total number of steps taken in the random walk&lt;/li&gt;
-  &lt;li&gt;nv and np = used for early stopping. the random walk is terminated when there
-are np number of pins that have been visited atleast nv number of times&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;graph pruning&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Prunes the graph to fit in RAM and thus do not have to distribute it.&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Removes duplicate pins&lt;/li&gt;
-  &lt;li&gt;Removes pins assigned to incorrect boards&lt;/li&gt;
-  &lt;li&gt;Removes boards with larger entropy: computes LDA on each pin description and
-computes entropy for a board by combining LDA vectors from all pins associated
-with this board.&lt;/li&gt;
-  &lt;li&gt;Prune the degree (or remove) pins with abnormally high degree: only keep the
-edges with highest cosine similarity. Threshold is determined by the pruning
-factor &lt;script type=&quot;math/tex&quot;&gt;\delta&lt;/script&gt;.&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><summary type="html">Pixie: A System for Recommending 3+ Billion Items to200+ Million Users in Real-Time Main paper can be found here and a more digestable version is presented in a blog format here and here.</summary></entry></feed>
+&lt;/ul&gt;</content><author><name></name></author><category term="tools" /><summary type="html">cmus cmus is a lightweight console player for unix-like operating systems. Given here are the steps to build it on cygwin.</summary></entry></feed>
