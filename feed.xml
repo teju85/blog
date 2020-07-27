@@ -1,4 +1,130 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-07-20T07:17:31+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">All about NVSHMEM</title><link href="https://teju85.github.io/blog/2020/07/17/nvhsmem.html" rel="alternate" type="text/html" title="All about NVSHMEM" /><published>2020-07-17T00:00:00+05:30</published><updated>2020-07-17T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/07/17/nvhsmem</id><content type="html" xml:base="https://teju85.github.io/blog/2020/07/17/nvhsmem.html">&lt;h1 id=&quot;nvshmem&quot;&gt;NVSHMEM&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-07-27T11:22:57+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Learning representations of irregular particle-detector geometry with distance-weighted graph networks</title><link href="https://teju85.github.io/blog/2020/07/26/gravnet-garnet.html" rel="alternate" type="text/html" title="Learning representations of irregular particle-detector geometry with distance-weighted graph networks" /><published>2020-07-26T00:00:00+05:30</published><updated>2020-07-26T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/07/26/gravnet-garnet</id><content type="html" xml:base="https://teju85.github.io/blog/2020/07/26/gravnet-garnet.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1902.07987.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Usage of GNN’s for irregular-geometry detectors for particle reconstruction&lt;/li&gt;
+  &lt;li&gt;propose 2 new distance-weighted GNN layers: GRAVNET, GARNET&lt;/li&gt;
+  &lt;li&gt;open-source their work based on TF &lt;a href=&quot;https://github.com/jkiesele/caloGraphNN&quot;&gt;here&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;proposed computations assume no structure-dependent info from the input data
+and thus this could be generalizable for other tasks such as tracking, jet
+identification, etc&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;gravnet-and-garnet-layers&quot;&gt;gravnet and garnet layers&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;input: &lt;script type=&quot;math/tex&quot;&gt;X&lt;/script&gt; of dimension &lt;script type=&quot;math/tex&quot;&gt;B . V . F_{in}&lt;/script&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;B&lt;/script&gt; = number of elements in the batch&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;V&lt;/script&gt; = number of detector hits per element&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;F_{in}&lt;/script&gt; = input feature dimension per hit&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;perform linear transformation with bias
+    &lt;ul&gt;
+      &lt;li&gt;dimension of a vector in &lt;script type=&quot;math/tex&quot;&gt;Y&lt;/script&gt; is &lt;script type=&quot;math/tex&quot;&gt;S + F_{lr}&lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;S&lt;/script&gt; = learned spatial representation of input vector&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;F_{lr}&lt;/script&gt; = learned attributes for the nodes in the resulting graph&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;graph construction: (done for each element)
+    &lt;ul&gt;
+      &lt;li&gt;gravnet - a kNN graph is constructed for each element in the batch, based on
+the pairwise euclidean distances between all hits in that element.&lt;/li&gt;
+      &lt;li&gt;garnet - each of the &lt;script type=&quot;math/tex&quot;&gt;S&lt;/script&gt; values is considered as a distance from that hit
+to an aggregator&lt;/li&gt;
+      &lt;li&gt;the distance between jth vertex and kth vertex in such a graph is called as
+&lt;script type=&quot;math/tex&quot;&gt;d_{jk}&lt;/script&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;gravent and garnet layer computations
+    &lt;ul&gt;
+      &lt;li&gt;scale the features based on a potential function &lt;script type=&quot;math/tex&quot;&gt;V_p&lt;/script&gt;
+        &lt;ul&gt;
+          &lt;li&gt;
+            &lt;script type=&quot;math/tex; mode=display&quot;&gt;f_{jk}^i = f_j^i V_p(d_{jk})&lt;/script&gt;
+          &lt;/li&gt;
+          &lt;li&gt;gravnet: &lt;script type=&quot;math/tex&quot;&gt;V_p(x) = e^{-x^2}&lt;/script&gt;&lt;/li&gt;
+          &lt;li&gt;garnet: &lt;script type=&quot;math/tex&quot;&gt;V_p(x) = e^{-abs(x)}&lt;/script&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;aggregation of scaled features
+        &lt;ul&gt;
+          &lt;li&gt;
+            &lt;script type=&quot;math/tex; mode=display&quot;&gt;f_k^i = agg_j(f_{jk}^i)&lt;/script&gt;
+          &lt;/li&gt;
+          &lt;li&gt;tried both max and mean&lt;/li&gt;
+          &lt;li&gt;aggregation function which was most effective for their use-case was mean&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;transformation: (output dimension = &lt;script type=&quot;math/tex&quot;&gt;F_{out}&lt;/script&gt;
+        &lt;ul&gt;
+          &lt;li&gt;in case of garnet, each of these &lt;script type=&quot;math/tex&quot;&gt;f_k^i&lt;/script&gt; aggregator features will again
+be weighted using similar equation in order to project them back to the
+original vertices.&lt;/li&gt;
+          &lt;li&gt;concatenate the input &lt;script type=&quot;math/tex&quot;&gt;F_{in}&lt;/script&gt; features with this &lt;script type=&quot;math/tex&quot;&gt;f_k^i&lt;/script&gt; feature&lt;/li&gt;
+          &lt;li&gt;perform linear transformation with bias, followed by tanh activation&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;a custom loss function is defined based on the domain knowledge&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;models&quot;&gt;models&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;both a local and global exchange of message across sensors is proposed&lt;/li&gt;
+  &lt;li&gt;gravnet model
+    &lt;ul&gt;
+      &lt;li&gt;has 4 blocks
+        &lt;ul&gt;
+          &lt;li&gt;concat mean of vertex features and vertex features&lt;/li&gt;
+          &lt;li&gt;3 dense layers with tanh activation (dim = 64)&lt;/li&gt;
+          &lt;li&gt;one gravnet layer&lt;/li&gt;
+          &lt;li&gt;final dense layer with dim = 128 and relu activation&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;gravnet layer
+        &lt;ul&gt;
+          &lt;li&gt;‘k’ value for kNN-graph is set to 40&lt;/li&gt;
+          &lt;li&gt;S = 4&lt;/li&gt;
+          &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;F_{lr}&lt;/script&gt; = 22&lt;/li&gt;
+          &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;F_{out}&lt;/script&gt; = 48&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;output of each block before the final dense layer is concatenated and then
+passed to the final dense layer&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;garnet model
+    &lt;ul&gt;
+      &lt;li&gt;has 4 blocks
+        &lt;ul&gt;
+          &lt;li&gt;concat mean of vertex features and vertex features&lt;/li&gt;
+          &lt;li&gt;one dense layer with tanh activation (dim = 32)&lt;/li&gt;
+          &lt;li&gt;11 garnet layers!&lt;/li&gt;
+          &lt;li&gt;final dense layer with dim = 48 and relu activation&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;garnet layer
+        &lt;ul&gt;
+          &lt;li&gt;S = 4&lt;/li&gt;
+          &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;F_{lr}&lt;/script&gt; = 20&lt;/li&gt;
+          &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;F_{out}&lt;/script&gt; = 32&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;output of each block before the final dense layer is concatenated and then
+passed to the final dense layer&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;batch norm is applied to the input and output of all blocks&lt;/li&gt;
+  &lt;li&gt;for all these models, at the end, the following 2 layers are applied
+    &lt;ul&gt;
+      &lt;li&gt;a dense layer with dim = 3 and relu activation&lt;/li&gt;
+      &lt;li&gt;another dense layer with dim = 2 and softmax activation&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;trained using Adam optimizer&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">All about NVSHMEM</title><link href="https://teju85.github.io/blog/2020/07/17/nvhsmem.html" rel="alternate" type="text/html" title="All about NVSHMEM" /><published>2020-07-17T00:00:00+05:30</published><updated>2020-07-17T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/07/17/nvhsmem</id><content type="html" xml:base="https://teju85.github.io/blog/2020/07/17/nvhsmem.html">&lt;h1 id=&quot;nvshmem&quot;&gt;NVSHMEM&lt;/h1&gt;
 
 &lt;h2 id=&quot;intro&quot;&gt;Intro&lt;/h2&gt;
 &lt;p&gt;API document can be found &lt;a href=&quot;https://docs.nvidia.com/hpc-sdk/nvshmem/api/docs/index.html&quot;&gt;here&lt;/a&gt;
@@ -1057,59 +1183,4 @@ sampling the neighbors may miss critical info at times. Need to find a good
 trade-off between scalability and info-loss&lt;/li&gt;
   &lt;li&gt;heterogeneous graphs support&lt;/li&gt;
   &lt;li&gt;dynamicity - STGNNs addresses some aspects of this.&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main survey paper can be found here. Divides GNNs into the following top-level four categories: recurrent GNNs - iteratively exchange info with neighbors until some form of convergence is achieved. This idea is borrowed and improved by convGNNs. convolutional GNNs - same as recGNNs, but here multiple such operations are stacked to extract high-level node representations based on neighbors that are further away. graph autoencoders - unsupervised methods to represent graphs by latent vectors and then use a decoder phase to reconstruct the graph spatio-temporal GNNs - combine convGNNs and then regular 1D-CNNs to capture both spatial and temporal info of the nodes, respectively</summary></entry><entry><title type="html">cmus installation and usage on cygwin</title><link href="https://teju85.github.io/blog/2020/06/13/cmus-on-cygwin.html" rel="alternate" type="text/html" title="cmus installation and usage on cygwin" /><published>2020-06-13T00:00:00+05:30</published><updated>2020-06-13T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/13/cmus-on-cygwin</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/13/cmus-on-cygwin.html">&lt;h3 id=&quot;cmus&quot;&gt;cmus&lt;/h3&gt;
-&lt;p&gt;&lt;a href=&quot;https://cmus.github.io/&quot;&gt;cmus&lt;/a&gt; is a lightweight console player for unix-like
-operating systems. Given here are the steps to build it on cygwin.&lt;/p&gt;
-
-&lt;h4 id=&quot;steps&quot;&gt;Steps&lt;/h4&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lynx -source rawgit.com/transcode-open/apt-cyg/master/apt-cyg &amp;gt; apt-cyg
-install apt-cyg /bin
-apt-cyg install ncurses ncursesw pkg-config
-apt-cyg install libncursesw-devel libncurses-devel
-apt-cyg install libopus-devel libwavpack-devel
-apt-cyg install libtool flac-devel
-
-cd ~
-wget ftp://ftp.mars.org/pub/mpeg/libmad-0.15.1b.tar.gz
-tar xf
-cd libmad-0.15.1b
-wget 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD' -O config.guess
-wget 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD' -O config.sub
-sed -i '/-fforce-mem/d' configure
-./configure
-make
-make install
-
-cd ~
-git clone https://github.com/cmus/cmus.git
-cd cmus
-./configure CPPFLAGS=-I/usr/local/include LDFLAGS=-L/usr/local/lib
-make
-make install
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h4 id=&quot;key-controls&quot;&gt;Key controls&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;v: stop playback&lt;/li&gt;
-  &lt;li&gt;b: next track&lt;/li&gt;
-  &lt;li&gt;z: previous track&lt;/li&gt;
-  &lt;li&gt;c: pause playback&lt;/li&gt;
-  &lt;li&gt;s: toggle shuffle (read about the m key below if you’re going to use shuffle)&lt;/li&gt;
-  &lt;li&gt;m: toggles the “aaa mode.”&lt;/li&gt;
-  &lt;li&gt;x: restart track&lt;/li&gt;
-  &lt;li&gt;i: jump view to the currently playing track (handy when in shuffle mode)&lt;/li&gt;
-  &lt;li&gt;o: toggle sorting&lt;/li&gt;
-  &lt;li&gt;/: searching cmus works as in many Unix programs.
-    &lt;ul&gt;
-      &lt;li&gt;Typing slash, a string, and enter will find the first instance of that
-string in your library.&lt;/li&gt;
-      &lt;li&gt;Press n to go to the next string, N to go to the previous.&lt;/li&gt;
-      &lt;li&gt;cmus’s search isn’t case sensitive and is quite smart; a search for damned
-insurrection will return Bulldozer’s “Insurrection of the Living Damned”
-(rad tune).&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;-: reduce the volume by 10%&lt;/li&gt;
-  &lt;li&gt;+: increase the volume by 10%&lt;/li&gt;
-  &lt;li&gt;:add path  - to add a playlist&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tools" /><summary type="html">cmus cmus is a lightweight console player for unix-like operating systems. Given here are the steps to build it on cygwin.</summary></entry></feed>
+&lt;/ol&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main survey paper can be found here. Divides GNNs into the following top-level four categories: recurrent GNNs - iteratively exchange info with neighbors until some form of convergence is achieved. This idea is borrowed and improved by convGNNs. convolutional GNNs - same as recGNNs, but here multiple such operations are stacked to extract high-level node representations based on neighbors that are further away. graph autoencoders - unsupervised methods to represent graphs by latent vectors and then use a decoder phase to reconstruct the graph spatio-temporal GNNs - combine convGNNs and then regular 1D-CNNs to capture both spatial and temporal info of the nodes, respectively</summary></entry></feed>
