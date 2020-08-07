@@ -1,0 +1,53 @@
+---
+layout: post
+title: "PairNorm: tackling oversmoothing in GNNs"
+needmath: true
+tags: tech-notes paper-notes graph gnn
+---
+
+### Proposal
+Main paper can be found [here](https://arxiv.org/abs/1909.12223).
+
+* a new pairnorm layer which normalizes the intermediate embeddings to avoid
+  oversmoothing (OS)
+* allows deeper layers possible for GNNs
+* requires no extra learnable parameters (except for one hyper-param)
+
+### Summary
+- deeper GNNs show gradual loss in accuracy due to
+  - vanishing gradients
+  - overfitting due to increased learnable params
+  - OS
+- OS?
+  - phenomenon where node embeddings become very similar to each other
+  - it is a form of laplacian smoothing
+  - for shallow nets things are fine as the clusters of nodes will correctly get
+    similar embeddings
+  - however, for deeper nets, there'll be inter-cluster mixing (aka node-wise
+    smoothing)
+  - also, repeatedly applying convlutions (or laplacian smoothing) washes out
+    all the signals in the features (feature-wise smoothing)
+- in order to study the effects of OS, the authors do the following experiment
+  - take a SGC but strip it out of all transformation layers
+  - thus there'll be no effect of overfitting or vanishing gradients
+  - they plot the following 2 metrics in order to show the OS behavior
+  - $$rowdiff(H^{(k)}) = \frac{1}{n^2} \Sigma_{i,j} \Sigma_p (H_{ip}^{(k)} - H_{jp}^{(k)})^2$$
+  - $$coldiff(H^{(k)}) = \frac{1}{d^2} \Sigma_{i,j} \Sigma_p (\frac{H_{pi}}{\Sigma_q abs(H_{qi})} - \frac{H_{pj}}{\Sigma_q abs(H_{qj})})^2$$
+  - $$n$$ = number of samples
+  - $$d$$ = feature dimension
+  - $$H^{(k)}$$ = computed embedding at 'k'th hop
+- authors then show the similarity of GNNs with Graph Regularized Least Squares
+  (GRLS) method
+- then extend GRLS loss function by adding a penalty term against inter-cluster
+  mixing, in order to minimize the effect of oversmoothing
+- they propose pairnorm to maintain the Total Pairwise Squared Distance (TPSD)
+  metric
+- pairnorm
+  - $$x_{ik}^c = x_{ik} - \frac{\Sigma_i \Sigma_k x{ik}}{n}$$
+  - $$x'_{ik} = \frac{s x_{ik}^c}{\sqrt{\frac{1}{n} \Sigma_j \Sigma_p (x_{jp}^c)^2}}$$
+  - $$s$$ = hyper-param controlling TPSD
+  - works well for SGC
+  - similar to batch-norm layer but without the final scaling and bias
+- pairnorm-SI (scale individual)
+  - $$x'_{ik} = \frac{s x_{ik}^c}{\Sigma_p (x_{ip}^c)^2}$$
+  - works well for SGC, GAT and GCN
