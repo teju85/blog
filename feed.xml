@@ -1,4 +1,78 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-07-27T11:22:57+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Learning representations of irregular particle-detector geometry with distance-weighted graph networks</title><link href="https://teju85.github.io/blog/2020/07/26/gravnet-garnet.html" rel="alternate" type="text/html" title="Learning representations of irregular particle-detector geometry with distance-weighted graph networks" /><published>2020-07-26T00:00:00+05:30</published><updated>2020-07-26T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/07/26/gravnet-garnet</id><content type="html" xml:base="https://teju85.github.io/blog/2020/07/26/gravnet-garnet.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-08-07T14:34:30+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">PairNorm: tackling oversmoothing in GNNs</title><link href="https://teju85.github.io/blog/2020/08/06/pairnorm.html" rel="alternate" type="text/html" title="PairNorm: tackling oversmoothing in GNNs" /><published>2020-08-06T00:00:00+05:30</published><updated>2020-08-06T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/08/06/pairnorm</id><content type="html" xml:base="https://teju85.github.io/blog/2020/08/06/pairnorm.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/abs/1909.12223&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;a new pairnorm layer which normalizes the intermediate embeddings to avoid
+oversmoothing (OS)&lt;/li&gt;
+  &lt;li&gt;allows deeper layers possible for GNNs&lt;/li&gt;
+  &lt;li&gt;requires no extra learnable parameters (except for one hyper-param)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;deeper GNNs show gradual loss in accuracy due to
+    &lt;ul&gt;
+      &lt;li&gt;vanishing gradients&lt;/li&gt;
+      &lt;li&gt;overfitting due to increased learnable params&lt;/li&gt;
+      &lt;li&gt;OS&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;OS?
+    &lt;ul&gt;
+      &lt;li&gt;phenomenon where node embeddings become very similar to each other&lt;/li&gt;
+      &lt;li&gt;it is a form of laplacian smoothing&lt;/li&gt;
+      &lt;li&gt;for shallow nets things are fine as the clusters of nodes will correctly get
+similar embeddings&lt;/li&gt;
+      &lt;li&gt;however, for deeper nets, there’ll be inter-cluster mixing (aka node-wise
+smoothing)&lt;/li&gt;
+      &lt;li&gt;also, repeatedly applying convlutions (or laplacian smoothing) washes out
+all the signals in the features (feature-wise smoothing)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;in order to study the effects of OS, the authors do the following experiment
+    &lt;ul&gt;
+      &lt;li&gt;take a SGC but strip it out of all transformation layers&lt;/li&gt;
+      &lt;li&gt;thus there’ll be no effect of overfitting or vanishing gradients&lt;/li&gt;
+      &lt;li&gt;they plot the following 2 metrics in order to show the OS behavior&lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;rowdiff(H^{(k)}) = \frac{1}{n^2} \Sigma_{i,j} \Sigma_p (H_{ip}^{(k)} - H_{jp}^{(k)})^2&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;coldiff(H^{(k)}) = \frac{1}{d^2} \Sigma_{i,j} \Sigma_p (\frac{H_{pi}}{\Sigma_q abs(H_{qi})} - \frac{H_{pj}}{\Sigma_q abs(H_{qj})})^2&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt; = number of samples&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;d&lt;/script&gt; = feature dimension&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;H^{(k)}&lt;/script&gt; = computed embedding at ‘k’th hop&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;authors then show the similarity of GNNs with Graph Regularized Least Squares
+(GRLS) method&lt;/li&gt;
+  &lt;li&gt;then extend GRLS loss function by adding a penalty term against inter-cluster
+mixing, in order to minimize the effect of oversmoothing&lt;/li&gt;
+  &lt;li&gt;they propose pairnorm to maintain the Total Pairwise Squared Distance (TPSD)
+metric&lt;/li&gt;
+  &lt;li&gt;pairnorm
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;x_{ik}^c = x_{ik} - \frac{\Sigma_i \Sigma_k x{ik}}{n}&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;x'_{ik} = \frac{s x_{ik}^c}{\sqrt{\frac{1}{n} \Sigma_j \Sigma_p (x_{jp}^c)^2}}&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;s&lt;/script&gt; = hyper-param controlling TPSD&lt;/li&gt;
+      &lt;li&gt;works well for SGC&lt;/li&gt;
+      &lt;li&gt;similar to batch-norm layer but without the final scaling and bias&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;pairnorm-SI (scale individual)
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;x'_{ik} = \frac{s x_{ik}^c}{\Sigma_p (x_{ip}^c)^2}&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;works well for SGC, GAT and GCN&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">Learning representations of irregular particle-detector geometry with distance-weighted graph networks</title><link href="https://teju85.github.io/blog/2020/07/26/gravnet-garnet.html" rel="alternate" type="text/html" title="Learning representations of irregular particle-detector geometry with distance-weighted graph networks" /><published>2020-07-26T00:00:00+05:30</published><updated>2020-07-26T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/07/26/gravnet-garnet</id><content type="html" xml:base="https://teju85.github.io/blog/2020/07/26/gravnet-garnet.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1902.07987.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
@@ -1027,160 +1101,4 @@ the learnings, instead of costly global recomputation&lt;/li&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;Pr(.)&lt;/script&gt; above uses hierarchical softmax to be computationally more efficient.&lt;/p&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here and a quick summary of the techniques of this paper can be found in this blog.</summary></entry><entry><title type="html">A comprehensive survey on Graph Neural Networks</title><link href="https://teju85.github.io/blog/2020/06/14/survey-of-gnns.html" rel="alternate" type="text/html" title="A comprehensive survey on Graph Neural Networks" /><published>2020-06-14T00:00:00+05:30</published><updated>2020-06-14T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/14/survey-of-gnns</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/14/survey-of-gnns.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
-&lt;p&gt;Main survey paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1901.00596.pdf&quot;&gt;here&lt;/a&gt;.
-Divides GNNs into the following top-level four categories:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;recurrent GNNs - iteratively exchange info with neighbors until some form of
-convergence is achieved. This idea is borrowed and improved by convGNNs.&lt;/li&gt;
-  &lt;li&gt;convolutional GNNs - same as recGNNs, but here multiple such operations are
-stacked to extract high-level node representations based on neighbors that
-are further away.&lt;/li&gt;
-  &lt;li&gt;graph autoencoders - unsupervised methods to represent graphs by latent
-vectors and then use a decoder phase to reconstruct the graph&lt;/li&gt;
-  &lt;li&gt;spatio-temporal GNNs - combine convGNNs and then regular 1D-CNNs to capture
-both spatial and temporal info of the nodes, respectively&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;differences-wrt-regular-dl&quot;&gt;Differences wrt regular DL&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;data space is non-Euclidean&lt;/li&gt;
-  &lt;li&gt;graphs can be irregular&lt;/li&gt;
-  &lt;li&gt;number of neighbors vary, causing difficulty with regular convolutions&lt;/li&gt;
-  &lt;li&gt;instance (aka node) is not independent of the other&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;differences-wrt-network-embedding&quot;&gt;Differences wrt network embedding&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;NE involves other non-DL methods like factorization, random-walks&lt;/li&gt;
-  &lt;li&gt;GNNs provide and end-to-end solution for some of the graph-related tasks&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;recgnns&quot;&gt;recGNNs&lt;/h3&gt;
-&lt;p&gt;Perform message passing between nodes and their neighbors, until some form of
-convergence is achieved.
-&lt;script type=&quot;math/tex&quot;&gt;h_v^{(t)} = \sum_{u \epsilon N(v)} f(X_v, x_{u,v}^e, x_u, h_u^{(t-1)})&lt;/script&gt;&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;h_v&lt;/script&gt; = hidden vector which is initialized to random value at time = 0&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;f(.)&lt;/script&gt; = a contraction mapping parametric function to ensure convergence&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;X&lt;/script&gt; = node feature matrix&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;x&lt;/script&gt; = edge feature matrix&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;N(v)&lt;/script&gt; = neighborhood of node &lt;script type=&quot;math/tex&quot;&gt;v&lt;/script&gt;&lt;/li&gt;
-  &lt;li&gt;n = number of nodes&lt;/li&gt;
-  &lt;li&gt;m = number of edges&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Gated GNNs - use GRU with fixed number of recurrence steps, instead of a
-generic contraction mapping function. Then uses BPTT (backprop through time)
-in order to learn parameters.
-&lt;script type=&quot;math/tex&quot;&gt;h_v^{(t)} = GRU(h_v^{(t-1)}, \sum_{u \epsilon N(v)} W h_u^{(t-1)}&lt;/script&gt;&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_v^{(0)} = x_v&lt;/script&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;convgnns&quot;&gt;convGNNs&lt;/h3&gt;
-
-&lt;h4 id=&quot;spectral-based&quot;&gt;spectral based&lt;/h4&gt;
-&lt;p&gt;Based on graph signal processing and use normalized graph laplacian
-&lt;script type=&quot;math/tex&quot;&gt;L = I - D^{-0.5} A D^{-0.5}&lt;/script&gt;&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;D&lt;/script&gt; = diagonal matrix with &lt;script type=&quot;math/tex&quot;&gt;D_{ii} = \sum_j A_{ij}&lt;/script&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;L&lt;/script&gt; is real symmetric and positive semidefinite. So, it can be factored into
-&lt;script type=&quot;math/tex&quot;&gt;L = U \Lambda U^T&lt;/script&gt;&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;U&lt;/script&gt; = columwise eigenvectors ordered by eigenvalues&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\Lambda&lt;/script&gt; = diagonal matrix of eigenvalues&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Graph fourier transform on input &lt;script type=&quot;math/tex&quot;&gt;x \epsilon R^n&lt;/script&gt; is defined as &lt;script type=&quot;math/tex&quot;&gt;y = U^T x&lt;/script&gt;
-similarly vice-versa for graph inverse fourier transform.&lt;/p&gt;
-
-&lt;p&gt;Assuming a filter &lt;script type=&quot;math/tex&quot;&gt;g \epsilon R^n&lt;/script&gt;, convolution operation will become
-&lt;script type=&quot;math/tex&quot;&gt;x*g = U (U^T x \odot U^T g) = U g_{\theta} U^T x&lt;/script&gt; with &lt;script type=&quot;math/tex&quot;&gt;g_{\theta} = U^T g&lt;/script&gt;
-All spectral methods follow this, except for their choice of &lt;script type=&quot;math/tex&quot;&gt;g_{\theta}&lt;/script&gt;.
-Some methods are:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;Spectral CNNs&lt;/li&gt;
-  &lt;li&gt;Chebyshev spectral CNNs (ChebNet)&lt;/li&gt;
-  &lt;li&gt;CayleyNet&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;/blog/2020/06/09/graph-convolutional-networks.html&quot;&gt;GCN&lt;/a&gt;
-these are however a mix of spectral and spatial based by approximating
-ChebNet at first-order and simplifying learnable parameters.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h4 id=&quot;spatial-based&quot;&gt;spatial based&lt;/h4&gt;
-&lt;p&gt;All these methods aggregate neighbor information in some form and propagate this
-to the current node. Multiple such layers are stacked upon each other to
-increase the neighborhood definition.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Neural Network for Graphs: Somewhat resembles GCN.
-&lt;script type=&quot;math/tex&quot;&gt;H^{(k)} = f(X W^{(k)} + \sum_{i=1}^{k - 1} A H^{(k-1)} \Theta^{(k)})&lt;/script&gt;&lt;/li&gt;
-  &lt;li&gt;Diffusion CNNs: &lt;script type=&quot;math/tex&quot;&gt;H^{(k)} = f(W^{(k)} \odot P^k X)&lt;/script&gt;&lt;/li&gt;
-  &lt;li&gt;Diffusion Graph Convolution: &lt;script type=&quot;math/tex&quot;&gt;H = \sum_{k=0}^K f(p^k X W^{(k)})&lt;/script&gt;&lt;/li&gt;
-  &lt;li&gt;Message Passing NN&lt;/li&gt;
-  &lt;li&gt;GraphSage: samples the neighbors in order to avoid needing full-batch&lt;/li&gt;
-  &lt;li&gt;fast-GCN: samples a fixed number of nodes instead of neighbors&lt;/li&gt;
-  &lt;li&gt;Graph Attention Network
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_v^{(k)} = \sigma(\sum_{u \epsilon N(v) \cup v} \alpha_{vu}^{(k)} W^{(k)} h_u^{(k-1)})&lt;/script&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_v^{(0)} = x_v&lt;/script&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;\alpha_{vu}^{(k)} = softmax(leakyReLU(a^T [W^{(k)}h_v^{(k-1)} || W^{(k)}h_u^{(k-1)}]))&lt;/script&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;spectral-vs-spatial&quot;&gt;spectral vs spatial&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;spectral methods have theoretical framework&lt;/li&gt;
-  &lt;li&gt;spatial methods are computationally efficient and scalable&lt;/li&gt;
-  &lt;li&gt;spatial methods allow batching of nodes in a graph&lt;/li&gt;
-  &lt;li&gt;spectral methods only work with undirected graphs&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;graph-pooling-modules&quot;&gt;graph pooling modules&lt;/h4&gt;
-&lt;p&gt;coarsen the graph representation to reduce computationaly complexity for graph
-classification and such other tasks next in the pipeline. Popular approach is to
-use mean/max/sum based pooling functions:
-&lt;script type=&quot;math/tex&quot;&gt;h_G = poolFunction(h_1^{(K)}, h_2^{(K)}, ..., h_n^{(K)})&lt;/script&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;graph-autoencoders&quot;&gt;Graph autoencoders&lt;/h3&gt;
-
-&lt;h4 id=&quot;network-embedding&quot;&gt;network embedding&lt;/h4&gt;
-&lt;p&gt;Low dimensional representation of nodes which preserves the topological info.&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Graph AutoEncoder: uses GCN in encoder phase and decoder phase tries to
-reconstruct the adjacency matrix based on the generated embedding&lt;/li&gt;
-  &lt;li&gt;Variational GAE: Variational version of the above, using KL divergence as the
-metric&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;graph-generation&quot;&gt;graph generation&lt;/h4&gt;
-&lt;p&gt;Beneficial in solving molecular graph generation problem. There are methods
-which try to generate graphs globally or sequentially.&lt;/p&gt;
-
-&lt;h3 id=&quot;spatio-temporal-gnns&quot;&gt;spatio-temporal GNNs&lt;/h3&gt;
-&lt;p&gt;Capture both spatial and temporal dependencies together. eg: traffic speed
-forecasting. Most simple way is to feed the output of convGNNs into recurrent
-layer like RNNs/LSTMs.&lt;/p&gt;
-
-&lt;h3 id=&quot;future-directions&quot;&gt;future directions&lt;/h3&gt;
-&lt;ol&gt;
-  &lt;li&gt;model depth - going infinite depth will pull all nodes into a single point!
-Does it make sense to increase depth?&lt;/li&gt;
-  &lt;li&gt;scalability trade-off - use of clustering could destroy patterns, while
-sampling the neighbors may miss critical info at times. Need to find a good
-trade-off between scalability and info-loss&lt;/li&gt;
-  &lt;li&gt;heterogeneous graphs support&lt;/li&gt;
-  &lt;li&gt;dynamicity - STGNNs addresses some aspects of this.&lt;/li&gt;
-&lt;/ol&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main survey paper can be found here. Divides GNNs into the following top-level four categories: recurrent GNNs - iteratively exchange info with neighbors until some form of convergence is achieved. This idea is borrowed and improved by convGNNs. convolutional GNNs - same as recGNNs, but here multiple such operations are stacked to extract high-level node representations based on neighbors that are further away. graph autoencoders - unsupervised methods to represent graphs by latent vectors and then use a decoder phase to reconstruct the graph spatio-temporal GNNs - combine convGNNs and then regular 1D-CNNs to capture both spatial and temporal info of the nodes, respectively</summary></entry></feed>
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;Pr(.)&lt;/script&gt; above uses hierarchical softmax to be computationally more efficient.&lt;/p&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here and a quick summary of the techniques of this paper can be found in this blog.</summary></entry></feed>
