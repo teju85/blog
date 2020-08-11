@@ -1,4 +1,67 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-08-07T14:34:30+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">PairNorm: tackling oversmoothing in GNNs</title><link href="https://teju85.github.io/blog/2020/08/06/pairnorm.html" rel="alternate" type="text/html" title="PairNorm: tackling oversmoothing in GNNs" /><published>2020-08-06T00:00:00+05:30</published><updated>2020-08-06T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/08/06/pairnorm</id><content type="html" xml:base="https://teju85.github.io/blog/2020/08/06/pairnorm.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-08-11T17:49:09+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Graph Attention Networks</title><link href="https://teju85.github.io/blog/2020/08/09/gat.html" rel="alternate" type="text/html" title="Graph Attention Networks" /><published>2020-08-09T00:00:00+05:30</published><updated>2020-08-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/08/09/gat</id><content type="html" xml:base="https://teju85.github.io/blog/2020/08/09/gat.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/abs/1710.10903&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;extension of attentional layers into GNNs&lt;/li&gt;
+  &lt;li&gt;also the usage of multi-head attention into GNNs&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;compute attention coefficients as follows:
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;e_{ij} = a(Wh_i, Wh_j)&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;W&lt;/script&gt; = weight matrix&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;h&lt;/script&gt; = embeddings of each nodes in the graph&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;a&lt;/script&gt; = attention function to convert the input vectors into a scalar&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;normalize these across the neighborhood using softmax as follows:
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;\alpha_{ij} = \frac{exp(e_{ij})}{\Sigma_k exp(e_{ik})}&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;j&lt;/script&gt; varies over the neighborhood&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt; varies across neighborhood&lt;/li&gt;
+      &lt;li&gt;they use only 1-hop neighbors for this&lt;/li&gt;
+      &lt;li&gt;but they don’t seem to suggest anything about sub-sampling of neighborhood!&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;then finally apply weighted summation over the neighborhood based on the
+computed attention values as follows:
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;h'_i = \sigma(\Sigma_j \alpha_{ij} W h_j)&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\sigma&lt;/script&gt; = non-linearity&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;j&lt;/script&gt; varies across the neighborhood&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;they also propose to using multi-head attention as follows:
+    &lt;ul&gt;
+      &lt;li&gt;compute individual attentions for each head as above, independently&lt;/li&gt;
+      &lt;li&gt;but at the end , take a concatentaion of resulting embeddings from
+each of the heads&lt;/li&gt;
+      &lt;li&gt;and in the final layer, instead of concatenating, perform a summation&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;a full equation involving attention computation for a single head is:
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;\alpha_{ij} = \frac{exp(lr(a . h'_{ij}))}{\Sigma_k exp(lr(a . h'_{ik}))}&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;j&lt;/script&gt; varies over the neighborhood&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt; varies over the neighborhood&lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;h'_{ij} = concat(Wh_i, Wh_j)&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;lr&lt;/script&gt; = LeakyReLu. (with a negative slope of 0.2)&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;a&lt;/script&gt; = learnable vector used for dot product with the concatenated vector&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">PairNorm: tackling oversmoothing in GNNs</title><link href="https://teju85.github.io/blog/2020/08/06/pairnorm.html" rel="alternate" type="text/html" title="PairNorm: tackling oversmoothing in GNNs" /><published>2020-08-06T00:00:00+05:30</published><updated>2020-08-06T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/08/06/pairnorm</id><content type="html" xml:base="https://teju85.github.io/blog/2020/08/06/pairnorm.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/abs/1909.12223&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
@@ -1029,76 +1092,4 @@ overall graph embedding based on embeddings of each node&lt;/li&gt;
   &lt;li&gt;such utilities are provided for multiple datasets&lt;/li&gt;
   &lt;li&gt;also provides utility methods to evaluate the resulting graph model too&lt;/li&gt;
   &lt;li&gt;it is compatible with pytorch-geometric and DGL&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">proposal Main paper can be found here and the code for it is found here.</summary></entry><entry><title type="html">DeepWalk: Online Learning of Social Representations</title><link href="https://teju85.github.io/blog/2020/06/16/deepwalk.html" rel="alternate" type="text/html" title="DeepWalk: Online Learning of Social Representations" /><published>2020-06-16T00:00:00+05:30</published><updated>2020-06-16T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/16/deepwalk</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/16/deepwalk.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
-&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1403.6652.pdf&quot;&gt;here&lt;/a&gt; and a quick
-summary of the techniques of this paper can be found in &lt;a href=&quot;https://medium.com/analytics-vidhya/an-intuitive-explanation-of-deepwalk-84177f7f2b72&quot;&gt;this blog&lt;/a&gt;.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Learns representations of the nodes in a graph, inspired from word2vec.&lt;/li&gt;
-  &lt;li&gt;Treats the list of nodes from a random walk as sentences&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Authors note a striking similarity of power-law distribution of nodes in the
-random walk and words in natural languages&lt;/li&gt;
-  &lt;li&gt;Such random walks are also helpful from implementation PoV, as they are easy
-to parallelize&lt;/li&gt;
-  &lt;li&gt;They are also helpful when the graph changes and we need to iteratively update
-the learnings, instead of costly global recomputation&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;algorithm&quot;&gt;Algorithm&lt;/h4&gt;
-&lt;p&gt;Inputs:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;G(V, E)&lt;/script&gt; graph
-    &lt;ul&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt; number of nodes&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;m&lt;/script&gt; number of edges&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;w&lt;/script&gt; window size&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;d&lt;/script&gt; output embedding size&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\gamma&lt;/script&gt; walks per node&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;t&lt;/script&gt; walk length&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Output:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\Phi \epsilon R^{n x d}&lt;/script&gt; the embeddings for each node&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;DeepWalk algo:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;Randomly initialize &lt;script type=&quot;math/tex&quot;&gt;\Phi&lt;/script&gt;&lt;/li&gt;
-  &lt;li&gt;for i from 0 to &lt;script type=&quot;math/tex&quot;&gt;\gamma&lt;/script&gt;
-    &lt;ol&gt;
-      &lt;li&gt;for each &lt;script type=&quot;math/tex&quot;&gt;v_i&lt;/script&gt; in shuffle(V)
-        &lt;ul&gt;
-          &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;W_{v_i}&lt;/script&gt; = randomwalk(G, &lt;script type=&quot;math/tex&quot;&gt;v_i&lt;/script&gt;, t)&lt;/li&gt;
-          &lt;li&gt;skipgram(&lt;script type=&quot;math/tex&quot;&gt;\Phi&lt;/script&gt;, $$W_{v_i}, w)&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;skipgram algo:&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;for each &lt;script type=&quot;math/tex&quot;&gt;v_j \epsilon W_{v_i}&lt;/script&gt;
-    &lt;ol&gt;
-      &lt;li&gt;for each &lt;script type=&quot;math/tex&quot;&gt;u_k \epsilon W_{v_i}[j - w : j + w]&lt;/script&gt;
-        &lt;ul&gt;
-          &lt;li&gt;
-            &lt;script type=&quot;math/tex; mode=display&quot;&gt;J(\Phi) = -log(Pr(u_k || \Phi(v_j)))&lt;/script&gt;
-          &lt;/li&gt;
-          &lt;li&gt;
-            &lt;script type=&quot;math/tex; mode=display&quot;&gt;\Phi = \Phi - \alpha \frac{\partial J}{\partial \Phi}&lt;/script&gt;
-          &lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;Pr(.)&lt;/script&gt; above uses hierarchical softmax to be computationally more efficient.&lt;/p&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here and a quick summary of the techniques of this paper can be found in this blog.</summary></entry></feed>
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">proposal Main paper can be found here and the code for it is found here.</summary></entry></feed>
