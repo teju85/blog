@@ -1,0 +1,42 @@
+---
+layout: post
+title: "Graph Attention Networks"
+needmath: true
+tags: tech-notes paper-notes graph gnn
+---
+
+### Proposal
+Main paper can be found [here](https://arxiv.org/abs/1710.10903).
+
+* extension of attentional layers into GNNs
+* also the usage of multi-head attention into GNNs
+
+### Summary
+- compute attention coefficients as follows:
+  - $$e_{ij} = a(Wh_i, Wh_j)$$
+  - $$W$$ = weight matrix
+  - $$h$$ = embeddings of each nodes in the graph
+  - $$a$$ = attention function to convert the input vectors into a scalar
+- normalize these across the neighborhood using softmax as follows:
+  - $$\alpha_{ij} = \frac{exp(e_{ij})}{\Sigma_k exp(e_{ik})}$$
+  - $$j$$ varies over the neighborhood
+  - $$k$$ varies across neighborhood
+  - they use only 1-hop neighbors for this
+  - but they don't seem to suggest anything about sub-sampling of neighborhood!
+- then finally apply weighted summation over the neighborhood based on the
+  computed attention values as follows:
+  - $$h'_i = \sigma(\Sigma_j \alpha_{ij} W h_j)$$
+  - $$\sigma$$ = non-linearity
+  - $$j$$ varies across the neighborhood
+- they also propose to using multi-head attention as follows:
+  - compute individual attentions for each head as above, independently
+  - but at the end , take a concatentaion of resulting embeddings from
+    each of the heads
+  - and in the final layer, instead of concatenating, perform a summation
+- a full equation involving attention computation for a single head is:
+  - $$\alpha_{ij} = \frac{exp(lr(a . h'_{ij}))}{\Sigma_k exp(lr(a . h'_{ik}))}$$
+  - $$j$$ varies over the neighborhood
+  - $$k$$ varies over the neighborhood
+  - $$h'_{ij} = concat(Wh_i, Wh_j)$$
+  - $$lr$$ = LeakyReLu. (with a negative slope of 0.2)
+  - $$a$$ = learnable vector used for dot product with the concatenated vector
