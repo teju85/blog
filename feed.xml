@@ -1,4 +1,69 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-08-11T17:49:09+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Graph Attention Networks</title><link href="https://teju85.github.io/blog/2020/08/09/gat.html" rel="alternate" type="text/html" title="Graph Attention Networks" /><published>2020-08-09T00:00:00+05:30</published><updated>2020-08-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/08/09/gat</id><content type="html" xml:base="https://teju85.github.io/blog/2020/08/09/gat.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-08-16T09:07:39+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Graph Convolutional Networks for text classification</title><link href="https://teju85.github.io/blog/2020/08/16/text-gcn.html" rel="alternate" type="text/html" title="Graph Convolutional Networks for text classification" /><published>2020-08-16T00:00:00+05:30</published><updated>2020-08-16T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/08/16/text-gcn</id><content type="html" xml:base="https://teju85.github.io/blog/2020/08/16/text-gcn.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1809.05679.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;novel GNN based method for text classification&lt;/li&gt;
+  &lt;li&gt;graph is constructed using word co-occurence and word-doc associations&lt;/li&gt;
+  &lt;li&gt;learn both word and doc (aka corpus) embeddings simultaneously by building and
+using the above mentioned heterogenous text graph, where nodes are both words
+and docs&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;text graph construction
+    &lt;ul&gt;
+      &lt;li&gt;based on word co-occurence (in corpus) and doc-word relations&lt;/li&gt;
+      &lt;li&gt;number of nodes = vocab size + corpus size&lt;/li&gt;
+      &lt;li&gt;input embeddings are just one-hot vectors&lt;/li&gt;
+      &lt;li&gt;edge weights
+        &lt;ul&gt;
+          &lt;li&gt;doc to word = TFIDF&lt;/li&gt;
+          &lt;li&gt;word to word = &lt;script type=&quot;math/tex&quot;&gt;PMI(i, j)&lt;/script&gt; only if &lt;script type=&quot;math/tex&quot;&gt;PMI(i, j)&lt;/script&gt; is positive and words
+i and j occur in the sliding window together&lt;/li&gt;
+          &lt;li&gt;self-loops are added&lt;/li&gt;
+          &lt;li&gt;
+            &lt;script type=&quot;math/tex; mode=display&quot;&gt;PMI(i, j) = log\frac{P_{ij}}{P_i P_j}&lt;/script&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+            &lt;script type=&quot;math/tex; mode=display&quot;&gt;P_{ij} = \frac{nW(i, j)}{nW}&lt;/script&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+            &lt;script type=&quot;math/tex; mode=display&quot;&gt;P(i) = \frac{nW(i)}{nW}&lt;/script&gt;
+          &lt;/li&gt;
+          &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;nW&lt;/script&gt; = total number of sliding windows&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;model and training
+    &lt;ul&gt;
+      &lt;li&gt;usage of spectral GCNs as in Kipf and Welling&lt;/li&gt;
+      &lt;li&gt;2 layer GCNs&lt;/li&gt;
+      &lt;li&gt;output layer is psased through softmax classifier&lt;/li&gt;
+      &lt;li&gt;loss function is cross entropy error over all labelled docs
+        &lt;ul&gt;
+          &lt;li&gt;
+            &lt;script type=&quot;math/tex; mode=display&quot;&gt;L = - \Sigma_d \Sigma_f Y_{df} ln(Z_{df})&lt;/script&gt;
+          &lt;/li&gt;
+          &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;d&lt;/script&gt; = all labelled docs&lt;/li&gt;
+          &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;f&lt;/script&gt; = all output features&lt;/li&gt;
+          &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;Y&lt;/script&gt; = label vector for a doc&lt;/li&gt;
+          &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;Z&lt;/script&gt; = softmax output vector&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;2 layers help information exchange between docs too!&lt;/li&gt;
+      &lt;li&gt;more layers didn’t help improving accuracy&lt;/li&gt;
+      &lt;li&gt;sliding window size = 20 words&lt;/li&gt;
+      &lt;li&gt;first layer output embedding size = 200&lt;/li&gt;
+      &lt;li&gt;learning rate = 0.02&lt;/li&gt;
+      &lt;li&gt;Adam optimizer with 200 epochs&lt;/li&gt;
+      &lt;li&gt;early stopping after 10 epochs with no decrease in validation loss&lt;/li&gt;
+      &lt;li&gt;dropout rate = 0.5&lt;/li&gt;
+      &lt;li&gt;10% of training as validation set&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">Graph Attention Networks</title><link href="https://teju85.github.io/blog/2020/08/09/gat.html" rel="alternate" type="text/html" title="Graph Attention Networks" /><published>2020-08-09T00:00:00+05:30</published><updated>2020-08-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/08/09/gat</id><content type="html" xml:base="https://teju85.github.io/blog/2020/08/09/gat.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/abs/1710.10903&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
@@ -1075,21 +1140,4 @@ overall graph embedding based on embeddings of each node&lt;/li&gt;
       &lt;li&gt;accessing edge features is via: &lt;code class=&quot;highlighter-rouge&quot;&gt;g.edges[&quot;etype&quot;].data[&quot;name&quot;]&lt;/code&gt;&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Recording of the talk can be found here.</summary></entry><entry><title type="html">Open Graph Benchmark: Datasets for Machine Learning on Graphs</title><link href="https://teju85.github.io/blog/2020/06/17/open-graph-benchmark.html" rel="alternate" type="text/html" title="Open Graph Benchmark: Datasets for Machine Learning on Graphs" /><published>2020-06-17T00:00:00+05:30</published><updated>2020-06-17T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/17/open-graph-benchmark</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/17/open-graph-benchmark.html">&lt;h3 id=&quot;proposal&quot;&gt;proposal&lt;/h3&gt;
-&lt;p&gt;Main paper can be found &lt;a href=&quot;&quot;&gt;here&lt;/a&gt; and the code for it is found &lt;a href=&quot;https://ogb.stanford.edu&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Provides diverse datasets from different domains&lt;/li&gt;
-  &lt;li&gt;Various sizes to test scalability&lt;/li&gt;
-  &lt;li&gt;Fully automated data loader, train-test split and evaluation methods for every dataset&lt;/li&gt;
-  &lt;li&gt;Different categories of tasks - node, link, graph property prediction&lt;/li&gt;
-  &lt;li&gt;Finally public leaderboard for inviting community contributions&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;ogb-package&quot;&gt;ogb package&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;provides utilities to download the datset and train/test split them.&lt;/li&gt;
-  &lt;li&gt;such utilities are provided for multiple datasets&lt;/li&gt;
-  &lt;li&gt;also provides utility methods to evaluate the resulting graph model too&lt;/li&gt;
-  &lt;li&gt;it is compatible with pytorch-geometric and DGL&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">proposal Main paper can be found here and the code for it is found here.</summary></entry></feed>
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Recording of the talk can be found here.</summary></entry></feed>
