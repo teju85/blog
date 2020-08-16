@@ -1,0 +1,49 @@
+---
+layout: post
+title: "Graph Convolutional Networks for text classification"
+needmath: true
+tags: tech-notes paper-notes graph gnn
+---
+
+### Proposal
+Main paper can be found [here](https://arxiv.org/pdf/1809.05679.pdf).
+
+* novel GNN based method for text classification
+* graph is constructed using word co-occurence and word-doc associations
+* learn both word and doc (aka corpus) embeddings simultaneously by building and
+  using the above mentioned heterogenous text graph, where nodes are both words
+  and docs
+
+### Summary
+- text graph construction
+  - based on word co-occurence (in corpus) and doc-word relations
+  - number of nodes = vocab size + corpus size
+  - input embeddings are just one-hot vectors
+  - edge weights
+    - doc to word = TFIDF
+    - word to word = $$PMI(i, j)$$ only if $$PMI(i, j)$$ is positive and words
+      i and j occur in the sliding window together
+    - self-loops are added
+    - $$PMI(i, j) = log\frac{P_{ij}}{P_i P_j}$$
+    - $$P_{ij} = \frac{nW(i, j)}{nW}$$
+    - $$P(i) = \frac{nW(i)}{nW}$$
+    - $$nW$$ = total number of sliding windows
+- model and training
+  - usage of spectral GCNs as in Kipf and Welling
+  - 2 layer GCNs
+  - output layer is psased through softmax classifier
+  - loss function is cross entropy error over all labelled docs
+    - $$L = - \Sigma_d \Sigma_f Y_{df} ln(Z_{df})$$
+    - $$d$$ = all labelled docs
+    - $$f$$ = all output features
+    - $$Y$$ = label vector for a doc
+    - $$Z$$ = softmax output vector
+  - 2 layers help information exchange between docs too!
+  - more layers didn't help improving accuracy
+  - sliding window size = 20 words
+  - first layer output embedding size = 200
+  - learning rate = 0.02
+  - Adam optimizer with 200 epochs
+  - early stopping after 10 epochs with no decrease in validation loss
+  - dropout rate = 0.5
+  - 10% of training as validation set
