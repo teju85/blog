@@ -1,4 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-08-16T23:44:48+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Graph Convolutional Networks for text classification</title><link href="https://teju85.github.io/blog/2020/08/16/text-gcn.html" rel="alternate" type="text/html" title="Graph Convolutional Networks for text classification" /><published>2020-08-16T00:00:00+05:30</published><updated>2020-08-16T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/08/16/text-gcn</id><content type="html" xml:base="https://teju85.github.io/blog/2020/08/16/text-gcn.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-09-12T09:52:15+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">cmake on cygwin</title><link href="https://teju85.github.io/blog/2020/09/12/cmake-on-cygwin.html" rel="alternate" type="text/html" title="cmake on cygwin" /><published>2020-09-12T00:00:00+05:30</published><updated>2020-09-12T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/09/12/cmake-on-cygwin</id><content type="html" xml:base="https://teju85.github.io/blog/2020/09/12/cmake-on-cygwin.html">&lt;h3 id=&quot;correctly-installing-cmake-on-cygwin&quot;&gt;correctly installing cmake on cygwin&lt;/h3&gt;
+&lt;p&gt;I have had this issue when I install cmake on cygwin&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;apt-cyg &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;cmake
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;cmake &lt;span class=&quot;nt&quot;&gt;--version&lt;/span&gt;
+CMake Error: Could not find CMAKE_ROOT &lt;span class=&quot;o&quot;&gt;!!!&lt;/span&gt;
+CMake has most likely not been installed correctly.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;When I try to find where all cygwin is installed, here’s the output:&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;which &lt;span class=&quot;nt&quot;&gt;-a&lt;/span&gt; cmake
+/bin/cmake
+/usr/bin/cmake
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;When I now update my &lt;code class=&quot;highlighter-rouge&quot;&gt;PATH&lt;/code&gt; environment variable to instead prioritize the
+&lt;code class=&quot;highlighter-rouge&quot;&gt;/usr/bin&lt;/code&gt; folder, by doing: &lt;code class=&quot;highlighter-rouge&quot;&gt;export PATH=/usr/bin:$PATH&lt;/code&gt; at the end of my
+&lt;code class=&quot;highlighter-rouge&quot;&gt;.bashrc&lt;/code&gt; file, I’m now able to get cmake working.&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;which &lt;span class=&quot;nt&quot;&gt;-a&lt;/span&gt; cmake
+/usr/bin/cmake
+/bin/cmake
+&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;cmake &lt;span class=&quot;nt&quot;&gt;--version&lt;/span&gt;
+cmake version 3.6.2
+
+CMake suite maintained and supported by Kitware &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;kitware.com/cmake&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;My guess is that when &lt;code class=&quot;highlighter-rouge&quot;&gt;cmake&lt;/code&gt; gets resolved to &lt;code class=&quot;highlighter-rouge&quot;&gt;/bin&lt;/code&gt; folder, it somehow gets
+confused while finding cmake modules, leading to the above error.&lt;/p&gt;</content><author><name></name></author><category term="tools" /><summary type="html">correctly installing cmake on cygwin I have had this issue when I install cmake on cygwin $ apt-cyg install cmake $ cmake --version CMake Error: Could not find CMAKE_ROOT !!! CMake has most likely not been installed correctly.</summary></entry><entry><title type="html">Graph Convolutional Networks for text classification</title><link href="https://teju85.github.io/blog/2020/08/16/text-gcn.html" rel="alternate" type="text/html" title="Graph Convolutional Networks for text classification" /><published>2020-08-16T00:00:00+05:30</published><updated>2020-08-16T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/08/16/text-gcn</id><content type="html" xml:base="https://teju85.github.io/blog/2020/08/16/text-gcn.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1809.05679.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
@@ -980,164 +1007,4 @@ equation is as follows: &lt;script type=&quot;math/tex&quot;&gt;J(z_u) = -log(si
     &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_{N(v)}^k = max_{u \epsilon N(v)}(\sigma(W_{pool}^k h_u^k + b^k))&lt;/script&gt;
   &lt;/li&gt;
   &lt;li&gt;aggregator can be either max or mean, both seem to provide similar accuracy&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here. SaGe = Sample and Aggregation functions</summary></entry><entry><title type="html">Learning Graph Neural Networks with Deep Graph Library</title><link href="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html" rel="alternate" type="text/html" title="Learning Graph Neural Networks with Deep Graph Library" /><published>2020-06-18T00:00:00+05:30</published><updated>2020-06-18T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/18/dgl-webconf-2020.html">&lt;p&gt;Recording of the talk can be found &lt;a href=&quot;https://www.youtube.com/watch?v=bD6S3xUXNds&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;overview-of-graph-neural-networks&quot;&gt;Overview of Graph Neural Networks&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Tasks in graph learning
-    &lt;ul&gt;
-      &lt;li&gt;node classification (fraud detection)&lt;/li&gt;
-      &lt;li&gt;link prediction (eg: recsys)&lt;/li&gt;
-      &lt;li&gt;graph classification (eg: drug discovery)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;graph learning has 2 steps:
-    &lt;ul&gt;
-      &lt;li&gt;generate low-dim embedding of node&lt;/li&gt;
-      &lt;li&gt;use standard classifiers from there onwards&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;GNNs can learn node, edge, graph embeddings in an end-to-end fashion and are
-based on message-passing between neighbors
-    &lt;ul&gt;
-      &lt;li&gt;aggregation operation needs to be permutation invariant&lt;/li&gt;
-      &lt;li&gt;thereby these nets integrate node/edge/graph features as well as topology in
-a non-linear fashion&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;for graph classification, there’ll be a final “readout” layer to compute the
-overall graph embedding based on embeddings of each node&lt;/li&gt;
-  &lt;li&gt;training of large graphs is done via mini-batch training
-    &lt;ul&gt;
-      &lt;li&gt;with pruning of neighborhood via sampling to reduce computational complexity&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;deep-graph-library---an-update&quot;&gt;Deep Graph Library - an update&lt;/h3&gt;
-&lt;p&gt;&lt;img src=&quot;/blog/assets/dgl/01-dgl-stack.png&quot; alt=&quot;DGL stack&quot; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;already having active customers using DGL via AWS Sagemaker&lt;/li&gt;
-  &lt;li&gt;started out with multiple backends&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;flexible-message-propagation&quot;&gt;flexible message propagation&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&quot;/blog/assets/dgl/02-flexible-message-handling.png&quot; alt=&quot;Flexible message handling&quot; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;full propagation&lt;/li&gt;
-  &lt;li&gt;propagation by graph traversal: sampling on ego-network&lt;/li&gt;
-  &lt;li&gt;propagation by random walk&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;dgl-programming-interface&quot;&gt;DGL programming interface&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&quot;/blog/assets/dgl/03-dgl-api.png&quot; alt=&quot;DGL API&quot; /&gt;&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;DGLGraph&lt;/code&gt; is the core abstraction
-    &lt;ul&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;DGLGraph.ndata[&quot;h&quot;]&lt;/code&gt; - the node representation matrix&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;simple and flexible message passing APIs
-    &lt;ul&gt;
-      &lt;li&gt;&lt;em&gt;active set&lt;/em&gt; - set of nodes/edges to trigger computation on&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;three user defined functions
-    &lt;ul&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\phi^v&lt;/script&gt; - transformation function on vertices&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\bigoplus&lt;/script&gt; - reduction or aggregation function&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\phi^e&lt;/script&gt; - transformation function on edges&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;update_all&lt;/code&gt;
-    &lt;ul&gt;
-      &lt;li&gt;shortcut for &lt;code class=&quot;highlighter-rouge&quot;&gt;send(G.edges()); recv(G.nodes());&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;in other words, do a full propagation&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;now heterogeneous graph is supported&lt;/li&gt;
-  &lt;li&gt;new sampling API is introduced in v0.43 release&lt;/li&gt;
-  &lt;li&gt;next plan is to look at distributed training&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;using-gnns-for-basic-graph-tasks&quot;&gt;Using GNNs for basic graph tasks&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;using Zachary’s karate class network to demo APIs of DGL&lt;/li&gt;
-  &lt;li&gt;DGL expects node id’s to be consecutive integers starting from 0&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.graph&lt;/code&gt; is the main graph structure which provides IO and query methods&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.graph.ndata&lt;/code&gt; member is a dict that holds node features as tensor&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.graph.edata&lt;/code&gt; member is a dict that holds edge features as tensor&lt;/li&gt;
-  &lt;li&gt;definition of models (and their training) in dgl is similar to pytorch&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;How to customize graph-conv using message passing APIs&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.graph.ndata&lt;/code&gt; (and &lt;code class=&quot;highlighter-rouge&quot;&gt;edata&lt;/code&gt;) can be locally updated using
-&lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.graph.local_scope()&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Message passing APIs in DGL are a generalization as found in
-&lt;em&gt;Message Passing Neural Network&lt;/em&gt;s. The relevant equations are as follows:
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;m_{uv}^{(l)} = Message^{(l)}(h_u^{(l-1)}, h_v^{(l-1)}, e_{uv}^{(l)})&lt;/script&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;m_v^{(l)} = Aggregation_{u \epsilon N(v)}(m_{uv}^{(l)})&lt;/script&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_v^{(l)} = Update^{(l)}(h_v^{(l-1)}, m_v^{(l)})&lt;/script&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;scale-gnn-to-giant-graphs-using-dgl&quot;&gt;Scale GNN to giant graphs using DGL&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;for large batches it is recommended to use mini-batch training procedure&lt;/li&gt;
-  &lt;li&gt;minibatch generation on graphs
-    &lt;ul&gt;
-      &lt;li&gt;sample the target nodes
-        &lt;ul&gt;
-          &lt;li&gt;not done inside DGL&lt;/li&gt;
-          &lt;li&gt;using &lt;code class=&quot;highlighter-rouge&quot;&gt;numpy.random.choice&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;torch.utils.data.DataLoader&lt;/code&gt;&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;randomly sample the neighbors (multi-hop)
-        &lt;ul&gt;
-          &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.sampling.sample_neighbors&lt;/code&gt; for one layer&lt;/li&gt;
-          &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.in_subgraph&lt;/code&gt; similar to the above, but will copy all edges&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;construct the minibatch
-        &lt;ul&gt;
-          &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.to_block&lt;/code&gt;&lt;/li&gt;
-          &lt;li&gt;renames nodes to be consecutive (for memory efficiency as well as perf)&lt;/li&gt;
-          &lt;li&gt;constructs a bipartite graph for message passing (COO format)&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;to_block()&lt;/code&gt; has an option &lt;code class=&quot;highlighter-rouge&quot;&gt;include_dst_in_src&lt;/code&gt; to help with self-loops during
- aggregation&lt;/li&gt;
-  &lt;li&gt;inference
-    &lt;ul&gt;
-      &lt;li&gt;we need to infer for all nodes in each layer&lt;/li&gt;
-      &lt;li&gt;thus, inference is typically costlier than training!&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;dgl-on-real-world-applications&quot;&gt;DGL on real world applications&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;eg: recommender systems using GCMC&lt;/li&gt;
-  &lt;li&gt;introduced traditional collaborative filtering based approaches&lt;/li&gt;
-  &lt;li&gt;such a user-item matrix can be converted into bipartite graphs&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;apply_edges()&lt;/code&gt; computes edge features&lt;/li&gt;
-  &lt;li&gt;heterogenous graphs:
-    &lt;ul&gt;
-      &lt;li&gt;graphs with different types of nodes and/or edges. (eg: user-item graphs)&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dgl.heterograph&lt;/code&gt; for creating such graphs&lt;/li&gt;
-      &lt;li&gt;accessing node features is via: &lt;code class=&quot;highlighter-rouge&quot;&gt;g.nodes[&quot;ntype&quot;].data[&quot;name&quot;]&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;accessing edge features is via: &lt;code class=&quot;highlighter-rouge&quot;&gt;g.edges[&quot;etype&quot;].data[&quot;name&quot;]&lt;/code&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Recording of the talk can be found here.</summary></entry></feed>
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here. SaGe = Sample and Aggregation functions</summary></entry></feed>
