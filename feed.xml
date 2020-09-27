@@ -1,4 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-09-12T09:52:15+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">cmake on cygwin</title><link href="https://teju85.github.io/blog/2020/09/12/cmake-on-cygwin.html" rel="alternate" type="text/html" title="cmake on cygwin" /><published>2020-09-12T00:00:00+05:30</published><updated>2020-09-12T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/09/12/cmake-on-cygwin</id><content type="html" xml:base="https://teju85.github.io/blog/2020/09/12/cmake-on-cygwin.html">&lt;h3 id=&quot;correctly-installing-cmake-on-cygwin&quot;&gt;correctly installing cmake on cygwin&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-09-27T08:08:55+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Teditor v1.7.0</title><link href="https://teju85.github.io/blog/2020/09/27/teditor.html" rel="alternate" type="text/html" title="Teditor v1.7.0" /><published>2020-09-27T00:00:00+05:30</published><updated>2020-09-27T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/09/27/teditor</id><content type="html" xml:base="https://teju85.github.io/blog/2020/09/27/teditor.html">&lt;h3 id=&quot;teditor-v170&quot;&gt;Teditor v1.7.0!&lt;/h3&gt;
+&lt;p&gt;Glad to announce the release of the next version of teditor: v1.7.0. It
+can be found &lt;a href=&quot;https://github.com/teju85/teditor/releases/tag/1.7.0&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;changelog&quot;&gt;Changelog&lt;/h3&gt;
+&lt;p&gt;Changes/features in this release:&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;Command for DNS lookup: &lt;code class=&quot;highlighter-rouge&quot;&gt;M-x dns&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;In-built calculator: &lt;code class=&quot;highlighter-rouge&quot;&gt;M-x calc&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Command to open files using another programs while in dir-mode. Just hit &lt;code class=&quot;highlighter-rouge&quot;&gt;s&lt;/code&gt;
+while putting point on that file.&lt;/li&gt;
+  &lt;li&gt;Show the hits nearby the current point location itself during &lt;code class=&quot;highlighter-rouge&quot;&gt;search&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Removed pcre2 and catch2 as submodules (helps reduce repo size). From now
+onwards, &lt;code class=&quot;highlighter-rouge&quot;&gt;parser::NFA&lt;/code&gt; will be used for regex’s instead of pcre2.&lt;/li&gt;
+  &lt;li&gt;Option for debug and release builds in the build infra.&lt;/li&gt;
+  &lt;li&gt;Ability to filter irrelevent commands in any mode.&lt;/li&gt;
+  &lt;li&gt;A &lt;code class=&quot;highlighter-rouge&quot;&gt;History&lt;/code&gt; base class for storing historical commands, files visited, etc&lt;/li&gt;
+  &lt;li&gt;ledger-mode now has a stronger parser based on Lexing!&lt;/li&gt;
+  &lt;li&gt;A &lt;code class=&quot;highlighter-rouge&quot;&gt;LRUCache&lt;/code&gt; class&lt;/li&gt;
+&lt;/ol&gt;</content><author><name></name></author><category term="teditor" /><summary type="html">Teditor v1.7.0! Glad to announce the release of the next version of teditor: v1.7.0. It can be found here.</summary></entry><entry><title type="html">cmake on cygwin</title><link href="https://teju85.github.io/blog/2020/09/12/cmake-on-cygwin.html" rel="alternate" type="text/html" title="cmake on cygwin" /><published>2020-09-12T00:00:00+05:30</published><updated>2020-09-12T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/09/12/cmake-on-cygwin</id><content type="html" xml:base="https://teju85.github.io/blog/2020/09/12/cmake-on-cygwin.html">&lt;h3 id=&quot;correctly-installing-cmake-on-cygwin&quot;&gt;correctly installing cmake on cygwin&lt;/h3&gt;
 &lt;p&gt;I have had this issue when I install cmake on cygwin&lt;/p&gt;
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;apt-cyg &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;cmake
 &lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;cmake &lt;span class=&quot;nt&quot;&gt;--version&lt;/span&gt;
@@ -904,107 +923,4 @@ leaf nodes get to take in the input vectors&lt;/li&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;c_j = i_j \odot u_j + \sum_{l=1}^N f_{jl} \odot c_{jl}&lt;/script&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;h_j = o_j \odot tanh(c_j)&lt;/script&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">GraphSAGE</title><link href="https://teju85.github.io/blog/2020/06/24/graphsage.html" rel="alternate" type="text/html" title="GraphSAGE" /><published>2020-06-24T00:00:00+05:30</published><updated>2020-06-24T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/06/24/graphsage</id><content type="html" xml:base="https://teju85.github.io/blog/2020/06/24/graphsage.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
-&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1706.02216.pdf&quot;&gt;here&lt;/a&gt;.
-SaGe = Sample and Aggregation functions&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Learns parametric functions in order to generate low dimensional embeddings of
-the nodes in the graph&lt;/li&gt;
-  &lt;li&gt;These functions can also be used to generate embeddings of unseen nodes too&lt;/li&gt;
-  &lt;li&gt;It can also optionally use node features as starting points for embeddings&lt;/li&gt;
-  &lt;li&gt;Configurable number of layers representing the number of hops for each node&lt;/li&gt;
-  &lt;li&gt;Custom loss function (based on negative-sampling) for unsupervised learning&lt;/li&gt;
-  &lt;li&gt;Also supports supervised learning&lt;/li&gt;
-  &lt;li&gt;Scales to large graphs through neighborhood sampling and minibatch techniques&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;forward-propagation-algo&quot;&gt;forward propagation algo&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_v^0 = x_v&lt;/script&gt;
-  &lt;/li&gt;
-  &lt;li&gt;for k = 1 to K
-    &lt;ul&gt;
-      &lt;li&gt;for v in minibatch
-        &lt;ul&gt;
-          &lt;li&gt;
-            &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_{N(v)}^k = aggregator_k(h_u^{k-1}, u \epsilon N(v))&lt;/script&gt;
-          &lt;/li&gt;
-          &lt;li&gt;
-            &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_v^k = \sigma(W^k concat(h_v^{k-1}, h_{N(v)}^k))&lt;/script&gt;
-          &lt;/li&gt;
-          &lt;li&gt;
-            &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_v^k = \frac{h_v^k}{L2norm(h_v^k)}&lt;/script&gt;
-          &lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;script type=&quot;math/tex; mode=display&quot;&gt;z_v = h_v^K&lt;/script&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Where:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;h^k&lt;/script&gt; = hidden vectors at each layer for all vertices&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;V&lt;/script&gt; = nodes&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;N(v)&lt;/script&gt; = sampled neighborhood for each node&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;K&lt;/script&gt; = number of layers (hyperparameter)&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\sigma&lt;/script&gt; = a non-linear activation function&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;W^k&lt;/script&gt; = learnable weights for each layer&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;z&lt;/script&gt; = output embedding&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;In paper the authors show the similarity of this algo with the popular
-&lt;a href=&quot;https://www.davidbieber.com/post/2019-05-10-weisfeiler-lehman-isomorphism-test/&quot;&gt;Weisfeiler-Lehman&lt;/a&gt;
-graph isomorphism test.&lt;/p&gt;
-
-&lt;h3 id=&quot;neighborhood-sampling&quot;&gt;neighborhood sampling&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;performs uniform sampling&lt;/li&gt;
-  &lt;li&gt;different samples are drawn for each layer based on different sampling rates
-&lt;script type=&quot;math/tex&quot;&gt;S_i&lt;/script&gt;, for each layer&lt;/li&gt;
-  &lt;li&gt;authors recommend to keep &lt;script type=&quot;math/tex&quot;&gt;\Pi_i S_i \le 500&lt;/script&gt;&lt;/li&gt;
-  &lt;li&gt;sampling technique is pretty much the same as seen in
-&lt;a href=&quot;/blog/2020/06/10/pinsage.html&quot;&gt;PinSage&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;They recommend &lt;script type=&quot;math/tex&quot;&gt;K = 2, S_1 = 25, S_2 = 10&lt;/script&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;learning&quot;&gt;learning&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;via SGD + using Adam optimizer&lt;/li&gt;
-  &lt;li&gt;loss function for unsupervised mode is based on negative sampling and its
-equation is as follows: &lt;script type=&quot;math/tex&quot;&gt;J(z_u) = -log(sigmoid(z_u^T z_v)) - Q E[log(sigmoid(z_u^T z_{v_n}))]&lt;/script&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;Q&lt;/script&gt; = number of negative samples&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;v_n&lt;/script&gt; = negative sample&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;v&lt;/script&gt; = node that is a neighbor of &lt;script type=&quot;math/tex&quot;&gt;u&lt;/script&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;aggregators&quot;&gt;aggregators&lt;/h3&gt;
-&lt;p&gt;These must be permutation invariant. They test the following aggregators&lt;/p&gt;
-
-&lt;h4 id=&quot;mean-aggregator&quot;&gt;mean aggregator&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_v^k = \sigma(W^k Mean(h_u^{k-1} with u \epsilon N(v), h_v^{k-1}))&lt;/script&gt;
-  &lt;/li&gt;
-  &lt;li&gt;note that this uses &lt;script type=&quot;math/tex&quot;&gt;h_v^{k-1}&lt;/script&gt; in the aggregation itself!&lt;/li&gt;
-  &lt;li&gt;thus this can be thought of as “skip connection” between layers&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;lstm-aggregator&quot;&gt;LSTM aggregator&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;LSTM’s are not permutation invariant&lt;/li&gt;
-  &lt;li&gt;So they make it to be invariant by randomly permuting the inputs&lt;/li&gt;
-  &lt;li&gt;this seems to show the best accuracy in their experimentation&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;pooling-aggregator&quot;&gt;pooling aggregator&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_{N(v)}^k = max_{u \epsilon N(v)}(\sigma(W_{pool}^k h_u^k + b^k))&lt;/script&gt;
-  &lt;/li&gt;
-  &lt;li&gt;aggregator can be either max or mean, both seem to provide similar accuracy&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here. SaGe = Sample and Aggregation functions</summary></entry></feed>
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;h_j = o_j \odot tanh(c_j)&lt;/script&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry></feed>
