@@ -1,0 +1,199 @@
+I"�<h3 id="summary">Summary</h3>
+<p>A talk given by Dr. Geoffrey Hinton listing all the shortcomings in the current
+convolutional networks and then alluding to his work on Capsule nets. Recording
+can be found <a href="http://techtv.mit.edu/collections/bcs/videos/30698-what-s-wrong-with-convolutional-nets">here</a></p>
+
+<ul>
+  <li>our neural nets have very few structure (unlike our brain!)
+    <ul>
+      <li>neurons, layers, the whole net - that’s it</li>
+    </ul>
+  </li>
+  <li>we are also lacking entities in these nets
+    <ul>
+      <li>one way to define entities is through a group of neurons
+        <ul>
+          <li>aka capsule</li>
+          <li>aka mini-column</li>
+          <li>one entity per capsule</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>capsule? - a group of neurons that represents:
+    <ul>
+      <li>probability of presence of a multi-dimensional entity it has been designed
+to search for</li>
+      <li>and that entity’s instantiation params
+        <ul>
+          <li>these could be pose of the object - location, orientation, velocity,
+deformation, etc</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>these capsules are then connected to form multiple layers</li>
+  <li>coincidence filtering
+    <ul>
+      <li>a capsule receives a batch of multi-dim vec’s from capsules beneath it</li>
+      <li>looks for tightly coupled clusters in that batch</li>
+      <li>if found this outputs
+        <ul>
+          <li>a high probability that an entity of “its” type exists in the batch</li>
+          <li>the center of gravity of the cluster</li>
+        </ul>
+      </li>
+      <li>because, at higher dims coincidences very rarely happen by chance</li>
+    </ul>
+  </li>
+  <li>he believes in convolutions, but not pooling. He provides 4 arguments:</li>
+  <li>Point1: doesn’t model the psychology of shape perception
+    <ul>
+      <li>humans use rectangular coordinate frames to perceive shapes.</li>
+      <li>probably even have hierarchy of such frames used for final perception</li>
+      <li>This plays a vital role in our perception!</li>
+      <li>convnets have no notion of this</li>
+      <li>Hinton demonstrated this using a 2-sliced tetrahedron experiment!</li>
+      <li>another demonstration was the use of mental rotation
+        <ul>
+          <li>eg: tilted ‘R’ letter and deciding correct handedness</li>
+        </ul>
+      </li>
+      <li>relation between object and viewer represented by bunch of active neurons</li>
+    </ul>
+  </li>
+  <li>Point2: doesn’t solve the right problem
+    <ul>
+      <li>convnets aim for invariance
+        <ul>
+          <li>it’s ok, as it is guided by label being invariant to viewpoint</li>
+          <li>however its better to aim for equivariance</li>
+          <li>changes in viewpoint lead to corresponding changes in neural activities</li>
+        </ul>
+      </li>
+      <li>place-coded equivariance - PCE
+        <ul>
+          <li>different capsule represents this object while its translating</li>
+          <li>eg: convnets without pooling (wrt translated images)</li>
+        </ul>
+      </li>
+      <li>rate-coded equivariance - RCE
+        <ul>
+          <li>for very slight translations, the same capsule represents it</li>
+          <li>but, its instantiation params change</li>
+        </ul>
+      </li>
+      <li>lower level PCE is translated into higher level RCE
+        <ul>
+          <li>at lower capsules
+            <ul>
+              <li>most of it is PCE</li>
+              <li>only small changes cause RCE</li>
+            </ul>
+          </li>
+          <li>at higher capsules
+            <ul>
+              <li>most of it is RCE</li>
+              <li>only very large changes cause PCE</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Point3: fails to take advantage of linear manifold (eg: computer graphics)
+    <ul>
+      <li>eg: comp-graphics
+        <ul>
+          <li>it already represents objects in the rectangular coordinate frame</li>
+          <li>that manifold of object representation is globally linear.</li>
+          <li>convnets don’t exploit this property!</li>
+          <li>they collect and train on data of objects under different “properties”</li>
+          <li>thus need a lot of data to train such models</li>
+        </ul>
+      </li>
+      <li>approach of figuring out the manifold through objects’ pose, location,
+translation, deformation, etc is much better compared to convnets</li>
+      <li>this means we’ll also need very less data to train our models</li>
+      <li>basically, we should design our nets to perform inverse graphics!
+        <ul>
+          <li>literally the inverse of the process what graphics pipelines do</li>
+          <li>this then exploits the underlying linear manifold</li>
+          <li>obviously, applies only to computer vision problems</li>
+        </ul>
+      </li>
+      <li>this approach of coincidence filtering is more similar to hough transform</li>
+    </ul>
+  </li>
+  <li>Point4: a primitive way to do routing
+    <ul>
+      <li>convnets handle this through pooling by picking the most active neuron
+        <ul>
+          <li>certainly a primitive way of doing routing!</li>
+        </ul>
+      </li>
+      <li>much better approach
+        <ul>
+          <li>route the info in images to the neurons that can best make sense of it!</li>
+          <li>route info dynamically based on agreement provided by upper capsules</li>
+          <li>upper capsules will request more input from the lower ones which vote
+for its cluster. They will request less, otherwise.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>proof of concept (on mnist dataset)
+    <ul>
+      <li>pixel intensities to primary capsules
+        <ul>
+          <li>i/p -&gt; conv layer patch -&gt; logistic layer -&gt; capsules</li>
+          <li>this is done for each patch in the i/p image</li>
+          <li>all patches, however, share the same weights (similar to conv layer)</li>
+        </ul>
+      </li>
+      <li>2nd layer
+        <ul>
+          <li>poses of each capsule from each patch vote for poses of each o/p class</li>
+          <li>these layers are linear (see the globally linear manifold argument)</li>
+          <li>to take translation into account, the first 2 pose params will get added
+by x,y coordinates of the patch</li>
+          <li>no. of transformation matrices = #types x #classes</li>
+        </ul>
+      </li>
+      <li>how to detect agreements?
+        <ul>
+          <li>use a mixture of gaussians and uniform distributions</li>
+          <li>use EM to estimate mean/var of these gaussians
+            <ul>
+              <li>typically converges in few iterations, it seems</li>
+            </ul>
+          </li>
+          <li>find a score that is the difference of log-prob of all samples under
+condition from mixture and condition from only uniform</li>
+          <li>apply softmax on these to do final prediction</li>
+        </ul>
+      </li>
+      <li>our brain doesn’t do such clustering to find agreements!</li>
+    </ul>
+  </li>
+  <li>his prediction is that if we can use unsupervised learning to come up with
+primary capsules, then we will much less data
+    <ul>
+      <li>aka “derendering stage”</li>
+      <li>this has to be highly non-linear</li>
+      <li>one idea is to use the autoencoder approach
+        <ul>
+          <li>decoder tries to reconstruct the image based on each of the capsules</li>
+          <li>encoder then tries to learn how to map pixel intensities to capsules!</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>the output these primary capsules is concatenated into a single vector
+    <ul>
+      <li>then ‘N’ number of factor analyzers will be applied on these</li>
+      <li>we’ll get a mixture of factor analyzers</li>
+    </ul>
+  </li>
+</ul>
+:ET

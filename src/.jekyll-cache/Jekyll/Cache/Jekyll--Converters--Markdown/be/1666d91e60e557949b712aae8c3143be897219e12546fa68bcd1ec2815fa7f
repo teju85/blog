@@ -1,0 +1,24 @@
+I"�<h3 id="hash-displace-and-compress">Hash displace and compress</h3>
+<p>Main paper can be found <a href="http://cmph.sourceforge.net/papers/esa09.pdf">here</a>.</p>
+
+<ul>
+  <li>CHD algorithm for generating perfect hash functions</li>
+  <li>input is a set of ‘n’ keys, to be mapped to a space of ‘m’ numbers</li>
+  <li>2-level hashing approach
+    <ul>
+      <li>first hash puts all input keys into ‘r’ buckets</li>
+      <li>then there’ll be multiple random hash functions</li>
+      <li>out of which, one will be allocated to a given bucket</li>
+    </ul>
+  </li>
+  <li>2 parameters controlling the behavior
+    <ul>
+      <li>lambda - number of keys per bucket (r = ceil(n / lambda))</li>
+      <li>alpha - table load factor (m = ceil(n / alpha)</li>
+    </ul>
+  </li>
+  <li>in practice, heuristic hash functions proposed by Jenkins in
+“Algorithm Alley: Hash functions” Dr.Dobbs article is being used</li>
+  <li>also supports k-perfect hash functions (but not my interest currently!)</li>
+</ul>
+:ET

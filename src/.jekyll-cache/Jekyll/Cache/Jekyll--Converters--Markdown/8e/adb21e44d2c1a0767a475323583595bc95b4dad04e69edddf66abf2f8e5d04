@@ -1,0 +1,41 @@
+I"‹<p>Summary of <a href="https://dl.acm.org/citation.cfm?doid=3146347.3146354">this</a> paper on
+BlazingText.</p>
+
+<ul>
+  <li>parallelizing word2vec SGD on GPUs</li>
+  <li>typical way of parallelizing SGD is through Hogwild approach
+    <ul>
+      <li>ignore conflicts that might arise between read/write of weights</li>
+      <li>since there are not many conflicts, convergence is not usually affected</li>
+    </ul>
+  </li>
+  <li>they too use Intelâ€™s minibatching technique + shared negative samples here</li>
+  <li>they implement both the following kernels
+    <ul>
+      <li>one CTA per word
+        <ul>
+          <li>each thread maps to a vector dimension</li>
+          <li>peak parallel perf</li>
+          <li>but reduced accuracy due to increased probability of conflicts</li>
+        </ul>
+      </li>
+      <li>one CTA per sentence
+        <ul>
+          <li>each thread maps to a vector dim</li>
+          <li>medium perf</li>
+          <li>due to reduced conflicts, gives better accuracy</li>
+          <li>more sentences worked upon at the same time increases chances of conflicts!</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>distributed training
+    <ul>
+      <li>use data parallelism only</li>
+      <li>use ncclAllReduce</li>
+      <li>synchronize at the end of each epoch</li>
+      <li>they notice reduced accuracy with more GPUs added (specifically &gt; 4)</li>
+    </ul>
+  </li>
+</ul>
+:ET

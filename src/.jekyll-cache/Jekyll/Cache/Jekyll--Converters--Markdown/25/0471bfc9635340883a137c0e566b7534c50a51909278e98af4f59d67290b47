@@ -1,0 +1,74 @@
+I"<h3 id="proposal">Proposal</h3>
+<p>Main paper can be found <a href="https://arxiv.org/pdf/1403.6652.pdf">here</a> and a quick
+summary of the techniques of this paper can be found in <a href="https://medium.com/analytics-vidhya/an-intuitive-explanation-of-deepwalk-84177f7f2b72">this blog</a>.</p>
+
+<ul>
+  <li>Learns representations of the nodes in a graph, inspired from word2vec.</li>
+  <li>Treats the list of nodes from a random walk as sentences</li>
+</ul>
+
+<h3 id="summary">Summary</h3>
+<ul>
+  <li>Authors note a striking similarity of power-law distribution of nodes in the
+random walk and words in natural languages</li>
+  <li>Such random walks are also helpful from implementation PoV, as they are easy
+to parallelize</li>
+  <li>They are also helpful when the graph changes and we need to iteratively update
+the learnings, instead of costly global recomputation</li>
+</ul>
+
+<h4 id="algorithm">Algorithm</h4>
+<p>Inputs:</p>
+<ul>
+  <li>\(G(V, E)\) graph
+    <ul>
+      <li>\(n\) number of nodes</li>
+      <li>\(m\) number of edges</li>
+    </ul>
+  </li>
+  <li>\(w\) window size</li>
+  <li>\(d\) output embedding size</li>
+  <li>\(\gamma\) walks per node</li>
+  <li>\(t\) walk length</li>
+</ul>
+
+<p>Output:</p>
+<ul>
+  <li>\(\Phi \epsilon R^{n x d}\) the embeddings for each node</li>
+</ul>
+
+<p>DeepWalk algo:</p>
+<ol>
+  <li>Randomly initialize \(\Phi\)</li>
+  <li>for i from 0 to \(\gamma\)
+    <ol>
+      <li>for each \(v_i\) in shuffle(V)
+        <ul>
+          <li>\(W_{v_i}\) = randomwalk(G, \(v_i\), t)</li>
+          <li>skipgram(\(\Phi\), $$W_{v_i}, w)</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<p>skipgram algo:</p>
+<ol>
+  <li>for each \(v_j \epsilon W_{v_i}\)
+    <ol>
+      <li>for each \(u_k \epsilon W_{v_i}[j - w : j + w]\)
+        <ul>
+          <li>
+\[J(\Phi) = -log(Pr(u_k || \Phi(v_j)))\]
+          </li>
+          <li>
+\[\Phi = \Phi - \alpha \frac{\partial J}{\partial \Phi}\]
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+<p>\(Pr(.)\) above uses hierarchical softmax to be computationally more efficient.</p>
+:ET

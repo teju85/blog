@@ -1,0 +1,46 @@
+I"à<h3 id="emd---a-metric-for-distributions-with-applications-to-image-databases">EMD - A Metric for distributions with applications to image databases</h3>
+<p>Summary of the article found <a href="https://users.cs.duke.edu/~tomasi/papers/rubner/rubnerIccv98.pdf">here</a>.</p>
+
+<ul>
+  <li>proposes a distance metric - EMD - Earth Moverâ€™s Distance</li>
+  <li>instead of fixed size bins (aka histograms), they propose generic versions
+called signatures
+    <ul>
+      <li>a signature is a tuple - \((m_j, w_j)\)</li>
+      <li>\(m_j\) = mean value of the cluster center</li>
+      <li>\(w_j\) = weight of (or number of points in) the cluster</li>
+    </ul>
+  </li>
+  <li>then, EMD is defined as a solution to the flow problem:
+    <ul>
+      <li>
+\[\sum_i \sum_j c_{ij} * f_{ij}\]
+      </li>
+      <li>\(c_{ij}\) = distance between 2 signatures i and j</li>
+      <li>\(f_{ij}\) = flow from source signature distribution to the destination</li>
+      <li>\(f_{ij}\) &gt;= 0</li>
+      <li>
+\[\sum_i f_{ij} = y_j\]
+      </li>
+      <li>
+\[\sum_j f_{ij} \leq x_i\]
+      </li>
+    </ul>
+  </li>
+  <li>if \(\sum_j y_j != \sum_i x_i\), choose the one with higher summation to be
+the source distribution</li>
+  <li>
+\[EMD(x,y) = \frac{\sum_i \sum_j c_{ij} * f_{ij}}{\sum_i \sum_j f_{ij}}\]
+  </li>
+  <li>OR \(EMD(x,y) = \frac{\sum_i \sum_j c_{ij} * f_{ij}}{\sum_j y_j}\)</li>
+  <li>if weights of 2 distributions and their signature counts are same, then this
+is a true metric</li>
+  <li>but by nature of above equations, it can allow partial matches</li>
+  <li>finally, solving this is a special case of transportation problem
+    <ul>
+      <li>where the graph is bipartite</li>
+      <li>this is being solved using the simplex method</li>
+    </ul>
+  </li>
+</ul>
+:ET

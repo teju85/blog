@@ -1,0 +1,14 @@
+I"â<p>Summary of <a href="https://ieeexplore.ieee.org/document/8091076">this</a> paper on
+parallelizing word2vec model training on GPUs.</p>
+
+<ul>
+  <li>fast SGHS and SGNS implementations</li>
+  <li>allocates one threadblock per sentence in the batch</li>
+  <li>a single kernel for forward and backward passes, with a __syncthreads calls separating these</li>
+  <li>share the negative samples across the current window</li>
+  <li>use a custom 4x8 tiled matrix multiplication implementation</li>
+  <li>word pre-processing completely happens on multi-threaded CPU</li>
+  <li>they assume CPU preprocessing to completely overlap with GPU computations</li>
+  <li>code can be found <a href="https://github.com/tmsimont/wombat">here</a></li>
+</ul>
+:ET

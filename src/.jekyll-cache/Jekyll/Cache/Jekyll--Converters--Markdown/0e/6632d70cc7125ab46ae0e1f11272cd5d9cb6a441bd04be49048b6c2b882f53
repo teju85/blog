@@ -1,0 +1,18 @@
+I"L<h3 id="art-radix-trie">ART radix trie</h3>
+<p>Main paper can be found <a href="https://db.in.tum.de/~leis/papers/ART.pdf">here</a> and
+its condensed version is in <a href="https://www.the-paper-trail.org/post/art-paper-notes/">this blog</a>.</p>
+
+<ul>
+  <li>create a sort of ‘union’ struct with different nodes</li>
+  <li>they support a different struct for upto 4, 16, 48, 256 children per nodes
+    <ul>
+      <li>Node4: one can do a brute search on its contents</li>
+      <li>Node16: sort its children and do binary search</li>
+      <li>Node48: store the children indexed with a 256 element array itself</li>
+      <li>Node256: the usual radix trie</li>
+    </ul>
+  </li>
+  <li>these data structures help improve L1 cache locality</li>
+  <li>they have a paper on parallel ART: https://db.in.tum.de/~leis/papers/artsync.pdf</li>
+</ul>
+:ET

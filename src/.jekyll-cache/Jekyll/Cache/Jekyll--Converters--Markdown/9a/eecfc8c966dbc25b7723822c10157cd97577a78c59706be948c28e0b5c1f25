@@ -1,0 +1,6 @@
+I"�<p><a href="https://gist.github.com/teju85/2cfc3934f3697aaff324b77e693010a0">Here</a> is a
+short c++ code to solve the popular 3x3 sudoku puzzle. Follow the instructions
+at the top of the source file to compile and run the code. It only uses the
+logical elimination-based method to converge to the right solution. This appears
+to solve even the “hard” problems from <a href="https://websudoku.com">websudoku</a> portal.</p>
+:ET

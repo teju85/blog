@@ -1,0 +1,44 @@
+I"�<h3 id="introduction">Introduction</h3>
+<p>After reading McGibbon’s <a href="https://github.com/rmcgibbo/npcuda-example">npcuda-example</a>,
+I set out on an attempt at creating extension modules by creating a separate
+nvcc cuda compiler to the distutils process.</p>
+
+<p>Obviously, most of the idea is inspired from npcuda-example. But instead of
+doing runtime hot-patches to the compiler object, this goes via the OO way, in
+the hope of keeping things cleaner.</p>
+
+<h3 id="example-usage">Example Usage</h3>
+<p>Taking the setup.py of npcuda-example/cython/setup.py as an example, here’s
+what it would take to add support for building extension modules having CUDA
+kernels.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
+<span class="kn">from</span> <span class="nn">distutils.extension</span> <span class="kn">import</span> <span class="n">Extension</span>
+<span class="kn">import</span> <span class="nn">cudistutils</span> <span class="k">as</span> <span class="n">cud</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">cud</span><span class="p">.</span><span class="n">CudaEnv</span><span class="p">()</span>
+<span class="n">ext</span> <span class="o">=</span> <span class="n">Extension</span><span class="p">(</span><span class="s">"gpuadder"</span><span class="p">,</span>
+                <span class="n">sources</span><span class="o">=</span><span class="p">[</span><span class="s">"src/manager.cu"</span><span class="p">,</span> <span class="s">"wrapper.pyx"</span><span class="p">],</span>
+                <span class="n">library_dirs</span><span class="o">=</span><span class="p">[</span><span class="n">env</span><span class="p">.</span><span class="n">lib64</span><span class="p">],</span>
+                <span class="n">libraries</span><span class="o">=</span><span class="n">env</span><span class="p">.</span><span class="n">base_cuda_libs</span><span class="p">,</span>
+                <span class="n">language</span><span class="o">=</span><span class="s">"c++"</span><span class="p">,</span>
+                <span class="n">runtime_library_dirs</span><span class="o">=</span><span class="p">[</span><span class="n">env</span><span class="p">.</span><span class="n">lib64</span><span class="p">],</span>
+                <span class="n">extra_compile_args</span><span class="o">=</span><span class="p">{</span><span class="s">"gcc"</span>  <span class="p">:</span> <span class="p">[],</span>
+                                    <span class="s">"nvcc"</span> <span class="p">:</span> <span class="n">env</span><span class="p">.</span><span class="n">default_nvcc_opts</span><span class="p">()},</span>
+                <span class="n">include_dirs</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">get_include</span><span class="p">(),</span> <span class="n">env</span><span class="p">.</span><span class="n">include</span><span class="p">,</span> <span class="s">"src"</span><span class="p">])</span>
+<span class="n">setup</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">"gpuadder"</span><span class="p">,</span>
+      <span class="n">author</span><span class="o">=</span><span class="s">"Robert McGibbon"</span><span class="p">,</span>
+      <span class="n">version</span><span class="o">=</span><span class="s">"0.1"</span><span class="p">,</span>
+      <span class="n">ext_modules</span> <span class="o">=</span> <span class="p">[</span><span class="n">ext</span><span class="p">],</span>
+      <span class="n">cmdclass</span><span class="o">=</span><span class="p">{</span><span class="s">"build_ext"</span><span class="p">:</span> <span class="n">cud</span><span class="p">.</span><span class="n">cuda_build_ext</span><span class="p">},</span>
+      <span class="n">zip_safe</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span></code></pre></figure>
+
+<p>As can be seen, most of your setup.py remains similar to writing C/C++ extension
+modules. Only change comes with passing ‘extra_compile_args’, which is needed
+since the underlying compiler class switches between C/C++ compiler and cuda
+compiler based on the input source file extension.</p>
+
+<p>The project is hosted <a href="https://github.com/teju85/cudistutils">here</a>.
+Hopefully will spend some time to get it accessible via ‘pip install’.</p>
+:ET

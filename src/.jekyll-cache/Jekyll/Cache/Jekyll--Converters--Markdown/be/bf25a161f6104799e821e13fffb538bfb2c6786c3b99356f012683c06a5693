@@ -1,0 +1,47 @@
+I"i<p>Summary of <a href="http://www.deeplearningweekly.com/blog/demystifying-word2vec">this</a>
+introductory blog post on word2vec.</p>
+
+<ul>
+  <li>Latent Semantic Analysis
+    <ul>
+      <li>construct a matrix of wordOccurences-by-document</li>
+      <li>convert the frequency into tf-idf notation
+        <ul>
+          <li>term-frequency-inverse-document-frequency</li>
+          <li>this helps normalize the frequency values and prevent the stop words (a, an, the)
+in dominating the matrix</li>
+        </ul>
+      </li>
+      <li>take SVD of this matrix and descending-order sort the singular values</li>
+      <li>the corresponding col-vectors in U matrix will represent the words grouped closer
+according to the frequency of their occurence (or topic)</li>
+      <li>this approach cannot predict subtle relationship with words</li>
+      <li>certainly cannot understand the relationship across sequence of words</li>
+    </ul>
+  </li>
+  <li>Word2vec
+    <ul>
+      <li>converts the words to vectors such that the words neighboring in context to the
+current word all appear close in the vector-domain (according to a certain norm)</li>
+      <li>skip-gram
+        <ul>
+          <li>predict a word given its surrounding context</li>
+          <li>pick a context of +/- ‘c’ words wrt a given word</li>
+          <li>maximize the log-probability of vector dot products (usually softmax is used)</li>
+          <li>this typically maintains distance between groups of words with similar meanings
+            <ul>
+              <li>eg: man-&gt;woman, king-&gt;queen, gentleman-&gt;lady, etc</li>
+            </ul>
+          </li>
+          <li>this can also help predict similar words for a given word</li>
+        </ul>
+      </li>
+      <li>continuous bag of words
+        <ul>
+          <li>given a word predict its surrounding context</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+:ET

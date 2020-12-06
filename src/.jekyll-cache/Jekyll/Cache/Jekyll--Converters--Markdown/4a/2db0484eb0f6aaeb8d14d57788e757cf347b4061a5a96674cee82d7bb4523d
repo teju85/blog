@@ -1,0 +1,105 @@
+I"'<h3 id="proposal">Proposal</h3>
+<p>Main paper can be found <a href="https://arxiv.org/pdf/1706.02216.pdf">here</a>.
+SaGe = Sample and Aggregation functions</p>
+
+<ul>
+  <li>Learns parametric functions in order to generate low dimensional embeddings of
+the nodes in the graph</li>
+  <li>These functions can also be used to generate embeddings of unseen nodes too</li>
+  <li>It can also optionally use node features as starting points for embeddings</li>
+  <li>Configurable number of layers representing the number of hops for each node</li>
+  <li>Custom loss function (based on negative-sampling) for unsupervised learning</li>
+  <li>Also supports supervised learning</li>
+  <li>Scales to large graphs through neighborhood sampling and minibatch techniques</li>
+</ul>
+
+<h3 id="forward-propagation-algo">forward propagation algo</h3>
+<ul>
+  <li>
+\[h_v^0 = x_v\]
+  </li>
+  <li>for k = 1 to K
+    <ul>
+      <li>for v in minibatch
+        <ul>
+          <li>
+\[h_{N(v)}^k = aggregator_k(h_u^{k-1}, u \epsilon N(v))\]
+          </li>
+          <li>
+\[h_v^k = \sigma(W^k concat(h_v^{k-1}, h_{N(v)}^k))\]
+          </li>
+          <li>
+\[h_v^k = \frac{h_v^k}{L2norm(h_v^k)}\]
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+\[z_v = h_v^K\]
+  </li>
+</ul>
+
+<p>Where:</p>
+<ul>
+  <li>\(h^k\) = hidden vectors at each layer for all vertices</li>
+  <li>\(V\) = nodes</li>
+  <li>\(N(v)\) = sampled neighborhood for each node</li>
+  <li>\(K\) = number of layers (hyperparameter)</li>
+  <li>\(\sigma\) = a non-linear activation function</li>
+  <li>\(W^k\) = learnable weights for each layer</li>
+  <li>\(z\) = output embedding</li>
+</ul>
+
+<p>In paper the authors show the similarity of this algo with the popular
+<a href="https://www.davidbieber.com/post/2019-05-10-weisfeiler-lehman-isomorphism-test/">Weisfeiler-Lehman</a>
+graph isomorphism test.</p>
+
+<h3 id="neighborhood-sampling">neighborhood sampling</h3>
+<ul>
+  <li>performs uniform sampling</li>
+  <li>different samples are drawn for each layer based on different sampling rates
+\(S_i\), for each layer</li>
+  <li>authors recommend to keep \(\Pi_i S_i \le 500\)</li>
+  <li>sampling technique is pretty much the same as seen in
+<a href="/blog/blog/2020/06/10/pinsage.html">PinSage</a></li>
+  <li>They recommend \(K = 2, S_1 = 25, S_2 = 10\)</li>
+</ul>
+
+<h3 id="learning">learning</h3>
+<ul>
+  <li>via SGD + using Adam optimizer</li>
+  <li>loss function for unsupervised mode is based on negative sampling and its
+equation is as follows: \(J(z_u) = -log(sigmoid(z_u^T z_v)) - Q E[log(sigmoid(z_u^T z_{v_n}))]\)</li>
+  <li>\(Q\) = number of negative samples</li>
+  <li>\(v_n\) = negative sample</li>
+  <li>\(v\) = node that is a neighbor of \(u\)</li>
+</ul>
+
+<h3 id="aggregators">aggregators</h3>
+<p>These must be permutation invariant. They test the following aggregators</p>
+
+<h4 id="mean-aggregator">mean aggregator</h4>
+<ul>
+  <li>
+\[h_v^k = \sigma(W^k Mean(h_u^{k-1} with u \epsilon N(v), h_v^{k-1}))\]
+  </li>
+  <li>note that this uses \(h_v^{k-1}\) in the aggregation itself!</li>
+  <li>thus this can be thought of as “skip connection” between layers</li>
+</ul>
+
+<h4 id="lstm-aggregator">LSTM aggregator</h4>
+<ul>
+  <li>LSTM’s are not permutation invariant</li>
+  <li>So they make it to be invariant by randomly permuting the inputs</li>
+  <li>this seems to show the best accuracy in their experimentation</li>
+</ul>
+
+<h4 id="pooling-aggregator">pooling aggregator</h4>
+<ul>
+  <li>
+\[h_{N(v)}^k = max_{u \epsilon N(v)}(\sigma(W_{pool}^k h_u^k + b^k))\]
+  </li>
+  <li>aggregator can be either max or mean, both seem to provide similar accuracy</li>
+</ul>
+:ET

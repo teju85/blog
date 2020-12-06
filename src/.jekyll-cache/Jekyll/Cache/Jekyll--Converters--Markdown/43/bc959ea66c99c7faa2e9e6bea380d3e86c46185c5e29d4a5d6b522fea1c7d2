@@ -1,0 +1,19 @@
+I"]<h3 id="proposal">proposal</h3>
+<p>Main paper can be found <a href="">here</a> and the code for it is found <a href="https://ogb.stanford.edu">here</a>.</p>
+
+<ul>
+  <li>Provides diverse datasets from different domains</li>
+  <li>Various sizes to test scalability</li>
+  <li>Fully automated data loader, train-test split and evaluation methods for every dataset</li>
+  <li>Different categories of tasks - node, link, graph property prediction</li>
+  <li>Finally public leaderboard for inviting community contributions</li>
+</ul>
+
+<h3 id="ogb-package">ogb package</h3>
+<ul>
+  <li>provides utilities to download the datset and train/test split them.</li>
+  <li>such utilities are provided for multiple datasets</li>
+  <li>also provides utility methods to evaluate the resulting graph model too</li>
+  <li>it is compatible with pytorch-geometric and DGL</li>
+</ul>
+:ET

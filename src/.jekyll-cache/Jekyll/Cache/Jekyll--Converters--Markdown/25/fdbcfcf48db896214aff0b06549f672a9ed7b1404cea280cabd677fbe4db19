@@ -1,0 +1,119 @@
+I"�<h3 id="pinsage---graph-convolutional-neural-networks-for-web-scalerecommender-systems">PinSage - Graph Convolutional Neural Networks for Web-ScaleRecommender Systems</h3>
+<p>Main paper can be found <a href="https://arxiv.org/pdf/1806.01973.pdf">here</a> and a more
+digestable version is presented in a blog format <a href="https://medium.com/pinterest-engineering/pinsage-a-new-graph-convolutional-neural-network-for-web-scale-recommender-systems-88795a107f48">here</a>.
+A scalable random-walk GCN to learn embeddings on attribute graphs with billions
+of nodes. They demonstrate this on Pinterest’s data with billions of nodes and
+tens of billions of edges. They also present an efficient way to do inferencing
+on the resulting model via MapReduce paradigm.</p>
+
+<h4 id="proposal">Proposal</h4>
+<p>For improving scalability:</p>
+<ol>
+  <li>on-the-fly convolutions: sampling the neighborhood to dynamically construct
+the computation graph</li>
+  <li>producer-consumer minibatch construction: CPU producing minibatches via
+efficiently sampling the neighborhood GPU performs SGD.</li>
+  <li>efficient MapReduce based inference
+For improving accuracy:</li>
+  <li>constructing convs via random walks: sampling of neighbors is done via random
+walks on the graph. This also helps provide weightage during aggregation.</li>
+  <li>importance pooling - same as above</li>
+  <li>Curriculum training</li>
+</ol>
+
+<h4 id="details">Details</h4>
+<p>Current GCNs expect the availability of full graph Laplacian during training.
+This is very infeasible for web-scale graphs with billions of nodes and edges.</p>
+
+<p><strong>Inputs</strong></p>
+<ul>
+  <li>G = Graph in CSR representation</li>
+  <li>\(x_u\) = node features for each \(u \epsilon G\)</li>
+  <li>d = dimensionality of the features. This is also the dimensionality of the
+output of each layer.</li>
+  <li>L = labelled pairs \((q, i)\), where \(i\) represents a good recommendation
+if the input query is \(q\)</li>
+</ul>
+
+<p><strong>Hyper-params</strong></p>
+<ul>
+  <li>m = dimensionality of the output vector of the aggregation step. This is
+assumed to be the same value across all layers</li>
+  <li>K = number of layers</li>
+  <li>\(\Delta\) = max-margin used in the loss function</li>
+  <li>B = batch size</li>
+  <li>T = max number of neighbors to be sampled for any node</li>
+</ul>
+
+<p><strong>Model</strong></p>
+<ul>
+  <li>\(Q^k\) = neighborhood feature transformation matrix for \(convolve_k\) at kth
+layer of the network. Dim = m x d</li>
+  <li>\(q^k\) = bias vector for this operation at kth layer. Length = m</li>
+  <li>\(W^k\) = feature transformation matrix after aggregation at kth layer.
+Dim = d x (d + m)</li>
+  <li>\(w^k\) = bias vector for this operation at kth layer. Length = d</li>
+  <li>\(G_1\) = 1st feature transformation matrix at final layer. Dim = d x d</li>
+  <li>\(g\) = bias vector for this operation. Length = d</li>
+  <li>\(G_2\) = 2nd feature transformation at final layer. Dim = d x d</li>
+</ul>
+
+<p><strong>Local convolutions algorithm at kth layer</strong></p>
+
+\[n_u = \gamma(relu(Q^k h_v^k + q^k), \alpha) | v \epsilon N(u)\]
+
+\[m_u = concat(h_u^k, n_u)\]
+
+\[h_u^{k+1} = relu(W^k m_u + w^k)\]
+
+\[h_u^{k+1} = \frac{h_u^{k+1}}{||h_u^{k+1}||_2}\]
+
+<ul>
+  <li>\(\alpha\) = set of neighbor weights computed based on random-walk. These are
+computed as \(L_1\) norm of visit counts of each node during random-walk.</li>
+  <li>\(\gamma\) = aggregation function. Assumed to be weighted-mean</li>
+  <li>\(N(u)\) = sampled neighborhood for node u</li>
+</ul>
+
+<p><strong>minibatch preparation</strong></p>
+
+<p>Happens on CPU for the next batch while current batch is running on GPU. Uses
+openmp for parallelization.</p>
+
+<p><strong>Model propagation</strong></p>
+
+<ul>
+  <li>Compute the neighbors for each layer starting from the topmost K-th layer</li>
+  <li>Compute the K-layers of convolve operation</li>
+  <li>Finally apply \(G_1\) and \(G_2\) transformations</li>
+</ul>
+
+<p><strong>Loss function</strong></p>
+
+<p>Max-margin ranking loss. Dot product of the embeddings of negative samples is
+atleast \(\Delta\) distance lesser than that of \((q, i)\). In other words:</p>
+
+\[loss(q, i) = max(0, z_q . z_{n_k} - z_q . z_i + \Delta)\]
+
+<ul>
+  <li>\(n_k\) = negative sample for query \(q\)</li>
+</ul>
+
+<p><strong>training</strong></p>
+
+<p>Multi-GPU training. Each GPU gets equal amount from the minibatch. Standard
+synchronous SGD is used with the following learning rate policy:</p>
+<ol>
+  <li>At first epoch, learning rate is linearly increased from a small value to the
+peak value.</li>
+  <li>At subsequent epochs, learning rate is exponentially decayed.</li>
+</ol>
+
+<p><strong>negative sampling</strong></p>
+
+<p>Each positive training example \((q, i)\) contains multiple “hard” negative
+samples too. These hard negative samples are generated via personalized
+pagerank scores. To reduce the number of epochs, curriculum training is being
+used. At n-th epoch, n - 1 hard negative samples are added for each positive
+training sample.</p>
+:ET

@@ -1,0 +1,162 @@
+I"�<p>Recording of the talk can be found <a href="https://www.youtube.com/watch?v=bD6S3xUXNds">here</a>.</p>
+
+<h3 id="overview-of-graph-neural-networks">Overview of Graph Neural Networks</h3>
+<ul>
+  <li>Tasks in graph learning
+    <ul>
+      <li>node classification (fraud detection)</li>
+      <li>link prediction (eg: recsys)</li>
+      <li>graph classification (eg: drug discovery)</li>
+    </ul>
+  </li>
+  <li>graph learning has 2 steps:
+    <ul>
+      <li>generate low-dim embedding of node</li>
+      <li>use standard classifiers from there onwards</li>
+    </ul>
+  </li>
+  <li>GNNs can learn node, edge, graph embeddings in an end-to-end fashion and are
+based on message-passing between neighbors
+    <ul>
+      <li>aggregation operation needs to be permutation invariant</li>
+      <li>thereby these nets integrate node/edge/graph features as well as topology in
+a non-linear fashion</li>
+    </ul>
+  </li>
+  <li>for graph classification, there’ll be a final “readout” layer to compute the
+overall graph embedding based on embeddings of each node</li>
+  <li>training of large graphs is done via mini-batch training
+    <ul>
+      <li>with pruning of neighborhood via sampling to reduce computational complexity</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="deep-graph-library---an-update">Deep Graph Library - an update</h3>
+<p><img src="/blog/assets/dgl/01-dgl-stack.png" alt="DGL stack" /></p>
+<ul>
+  <li>already having active customers using DGL via AWS Sagemaker</li>
+  <li>started out with multiple backends</li>
+</ul>
+
+<h4 id="flexible-message-propagation">flexible message propagation</h4>
+<p><img src="/blog/assets/dgl/02-flexible-message-handling.png" alt="Flexible message handling" /></p>
+<ul>
+  <li>full propagation</li>
+  <li>propagation by graph traversal: sampling on ego-network</li>
+  <li>propagation by random walk</li>
+</ul>
+
+<h4 id="dgl-programming-interface">DGL programming interface</h4>
+<p><img src="/blog/assets/dgl/03-dgl-api.png" alt="DGL API" /></p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">DGLGraph</code> is the core abstraction
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">DGLGraph.ndata["h"]</code> - the node representation matrix</li>
+    </ul>
+  </li>
+  <li>simple and flexible message passing APIs
+    <ul>
+      <li><em>active set</em> - set of nodes/edges to trigger computation on</li>
+    </ul>
+  </li>
+  <li>three user defined functions
+    <ul>
+      <li>\(\phi^v\) - transformation function on vertices</li>
+      <li>\(\bigoplus\) - reduction or aggregation function</li>
+      <li>\(\phi^e\) - transformation function on edges</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">update_all</code>
+    <ul>
+      <li>shortcut for <code class="language-plaintext highlighter-rouge">send(G.edges()); recv(G.nodes());</code></li>
+      <li>in other words, do a full propagation</li>
+    </ul>
+  </li>
+  <li>now heterogeneous graph is supported</li>
+  <li>new sampling API is introduced in v0.43 release</li>
+  <li>next plan is to look at distributed training</li>
+</ul>
+
+<h3 id="using-gnns-for-basic-graph-tasks">Using GNNs for basic graph tasks</h3>
+<ul>
+  <li>using Zachary’s karate class network to demo APIs of DGL</li>
+  <li>DGL expects node id’s to be consecutive integers starting from 0</li>
+  <li><code class="language-plaintext highlighter-rouge">dgl.graph</code> is the main graph structure which provides IO and query methods</li>
+  <li><code class="language-plaintext highlighter-rouge">dgl.graph.ndata</code> member is a dict that holds node features as tensor</li>
+  <li><code class="language-plaintext highlighter-rouge">dgl.graph.edata</code> member is a dict that holds edge features as tensor</li>
+  <li>definition of models (and their training) in dgl is similar to pytorch</li>
+</ul>
+
+<p>How to customize graph-conv using message passing APIs</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">dgl.graph.ndata</code> (and <code class="language-plaintext highlighter-rouge">edata</code>) can be locally updated using
+<code class="language-plaintext highlighter-rouge">dgl.graph.local_scope()</code></li>
+  <li>Message passing APIs in DGL are a generalization as found in
+<em>Message Passing Neural Network</em>s. The relevant equations are as follows:
+    <ul>
+      <li>
+\[m_{uv}^{(l)} = Message^{(l)}(h_u^{(l-1)}, h_v^{(l-1)}, e_{uv}^{(l)})\]
+      </li>
+      <li>
+\[m_v^{(l)} = Aggregation_{u \epsilon N(v)}(m_{uv}^{(l)})\]
+      </li>
+      <li>
+\[h_v^{(l)} = Update^{(l)}(h_v^{(l-1)}, m_v^{(l)})\]
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="scale-gnn-to-giant-graphs-using-dgl">Scale GNN to giant graphs using DGL</h3>
+<ul>
+  <li>for large batches it is recommended to use mini-batch training procedure</li>
+  <li>minibatch generation on graphs
+    <ul>
+      <li>sample the target nodes
+        <ul>
+          <li>not done inside DGL</li>
+          <li>using <code class="language-plaintext highlighter-rouge">numpy.random.choice</code> or <code class="language-plaintext highlighter-rouge">torch.utils.data.DataLoader</code></li>
+        </ul>
+      </li>
+      <li>randomly sample the neighbors (multi-hop)
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">dgl.sampling.sample_neighbors</code> for one layer</li>
+          <li><code class="language-plaintext highlighter-rouge">dgl.in_subgraph</code> similar to the above, but will copy all edges</li>
+        </ul>
+      </li>
+      <li>construct the minibatch
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">dgl.to_block</code></li>
+          <li>renames nodes to be consecutive (for memory efficiency as well as perf)</li>
+          <li>constructs a bipartite graph for message passing (COO format)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">to_block()</code> has an option <code class="language-plaintext highlighter-rouge">include_dst_in_src</code> to help with self-loops during
+ aggregation</li>
+  <li>inference
+    <ul>
+      <li>we need to infer for all nodes in each layer</li>
+      <li>thus, inference is typically costlier than training!</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="dgl-on-real-world-applications">DGL on real world applications</h3>
+<ul>
+  <li>eg: recommender systems using GCMC</li>
+  <li>introduced traditional collaborative filtering based approaches</li>
+  <li>such a user-item matrix can be converted into bipartite graphs</li>
+  <li><code class="language-plaintext highlighter-rouge">apply_edges()</code> computes edge features</li>
+  <li>heterogenous graphs:
+    <ul>
+      <li>graphs with different types of nodes and/or edges. (eg: user-item graphs)</li>
+      <li><code class="language-plaintext highlighter-rouge">dgl.heterograph</code> for creating such graphs</li>
+      <li>accessing node features is via: <code class="language-plaintext highlighter-rouge">g.nodes["ntype"].data["name"]</code></li>
+      <li>accessing edge features is via: <code class="language-plaintext highlighter-rouge">g.edges["etype"].data["name"]</code></li>
+    </ul>
+  </li>
+</ul>
+:ET

@@ -1,0 +1,64 @@
+I"m<h2 id="introduction">Introduction</h2>
+<p>Notes based on my experience installing and setting up a desktop machine to run
+Ubuntu 19.04 server.</p>
+
+<h2 id="installing-ubuntu">Installing Ubuntu</h2>
+<ol>
+  <li>Download iso from <a href="https://ubuntu.com/download/server">here</a></li>
+  <li>Download unetbootin from <a href="https://unetbootin.github.io/">here</a></li>
+  <li>Have an empty ~4GB USB pen drive</li>
+  <li>Use unetbootin to flash the above iso into this usb drive</li>
+  <li>Boot via this usb drive on your desktop</li>
+  <li>In boot menu select ‘Install Ubuntu …’</li>
+  <li>Follow the instructions on screen</li>
+  <li>Don’t forget to select “Install OpenSSH”, if you want remote access</li>
+  <li>Select to upgrade and install ubuntu (optional)</li>
+  <li>Provide hostname, username and credentials</li>
+  <li>Wait until finished!</li>
+</ol>
+
+<h2 id="setting-up">Setting up</h2>
+<h3 id="basics">Basics</h3>
+<p>My personal preference is to use python3. So, I just remove python2.7.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt remove python2.7 python python2.7-minimal
+<span class="nb">sudo </span>apt purge python2.7 python python2.7-minimal
+<span class="nb">sudo </span>apt autoremove
+<span class="nb">sudo ln</span> <span class="nt">-s</span> /usr/bin/python3 /usr/bin/python
+</code></pre></div></div>
+<p>Some essentials:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install </span>curl g++ gcc git make tmux
+</code></pre></div></div>
+
+<h3 id="docker">docker</h3>
+<p>Following steps will let you run docker commands without <code class="language-plaintext highlighter-rouge">sudo</code>:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-sSL</span> https://get.docker.com/ | <span class="nb">sudo </span>sh
+<span class="nb">sudo </span>groupadd docker
+<span class="nb">sudo </span>usermod <span class="nt">-aG</span> docker <span class="nv">$USER</span>
+newgrp docker
+</code></pre></div></div>
+
+<h3 id="nvidia-driver">nvidia driver</h3>
+<ol>
+  <li>Make sure card is getting detected: <code class="language-plaintext highlighter-rouge">lspci | grep -i nv</code>.</li>
+  <li>Install kernel headers: <code class="language-plaintext highlighter-rouge">sudo apt-get install linux-headers-$(uname -r)</code></li>
+  <li>Download toolkit installer: <code class="language-plaintext highlighter-rouge">wget https://developer.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda_10.1.168_418.67_linux.run</code></li>
+  <li>Install only the driver: <code class="language-plaintext highlighter-rouge">sudo sh cuda_10.1.168_418.67_linux.run --driver</code></li>
+  <li>Disable nouveau driver: <code class="language-plaintext highlighter-rouge">sudo sh -c "echo blacklist nouveau &gt; /etc/modprobe.d/blacklist-nouveau.conf &amp;&amp; echo options nouveau modeset=0 &gt;&gt; /etc/modprobe.d/blacklist-nouveau.conf &amp;&amp; update-initramfs -u &amp;&amp; reboot"</code></li>
+  <li><code class="language-plaintext highlighter-rouge">nvidia-smi</code> should now run successfully.</li>
+</ol>
+
+<h3 id="nvidia-docker">nvidia-docker</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-s</span> <span class="nt">-L</span> https://nvidia.github.io/nvidia-docker/gpgkey | <span class="se">\</span>
+  <span class="nb">sudo </span>apt-key add -
+<span class="c"># this is because 19.04 is not yet supported, at the time of this writing</span>
+<span class="c"># thus, force fallback on 18.04 version's release</span>
+<span class="c"># that seems to be working fine</span>
+<span class="c">#distribution=$(. /etc/os-release;echo $ID$VERSION_ID)</span>
+<span class="nv">distribution</span><span class="o">=</span>18.04
+curl <span class="nt">-s</span> <span class="nt">-L</span> https://nvidia.github.io/nvidia-docker/<span class="nv">$distribution</span>/nvidia-docker.list | <span class="se">\</span>
+  <span class="nb">sudo tee</span> /etc/apt/sources.list.d/nvidia-docker.list
+<span class="nb">sudo </span>apt-get update
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>nvidia-docker2
+<span class="nb">sudo </span>pkill <span class="nt">-SIGHUP</span> dockerd
+</code></pre></div></div>
+:ET

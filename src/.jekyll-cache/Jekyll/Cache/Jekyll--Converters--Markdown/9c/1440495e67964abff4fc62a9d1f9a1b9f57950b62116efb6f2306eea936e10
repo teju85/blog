@@ -1,0 +1,26 @@
+I"j<p>Happy New Year!</p>
+
+<p>My previous blogs are still on <a href="http://ficklemind.blogspot.com/">blogspot</a>.</p>
+
+<p>I wanted to log how much time I spend on pressing what keys while in an emacs session. There’s <a href="https://github.com/dacap/keyfreq">keyfreq</a> available on github, but I needed something that would just capture keystrokes (in the unix philosophy) and put them in a text format for a future analysis using any of the famous tools. Hence, wrote <a href="https://github.com/teju85/cmdlogger">cmdlogger</a> and open-sourced it on github.</p>
+
+<h3 id="install">Install</h3>
+<p>Clone the repo. (hope to add this to MELPA soon)</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>git clone https://github.com/teju85/cmdlogger-el</code></pre></figure>
+
+<h3 id="usage">Usage</h3>
+<p>In your .emacs file:</p>
+
+<figure class="highlight"><pre><code class="language-elisp" data-lang="elisp"><span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">'load-path</span> <span class="nv">/path/to/cmdlogger-el</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">require</span> <span class="ss">'cmdlogger</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">cmdlogger-mode</span><span class="p">)</span></code></pre></figure>
+
+<h3 id="disabling-logging-temporarily">Disabling logging temporarily</h3>
+<p>Useful, especially, when you are trying to enter passwords and other sensitive info.</p>
+
+<figure class="highlight"><pre><code class="language-elisp" data-lang="elisp"><span class="p">(</span><span class="nv">cmdlogger-mode</span> <span class="no">nil</span><span class="p">)</span>
+<span class="c1">;; do your secret stuff</span>
+<span class="p">(</span><span class="nv">cmdlogger-mode</span> <span class="no">t</span><span class="p">)</span></code></pre></figure>
+
+:ET

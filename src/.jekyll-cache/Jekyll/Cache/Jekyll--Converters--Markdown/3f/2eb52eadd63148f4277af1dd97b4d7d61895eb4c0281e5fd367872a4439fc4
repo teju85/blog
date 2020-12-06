@@ -1,0 +1,67 @@
+I"	<h3 id="proposal">Proposal</h3>
+<p>Main paper can be found <a href="https://arxiv.org/pdf/1809.05679.pdf">here</a>.</p>
+
+<ul>
+  <li>novel GNN based method for text classification</li>
+  <li>graph is constructed using word co-occurence and word-doc associations</li>
+  <li>learn both word and doc (aka corpus) embeddings simultaneously by building and
+using the above mentioned heterogenous text graph, where nodes are both words
+and docs</li>
+</ul>
+
+<h3 id="summary">Summary</h3>
+<ul>
+  <li>text graph construction
+    <ul>
+      <li>based on word co-occurence (in corpus) and doc-word relations</li>
+      <li>number of nodes = vocab size + corpus size</li>
+      <li>input embeddings are just one-hot vectors</li>
+      <li>edge weights
+        <ul>
+          <li>doc to word = TFIDF</li>
+          <li>word to word = \(PMI(i, j)\) only if \(PMI(i, j)\) is positive and words
+i and j occur in the sliding window together</li>
+          <li>self-loops are added</li>
+          <li>
+\[PMI(i, j) = log\frac{P_{ij}}{P_i P_j}\]
+          </li>
+          <li>
+\[P_{ij} = \frac{nW(i, j)}{nW}\]
+          </li>
+          <li>
+\[P(i) = \frac{nW(i)}{nW}\]
+          </li>
+          <li>\(nW\) = total number of sliding windows</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>model and training
+    <ul>
+      <li>usage of spectral GCNs as in Kipf and Welling</li>
+      <li>2 layer GCNs</li>
+      <li>output layer is psased through softmax classifier</li>
+      <li>loss function is cross entropy error over all labelled docs
+        <ul>
+          <li>
+\[L = - \Sigma_d \Sigma_f Y_{df} ln(Z_{df})\]
+          </li>
+          <li>\(d\) = all labelled docs</li>
+          <li>\(f\) = all output features</li>
+          <li>\(Y\) = label vector for a doc</li>
+          <li>\(Z\) = softmax output vector</li>
+        </ul>
+      </li>
+      <li>2 layers help information exchange between docs too!</li>
+      <li>more layers didn’t help improving accuracy</li>
+      <li>sliding window size = 20 words</li>
+      <li>first layer output embedding size = 200</li>
+      <li>learning rate = 0.02</li>
+      <li>Adam optimizer with 200 epochs</li>
+      <li>early stopping after 10 epochs with no decrease in validation loss</li>
+      <li>dropout rate = 0.5</li>
+      <li>10% of training as validation set</li>
+    </ul>
+  </li>
+</ul>
+:ET

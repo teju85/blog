@@ -1,0 +1,19 @@
+I";<p>Summary of <a href="https://arxiv.org/pdf/1611.06172.pdf">this</a> paper on
+parallelizing word2vec model training on Intel CPUs.</p>
+
+<ul>
+  <li>convert level-1 blas to level-3 by using
+    <ul>
+      <li>shared negative samples</li>
+      <li>group multiple input contexts words for a given target word</li>
+    </ul>
+  </li>
+  <li>for scaling to multi-nodes
+    <ul>
+      <li>model update frequency is tied to word frequency</li>
+      <li>reduce starting learning rate as the number of nodes</li>
+      <li>m-weighted sampling updates</li>
+    </ul>
+  </li>
+</ul>
+:ET

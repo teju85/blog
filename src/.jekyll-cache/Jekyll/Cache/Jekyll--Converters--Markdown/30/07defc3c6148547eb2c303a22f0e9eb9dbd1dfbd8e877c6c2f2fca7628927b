@@ -1,0 +1,24 @@
+I"l<h3 id="introduction">Introduction</h3>
+<p>This blog post is an attempt to simplify the process of setting up of an
+environment for <a href="https://github.com/rapidsai/cuml">cuML</a> development. If your
+environment already has docker and you have access to building images and
+running containers using them, then the Dockerfile shipped with cuML repo is the
+easiest way to get started.</p>
+
+<h3 id="pre-reqs">Pre-reqs</h3>
+<ol>
+  <li>Install the <a href="https://developer.nvidia.com/cuda-downloads">cuda toolkit</a></li>
+  <li>Download the bash script from the github gist <a href="https://gist.github.com/teju85/51ff12886f5ae9967a4cab6fd0376953">here</a> and save it as <code class="language-plaintext highlighter-rouge">rapids-setup</code>.</li>
+  <li>~10-15GB of free disk-space.</li>
+</ol>
+
+<h3 id="instructions">Instructions</h3>
+<p>Run the bash script to install cuML and its dependencies. Recommended approach
+is to use <a href="https://www.anaconda.com/">anaconda</a>. This script installs all the
+needed dependencies in a stand-alone folder and thus does not need root access.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">bash ./rapids-setup installCuml</code></pre></figure>
+
+<p>At the end, it prints a couple of environment variables to be set in your bash
+terminal. Execute them and you should now be ready to run tests and develop!</p>
+:ET

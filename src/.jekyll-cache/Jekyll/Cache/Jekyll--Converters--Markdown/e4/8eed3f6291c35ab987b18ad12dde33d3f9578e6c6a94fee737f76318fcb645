@@ -1,0 +1,60 @@
+I"�	<h3 id="summary">Summary</h3>
+<p>A Stanford Seminar given by Dr. Geoffrey Hinton. The recording of the talk can
+be found <a href="https://www.youtube.com/watch?v=VIRCybGgHts">here</a></p>
+<ul>
+  <li>neuro scientists think that its not possible because
+    <ul>
+      <li>there’s no obvious supervision signal to brain</li>
+      <li>cortical neurons do not communicate real-valued activities (its just spikes)</li>
+      <li>the neuron will have to send 2 different signals, one during forward and another
+during backward pass</li>
+      <li>there’s no symmetric reciprocal path between 2 neurons</li>
+    </ul>
+  </li>
+  <li>objection no.1: no supervision signal
+    <ul>
+      <li>we already have many generative models for this purpose</li>
+      <li>VAEs, GANs, etc…</li>
+    </ul>
+  </li>
+  <li>objection no.2: communication of real values
+    <ul>
+      <li>statisticians have told us to use more data than the number of parameters</li>
+      <li>but its always better to have bigger models than the data
+        <ul>
+          <li>or do NOT make your model small, so as to make data look big</li>
+          <li>because bigger models themselves are a great regularizers</li>
+        </ul>
+      </li>
+      <li>dropout
+        <ul>
+          <li>nice way to share weights across model-ensembles!</li>
+          <li>thus a very good regularizer of your network</li>
+          <li>and during inference, it approximately evaluates the geometric mean across
+all of these models</li>
+        </ul>
+      </li>
+      <li>so one could send spikes using a poisson process and its better than dropout
+since it makes use of all the synapses in our brain!?</li>
+    </ul>
+  </li>
+  <li>objection no.3: different signals in each pass
+    <ul>
+      <li>STDP - Spike Time Dependent Plasticity
+        <ul>
+          <li>we can use the spike rate to represent rate of change of its output</li>
+          <li>he showed how to use stacked AEs for this purpose</li>
+          <li>use temporal derivatives during a regression as gradients done during backprop</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>objection no.4: no symmetric reciprocal path
+    <ul>
+      <li>researchers showed that backprop still works well even when using random
+top-down connections, the bottom-up connections would get adjusted accordingly!</li>
+      <li>but this approach is about 2 times slower than the normal backprop</li>
+    </ul>
+  </li>
+</ul>
+:ET

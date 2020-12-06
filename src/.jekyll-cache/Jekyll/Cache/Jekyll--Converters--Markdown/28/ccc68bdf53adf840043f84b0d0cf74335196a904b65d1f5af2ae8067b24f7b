@@ -1,0 +1,29 @@
+I"�<h3 id="correctly-installing-cmake-on-cygwin">correctly installing cmake on cygwin</h3>
+<p>I have had this issue when I install cmake on cygwin</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>apt-cyg <span class="nb">install </span>cmake
+<span class="nv">$ </span>cmake <span class="nt">--version</span>
+CMake Error: Could not find CMAKE_ROOT <span class="o">!!!</span>
+CMake has most likely not been installed correctly.
+</code></pre></div></div>
+
+<p>When I try to find where all cygwin is installed, here’s the output:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>which <span class="nt">-a</span> cmake
+/bin/cmake
+/usr/bin/cmake
+</code></pre></div></div>
+
+<p>When I now update my <code class="language-plaintext highlighter-rouge">PATH</code> environment variable to instead prioritize the
+<code class="language-plaintext highlighter-rouge">/usr/bin</code> folder, by doing: <code class="language-plaintext highlighter-rouge">export PATH=/usr/bin:$PATH</code> at the end of my
+<code class="language-plaintext highlighter-rouge">.bashrc</code> file, I’m now able to get cmake working.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>which <span class="nt">-a</span> cmake
+/usr/bin/cmake
+/bin/cmake
+<span class="nv">$ </span>cmake <span class="nt">--version</span>
+cmake version 3.6.2
+
+CMake suite maintained and supported by Kitware <span class="o">(</span>kitware.com/cmake<span class="o">)</span><span class="nb">.</span>
+</code></pre></div></div>
+
+<p>My guess is that when <code class="language-plaintext highlighter-rouge">cmake</code> gets resolved to <code class="language-plaintext highlighter-rouge">/bin</code> folder, it somehow gets
+confused while finding cmake modules, leading to the above error.</p>
+:ET

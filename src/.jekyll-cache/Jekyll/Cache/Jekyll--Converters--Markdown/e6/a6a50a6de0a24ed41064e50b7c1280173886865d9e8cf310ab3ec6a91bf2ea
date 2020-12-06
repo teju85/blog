@@ -1,0 +1,90 @@
+I"[<h3 id="introduction">Introduction</h3>
+<p>The <a href="https://clang.llvm.org/get_started.html">instructions</a> on building LLVM/Clang
+from source are pretty accurate. That and the fact that it’s dependencies are very
+minimal, building it from source is a cake-walk!</p>
+
+<h3 id="setting-up-llvm-inside-docker">Setting up llvm inside docker</h3>
+<p>As part of my work, I needed the clang tools for code analysis. I nowadays prefer
+working inside docker. So, as a first shot, here’s how I set up my initial
+Dockerfile.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">RUN apt-get update <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    apt-get <span class="nb">install</span> <span class="nt">-y</span> <span class="nt">--no-install-recommends</span> <span class="se">\</span>
+        build-essential <span class="se">\</span>
+        ca-certificates <span class="se">\</span>
+        cmake <span class="se">\</span>
+        git <span class="se">\</span>
+        make <span class="se">\</span>
+        python <span class="se">\</span>
+        zlib1g-dev <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">rm</span> <span class="nt">-rf</span> /var/lib/apt/lists<span class="k">*</span>
+
+RUN <span class="nb">mkdir</span> <span class="nt">-p</span> /opt/compiler <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> /opt/compiler <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    git clone <span class="s2">"http://llvm.org/git/llvm"</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd </span>llvm/tools <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    git clone <span class="s2">"http://llvm.org/git/clang"</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd </span>clang/tools <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    git clone <span class="s2">"http://llvm.org/git/clang-tools-extra"</span> extra <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">mkdir</span> <span class="nt">-p</span> /opt/compiler/build <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> /opt/compiler/build <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    cmake <span class="nt">-G</span> <span class="s2">"Unix Makefiles"</span> ../llvm <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    make <span class="nt">-j8</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    make <span class="nb">install</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> / <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">rm</span> <span class="nt">-rf</span> /opt/compiler
+
+ENV <span class="nv">PATH</span><span class="o">=</span>/usr/local/bin:<span class="nv">$PATH</span>
+ENV <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/usr/local/lib:<span class="nv">$LD_LIBRARY_PATH</span></code></pre></figure>
+
+<p>Interestingly, this ended up generating a really huge docker image!</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>docker images | <span class="nb">head</span> <span class="nt">-n2</span>
+REPOSITORY              TAG                  IMAGE ID            CREATED             SIZE
+llvm                    latest-9.2           ba5b2786b5e5        About an hour ago   47.1GB</code></pre></figure>
+
+<h3 id="solution-llvm_targets_to_build">Solution (LLVM_TARGETS_TO_BUILD)</h3>
+<p>Main reason for this is clang ends up generating cross-compilation for multiple
+targets. (Refer to LLVM_ALL_TARGETS variable inside llvm/CMakeLists.txt) Thus, I
+had to update the cmake command to only build for my targets of interest.</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">RUN apt-get update <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    apt-get <span class="nb">install</span> <span class="nt">-y</span> <span class="nt">--no-install-recommends</span> <span class="se">\</span>
+        build-essential <span class="se">\</span>
+        ca-certificates <span class="se">\</span>
+        cmake <span class="se">\</span>
+        git <span class="se">\</span>
+        make <span class="se">\</span>
+        python <span class="se">\</span>
+        zlib1g-dev <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">rm</span> <span class="nt">-rf</span> /var/lib/apt/lists<span class="k">*</span>
+
+RUN <span class="nb">mkdir</span> <span class="nt">-p</span> /opt/compiler <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> /opt/compiler <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    git clone <span class="s2">"http://llvm.org/git/llvm"</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd </span>llvm/tools <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    git clone <span class="s2">"http://llvm.org/git/clang"</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd </span>clang/tools <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    git clone <span class="s2">"http://llvm.org/git/clang-tools-extra"</span> extra <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">mkdir</span> <span class="nt">-p</span> /opt/compiler/build <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> /opt/compiler/build <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    cmake <span class="nt">-G</span> <span class="s2">"Unix Makefiles"</span> <span class="se">\</span>
+        <span class="nt">-DLLVM_TARGETS_TO_BUILD</span><span class="o">=</span><span class="s2">"X86;NVPTX"</span> <span class="se">\</span>
+        <span class="nt">-DCMAKE_BUILD_TYPE</span><span class="o">=</span>Release <span class="se">\</span>
+        ../llvm <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    make <span class="nt">-j8</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    make <span class="nb">install</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">cd</span> / <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">rm</span> <span class="nt">-rf</span> /opt/compiler
+
+ENV <span class="nv">PATH</span><span class="o">=</span>/usr/local/bin:<span class="nv">$PATH</span>
+ENV <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/usr/local/lib:<span class="nv">$LD_LIBRARY_PATH</span></code></pre></figure>
+
+<p>This puts me in a more reasonable docker image size. :)</p>
+
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>docker images | <span class="nb">head</span> <span class="nt">-n2</span>
+REPOSITORY              TAG                  IMAGE ID            CREATED             SIZE
+llvm                    latest-9.2           57ee054cbfe8        18 seconds ago      3.62GB</code></pre></figure>
+
+<p>Hope this is useful to others.</p>
+:ET

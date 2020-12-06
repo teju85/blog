@@ -1,0 +1,65 @@
+I"™<h3 id="proposal">Proposal</h3>
+<p>Main paper can be found <a href="https://arxiv.org/abs/1710.10903">here</a>.</p>
+
+<ul>
+  <li>extension of attentional layers into GNNs</li>
+  <li>also the usage of multi-head attention into GNNs</li>
+</ul>
+
+<h3 id="summary">Summary</h3>
+<ul>
+  <li>compute attention coefficients as follows:
+    <ul>
+      <li>
+\[e_{ij} = a(Wh_i, Wh_j)\]
+      </li>
+      <li>\(W\) = weight matrix</li>
+      <li>\(h\) = embeddings of each nodes in the graph</li>
+      <li>\(a\) = attention function to convert the input vectors into a scalar</li>
+    </ul>
+  </li>
+  <li>normalize these across the neighborhood using softmax as follows:
+    <ul>
+      <li>
+\[\alpha_{ij} = \frac{exp(e_{ij})}{\Sigma_k exp(e_{ik})}\]
+      </li>
+      <li>\(j\) varies over the neighborhood</li>
+      <li>\(k\) varies across neighborhood</li>
+      <li>they use only 1-hop neighbors for this</li>
+      <li>but they donâ€™t seem to suggest anything about sub-sampling of neighborhood!</li>
+    </ul>
+  </li>
+  <li>then finally apply weighted summation over the neighborhood based on the
+computed attention values as follows:
+    <ul>
+      <li>
+\[h'_i = \sigma(\Sigma_j \alpha_{ij} W h_j)\]
+      </li>
+      <li>\(\sigma\) = non-linearity</li>
+      <li>\(j\) varies across the neighborhood</li>
+    </ul>
+  </li>
+  <li>they also propose to using multi-head attention as follows:
+    <ul>
+      <li>compute individual attentions for each head as above, independently</li>
+      <li>but at the end , take a concatentaion of resulting embeddings from
+each of the heads</li>
+      <li>and in the final layer, instead of concatenating, perform a summation</li>
+    </ul>
+  </li>
+  <li>a full equation involving attention computation for a single head is:
+    <ul>
+      <li>
+\[\alpha_{ij} = \frac{exp(lr(a . h'_{ij}))}{\Sigma_k exp(lr(a . h'_{ik}))}\]
+      </li>
+      <li>\(j\) varies over the neighborhood</li>
+      <li>\(k\) varies over the neighborhood</li>
+      <li>
+\[h'_{ij} = concat(Wh_i, Wh_j)\]
+      </li>
+      <li>\(lr\) = LeakyReLu. (with a negative slope of 0.2)</li>
+      <li>\(a\) = learnable vector used for dot product with the concatenated vector</li>
+    </ul>
+  </li>
+</ul>
+:ET

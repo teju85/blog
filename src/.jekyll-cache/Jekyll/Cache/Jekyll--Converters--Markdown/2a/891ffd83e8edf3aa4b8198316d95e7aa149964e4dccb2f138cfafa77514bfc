@@ -1,0 +1,25 @@
+I"�<h3 id="issue">Issue</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> <span class="nv">$ANDROID_SDK_HOME</span>/platform-tools
+adb devices
+List of devices attached
+fffffffffffffff        unauthorized
+</code></pre></div></div>
+<p>One would see the ‘unauthorized’ keyword in the place of the device name.
+<code class="language-plaintext highlighter-rouge">adb shell</code> would also fail stating something about ‘keys not set’.</p>
+
+<h3 id="solution">Solution</h3>
+<ol>
+  <li>Unplug your android device from the computer, if it is connected</li>
+  <li>Inside your computer:
+    <ul>
+      <li>Go to <code class="language-plaintext highlighter-rouge">$ANDROID_SDK_HOME/platform-tools</code></li>
+      <li>Run <code class="language-plaintext highlighter-rouge">adb keygen .android/adb_key</code></li>
+    </ul>
+  </li>
+  <li>Open your android device</li>
+  <li>Go to Settings -&gt; Developer Options</li>
+  <li>Touch ‘Revoke USB debugging authorizations’</li>
+  <li>Plug the device back into the computer</li>
+  <li>The device should now ask you for whether to trust this computer. Say yes.</li>
+</ol>
+:ET

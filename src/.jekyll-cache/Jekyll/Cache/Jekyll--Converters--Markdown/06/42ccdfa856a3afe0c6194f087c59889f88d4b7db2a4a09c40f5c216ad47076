@@ -1,0 +1,158 @@
+I"–<h3 id="proposal">Proposal</h3>
+<p>Main survey paper can be found <a href="https://arxiv.org/pdf/1901.00596.pdf">here</a>.
+Divides GNNs into the following top-level four categories:</p>
+<ol>
+  <li>recurrent GNNs - iteratively exchange info with neighbors until some form of
+convergence is achieved. This idea is borrowed and improved by convGNNs.</li>
+  <li>convolutional GNNs - same as recGNNs, but here multiple such operations are
+stacked to extract high-level node representations based on neighbors that
+are further away.</li>
+  <li>graph autoencoders - unsupervised methods to represent graphs by latent
+vectors and then use a decoder phase to reconstruct the graph</li>
+  <li>spatio-temporal GNNs - combine convGNNs and then regular 1D-CNNs to capture
+both spatial and temporal info of the nodes, respectively</li>
+</ol>
+
+<h3 id="differences-wrt-regular-dl">Differences wrt regular DL</h3>
+<ul>
+  <li>data space is non-Euclidean</li>
+  <li>graphs can be irregular</li>
+  <li>number of neighbors vary, causing difficulty with regular convolutions</li>
+  <li>instance (aka node) is not independent of the other</li>
+</ul>
+
+<h3 id="differences-wrt-network-embedding">Differences wrt network embedding</h3>
+<ul>
+  <li>NE involves other non-DL methods like factorization, random-walks</li>
+  <li>GNNs provide and end-to-end solution for some of the graph-related tasks</li>
+</ul>
+
+<h3 id="recgnns">recGNNs</h3>
+<p>Perform message passing between nodes and their neighbors, until some form of
+convergence is achieved.
+\(h_v^{(t)} = \sum_{u \epsilon N(v)} f(X_v, x_{u,v}^e, x_u, h_u^{(t-1)})\)</p>
+<ul>
+  <li>\(h_v\) = hidden vector which is initialized to random value at time = 0</li>
+  <li>\(f(.)\) = a contraction mapping parametric function to ensure convergence</li>
+  <li>\(X\) = node feature matrix</li>
+  <li>\(x\) = edge feature matrix</li>
+  <li>\(N(v)\) = neighborhood of node \(v\)</li>
+  <li>n = number of nodes</li>
+  <li>m = number of edges</li>
+</ul>
+
+<p>Gated GNNs - use GRU with fixed number of recurrence steps, instead of a
+generic contraction mapping function. Then uses BPTT (backprop through time)
+in order to learn parameters.
+\(h_v^{(t)} = GRU(h_v^{(t-1)}, \sum_{u \epsilon N(v)} W h_u^{(t-1)}\)</p>
+<ul>
+  <li>
+\[h_v^{(0)} = x_v\]
+  </li>
+</ul>
+
+<h3 id="convgnns">convGNNs</h3>
+
+<h4 id="spectral-based">spectral based</h4>
+<p>Based on graph signal processing and use normalized graph laplacian
+\(L = I - D^{-0.5} A D^{-0.5}\)</p>
+<ul>
+  <li>\(D\) = diagonal matrix with \(D_{ii} = \sum_j A_{ij}\)</li>
+</ul>
+
+<p>\(L\) is real symmetric and positive semidefinite. So, it can be factored into
+\(L = U \Lambda U^T\)</p>
+<ul>
+  <li>\(U\) = columwise eigenvectors ordered by eigenvalues</li>
+  <li>\(\Lambda\) = diagonal matrix of eigenvalues</li>
+</ul>
+
+<p>Graph fourier transform on input \(x \epsilon R^n\) is defined as \(y = U^T x\)
+similarly vice-versa for graph inverse fourier transform.</p>
+
+<p>Assuming a filter \(g \epsilon R^n\), convolution operation will become
+\(x*g = U (U^T x \odot U^T g) = U g_{\theta} U^T x\) with \(g_{\theta} = U^T g\)
+All spectral methods follow this, except for their choice of \(g_{\theta}\).
+Some methods are:</p>
+<ol>
+  <li>Spectral CNNs</li>
+  <li>Chebyshev spectral CNNs (ChebNet)</li>
+  <li>CayleyNet</li>
+  <li><a href="/blog/blog/2020/06/09/graph-convolutional-networks.html">GCN</a>
+these are however a mix of spectral and spatial based by approximating
+ChebNet at first-order and simplifying learnable parameters.</li>
+</ol>
+
+<h4 id="spatial-based">spatial based</h4>
+<p>All these methods aggregate neighbor information in some form and propagate this
+to the current node. Multiple such layers are stacked upon each other to
+increase the neighborhood definition.</p>
+
+<ul>
+  <li>Neural Network for Graphs: Somewhat resembles GCN.
+\(H^{(k)} = f(X W^{(k)} + \sum_{i=1}^{k - 1} A H^{(k-1)} \Theta^{(k)})\)</li>
+  <li>Diffusion CNNs: \(H^{(k)} = f(W^{(k)} \odot P^k X)\)</li>
+  <li>Diffusion Graph Convolution: \(H = \sum_{k=0}^K f(p^k X W^{(k)})\)</li>
+  <li>Message Passing NN</li>
+  <li>GraphSage: samples the neighbors in order to avoid needing full-batch</li>
+  <li>fast-GCN: samples a fixed number of nodes instead of neighbors</li>
+  <li>Graph Attention Network
+    <ul>
+      <li>
+\[h_v^{(k)} = \sigma(\sum_{u \epsilon N(v) \cup v} \alpha_{vu}^{(k)} W^{(k)} h_u^{(k-1)})\]
+      </li>
+      <li>
+\[h_v^{(0)} = x_v\]
+      </li>
+      <li>
+\[\alpha_{vu}^{(k)} = softmax(leakyReLU(a^T [W^{(k)}h_v^{(k-1)} || W^{(k)}h_u^{(k-1)}]))\]
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="spectral-vs-spatial">spectral vs spatial</h4>
+<ul>
+  <li>spectral methods have theoretical framework</li>
+  <li>spatial methods are computationally efficient and scalable</li>
+  <li>spatial methods allow batching of nodes in a graph</li>
+  <li>spectral methods only work with undirected graphs</li>
+</ul>
+
+<h4 id="graph-pooling-modules">graph pooling modules</h4>
+<p>coarsen the graph representation to reduce computationaly complexity for graph
+classification and such other tasks next in the pipeline. Popular approach is to
+use mean/max/sum based pooling functions:
+\(h_G = poolFunction(h_1^{(K)}, h_2^{(K)}, ..., h_n^{(K)})\)</p>
+
+<h3 id="graph-autoencoders">Graph autoencoders</h3>
+
+<h4 id="network-embedding">network embedding</h4>
+<p>Low dimensional representation of nodes which preserves the topological info.</p>
+<ul>
+  <li>Graph AutoEncoder: uses GCN in encoder phase and decoder phase tries to
+reconstruct the adjacency matrix based on the generated embedding</li>
+  <li>Variational GAE: Variational version of the above, using KL divergence as the
+metric</li>
+</ul>
+
+<h4 id="graph-generation">graph generation</h4>
+<p>Beneficial in solving molecular graph generation problem. There are methods
+which try to generate graphs globally or sequentially.</p>
+
+<h3 id="spatio-temporal-gnns">spatio-temporal GNNs</h3>
+<p>Capture both spatial and temporal dependencies together. eg: traffic speed
+forecasting. Most simple way is to feed the output of convGNNs into recurrent
+layer like RNNs/LSTMs.</p>
+
+<h3 id="future-directions">future directions</h3>
+<ol>
+  <li>model depth - going infinite depth will pull all nodes into a single point!
+Does it make sense to increase depth?</li>
+  <li>scalability trade-off - use of clustering could destroy patterns, while
+sampling the neighbors may miss critical info at times. Need to find a good
+trade-off between scalability and info-loss</li>
+  <li>heterogeneous graphs support</li>
+  <li>dynamicity - STGNNs addresses some aspects of this.</li>
+</ol>
+:ET

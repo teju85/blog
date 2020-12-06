@@ -1,0 +1,41 @@
+I"Š<h3 id="summary">Summary</h3>
+<p>Slides of the talk can be found <a href="http://crd.lbl.gov/assets/pubs_presos/parlab08-roofline-talk.pdf">here</a></p>
+
+<h4 id="the-roofline-model">The Roofline Model</h4>
+<ul>
+  <li>realistic expectations of perf and productivity</li>
+  <li>show inherent h/w limitations for a given kernel</li>
+  <li>potential benefits and priority of optimizations</li>
+  <li>computation is free, communication is expensive</li>
+</ul>
+
+<h4 id="principal-components-of-performance">principal components of performance</h4>
+<ul>
+  <li>they are:
+    <ul>
+      <li>computation (Gflops/s is of main interest)</li>
+      <li>communication (GBps is of main interest)</li>
+      <li>locality (maximize locality to minimize communication)</li>
+    </ul>
+  </li>
+  <li>each architecture and kernel has different balance between these</li>
+</ul>
+
+<h4 id="arithmetic-intensity">arithmetic intensity</h4>
+<ul>
+  <li>relates computation with communication</li>
+  <li>flops to bytes ratio</li>
+  <li>to measure total bytes, all caches should be considered</li>
+</ul>
+
+<h4 id="roofline">roofline</h4>
+<ul>
+  <li>upper bound to perf is given by
+    <ul>
+      <li>achieved flops/s = min(peak flops/s,  streaming-BW * flops-to-bytes-ratio)</li>
+      <li>assume complete overlap of computation with communication</li>
+    </ul>
+  </li>
+  <li>provides intuitive graph for kernel analysis and optimization</li>
+</ul>
+:ET

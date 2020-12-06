@@ -1,0 +1,113 @@
+I"�<h3 id="pragmatic-programmer">Pragmatic Programmer</h3>
+<p>“Pragmatic Programmer - from journeyman to master” is a book on programming
+written by Andrew Hunt and David Thomas. This book can be found
+<a href="https://www.amazon.com/Pragmatic-Programmer-Journeyman-Master/dp/020161622X">here</a>.
+IMO, every programmer who codes for living should read this in order to understand
+how to convert requirements to specifications to a flexible and maintainable code.
+One message that stands out from this book is “You shouldn’t be wedded to any
+particular technology, but have a broad enough background and experience base to
+allow you to choose good solutions in particular situations.”</p>
+
+<h3 id="summary">Summary</h3>
+<h4 id="naming">Naming</h4>
+<ul>
+  <li>Use intention revealing names</li>
+  <li>Avoid ambiguous variable names</li>
+  <li>Use pronounceable names</li>
+  <li>Class names must be nouns</li>
+  <li>Method names must be verbs</li>
+  <li>Choose a consistent style and stick to it!</li>
+</ul>
+
+<h4 id="comments">Comments</h4>
+<ul>
+  <li>Comments Lie!</li>
+  <li>Avoid them as much as possible</li>
+  <li>Don’t keep commented code. Delete it!</li>
+</ul>
+
+<h4 id="data-structures">Data Structures</h4>
+<ul>
+  <li>Don’t blindly add getters and setters</li>
+  <li>Objects and data structures are anti-symmetric!</li>
+  <li>Avoid creating hybrid of these two!</li>
+</ul>
+
+<h4 id="error-handling">Error Handling</h4>
+<ul>
+  <li>Use exceptions rather than error codes</li>
+  <li>Provide meaningful messages with the exceptions thrown</li>
+  <li>Create exception classes based on the needs of the caller</li>
+</ul>
+
+<h4 id="tdd">TDD</h4>
+<ul>
+  <li>Write tests first, code later!</li>
+  <li>Test code is as important as production code</li>
+  <li>When in doubt follow the above rule!</li>
+</ul>
+
+<h4 id="classes">Classes</h4>
+<ul>
+  <li>Should follow SRP</li>
+  <li>Should follow OCP</li>
+  <li>Should follow DIP</li>
+  <li>When classes lose cohesion, split them</li>
+</ul>
+
+<h4 id="systems">Systems</h4>
+<ul>
+  <li>Construction of a system must be separated from its use</li>
+  <li>One such mechanism is Dependency Injection</li>
+  <li>Use the simplest thing that can possibly work.</li>
+</ul>
+
+<h4 id="functions">Functions</h4>
+<ul>
+  <li>Must be small</li>
+  <li>Must do only one thing</li>
+  <li>Use descriptive names</li>
+  <li>Have less number of input arguments</li>
+  <li>Have no side effects</li>
+  <li>Try to avoid output arguments</li>
+  <li>Always follow command-query-separation</li>
+  <li>Prefer exceptions to returning error codes</li>
+  <li>Don’t Repeat Yourself (DRY)!</li>
+</ul>
+
+<h4 id="formatting">Formatting</h4>
+<ul>
+  <li>Small source files preferable over large ones</li>
+  <li>Use vertical blank lines for visual cues</li>
+  <li>Concepts closely related must be vertically closer</li>
+  <li>This is just like paragraphs</li>
+  <li>Keep all instance variables at one place</li>
+  <li>Keep the lines short</li>
+</ul>
+
+<h4 id="boundaries">Boundaries</h4>
+<ul>
+  <li>User learning-tests to understand third party APIs</li>
+  <li>Isolate boundaries through wrapping them inside our own class</li>
+</ul>
+
+<h4 id="emergence">Emergence</h4>
+<ul>
+  <li>Four rules of simple design:</li>
+  <li>Runs all tests</li>
+  <li>Contains no duplication</li>
+  <li>Expresses programmer’s intent</li>
+  <li>Minimum number of classes and methods</li>
+</ul>
+
+<h4 id="concurrency">Concurrency</h4>
+<ul>
+  <li>Try to avoid sharing data</li>
+  <li>Keep the concurrent code separate</li>
+  <li>Avoid using more than one method on shared object</li>
+  <li>Keep your synchronized sections as small as possible</li>
+  <li>Treat spurious failures as candidate threading issues</li>
+  <li>Get your non-threaded code working first</li>
+  <li>It is better when broken code fails as early as possible</li>
+</ul>
+:ET

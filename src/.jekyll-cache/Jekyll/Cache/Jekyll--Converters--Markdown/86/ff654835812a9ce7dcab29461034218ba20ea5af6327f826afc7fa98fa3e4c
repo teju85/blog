@@ -1,0 +1,14 @@
+I"�<h3 id="power-of-gcns">Power of GCNs</h3>
+<p>Summary of the content of the blog found <a href="https://www.inference.vc/how-powerful-are-graph-convolutions-review-of-kipf-welling-2016-2/">here</a>.</p>
+
+<h3 id="summary">Summary</h3>
+<ul>
+  <li>Author seems to claim that due to 1st order approximation of Chebyshev polynomials
+as the convolution filter, their expressive power might not be good</li>
+  <li>that’s because this approximation, when applied to the special case of regular
+graphs (2D images, eg), will lead to severely weak models</li>
+  <li>But the <a href="https://tkipf.github.io/graph-convolutional-networks">main authors of the GCN</a>
+paper also note that the Weisfeiler-Lehman algo also doesn’t converge on
+regular graphs!</li>
+</ul>
+:ET

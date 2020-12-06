@@ -1,0 +1,44 @@
+I"�<h3 id="introduction">Introduction</h3>
+<p>Save the below code in a file named <code class="language-plaintext highlighter-rouge">enum.c</code> and try to compile it using the
+following command: <code class="language-plaintext highlighter-rouge">gcc enum.c -o enum &amp;&amp; ./enum</code>. This will give the following
+error:</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">enum.c:8:3: error: overflow in enumeration values
+   _4
+   ^
+enum.c: In function ‘main’:
+enum.c:11:48: error: ‘FourBytes’ undeclared (first use in this function)
+   printf("sizeof(FourBytes)=%d\n", (int)sizeof(FourBytes));
+                                                ^
+enum.c:11:48: note: each undeclared identifier is reported only once for each function it appears in
+enum.c:12:49: error: ‘EightBytes’ undeclared (first use in this function)
+   printf("sizeof(EightBytes)=%d\n", (int)sizeof(EightBytes));</code></pre></figure>
+
+<p>However, if you save this same code as <code class="language-plaintext highlighter-rouge">enum.cpp</code> and compile it as:
+<code class="language-plaintext highlighter-rouge">g++ enum.cpp -o enum &amp;&amp; ./enum</code>. This will compile successfully and gives the
+following output!</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text">sizeof(FourBytes)=4
+sizeof(EightBytes)=8</code></pre></figure>
+
+<p>Yes! The C++ compiler automatically takes care of overflows by ‘upgrading’ the
+enum to be of 8 bytes!</p>
+
+<h3 id="code">Code</h3>
+
+<figure class="highlight"><pre><code class="language-cpp" data-lang="cpp"><span class="cp">#include &lt;stdio.h&gt;
+</span><span class="k">enum</span> <span class="n">FourBytes</span> <span class="p">{</span>
+  <span class="n">_1</span><span class="p">,</span>
+  <span class="n">_2</span>
+<span class="p">};</span>
+<span class="k">enum</span> <span class="n">EightBytes</span> <span class="p">{</span>
+  <span class="n">_3</span> <span class="o">=</span> <span class="mh">0xffffffff</span><span class="p">,</span>
+  <span class="n">_4</span>
+<span class="p">};</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"sizeof(FourBytes)=%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="k">sizeof</span><span class="p">(</span><span class="n">FourBytes</span><span class="p">));</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"sizeof(EightBytes)=%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="k">sizeof</span><span class="p">(</span><span class="n">EightBytes</span><span class="p">));</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+:ET

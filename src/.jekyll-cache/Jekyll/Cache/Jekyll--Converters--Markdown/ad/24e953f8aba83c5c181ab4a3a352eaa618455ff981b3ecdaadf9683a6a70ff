@@ -1,0 +1,89 @@
+I"ï<h3 id="pixie-a-system-for-recommending-3-billion-items-to200-million-users-in-real-time">Pixie: A System for Recommending 3+ Billion Items to200+ Million Users in Real-Time</h3>
+<p>Main paper can be found <a href="https://arxiv.org/pdf/1711.07601.pdf">here</a> and a more
+digestable version is presented in a blog format <a href="https://medium.com/pinterest-engineering/introducing-pixie-an-advanced-graph-based-recommendation-system-e7b4229b664b">here</a>
+and <a href="https://medium.com/pinterest-engineering/an-update-on-pixie-pinterests-recommendation-system-6f273f737e1b">here</a>.</p>
+
+<h4 id="proposal">Proposal</h4>
+<p>Provide real-time recommendations to the users via:</p>
+<ol>
+  <li>Pixie random walk algorithm to generate recommendations whose runtime is
+constant wrt the size of the input graph.</li>
+  <li>description of the implementation (in production) based on C++ on top of
+<a href="http://snap.stanford.edu/">SNAP</a>.</li>
+</ol>
+
+<h4 id="details">Details</h4>
+<p>Input to this system is a query set \(Q = {(q, w_q)}\), which is a collection of
+pins with associated weights to represent its importance in current query set.</p>
+
+<p><strong>Pixie random walk</strong></p>
+
+<ol>
+  <li><em>Biased walks</em>: walks are biased for a query set \(Q\) based on the user. This
+helps provide personalized recommendations.</li>
+  <li><em>multiple query pins with weights</em>: weights to the input query pins are
+assigned based on the time since the user interacted with this pin and the
+interaction type.</li>
+  <li><em>sample walk length</em>: helps provide enough walks for pins with lower degree
+but also reduces runtime cost for pins with higher degree.</li>
+  <li><em>multi-hit booster</em>: weightage given to the candidate pins which have high
+visit counts for all the pins in the \(Q\). \(V[p] = (\sum_{q \epsilon Q}\sqrt{V_q[p]})^2\)
+where \(V_q\) is visit count for the query \(q \epsilon Q\).</li>
+  <li><em>early stopping</em>: stop the random walk when the top visited candidates have
+crossed certain threshold.</li>
+</ol>
+
+<p>Computation of walk length for a given pin is as follows:</p>
+
+\[s_q = \|E(q)\|.(C - log\|E(q)\|)\]
+
+\[Nq = N w_q \frac{s_q}{\sum_{r \epsilon Q} s_r}\]
+
+<ul>
+  <li>\(Nq\) = walk length for random walk starting from pin q</li>
+  <li>\(\|E(q)\|\) = degree of pin q</li>
+  <li>C = max degree of all pins</li>
+</ul>
+
+<p>Algorithm for a single query is as follows:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PixieRandomWalk(q, E, U, alpha, Nq, nv, np):
+  totSteps = nHighVisited = 0
+  V = {0}
+  do
+    currPin = q
+    currSteps = SampleWalkLength(alpha)
+    for i in range(currSteps):
+      currBoard = E(currPin)[PersonalizedNeighbor(E, U)]
+      currPin = E(currBoard)[PersonalizedNeighbor(E, U)]
+      V[currPin]++
+      if V[currPin] == nv:
+        nHighVisited++
+    totSteps += currSteps
+  while totSteps &lt; Nq and nHighVisited &lt; np
+</code></pre></div></div>
+<ul>
+  <li>q = query pin</li>
+  <li>E = edges in the graph</li>
+  <li>U = user features</li>
+  <li>alpha = helps determine the number of steps per random walk</li>
+  <li>PersonalizedNeighbor(E, U) = randomized method to return neighbors, but
+edges being weighted by user features</li>
+  <li>Nq = total number of steps taken in the random walk</li>
+  <li>nv and np = used for early stopping. the random walk is terminated when there
+are np number of pins that have been visited atleast nv number of times</li>
+</ul>
+
+<p><strong>graph pruning</strong></p>
+
+<p>Prunes the graph to fit in RAM and thus do not have to distribute it.</p>
+<ul>
+  <li>Removes duplicate pins</li>
+  <li>Removes pins assigned to incorrect boards</li>
+  <li>Removes boards with larger entropy: computes LDA on each pin description and
+computes entropy for a board by combining LDA vectors from all pins associated
+with this board.</li>
+  <li>Prune the degree (or remove) pins with abnormally high degree: only keep the
+edges with highest cosine similarity. Threshold is determined by the pruning
+factor \(\delta\).</li>
+</ul>
+:ET

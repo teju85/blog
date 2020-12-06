@@ -1,0 +1,8 @@
+I"<h3 id="correctly-installing-cmake-on-cygwin">correctly installing cmake on cygwin</h3>
+<p>I have had this issue when I install cmake on cygwin</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>apt-cyg <span class="nb">install </span>cmake
+<span class="nv">$ </span>cmake <span class="nt">--version</span>
+CMake Error: Could not find CMAKE_ROOT <span class="o">!!!</span>
+CMake has most likely not been installed correctly.
+</code></pre></div></div>
+:ET

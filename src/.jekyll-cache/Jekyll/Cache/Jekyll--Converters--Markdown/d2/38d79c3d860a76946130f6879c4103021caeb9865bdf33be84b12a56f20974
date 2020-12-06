@@ -1,0 +1,133 @@
+I" (<h3 id="gnu-octave---quick-reference">GNU Octave - Quick reference</h3>
+<ul>
+  <li>matlab-like syntax</li>
+  <li>elementary arithmetic ops are supported</li>
+  <li><code class="language-plaintext highlighter-rouge">%</code> is comment</li>
+  <li><code class="language-plaintext highlighter-rouge">==</code> and <code class="language-plaintext highlighter-rouge">~=</code> for equality comparisons</li>
+  <li><code class="language-plaintext highlighter-rouge">^</code> is exponentation</li>
+  <li><code class="language-plaintext highlighter-rouge">&amp;&amp;</code>, <code class="language-plaintext highlighter-rouge">||</code>, <code class="language-plaintext highlighter-rouge">xor</code> logical operations</li>
+  <li><code class="language-plaintext highlighter-rouge">PS1(...)</code> to change the prompt</li>
+  <li>if you don’t want to print the output use <code class="language-plaintext highlighter-rouge">;</code> at the end of expression</li>
+  <li>strings can be declared using <code class="language-plaintext highlighter-rouge">"</code> or <code class="language-plaintext highlighter-rouge">'</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">pi</code> is our math-pi.</li>
+  <li><code class="language-plaintext highlighter-rouge">disp</code> used to print any variables, <code class="language-plaintext highlighter-rouge">sprintf</code> to format strings</li>
+  <li>matrices/vectors
+    <ul>
+      <li>use <code class="language-plaintext highlighter-rouge">;</code> to start the next row</li>
+      <li>use a space or <code class="language-plaintext highlighter-rouge">,</code> to write elements in the columns of current row</li>
+      <li><code class="language-plaintext highlighter-rouge">start:step:end</code> can also be used to create a vector (<code class="language-plaintext highlighter-rouge">end</code> included in the output)</li>
+      <li>default <code class="language-plaintext highlighter-rouge">step</code> is 1</li>
+      <li><code class="language-plaintext highlighter-rouge">ones</code> generates matrices of all ones, similarly <code class="language-plaintext highlighter-rouge">zeros</code></li>
+      <li><code class="language-plaintext highlighter-rouge">eye</code> generates identity matrices</li>
+      <li><code class="language-plaintext highlighter-rouge">rand</code> generates random matrices uniformly between [0,1]</li>
+      <li><code class="language-plaintext highlighter-rouge">randn</code> for gaussian dist with mean=0 var=1</li>
+      <li><code class="language-plaintext highlighter-rouge">sqrt</code> for square root</li>
+      <li><code class="language-plaintext highlighter-rouge">var'</code> for matrix transpose</li>
+      <li><code class="language-plaintext highlighter-rouge">size(var)</code> gives the matrix dimension</li>
+      <li><code class="language-plaintext highlighter-rouge">size(var, i)</code> gives size of ith dimension</li>
+      <li><code class="language-plaintext highlighter-rouge">length(var)</code> gives size of the longest dimension - mostly applied on vectors</li>
+      <li>can apply splicing on the matrices and vectors as well</li>
+      <li><code class="language-plaintext highlighter-rouge">var(indices)</code> to access the corresponding element
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">:</code> means every element in that dimension</li>
+          <li>in each dimension, one can pass vectors!</li>
+          <li>elements are 1-indexed in octave</li>
+        </ul>
+      </li>
+      <li>can append rows/columns/matrices to matrices as well</li>
+      <li><code class="language-plaintext highlighter-rouge">var(:)</code> puts all elements into a single column vector</li>
+      <li><code class="language-plaintext highlighter-rouge">.</code> mostly denotes element-wise ops
+        <ul>
+          <li><code class="language-plaintext highlighter-rouge">.*</code> is element-wise multiplication</li>
+          <li><code class="language-plaintext highlighter-rouge">a .^ n</code>  element-wise exponentiation</li>
+          <li><code class="language-plaintext highlighter-rouge">1 ./ a</code>  element-wise reciprocal</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">[val,ind] = max(a)</code>  maximum value of a and its index - on matrices, it does column-wise max!</li>
+      <li><code class="language-plaintext highlighter-rouge">a &lt; 3</code> returns a logical matrix with element-wise comparison</li>
+      <li><code class="language-plaintext highlighter-rouge">find(a &lt; 3)</code> returns those elements</li>
+      <li><code class="language-plaintext highlighter-rouge">magic</code> = returns magic squares</li>
+      <li><code class="language-plaintext highlighter-rouge">[r,c] = find(A &gt;= 7)</code> returns row/col indices</li>
+      <li><code class="language-plaintext highlighter-rouge">sum(a)</code>, <code class="language-plaintext highlighter-rouge">prod(a)</code> add/mult reduction</li>
+      <li><code class="language-plaintext highlighter-rouge">floor(a)</code>, <code class="language-plaintext highlighter-rouge">ceil(a)</code> for floor and ceil</li>
+      <li><code class="language-plaintext highlighter-rouge">max(matA, matB)</code> gives element-wise maximum</li>
+      <li><code class="language-plaintext highlighter-rouge">flipud</code> = flip up-down</li>
+      <li><code class="language-plaintext highlighter-rouge">pinv</code> = pseudo-inverse of matrix, essentially matrix-inverse</li>
+    </ul>
+  </li>
+  <li>file system
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">pwd</code> current directory of the session</li>
+      <li>usual <code class="language-plaintext highlighter-rouge">ls</code>, <code class="language-plaintext highlighter-rouge">cd</code>, commands work!</li>
+      <li>use <code class="language-plaintext highlighter-rouge">load</code> function to load inputs from file system</li>
+      <li><code class="language-plaintext highlighter-rouge">save('out.mat', 'varName')</code> will store the variable into file system
+        <ul>
+          <li>use <code class="language-plaintext highlighter-rouge">-ascii</code> option to store as plain text</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>environment
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">who</code> shows all currently defined variables, <code class="language-plaintext highlighter-rouge">whos</code> gives detailed info</li>
+      <li><code class="language-plaintext highlighter-rouge">clear</code> will remove all variables in the current session
+        <ul>
+          <li>with an argument, it’ll only clear that</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">help &lt;cmd&gt;</code> to show the documentation</li>
+  <li><code class="language-plaintext highlighter-rouge">cmd1, cmd2, cmd3;</code> chaining commands in a single line</li>
+  <li>loops
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">for i=1:10, cmds end</code></li>
+      <li><code class="language-plaintext highlighter-rouge">while condition, cmds end</code></li>
+      <li><code class="language-plaintext highlighter-rouge">break</code> and <code class="language-plaintext highlighter-rouge">continue</code> can also be used</li>
+    </ul>
+  </li>
+  <li>conditionals
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">if condition, cmds end</code></li>
+      <li><code class="language-plaintext highlighter-rouge">if condition, cmds elseif condition, cmds else cmds end</code></li>
+    </ul>
+  </li>
+  <li>plotting
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">hist</code> plots histogram of the input vector - can also set bins as an input param</li>
+      <li><code class="language-plaintext highlighter-rouge">plot</code> can be used to simply generate lineplots</li>
+      <li>use <code class="language-plaintext highlighter-rouge">hold on</code> to plot multiple plots (default is to overwrite)</li>
+      <li>use <code class="language-plaintext highlighter-rouge">legend</code> and <code class="language-plaintext highlighter-rouge">title</code> for legend and title of the plots</li>
+      <li><code class="language-plaintext highlighter-rouge">print('-dpng', 'out.png')</code> to store the plot as an image</li>
+      <li><code class="language-plaintext highlighter-rouge">close</code> to close the plot window</li>
+      <li><code class="language-plaintext highlighter-rouge">figure(&lt;index&gt;); plot(...)</code> opens plots in different windows</li>
+      <li><code class="language-plaintext highlighter-rouge">subplot(row, col, startIndex)</code>
+        <ul>
+          <li>partitions the plot into grid and starts with startIndex</li>
+          <li>disperse this call between ‘plot’ calls</li>
+        </ul>
+      </li>
+      <li><code class="language-plaintext highlighter-rouge">axis</code> = to set x and y range</li>
+      <li><code class="language-plaintext highlighter-rouge">clf</code> = clears the current figure</li>
+      <li><code class="language-plaintext highlighter-rouge">imagesc</code> = used to visualize a matrix. Quite useful!</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">exit</code>, <code class="language-plaintext highlighter-rouge">quit</code> to quit the session</li>
+  <li>function
+    <ul>
+      <li>create a file with the function name and store it with .m extension!</li>
+      <li>functions can return multiple values as well!</li>
+      <li>default, octave looks for this .m in the current directory</li>
+      <li>better to update search path using <code class="language-plaintext highlighter-rouge">addpath</code> call</li>
+      <li>comments at the beginning of function used by <code class="language-plaintext highlighter-rouge">help</code>!</li>
+      <li>in case you want to put multiple functions in one file, use script-files!</li>
+      <li>then just call <code class="language-plaintext highlighter-rouge">source("script-file")</code> to import all those functions</li>
+    </ul>
+  </li>
+  <li>take advantage of vectorization
+    <ul>
+      <li>writing your own loops on the data might be a lot slower!</li>
+    </ul>
+  </li>
+</ul>
+:ET

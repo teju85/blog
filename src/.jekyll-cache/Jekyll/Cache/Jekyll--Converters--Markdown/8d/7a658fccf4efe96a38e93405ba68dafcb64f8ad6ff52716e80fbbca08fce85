@@ -1,0 +1,63 @@
+I"2
+<h3 id="summary">Summary</h3>
+<p>The reference chapter can be found in <a href="https://christophm.github.io/interpretable-ml-book/shapley.html">this</a>
+book.</p>
+
+<ul>
+  <li>Shapley Values (SV) explain prediction via considering each feature as a
+player and prediction as the payout and deals with how to fairly distribute
+the payout among the players</li>
+  <li>has solid base in coalitional game theory</li>
+  <li>gain (payout) here is the difference between actual prediction and average</li>
+  <li>SV for an instance is the average marginal  contribution of a feature value
+across all possible coalitions (weighted average, to be precise)</li>
+  <li>marginal contribution = difference between prediction with and without this
+feature value</li>
+  <li>computing SV for linear models is very straightforward</li>
+  <li>SV satisfy the following properties
+    <ul>
+      <li>Efficiency - feature contributions add upto difference between predicted and
+mean prediction</li>
+      <li>Symmetry - SV of 2 feature values should be the same if they contribute
+equally for all coalitions</li>
+      <li>Dummy - if a feature value does not contribute to the output, then its value
+should be 0</li>
+      <li>Additivity - for ensemble models, final SV can be computed by adding up the
+individual SV from each of the underlying models</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="computating-sv">Computating SV</h4>
+<p>\(\phi_j = \sum_{S \subset {x} - {x_j}} \frac{len(S)! (p - len(S) - 1)!}{p!} (val(S \bigcup {x_j}) - val(S))\)</p>
+
+\[val(S) = \int_{x \notin S} f(x_1, ..., x_p) - E[f(X)]\]
+
+<p>Where:</p>
+<ul>
+  <li>\(\phi_j\) - SV for j-th feature value</li>
+  <li>\(p\) - number of features</li>
+  <li>\(f\) - the model</li>
+</ul>
+
+<h4 id="approximating-sv-via-monte-carlo-sampling">Approximating SV via Monte-Carlo sampling</h4>
+<p>\(\phi'_j = \frac{1}{M} \sum_{m=1}^M f(x_{+j}^m) - f(x_{-j}^m)\)</p>
+
+<p>Where:</p>
+<ul>
+  <li>\(M\) - number of samples</li>
+  <li>\(f(x_{+j}^m)\) - prediction where the feature values are first randomly
+permuted and then the first j feature values are kept from the input sample
+while the rest are randomly picked from another sample in the dataset.</li>
+  <li>\(f(x_{-j}^m)\) - same as above but with j-th feature value also chosen at
+random from another sample</li>
+</ul>
+
+<h4 id="disadvantages">Disadvantages</h4>
+<ul>
+  <li>suffers from inclusion of unrealistic feature values</li>
+  <li>computationally super expensive</li>
+  <li>explanation involves all the features, which can be difficult for humans to
+further interpret, as opposed to explainer models like LIME.</li>
+</ul>
+:ET

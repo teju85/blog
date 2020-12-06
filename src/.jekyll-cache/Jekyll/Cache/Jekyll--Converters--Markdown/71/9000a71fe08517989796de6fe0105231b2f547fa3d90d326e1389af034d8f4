@@ -1,0 +1,57 @@
+I"R<h3 id="cmus">cmus</h3>
+<p><a href="https://cmus.github.io/">cmus</a> is a lightweight console player for unix-like
+operating systems. Given here are the steps to build it on cygwin.</p>
+
+<h4 id="steps">Steps</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lynx -source rawgit.com/transcode-open/apt-cyg/master/apt-cyg &gt; apt-cyg
+install apt-cyg /bin
+apt-cyg install ncurses ncursesw pkg-config
+apt-cyg install libncursesw-devel libncurses-devel
+apt-cyg install libopus-devel libwavpack-devel
+apt-cyg install libtool flac-devel
+
+cd ~
+wget ftp://ftp.mars.org/pub/mpeg/libmad-0.15.1b.tar.gz
+tar xf
+cd libmad-0.15.1b
+wget 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD' -O config.guess
+wget 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD' -O config.sub
+sed -i '/-fforce-mem/d' configure
+./configure
+make
+make install
+
+cd ~
+git clone https://github.com/cmus/cmus.git
+cd cmus
+./configure CPPFLAGS=-I/usr/local/include LDFLAGS=-L/usr/local/lib
+make
+make install
+</code></pre></div></div>
+
+<h4 id="key-controls">Key controls</h4>
+<ul>
+  <li>v: stop playback</li>
+  <li>b: next track</li>
+  <li>z: previous track</li>
+  <li>c: pause playback</li>
+  <li>s: toggle shuffle (read about the m key below if you’re going to use shuffle)</li>
+  <li>m: toggles the “aaa mode.”</li>
+  <li>x: restart track</li>
+  <li>i: jump view to the currently playing track (handy when in shuffle mode)</li>
+  <li>o: toggle sorting</li>
+  <li>/: searching cmus works as in many Unix programs.
+    <ul>
+      <li>Typing slash, a string, and enter will find the first instance of that
+string in your library.</li>
+      <li>Press n to go to the next string, N to go to the previous.</li>
+      <li>cmus’s search isn’t case sensitive and is quite smart; a search for damned
+insurrection will return Bulldozer’s “Insurrection of the Living Damned”
+(rad tune).</li>
+    </ul>
+  </li>
+  <li>-: reduce the volume by 10%</li>
+  <li>+: increase the volume by 10%</li>
+  <li>:add path  - to add a playlist</li>
+</ul>
+:ET

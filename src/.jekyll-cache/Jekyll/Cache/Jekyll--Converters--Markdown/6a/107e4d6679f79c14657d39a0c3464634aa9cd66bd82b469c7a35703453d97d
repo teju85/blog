@@ -1,0 +1,128 @@
+I"�<h3 id="proposal">Proposal</h3>
+<p>Main paper can be found <a href="https://arxiv.org/pdf/1902.07987.pdf">here</a>.</p>
+
+<ul>
+  <li>Usage of GNN’s for irregular-geometry detectors for particle reconstruction</li>
+  <li>propose 2 new distance-weighted GNN layers: GRAVNET, GARNET</li>
+  <li>open-source their work based on TF <a href="https://github.com/jkiesele/caloGraphNN">here</a></li>
+  <li>proposed computations assume no structure-dependent info from the input data
+and thus this could be generalizable for other tasks such as tracking, jet
+identification, etc</li>
+</ul>
+
+<h3 id="gravnet-and-garnet-layers">gravnet and garnet layers</h3>
+<ul>
+  <li>input: \(X\) of dimension \(B . V . F_{in}\)
+    <ul>
+      <li>\(B\) = number of elements in the batch</li>
+      <li>\(V\) = number of detector hits per element</li>
+      <li>\(F_{in}\) = input feature dimension per hit</li>
+    </ul>
+  </li>
+  <li>perform linear transformation with bias
+    <ul>
+      <li>dimension of a vector in \(Y\) is \(S + F_{lr}\)</li>
+      <li>\(S\) = learned spatial representation of input vector</li>
+      <li>\(F_{lr}\) = learned attributes for the nodes in the resulting graph</li>
+    </ul>
+  </li>
+  <li>graph construction: (done for each element)
+    <ul>
+      <li>gravnet - a kNN graph is constructed for each element in the batch, based on
+the pairwise euclidean distances between all hits in that element.</li>
+      <li>garnet - each of the \(S\) values is considered as a distance from that hit
+to an aggregator</li>
+      <li>the distance between jth vertex and kth vertex in such a graph is called as
+\(d_{jk}\)</li>
+    </ul>
+  </li>
+  <li>gravent and garnet layer computations
+    <ul>
+      <li>scale the features based on a potential function \(V_p\)
+        <ul>
+          <li>
+\[f_{jk}^i = f_j^i V_p(d_{jk})\]
+          </li>
+          <li>gravnet: \(V_p(x) = e^{-x^2}\)</li>
+          <li>garnet: \(V_p(x) = e^{-abs(x)}\)</li>
+        </ul>
+      </li>
+      <li>aggregation of scaled features
+        <ul>
+          <li>
+\[f_k^i = agg_j(f_{jk}^i)\]
+          </li>
+          <li>tried both max and mean</li>
+          <li>aggregation function which was most effective for their use-case was mean</li>
+        </ul>
+      </li>
+      <li>transformation: (output dimension = \(F_{out}\)
+        <ul>
+          <li>in case of garnet, each of these \(f_k^i\) aggregator features will again
+be weighted using similar equation in order to project them back to the
+original vertices.</li>
+          <li>concatenate the input \(F_{in}\) features with this \(f_k^i\) feature</li>
+          <li>perform linear transformation with bias, followed by tanh activation</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>a custom loss function is defined based on the domain knowledge</li>
+</ul>
+
+<h3 id="models">models</h3>
+<ul>
+  <li>both a local and global exchange of message across sensors is proposed</li>
+  <li>gravnet model
+    <ul>
+      <li>has 4 blocks
+        <ul>
+          <li>concat mean of vertex features and vertex features</li>
+          <li>3 dense layers with tanh activation (dim = 64)</li>
+          <li>one gravnet layer</li>
+          <li>final dense layer with dim = 128 and relu activation</li>
+        </ul>
+      </li>
+      <li>gravnet layer
+        <ul>
+          <li>‘k’ value for kNN-graph is set to 40</li>
+          <li>S = 4</li>
+          <li>\(F_{lr}\) = 22</li>
+          <li>\(F_{out}\) = 48</li>
+        </ul>
+      </li>
+      <li>output of each block before the final dense layer is concatenated and then
+passed to the final dense layer</li>
+    </ul>
+  </li>
+  <li>garnet model
+    <ul>
+      <li>has 4 blocks
+        <ul>
+          <li>concat mean of vertex features and vertex features</li>
+          <li>one dense layer with tanh activation (dim = 32)</li>
+          <li>11 garnet layers!</li>
+          <li>final dense layer with dim = 48 and relu activation</li>
+        </ul>
+      </li>
+      <li>garnet layer
+        <ul>
+          <li>S = 4</li>
+          <li>\(F_{lr}\) = 20</li>
+          <li>\(F_{out}\) = 32</li>
+        </ul>
+      </li>
+      <li>output of each block before the final dense layer is concatenated and then
+passed to the final dense layer</li>
+    </ul>
+  </li>
+  <li>batch norm is applied to the input and output of all blocks</li>
+  <li>for all these models, at the end, the following 2 layers are applied
+    <ul>
+      <li>a dense layer with dim = 3 and relu activation</li>
+      <li>another dense layer with dim = 2 and softmax activation</li>
+    </ul>
+  </li>
+  <li>trained using Adam optimizer</li>
+</ul>
+:ET

@@ -1,0 +1,14 @@
+I"v<h3 id="single-pass-parallel-prefix-scan-with-decoupled-look-back">Single-pass Parallel Prefix Scan with Decoupled Look-back</h3>
+<p>Main paper can be found <a href="https://research.nvidia.com/sites/default/files/pubs/2016-03_Single-pass-Parallel-Prefix/nvr-2016-002.pdf">here</a>.</p>
+
+<ul>
+  <li>requires only ~2n memory accesses</li>
+  <li>achieves SOL on memory BW</li>
+  <li>launch as many CTAs on the chip as the occupancy limits</li>
+  <li>spread the work on these CTAs so as to cover the whole input array</li>
+  <li>have each block compute upsweep phase of the prefix scan</li>
+  <li>store the aggregate as well as inclusive prefix sum of these aggregates from preceding CTAs</li>
+  <li>use a 3-valued ternary flag to indicate invalid/aggregate-done/prefix-done</li>
+  <li>use this flag from preceding CTAs to compute the prefix-sum for this CTA to finish the task</li>
+</ul>
+:ET

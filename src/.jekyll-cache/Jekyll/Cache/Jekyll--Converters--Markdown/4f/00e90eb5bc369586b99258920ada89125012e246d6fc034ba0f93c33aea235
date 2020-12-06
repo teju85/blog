@@ -1,0 +1,62 @@
+I"4
+<p>Summary of <a href="http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/">this</a>
+and <a href="http://mccormickml.com/2017/01/11/word2vec-tutorial-part-2-negative-sampling/">this</a>
+tutorials on word2vec, as well as comments on the original C-implementation of
+the word2vec model</p>
+
+<h3 id="summary">Summary</h3>
+<ul>
+  <li>learning task
+    <ul>
+      <li>input is a one-hot vector of the vocabulary</li>
+      <li>hidden layer dimension = 300 (based on google’s popular word2vec on 1B dataset)</li>
+      <li>output is softmax with same dimension as input
+        <ul>
+          <li>predicts the input word’s neighboring words</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>after learning, just keep the weights leading to hidden layer!</li>
+  <li>but training this would be computationally expensive</li>
+  <li>it will also overfit on small datasets</li>
+  <li>hence, the paper suggests
+    <ul>
+      <li>treating common word-pairs as single words</li>
+      <li>subsampling frequently occuring words during training</li>
+      <li>negative sampling to only update a few percentage of the weights during backprop</li>
+    </ul>
+  </li>
+  <li>subsampling is done based on the word frequency</li>
+  <li>NS is also done based on the word frequency</li>
+</ul>
+
+<h3 id="code-annotations">code annotations</h3>
+<h4 id="word2phrasec">word2phrase.c</h4>
+<ul>
+  <li><a href="https://github.com/chrisjmccormick/word2vec_commented/blob/master/word2phrase.c">code</a></li>
+  <li>params
+    <ul>
+      <li>threshold - ratio above which to consider phrasing 2 words</li>
+      <li>min_count - discard words appearing less than this number of times</li>
+    </ul>
+  </li>
+  <li>has a custom hash function to efficiently look up vocabulary</li>
+  <li>if the vocab size &gt;= 70% of hash table, prune out the vocab to reduce hash collisions</li>
+  <li>finally writes out the “grouped” version of the input dataset</li>
+</ul>
+
+<h4 id="word2vecc">word2vec.c</h4>
+<ul>
+  <li><a href="https://github.com/chrisjmccormick/word2vec_commented/blob/master/word2vec.c">code</a></li>
+  <li>most of the basic primitives are shared with word2phrase.c</li>
+  <li>main guy is TrainModelThread, which gets called by multiple posix threads from TrainModel</li>
+  <li>learning rate will decay after every certain iterations</li>
+  <li>subsampling of frequent words done through an empirical equation
+    <ul>
+      <li>we could potentially compute and cache it before the start of training loop</li>
+    </ul>
+  </li>
+  <li>for hierarchical softmax, it creates some sort of a binary tree?</li>
+</ul>
+:ET

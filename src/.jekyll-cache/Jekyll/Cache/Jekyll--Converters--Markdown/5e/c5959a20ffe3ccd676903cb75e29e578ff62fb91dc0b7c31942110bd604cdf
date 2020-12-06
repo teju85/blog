@@ -1,0 +1,18 @@
+I"v<p>Summary of <a href="http://mghassem.mit.edu/insights-word2vec/">this</a> blog post on word2vec.</p>
+
+<ul>
+  <li>SGNS form of word2vec is the best performing method</li>
+  <li>word2vec can be seen as a matrix factorization of PMI matrix
+    <ul>
+      <li>Pointwise Mutual Information</li>
+      <li>it basically performs a weighted factorization, so might as well be better than SVD</li>
+    </ul>
+  </li>
+  <li>CBOW good when having less data, SGNS good when having more data
+    <ul>
+      <li>CBOW smooths the learning function to regularize</li>
+      <li>but data is the ultimate regularizer!</li>
+    </ul>
+  </li>
+</ul>
+:ET
