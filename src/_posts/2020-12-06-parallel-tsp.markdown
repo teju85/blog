@@ -2,7 +2,7 @@
 layout: post
 title: "Parallel GPU version of TSP"
 needmath: true
-tags: tech-notes paper-notes graph
+tags: tech-notes paper-notes graph cuda tsp
 ---
 
 ### Proposal

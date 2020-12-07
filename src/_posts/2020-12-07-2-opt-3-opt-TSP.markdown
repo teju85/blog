@@ -2,7 +2,7 @@
 layout: post
 title: "Accelerating 2-opt and 3-opt local search using GPU in TSP"
 needmath: true
-tags: tech-notes paper-notes graph
+tags: tech-notes paper-notes graph cuda tsp
 ---
 
 ### Proposal
