@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Perfecting Patience"
-tags: self-help
+tags: self-help book-notes
 ---
 
 ### Introduction
