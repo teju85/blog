@@ -1,0 +1,91 @@
+---
+layout: post
+title: "Heterogeneous Graph Transformer"
+needmath: true
+tags: tech-notes paper-notes graph gnn
+---
+
+### Proposal
+Main paper can be found [here](https://arxiv.org/abs/2003.01332).
+
+* uses meta-relations on node and edge types for heterogeneous graphs
+* proposes HGT network for working on such graphs
+* propose a HGSampling algo tailor-made for this network for the purpose of
+  minibatch training
+* propose Relative Temporal Encoding (RTE) to work with dynamic graphs
+
+### Summary
+#### Hetergeneous mutual attention
+- $$ H^l(t) = Agg_{s \in N(t)}(Att(s, t) Msg(s))$$
+- where:
+  - $$t$$ = target node
+  - $$s$$ = source nodes
+  - $$l$$ = $$l$$-th layer of the network
+  - $$H$$ = output node embedding of the layer
+  - $$Agg$$ = heterogeneous aggregation function. $$Agg(.) = \sigma(Mean(.))$$
+  - $$N$$ = neighborhood of the target node
+  - $$Att$$ = heterogeneous edgewise attention weights
+  - $$Msg$$ = heterogeneous message passing from the source nodes. $$Msg(s) = W H^{l-1}(s)$$
+  - $$L$$ = number of layers in the network
+
+- Hetergeneous Attention
+  - $$Att(s, t) = softmax_{s \in N(t)}(concat_{i \in [1,h]}(AttHead^i(s, e, t))$$
+  - $$h$$ = number of attention heads
+  - $$AttHead^i(s, e, t) = K^i(s) W^{ATT}_{\phi(e)} Q^i(t)^T \frac{\mu_{\tau(s),\phi(e),\tau(t)}}{\sqrt{d}}$$
+  - $$\phi$$ = edge types
+  - $$\tau$$ = node types
+  - $$\mu$$ = significance weights based on the meta relation triplet
+  - $$d$$ = dimensionality of the final attention output
+  - $$K^i(s) = KLinear^i_{\tau(s)}(H^{l-1}(s))$$
+  - $$Q^i(t) = QLinear^i{\tau(t)}(H^{l-1}(t))$$
+  - $$W^{ATT}_{\phi(e)}$$ = edge-based attention weights
+
+- Heterogeneous message passing
+  - $$Msg(s, e, t) = concat_{i \in [1,h]}(MsgHead^i(s, e, t))$$
+  - $$MsgHead^i(s, e, t) = MLinear^i_{\tau(s)}(H^{l-1}(s)) W^{MSG}_{\phi(e)}$$
+  - $$W^{MSG}_{\phi(e)}$$ = edge-based message weights
+
+- target specific aggregation
+  - $$H^{~(l)}(t) = \Sigma_{s \in N(t)}(Att(s, e, t) . Msg(s, e, t))$$
+  - $$H^l(t) = ALinear_{\tau(t)}(\sigma(H^{~(l)}(t))) + H^{l-1}(t)$$
+
+#### RTE
+- to help work with dynamic graphs with timestamps
+- based on Transformer's positional encoding technique
+- $$\Delta(t, s) = T(t) - T(s)$$
+- $$T$$ = timestamp associated with the nodes/edges
+- $$B(\Delta(t, s), 2i) = sin(\frac{\Delta(t, s)}{10000^{\frac{2i}{d}}})$$
+- $$B(\Delta(t, s), 2i+1) = cos(\frac{\Delta(t, s)}{10000^{\frac{2i+1}{d}}})$$
+- $$RTE(\Delta(t, s)) = TLinear(Base(\Delta(t, s)))$$
+- Finally, the input node-embeddings at $$l$$-th layer will be:
+  - $$H^{~(l)}(s) = H^{l-1}(s) + RTE(\Delta(t, s)$$
+
+#### HGSampling
+- sampling method needs to be aware of different node and edge types so as not
+  to create imbalances in sampling and reduce variance in sampling
+
+- AddInBudget(B, t, A, NS)
+- for each source node type $$\tau$$ and edge type $$\phi$$:
+  - normalized node-degree $$D_t = \frac{1}{len(A_{\tau(s), \phi(e), \tau(t)}(t))}$$
+  - for source node $$s$$ in $$A_{\tau(s), \phi(e), \tau(t)}(t)$$:
+    - if $$s$$ is not sampled:
+      - if $$s$$ has no timestamp then $$s.time = t.time$$
+      - update $$B(\tau)(s) += D_t$$
+
+- for $$t \in NS$$:
+  - AddInBudget(B, t, A, NS)
+- for $$l \in [1, L]$$:
+  - for source node type $$\tau \in B$$:
+    - for source node $$s \in B(\tau)$$:
+      - compute probability $$p^{l-1}(\tau)(s) = \frac{B(\tau)(s)^2}{L2Norm(B(\tau))^2}$$
+    - sample $$n$$ nodes $$t^n_i$$ from $$B(\tau)$$ using $$p^{l-1}(\tau)$$
+    - for $$t \in t^n_i$$:
+      - $$OS(\tau).add(t)$$
+      - AddInBudget(B, t, A, NS)
+      - $$B(\tau).pop(t)$$
+- construct the adjacency matrix for the subsampled graph
+
+- $$A$$ = adjacency matrix
+- $$B$$ = budget info used for computing probability of sampling
+- $$NS$$ = sampled node set
+- $$OS$$ = output sampled node set
