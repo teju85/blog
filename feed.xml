@@ -1,4 +1,164 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-01-22T19:18:55+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">David and Goliath</title><link href="https://teju85.github.io/blog/2021/01/22/david-and-goliath.html" rel="alternate" type="text/html" title="David and Goliath" /><published>2021-01-22T00:00:00+05:30</published><updated>2021-01-22T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/01/22/david-and-goliath</id><content type="html" xml:base="https://teju85.github.io/blog/2021/01/22/david-and-goliath.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-02-14T09:20:33+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Heterogeneous Graph Transformer</title><link href="https://teju85.github.io/blog/2021/02/13/hgt.html" rel="alternate" type="text/html" title="Heterogeneous Graph Transformer" /><published>2021-02-13T00:00:00+05:30</published><updated>2021-02-13T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/02/13/hgt</id><content type="html" xml:base="https://teju85.github.io/blog/2021/02/13/hgt.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/abs/2003.01332&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;uses meta-relations on node and edge types for heterogeneous graphs&lt;/li&gt;
+  &lt;li&gt;proposes HGT network for working on such graphs&lt;/li&gt;
+  &lt;li&gt;propose a HGSampling algo tailor-made for this network for the purpose of
+minibatch training&lt;/li&gt;
+  &lt;li&gt;propose Relative Temporal Encoding (RTE) to work with dynamic graphs&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;h4 id=&quot;hetergeneous-mutual-attention&quot;&gt;Hetergeneous mutual attention&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;H^l(t) = Agg_{s \in N(t)}(Att(s, t) Msg(s))&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;where:
+    &lt;ul&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;t&lt;/script&gt; = target node&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;s&lt;/script&gt; = source nodes&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;l&lt;/script&gt; = &lt;script type=&quot;math/tex&quot;&gt;l&lt;/script&gt;-th layer of the network&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;H&lt;/script&gt; = output node embedding of the layer&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;Agg&lt;/script&gt; = heterogeneous aggregation function. &lt;script type=&quot;math/tex&quot;&gt;Agg(.) = \sigma(Mean(.))&lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;N&lt;/script&gt; = neighborhood of the target node&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;Att&lt;/script&gt; = heterogeneous edgewise attention weights&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;Msg&lt;/script&gt; = heterogeneous message passing from the source nodes. &lt;script type=&quot;math/tex&quot;&gt;Msg(s) = W H^{l-1}(s)&lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;L&lt;/script&gt; = number of layers in the network&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Hetergeneous Attention
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;Att(s, t) = softmax_{s \in N(t)}(concat_{i \in [1,h]}(AttHead^i(s, e, t))&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;h&lt;/script&gt; = number of attention heads&lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;AttHead^i(s, e, t) = K^i(s) W^{ATT}_{\phi(e)} Q^i(t)^T \frac{\mu_{\tau(s),\phi(e),\tau(t)}}{\sqrt{d}}&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\phi&lt;/script&gt; = edge types&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\tau&lt;/script&gt; = node types&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\mu&lt;/script&gt; = significance weights based on the meta relation triplet&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;d&lt;/script&gt; = dimensionality of the final attention output&lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;K^i(s) = KLinear^i_{\tau(s)}(H^{l-1}(s))&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;Q^i(t) = QLinear^i{\tau(t)}(H^{l-1}(t))&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;W^{ATT}_{\phi(e)}&lt;/script&gt; = edge-based attention weights&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Heterogeneous message passing
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;Msg(s, e, t) = concat_{i \in [1,h]}(MsgHead^i(s, e, t))&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;MsgHead^i(s, e, t) = MLinear^i_{\tau(s)}(H^{l-1}(s)) W^{MSG}_{\phi(e)}&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;W^{MSG}_{\phi(e)}&lt;/script&gt; = edge-based message weights&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;target specific aggregation
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;H^{~(l)}(t) = \Sigma_{s \in N(t)}(Att(s, e, t) . Msg(s, e, t))&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;H^l(t) = ALinear_{\tau(t)}(\sigma(H^{~(l)}(t))) + H^{l-1}(t)&lt;/script&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;rte&quot;&gt;RTE&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;to help work with dynamic graphs with timestamps&lt;/li&gt;
+  &lt;li&gt;based on Transformer’s positional encoding technique&lt;/li&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\Delta(t, s) = T(t) - T(s)&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;T&lt;/script&gt; = timestamp associated with the nodes/edges&lt;/li&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;B(\Delta(t, s), 2i) = sin(\frac{\Delta(t, s)}{10000^{\frac{2i}{d}}})&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;B(\Delta(t, s), 2i+1) = cos(\frac{\Delta(t, s)}{10000^{\frac{2i+1}{d}}})&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;RTE(\Delta(t, s)) = TLinear(Base(\Delta(t, s)))&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Finally, the input node-embeddings at &lt;script type=&quot;math/tex&quot;&gt;l&lt;/script&gt;-th layer will be:
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;H^{~(l)}(s) = H^{l-1}(s) + RTE(\Delta(t, s)&lt;/script&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;hgsampling&quot;&gt;HGSampling&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;sampling method needs to be aware of different node and edge types so as not
+to create imbalances in sampling and reduce variance in sampling&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;AddInBudget(B, t, A, NS)&lt;/li&gt;
+  &lt;li&gt;for each source node type &lt;script type=&quot;math/tex&quot;&gt;\tau&lt;/script&gt; and edge type &lt;script type=&quot;math/tex&quot;&gt;\phi&lt;/script&gt;:
+    &lt;ul&gt;
+      &lt;li&gt;normalized node-degree &lt;script type=&quot;math/tex&quot;&gt;D_t = \frac{1}{len(A_{\tau(s), \phi(e), \tau(t)}(t))}&lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;for source node &lt;script type=&quot;math/tex&quot;&gt;s&lt;/script&gt; in &lt;script type=&quot;math/tex&quot;&gt;A_{\tau(s), \phi(e), \tau(t)}(t)&lt;/script&gt;:
+        &lt;ul&gt;
+          &lt;li&gt;if &lt;script type=&quot;math/tex&quot;&gt;s&lt;/script&gt; is not sampled:
+            &lt;ul&gt;
+              &lt;li&gt;if &lt;script type=&quot;math/tex&quot;&gt;s&lt;/script&gt; has no timestamp then &lt;script type=&quot;math/tex&quot;&gt;s.time = t.time&lt;/script&gt;&lt;/li&gt;
+              &lt;li&gt;update &lt;script type=&quot;math/tex&quot;&gt;B(\tau)(s) += D_t&lt;/script&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;for &lt;script type=&quot;math/tex&quot;&gt;t \in NS&lt;/script&gt;:
+    &lt;ul&gt;
+      &lt;li&gt;AddInBudget(B, t, A, NS)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;for &lt;script type=&quot;math/tex&quot;&gt;l \in [1, L]&lt;/script&gt;:
+    &lt;ul&gt;
+      &lt;li&gt;for source node type &lt;script type=&quot;math/tex&quot;&gt;\tau \in B&lt;/script&gt;:
+        &lt;ul&gt;
+          &lt;li&gt;for source node &lt;script type=&quot;math/tex&quot;&gt;s \in B(\tau)&lt;/script&gt;:
+            &lt;ul&gt;
+              &lt;li&gt;compute probability &lt;script type=&quot;math/tex&quot;&gt;p^{l-1}(\tau)(s) = \frac{B(\tau)(s)^2}{L2Norm(B(\tau))^2}&lt;/script&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+          &lt;li&gt;sample &lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt; nodes &lt;script type=&quot;math/tex&quot;&gt;t^n_i&lt;/script&gt; from &lt;script type=&quot;math/tex&quot;&gt;B(\tau)&lt;/script&gt; using &lt;script type=&quot;math/tex&quot;&gt;p^{l-1}(\tau)&lt;/script&gt;&lt;/li&gt;
+          &lt;li&gt;for &lt;script type=&quot;math/tex&quot;&gt;t \in t^n_i&lt;/script&gt;:
+            &lt;ul&gt;
+              &lt;li&gt;
+                &lt;script type=&quot;math/tex; mode=display&quot;&gt;OS(\tau).add(t)&lt;/script&gt;
+              &lt;/li&gt;
+              &lt;li&gt;AddInBudget(B, t, A, NS)&lt;/li&gt;
+              &lt;li&gt;
+                &lt;script type=&quot;math/tex; mode=display&quot;&gt;B(\tau).pop(t)&lt;/script&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;construct the adjacency matrix for the subsampled graph&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;A&lt;/script&gt; = adjacency matrix&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;B&lt;/script&gt; = budget info used for computing probability of sampling&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;NS&lt;/script&gt; = sampled node set&lt;/li&gt;
+  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;OS&lt;/script&gt; = output sampled node set&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">David and Goliath</title><link href="https://teju85.github.io/blog/2021/01/22/david-and-goliath.html" rel="alternate" type="text/html" title="David and Goliath" /><published>2021-01-22T00:00:00+05:30</published><updated>2021-01-22T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/01/22/david-and-goliath</id><content type="html" xml:base="https://teju85.github.io/blog/2021/01/22/david-and-goliath.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;In this book Malcolm Gladwell, through series of real life incidents, shows that
 more is not always better and less is not always bad; as paradoxical as it
 sounds! Through various examples from history, he demonstrates the importance of
@@ -1056,69 +1216,6 @@ i and j occur in the sliding window together&lt;/li&gt;
       &lt;li&gt;early stopping after 10 epochs with no decrease in validation loss&lt;/li&gt;
       &lt;li&gt;dropout rate = 0.5&lt;/li&gt;
       &lt;li&gt;10% of training as validation set&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">Graph Attention Networks</title><link href="https://teju85.github.io/blog/2020/08/09/gat.html" rel="alternate" type="text/html" title="Graph Attention Networks" /><published>2020-08-09T00:00:00+05:30</published><updated>2020-08-09T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/08/09/gat</id><content type="html" xml:base="https://teju85.github.io/blog/2020/08/09/gat.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
-&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/abs/1710.10903&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;extension of attentional layers into GNNs&lt;/li&gt;
-  &lt;li&gt;also the usage of multi-head attention into GNNs&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;compute attention coefficients as follows:
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;e_{ij} = a(Wh_i, Wh_j)&lt;/script&gt;
-      &lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;W&lt;/script&gt; = weight matrix&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;h&lt;/script&gt; = embeddings of each nodes in the graph&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;a&lt;/script&gt; = attention function to convert the input vectors into a scalar&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;normalize these across the neighborhood using softmax as follows:
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;\alpha_{ij} = \frac{exp(e_{ij})}{\Sigma_k exp(e_{ik})}&lt;/script&gt;
-      &lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;j&lt;/script&gt; varies over the neighborhood&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt; varies across neighborhood&lt;/li&gt;
-      &lt;li&gt;they use only 1-hop neighbors for this&lt;/li&gt;
-      &lt;li&gt;but they don’t seem to suggest anything about sub-sampling of neighborhood!&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;then finally apply weighted summation over the neighborhood based on the
-computed attention values as follows:
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;h'_i = \sigma(\Sigma_j \alpha_{ij} W h_j)&lt;/script&gt;
-      &lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\sigma&lt;/script&gt; = non-linearity&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;j&lt;/script&gt; varies across the neighborhood&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;they also propose to using multi-head attention as follows:
-    &lt;ul&gt;
-      &lt;li&gt;compute individual attentions for each head as above, independently&lt;/li&gt;
-      &lt;li&gt;but at the end , take a concatentaion of resulting embeddings from
-each of the heads&lt;/li&gt;
-      &lt;li&gt;and in the final layer, instead of concatenating, perform a summation&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;a full equation involving attention computation for a single head is:
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;\alpha_{ij} = \frac{exp(lr(a . h'_{ij}))}{\Sigma_k exp(lr(a . h'_{ik}))}&lt;/script&gt;
-      &lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;j&lt;/script&gt; varies over the neighborhood&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt; varies over the neighborhood&lt;/li&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;h'_{ij} = concat(Wh_i, Wh_j)&lt;/script&gt;
-      &lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;lr&lt;/script&gt; = LeakyReLu. (with a negative slope of 0.2)&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;a&lt;/script&gt; = learnable vector used for dot product with the concatenated vector&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry></feed>
