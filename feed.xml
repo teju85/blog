@@ -1,4 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-04-23T07:14:05+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Self-Discipline</title><link href="https://teju85.github.io/blog/2021/04/23/self-discipline.html" rel="alternate" type="text/html" title="Self-Discipline" /><published>2021-04-23T00:00:00+05:30</published><updated>2021-04-23T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/04/23/self-discipline</id><content type="html" xml:base="https://teju85.github.io/blog/2021/04/23/self-discipline.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-05-16T16:24:09+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Relational Graph Convolutional Network</title><link href="https://teju85.github.io/blog/2021/05/16/rgcn.html" rel="alternate" type="text/html" title="Relational Graph Convolutional Network" /><published>2021-05-16T00:00:00+05:30</published><updated>2021-05-16T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/05/16/rgcn</id><content type="html" xml:base="https://teju85.github.io/blog/2021/05/16/rgcn.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/abs/1703.06103&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Constructs GCN which is node and edge type aware, called R-GCN&lt;/li&gt;
+  &lt;li&gt;Mainly useful for relational multi-graphs&lt;/li&gt;
+  &lt;li&gt;Demonstrate its effectiveness over entity classification and link prediction
+tasks&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;R-GCN layer is defined with the following equation&lt;/li&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;h_i^{l+1} = \sigma( \Sigma_{r \in R} \Sigma_{j \in N_i^r} \frac{1}{c_{i,r}} W_r^l h_j^l + W_0^l h_i^l)&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;where:
+    &lt;ul&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;R&lt;/script&gt; = set of all relations&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;l&lt;/script&gt; = l-th layer in the R-GCN model&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;h_i&lt;/script&gt; = hidden embeddings of i-th node&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\sigma&lt;/script&gt; = activation function&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;N_i^r&lt;/script&gt; = neighborhood of i-th node on relation type r&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;c_{i,r}&lt;/script&gt; = normalization value which can be learnt are a constant (eg: &lt;script type=&quot;math/tex&quot;&gt;\|N_i^r\|&lt;/script&gt;)&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;W_r^l&lt;/script&gt; = weights for the l-th layer on relation type r&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;W_0^l&lt;/script&gt; = weights for the l-th layer on self-loop&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;basis decomposition based regularization
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;W_r^l = \Sigma_{b \in [0,B)} a_{rb}^l V_b^l&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;a_{rb}^l&lt;/script&gt; = coefficients to be learnt&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;V_b^l&lt;/script&gt; = basis matrices to be learnt&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;B&lt;/script&gt; = number of bases&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;block-diagonal based regularization
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;W_r^l = diag_{b \in [0,B)} Q_{br}^l&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;Q_{br}^l&lt;/script&gt; = matrices to be learnt of dimension &lt;script type=&quot;math/tex&quot;&gt;\frac{d^{l+1}}{B} \times \frac{d^{l}}{B}&lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;d^l&lt;/script&gt; = embedding dimension of l-th layer&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">Self-Discipline</title><link href="https://teju85.github.io/blog/2021/04/23/self-discipline.html" rel="alternate" type="text/html" title="Self-Discipline" /><published>2021-04-23T00:00:00+05:30</published><updated>2021-04-23T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/04/23/self-discipline</id><content type="html" xml:base="https://teju85.github.io/blog/2021/04/23/self-discipline.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;A short book by Curtis Leone talks about the reasons most of lack the
 self-discipline needed to achieve our goals and steps to be taken in order to
 improve it. This book can be found
@@ -1663,29 +1710,4 @@ the available shared memory capacity on the chip.&lt;/li&gt;
   &lt;li&gt;the authors however do not talk about the number of climbers used in their
 code or even the algorithm used by them (I &lt;em&gt;think&lt;/em&gt; it is IHC as used in the
 base paper mentioned above).&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="cuda" /><category term="tsp" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">Parallel GPU version of TSP</title><link href="https://teju85.github.io/blog/2020/12/06/parallel-tsp.html" rel="alternate" type="text/html" title="Parallel GPU version of TSP" /><published>2020-12-06T00:00:00+05:30</published><updated>2020-12-06T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/12/06/parallel-tsp</id><content type="html" xml:base="https://teju85.github.io/blog/2020/12/06/parallel-tsp.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
-&lt;p&gt;Main paper can be found &lt;a href=&quot;https://userweb.cs.txstate.edu/~burtscher/papers/pdpta11b.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;An optimized GPU version of TSP solver using Iterative Hill Climbing (IHC)
-technique&lt;/li&gt;
-  &lt;li&gt;Paper limits itself to 100-cities with 100,000 random restarts.&lt;/li&gt;
-  &lt;li&gt;However, the techniques suggested here can be generalized&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;each thread works on one of the climbers.
-    &lt;ul&gt;
-      &lt;li&gt;continues to perform the 4851 2-opt moves in each IHC step, until convergence&lt;/li&gt;
-      &lt;li&gt;FYI, &lt;script type=&quot;math/tex&quot;&gt;4851 = \frac{(100 - 1) * (100 - 2)}{2}&lt;/script&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;after convergence of each climber, a global atomicCAS is performed in order to
-update the best solution found so far&lt;/li&gt;
-  &lt;li&gt;they only compute the incremental TSP cost instead of computing the full path
-cost inside IHC step and only compute the global path cost after convergence&lt;/li&gt;
-  &lt;li&gt;all threads continue to fetch their next climber from a global queue until it
-is exhausted&lt;/li&gt;
-  &lt;li&gt;distance matrix is assumed to be pre-computed (for edge weights)&lt;/li&gt;
 &lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="cuda" /><category term="tsp" /><summary type="html">Proposal Main paper can be found here.</summary></entry></feed>
