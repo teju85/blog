@@ -1,0 +1,36 @@
+---
+layout: post
+title: "Relational Graph Convolutional Network"
+needmath: true
+tags: tech-notes paper-notes graph gnn
+---
+
+### Proposal
+Main paper can be found [here](https://arxiv.org/abs/1703.06103).
+
+* Constructs GCN which is node and edge type aware, called R-GCN
+* Mainly useful for relational multi-graphs
+* Demonstrate its effectiveness over entity classification and link prediction
+  tasks
+
+### Summary
+- R-GCN layer is defined with the following equation
+- $$ h_i^{l+1} = \sigma( \Sigma_{r \in R} \Sigma_{j \in N_i^r} \frac{1}{c_{i,r}} W_r^l h_j^l + W_0^l h_i^l)$$
+- where:
+  - $$R$$ = set of all relations
+  - $$l$$ = l-th layer in the R-GCN model
+  - $$h_i$$ = hidden embeddings of i-th node
+  - $$\sigma$$ = activation function
+  - $$N_i^r$$ = neighborhood of i-th node on relation type r
+  - $$c_{i,r}$$ = normalization value which can be learnt are a constant (eg: $$\|N_i^r\|$$)
+  - $$W_r^l$$ = weights for the l-th layer on relation type r
+  - $$W_0^l$$ = weights for the l-th layer on self-loop
+- basis decomposition based regularization
+  - $$W_r^l = \Sigma_{b \in [0,B)} a_{rb}^l V_b^l$$
+  - $$a_{rb}^l$$ = coefficients to be learnt
+  - $$V_b^l$$ = basis matrices to be learnt
+  - $$B$$ = number of bases
+- block-diagonal based regularization
+  - $$W_r^l = diag_{b \in [0,B)} Q_{br}^l$$
+  - $$Q_{br}^l$$ = matrices to be learnt of dimension $$\frac{d^{l+1}}{B} \times \frac{d^{l}}{B}$$
+  - $$d^l$$ = embedding dimension of l-th layer
