@@ -1,4 +1,47 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-07-15T15:53:29+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">DistGNN: Scalable Distributed Training for Large-Scale Graph Neural Networks</title><link href="https://teju85.github.io/blog/2021/07/15/distgnn.html" rel="alternate" type="text/html" title="DistGNN: Scalable Distributed Training for Large-Scale Graph Neural Networks" /><published>2021-07-15T00:00:00+05:30</published><updated>2021-07-15T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/15/distgnn</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/15/distgnn.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-07-19T10:52:28+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">R-MAT: A Recursive Model for Graph Mining</title><link href="https://teju85.github.io/blog/2021/07/19/rmat.html" rel="alternate" type="text/html" title="R-MAT: A Recursive Model for Graph Mining" /><published>2021-07-19T00:00:00+05:30</published><updated>2021-07-19T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/19/rmat</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/19/rmat.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+&lt;p&gt;Main paper can be found &lt;a href=&quot;http://www.cs.cmu.edu/~christos/PUBLICATIONS/siam04.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;recursive and procedural approach to building real-world-like graphs&lt;/li&gt;
+  &lt;li&gt;Erdos-Renyi model becomes a special case of this approach (with a = b = c = d = 0.25)&lt;/li&gt;
+  &lt;li&gt;proposes an AutoMAT-fast parameter fitting algorithm&lt;/li&gt;
+  &lt;li&gt;generates graphs with:
+    &lt;ul&gt;
+      &lt;li&gt;power-law distribution&lt;/li&gt;
+      &lt;li&gt;directed, undirected or bipartite properties&lt;/li&gt;
+      &lt;li&gt;very efficient &lt;script type=&quot;math/tex&quot;&gt;O(E log(E) log(N))&lt;/script&gt; complexity&lt;/li&gt;
+      &lt;li&gt;can also generate “winner does not take all” kind of graphs too&lt;/li&gt;
+      &lt;li&gt;generate communities (and also sub-communities within communities)&lt;/li&gt;
+      &lt;li&gt;smaller diameter (proved experimentally in this paper)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Parameters:
+    &lt;ul&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;N&lt;/script&gt; - number of nodes in the graph&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;E&lt;/script&gt; - number of edges in the graph&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;2^n&lt;/script&gt; - number of nodes in the RMAT graph (where &lt;script type=&quot;math/tex&quot;&gt;n = ceil(log2(N))&lt;/script&gt;)&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;a, b, c, d&lt;/script&gt; - probabilities of each quadrant in the adjacency matrix&lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;a + b + c + d  = 1&lt;/script&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Typically: &lt;script type=&quot;math/tex&quot;&gt;a \ge b&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;a \ge c&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;a \ge d&lt;/script&gt;&lt;/li&gt;
+  &lt;li&gt;Main algo
+    &lt;ul&gt;
+      &lt;li&gt;pick the quadrant based on the probabilities &lt;script type=&quot;math/tex&quot;&gt;a, b, c, d&lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;keep doing this until we hit the “leaf node” which is the pair of nodes which
+will get an edge&lt;/li&gt;
+      &lt;li&gt;repeat this until we have &lt;script type=&quot;math/tex&quot;&gt;E&lt;/script&gt; edges&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;to smooth out fluctuations in the degree distributions, these probabilities are
+perturbed (and renormalized) slightly at each level&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">DistGNN: Scalable Distributed Training for Large-Scale Graph Neural Networks</title><link href="https://teju85.github.io/blog/2021/07/15/distgnn.html" rel="alternate" type="text/html" title="DistGNN: Scalable Distributed Training for Large-Scale Graph Neural Networks" /><published>2021-07-15T00:00:00+05:30</published><updated>2021-07-15T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/15/distgnn</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/15/distgnn.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/2104.06700.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
@@ -1469,237 +1512,4 @@ experiences. There’s always a difference between what we perceive and what the
 reality is. The conclusion here is that things are not independent or inherent
 as we think of them as. But instead, things are dependent on other factors.
 This is what is meant by meditating on emptiness.&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="self-help" /><category term="book-notes" /><summary type="html">Introduction In this book Dalai Lama discusses the Buddhist practices for perfecting patience and tolerance, to help overcome anger and hatred. But I found that all the techniques that he shows here can be practiced by Buddhists and non-Buddhists alike. This book can be found here.</summary></entry><entry><title type="html">Pranic Energization Technique</title><link href="https://teju85.github.io/blog/2020/12/29/pet.html" rel="alternate" type="text/html" title="Pranic Energization Technique" /><published>2020-12-29T00:00:00+05:30</published><updated>2020-12-29T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2020/12/29/pet</id><content type="html" xml:base="https://teju85.github.io/blog/2020/12/29/pet.html">&lt;h3 id=&quot;pranic-energization-technique&quot;&gt;Pranic Energization Technique&lt;/h3&gt;
-&lt;p&gt;PET (short for “Pranic Energization Technique”) is a book written by
-Dr. H. R. Nagendra to show how to use our Prana Shakthi to energize the whole
-body and reversing the long-term effects of negative thoughts. This book can be
-found &lt;a href=&quot;https://www.amazon.com/Pranic-Energisation-Technique-PET-Nagendra/dp/8187313102&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;h4 id=&quot;intro&quot;&gt;Intro&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;PET - short for Pranic Energization Technique.&lt;/li&gt;
-  &lt;li&gt;It is the usage of Prana Shakthi to energize our entire body&lt;/li&gt;
-  &lt;li&gt;It is an advanced form of yoga&lt;/li&gt;
-  &lt;li&gt;Prana (life) manifests itself in 5 functional forms in our body:
-    &lt;ul&gt;
-      &lt;li&gt;Prana - which controls upper body and respiration&lt;/li&gt;
-      &lt;li&gt;Apana - which controls lower body and excretion&lt;/li&gt;
-      &lt;li&gt;Samana - controls abdominal region and digestion&lt;/li&gt;
-      &lt;li&gt;Udana - controls upwards movements like belching, vomiting, etc&lt;/li&gt;
-      &lt;li&gt;Vyana - one which controls touch and is all through the body&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;breath-awareness&quot;&gt;Breath awareness&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;first step towards realizing Prana Shakthi in PET.&lt;/li&gt;
-  &lt;li&gt;respiration involves 3 phases
-    &lt;ul&gt;
-      &lt;li&gt;inspiration aka Puraka&lt;/li&gt;
-      &lt;li&gt;hold aka Kumbhaka&lt;/li&gt;
-      &lt;li&gt;expiration aka Rechaka&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;start by noticing the breath (to recognize any imbalances or irregularities)
-    &lt;ul&gt;
-      &lt;li&gt;sit in any comfortable position or Shavasana&lt;/li&gt;
-      &lt;li&gt;start watching the breath at the top of the nose&lt;/li&gt;
-      &lt;li&gt;recognize any imbalances in breath (eg: breath flow between 2 nostrils), but
-don’t control them&lt;/li&gt;
-      &lt;li&gt;observe breath becoming continuous, regular and smooth&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;just the act of observing these imbalances helps in reducing them&lt;/li&gt;
-  &lt;li&gt;it is believed that left nostril breathing promotes right-lobe of brain and
-vice-versa. In yoga:
-    &lt;ul&gt;
-      &lt;li&gt;left nostril breathing implies Chandra Nadi Prana flow, which is soothing in
-nature&lt;/li&gt;
-      &lt;li&gt;right nostril breathing implies Surya Nadi Prana flow, which is energizing
-in nature&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Nadi Shuddhi Pranayama
-    &lt;ul&gt;
-      &lt;li&gt;a balancing technique for breathing&lt;/li&gt;
-      &lt;li&gt;take up Sthiti posture&lt;/li&gt;
-      &lt;li&gt;adopt Nasika Mudra in right hand&lt;/li&gt;
-      &lt;li&gt;inhale through left nostril while closing right nostril with the thumb&lt;/li&gt;
-      &lt;li&gt;enjoy the Kevala Kumbhaka&lt;/li&gt;
-      &lt;li&gt;open the right nostril and exhale while closing the left nostril via the
-ring and index fingers&lt;/li&gt;
-      &lt;li&gt;enjoy the Kevala Kumbhaka&lt;/li&gt;
-      &lt;li&gt;repeat vice-versa on the other side&lt;/li&gt;
-      &lt;li&gt;repeat the whole thing for 9 rounds&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Kapalabhathi
-    &lt;ul&gt;
-      &lt;li&gt;for folks with nasal blockage or observing drowsiness during Nadi Shuddhi
-Pranayama can instead practice this&lt;/li&gt;
-      &lt;li&gt;cleanses respiratory tract and stimulates brain cells&lt;/li&gt;
-      &lt;li&gt;sit in Vajrasana or Padmasana&lt;/li&gt;
-      &lt;li&gt;adopt Nasika Mudra in right hand&lt;/li&gt;
-      &lt;li&gt;close right nostril with the thumb and breathe in fully through the left
-nostril while bulging the abdominal muscles (aka diaphragmatic breathing)&lt;/li&gt;
-      &lt;li&gt;close the left nostril with little and ring fingers. Open the right nostril&lt;/li&gt;
-      &lt;li&gt;exhale with a burst as fast as possible by sucking in abdominal muscles&lt;/li&gt;
-      &lt;li&gt;repeat vice-versa on the other side&lt;/li&gt;
-      &lt;li&gt;repeat the whole for 60 rounds (at a speed of 60 rounds per minute)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Cautions with Kapalabhati practive
-    &lt;ul&gt;
-      &lt;li&gt;always do this under empty stomach only&lt;/li&gt;
-      &lt;li&gt;don’t contort facial muscles&lt;/li&gt;
-      &lt;li&gt;don’t twist nostrils&lt;/li&gt;
-      &lt;li&gt;don’t practice if: having high BP, IHD, slip disk, under menstruation, under
-pregnancy, spondylosis, etc&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;awareness-and-relaxation&quot;&gt;Awareness and relaxation&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;improving awareness and sensitivity
-    &lt;ul&gt;
-      &lt;li&gt;start with pointed awareness (aka attention)&lt;/li&gt;
-      &lt;li&gt;carefully trace the movement of breath from nose tip all the way to the lungs
-and back. Feel the coolness of air while inspiration and warmness during the
-expiration.&lt;/li&gt;
-      &lt;li&gt;reach a stage of maintaining continuous line of awareness through the path of
-breathing&lt;/li&gt;
-      &lt;li&gt;gradually expand this linear awareness to the inner surfaces of the entire
-respiratory tract&lt;/li&gt;
-      &lt;li&gt;notice that the breathing stops during end of inhalation and start of
-exhalation and vice-versa (aka Kevala Kumbhaka). This induces deep rest and
-relaxation&lt;/li&gt;
-      &lt;li&gt;we can now start feeling our heart beat, pulses in blood vessels. This is the
-state of 3D awareness, over the entire body&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Bhramari Pranayama
-    &lt;ul&gt;
-      &lt;li&gt;while exhaling produce a humming sound, like a bee&lt;/li&gt;
-      &lt;li&gt;elongate the duration of humming/breathing without disturbing the flow&lt;/li&gt;
-      &lt;li&gt;enjoy the Kevala Kumbhaka and the sound vibrations throughout the body&lt;/li&gt;
-      &lt;li&gt;repeat for 9 times&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Resonance in Bhramari is the key thing. We should adjust our frequency of the
-produced sound so as to feel the resonance throughout the body.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;sensitization-recognition-and-vyana&quot;&gt;Sensitization, Recognition and Vyana&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;Mudras - yogic practice to evoke Prana and further sensitize and recognizing
-nerve impulses.&lt;/li&gt;
-  &lt;li&gt;Kriya Mudras - for cleansing&lt;/li&gt;
-  &lt;li&gt;Asana Mudras - practised with breath locks to clam the mind&lt;/li&gt;
-  &lt;li&gt;Pranayama Mudras - associated during pranayama in order to sensitize vyana.&lt;/li&gt;
-  &lt;li&gt;Sakthi Calini Mudras - to invoke dormant powers within us&lt;/li&gt;
-  &lt;li&gt;Dhyana Mudras - for meditation&lt;/li&gt;
-  &lt;li&gt;Jnana Mudras - for Rsis&lt;/li&gt;
-  &lt;li&gt;Recognition of nerve impulses - in PET Adi, Cin, Cinmaya and
-Namaskara mudras are used for this purpose
-    &lt;ul&gt;
-      &lt;li&gt;sit in a comfortable position and relax the whole body&lt;/li&gt;
-      &lt;li&gt;place hands on thighs and adopt Cin mudra&lt;/li&gt;
-      &lt;li&gt;observe pulse and heart beat sync&lt;/li&gt;
-      &lt;li&gt;open the fingers in Cin mudra and touch again, now recognize the nerve
-impulses going from fingers to the brain&lt;/li&gt;
-      &lt;li&gt;now adopt Cinmaya mudra&lt;/li&gt;
-      &lt;li&gt;press and release the other fingers and feel the impulses (repeat 9 rounds)&lt;/li&gt;
-      &lt;li&gt;adopt Adi mudra and repeat this press and releas process&lt;/li&gt;
-      &lt;li&gt;similarly adopt Namaskara mudra and repeat&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Recognition of Vyana: nerve impulses is always unidirectional, to the brain
-and they travel at a fixed speed. Vyana has none of these limitations.
-    &lt;ul&gt;
-      &lt;li&gt;move the palms in and out, bring the palms as close as ~2cms gap between.
-Feel that region between the palms getting sensitized. We are experiencing
-Vyana in this space. Now rotate both palms clock and anti-clock wise in
-order to churn Vyana.&lt;/li&gt;
-      &lt;li&gt;it is this perception of Vyana that will be utilized to energize our systems
-and also to improve our immune system.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;rotation-and-energization&quot;&gt;Rotation and Energization&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;Yoga provides a holistic solution to improving our immune system, which is
-known to get degraded due to stresses in our daily lives.
-    &lt;ul&gt;
-      &lt;li&gt;first level is handling at the body level by performing various asanas in
-order to improve flexibility and release stress&lt;/li&gt;
-      &lt;li&gt;second level is by slowing and balancing of breath through pranayama&lt;/li&gt;
-      &lt;li&gt;third level is by handling at emotional and mental levels through yoga nidra
-and cyclic meditation&lt;/li&gt;
-      &lt;li&gt;fourth level is by using the wisdom from Upanishads to correct our notions
-about happiness, life, misery and death.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;rotating and energization of vyana
-    &lt;ul&gt;
-      &lt;li&gt;place the palms on the knees&lt;/li&gt;
-      &lt;li&gt;start moving prana from right heel to right calf, right thigh, right buttock
-right back and similarly start moving prana from right hand to arm to shoulder
-to joints to neck to back of the head, top of head and then coming down from
-the front right side of the body all the way back to heel and fingers&lt;/li&gt;
-      &lt;li&gt;repeat this for the left side&lt;/li&gt;
-      &lt;li&gt;now rotate prana simultaneously from both sides&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;growth-and-levels-of-consciousness&quot;&gt;growth and levels of consciousness&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;silence is a state in which the mind, body, prana, emotions and intellect are
-completely nullified and are unified with the universe&lt;/li&gt;
-  &lt;li&gt;practicing silence
-    &lt;ul&gt;
-      &lt;li&gt;feel the prana around the body expanding and diffusing into the blue sky&lt;/li&gt;
-      &lt;li&gt;experience the bliss associated with it&lt;/li&gt;
-      &lt;li&gt;stay for as long as you can&lt;/li&gt;
-      &lt;li&gt;if other thoughts come up, focus back on the difussion of prana into the sky&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;harnessing-the-will-and-resolution&quot;&gt;harnessing the will and resolution&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;resolution is a clear and positive thought (eg: I’m ever happy)&lt;/li&gt;
-  &lt;li&gt;we are what we think we are. Such is the power of a thought!&lt;/li&gt;
-  &lt;li&gt;So, a strong positive resolution is very essential&lt;/li&gt;
-  &lt;li&gt;to be happy, at a state of bliss is everyone’s birthright. All the negative
-states are unnatural&lt;/li&gt;
-  &lt;li&gt;mind is the cause for both bondage and freedom. Our thoughts can transform us&lt;/li&gt;
-  &lt;li&gt;for maximal effect, such a positive resolve needs to be made when we are in
-the blissful state of silence (as described earlier)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;prananusandhana-and-quality-of-life&quot;&gt;prananusandhana and quality of life&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;PET is best practiced half hour during morning and evening of each day&lt;/li&gt;
-  &lt;li&gt;but for best results, we should spread the experience of prana throughout the
-day (aka Anusandhana - act of recollection of prana for revitalizing the whole
-being)&lt;/li&gt;
-  &lt;li&gt;steps are as follows
-    &lt;ul&gt;
-      &lt;li&gt;build an awareness of breath throughout the day. Make sure that the breath
-is balanced between the 2 nostrils&lt;/li&gt;
-      &lt;li&gt;expand the awareness of breath throughout the respiratory tract&lt;/li&gt;
-      &lt;li&gt;feel the nerve impulses&lt;/li&gt;
-      &lt;li&gt;sensitize further to feel vyana, spread it throughout the body&lt;/li&gt;
-      &lt;li&gt;apply rotate and control of vyana flows in order to balance it all across&lt;/li&gt;
-      &lt;li&gt;enjoy the diffusion of vyana beyond the body&lt;/li&gt;
-      &lt;li&gt;retain this blissful awareness of prana throughout the day&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;continuously introspect and track the growth (if we can measure it, we
-certainly can improve it!)&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="yoga" /><category term="health" /><summary type="html">Pranic Energization Technique PET (short for “Pranic Energization Technique”) is a book written by Dr. H. R. Nagendra to show how to use our Prana Shakthi to energize the whole body and reversing the long-term effects of negative thoughts. This book can be found here.</summary></entry></feed>
+&lt;/ul&gt;</content><author><name></name></author><category term="self-help" /><category term="book-notes" /><summary type="html">Introduction In this book Dalai Lama discusses the Buddhist practices for perfecting patience and tolerance, to help overcome anger and hatred. But I found that all the techniques that he shows here can be practiced by Buddhists and non-Buddhists alike. This book can be found here.</summary></entry></feed>
