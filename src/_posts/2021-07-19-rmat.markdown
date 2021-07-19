@@ -1,0 +1,36 @@
+---
+layout: post
+title: "R-MAT: A Recursive Model for Graph Mining"
+needmath: true
+tags: tech-notes paper-notes graph
+---
+
+### Proposal
+Main paper can be found [here](http://www.cs.cmu.edu/~christos/PUBLICATIONS/siam04.pdf).
+
+* recursive and procedural approach to building real-world-like graphs
+* Erdos-Renyi model becomes a special case of this approach (with a = b = c = d = 0.25)
+* proposes an AutoMAT-fast parameter fitting algorithm
+* generates graphs with:
+  - power-law distribution
+  - directed, undirected or bipartite properties
+  - very efficient $$O(E log(E) log(N))$$ complexity
+  - can also generate "winner does not take all" kind of graphs too
+  - generate communities (and also sub-communities within communities)
+  - smaller diameter (proved experimentally in this paper)
+
+### Summary
+- Parameters:
+  - $$N$$ - number of nodes in the graph
+  - $$E$$ - number of edges in the graph
+  - $$2^n$$ - number of nodes in the RMAT graph (where $$n = ceil(log2(N))$$)
+  - $$a, b, c, d$$ - probabilities of each quadrant in the adjacency matrix
+  - $$a + b + c + d  = 1$$
+- Typically: $$a \ge b$$ and $$a \ge c$$ and $$a \ge d$$
+- Main algo
+  - pick the quadrant based on the probabilities $$a, b, c, d$$
+  - keep doing this until we hit the "leaf node" which is the pair of nodes which
+    will get an edge
+  - repeat this until we have $$E$$ edges
+- to smooth out fluctuations in the degree distributions, these probabilities are
+  perturbed (and renormalized) slightly at each level
