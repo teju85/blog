@@ -1,4 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-07-19T10:52:28+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">R-MAT: A Recursive Model for Graph Mining</title><link href="https://teju85.github.io/blog/2021/07/19/rmat.html" rel="alternate" type="text/html" title="R-MAT: A Recursive Model for Graph Mining" /><published>2021-07-19T00:00:00+05:30</published><updated>2021-07-19T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/19/rmat</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/19/rmat.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-07-22T09:03:39+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Debloating Redmi 7A</title><link href="https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat.html" rel="alternate" type="text/html" title="Debloating Redmi 7A" /><published>2021-07-22T00:00:00+05:30</published><updated>2021-07-22T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat.html">&lt;p&gt;Assuming you are inside the &lt;code class=&quot;highlighter-rouge&quot;&gt;adb shell&lt;/code&gt;, running the below commands would remove
+all the unnecessary apps from Redmi 7A. This does NOT require you to be root.
+However, as expected, the .apk of these apps would still be available inside
+&lt;code class=&quot;highlighter-rouge&quot;&gt;/data/app&lt;/code&gt; folder.&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.miui.compass                  &lt;span class=&quot;c&quot;&gt;# Mi Compass&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.facebook.appmanager           &lt;span class=&quot;c&quot;&gt;# Facebook&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.facebook.system
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.facebook.services
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.miui.yellowpage               &lt;span class=&quot;c&quot;&gt;# Mi Yellow Pages &lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.mipay.wallet.in               &lt;span class=&quot;c&quot;&gt;# Mi Pay&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.xiaomi.payment
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.miui.weather2                 &lt;span class=&quot;c&quot;&gt;# Mi Weather&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.miui.screenrecorder           &lt;span class=&quot;c&quot;&gt;# Screen Recorder&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.miui.player                   &lt;span class=&quot;c&quot;&gt;# Music&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.xiaomi.scanner                &lt;span class=&quot;c&quot;&gt;# Scanner&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.xiaomi.midrop                 &lt;span class=&quot;c&quot;&gt;# ShareMe&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.miui.analytics                &lt;span class=&quot;c&quot;&gt;# Analytics&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.xiaomi.mipicks                &lt;span class=&quot;c&quot;&gt;# GetApps&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.miui.android.fashiongallery   &lt;span class=&quot;c&quot;&gt;# Wallpaper Carousel (Got &quot;Failure [-1000]&quot;!!)&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.miui.msa.global               &lt;span class=&quot;c&quot;&gt;# Mi Ads service&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.miui.micloudsync              &lt;span class=&quot;c&quot;&gt;# Mi Cloud&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.miui.cloudbackup
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.miui.cloudservice
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.miui.cloudservice.sysbase
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 &lt;span class=&quot;nt&quot;&gt;-k&lt;/span&gt; com.android.thememanager       &lt;span class=&quot;c&quot;&gt;# Themes&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.xiaomi.glgm                   &lt;span class=&quot;c&quot;&gt;# Mi Games&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.miui.backup                   &lt;span class=&quot;c&quot;&gt;# Mi Backup&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.tencent.soter.soterserver     &lt;span class=&quot;c&quot;&gt;# Tencent app!?&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.miui.bugreport                &lt;span class=&quot;c&quot;&gt;# Mi bug report&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.miui.miservice                &lt;span class=&quot;c&quot;&gt;# Services &amp;amp; Feedback&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.xiaomi.joyose                 &lt;span class=&quot;c&quot;&gt;# ??&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.xiaomi.miplay_client          &lt;span class=&quot;c&quot;&gt;# MiPlayClient&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.android.chrome                &lt;span class=&quot;c&quot;&gt;# Chrome browser (I use Firefox)&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.netflix.partner.activation    &lt;span class=&quot;c&quot;&gt;# Netflix!?&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.miui.miwallpaper              &lt;span class=&quot;c&quot;&gt;# Mi Wallpaper&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.android.wallpaper.livepicker
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.android.wallpaperbackup
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.android.wallpapercropper
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.xiaomi.xmsf                   &lt;span class=&quot;c&quot;&gt;# Xiaomi service framework&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.xiaomi.xmsfkeeper
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.miui.hybrid                   &lt;span class=&quot;c&quot;&gt;# Quick Apps&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.miui.hybrid.accessory
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.xiaomi.account                &lt;span class=&quot;c&quot;&gt;# Mi Account&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.google.android.apps.wellbeing &lt;span class=&quot;c&quot;&gt;# Google Digital Wellbeing&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.google.android.feedback       &lt;span class=&quot;c&quot;&gt;# Google feedback&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.google.android.videos         &lt;span class=&quot;c&quot;&gt;# Google Play Movies &amp;amp; TV&lt;/span&gt;
+pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.google.android.music          &lt;span class=&quot;c&quot;&gt;# Google Play Music&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="android" /><summary type="html">Assuming you are inside the adb shell, running the below commands would remove all the unnecessary apps from Redmi 7A. This does NOT require you to be root. However, as expected, the .apk of these apps would still be available inside /data/app folder. pm uninstall --user 0 com.miui.compass # Mi Compass pm uninstall --user 0 com.facebook.appmanager # Facebook pm uninstall --user 0 com.facebook.system pm uninstall --user 0 com.facebook.services pm uninstall --user 0 com.miui.yellowpage # Mi Yellow Pages pm uninstall --user 0 com.mipay.wallet.in # Mi Pay pm uninstall --user 0 com.xiaomi.payment pm uninstall --user 0 com.miui.weather2 # Mi Weather pm uninstall --user 0 com.miui.screenrecorder # Screen Recorder pm uninstall --user 0 com.miui.player # Music pm uninstall --user 0 com.xiaomi.scanner # Scanner pm uninstall --user 0 com.xiaomi.midrop # ShareMe pm uninstall --user 0 com.miui.analytics # Analytics pm uninstall --user 0 com.xiaomi.mipicks # GetApps pm uninstall --user 0 com.miui.android.fashiongallery # Wallpaper Carousel (Got &quot;Failure [-1000]&quot;!!) pm uninstall --user 0 com.miui.msa.global # Mi Ads service pm uninstall --user 0 com.miui.micloudsync # Mi Cloud pm uninstall --user 0 com.miui.cloudbackup pm uninstall --user 0 com.miui.cloudservice pm uninstall --user 0 com.miui.cloudservice.sysbase pm uninstall --user 0 -k com.android.thememanager # Themes pm uninstall --user 0 com.xiaomi.glgm # Mi Games pm uninstall --user 0 com.miui.backup # Mi Backup pm uninstall --user 0 com.tencent.soter.soterserver # Tencent app!? pm uninstall --user 0 com.miui.bugreport # Mi bug report pm uninstall --user 0 com.miui.miservice # Services &amp;amp; Feedback pm uninstall --user 0 com.xiaomi.joyose # ?? pm uninstall --user 0 com.xiaomi.miplay_client # MiPlayClient pm uninstall --user 0 com.android.chrome # Chrome browser (I use Firefox) pm uninstall --user 0 com.netflix.partner.activation # Netflix!? pm uninstall --user 0 com.miui.miwallpaper # Mi Wallpaper pm uninstall --user 0 com.android.wallpaper.livepicker pm uninstall --user 0 com.android.wallpaperbackup pm uninstall --user 0 com.android.wallpapercropper pm uninstall --user 0 com.xiaomi.xmsf # Xiaomi service framework pm uninstall --user 0 com.xiaomi.xmsfkeeper pm uninstall --user 0 com.miui.hybrid # Quick Apps pm uninstall --user 0 com.miui.hybrid.accessory pm uninstall --user 0 com.xiaomi.account # Mi Account pm uninstall --user 0 com.google.android.apps.wellbeing # Google Digital Wellbeing pm uninstall --user 0 com.google.android.feedback # Google feedback pm uninstall --user 0 com.google.android.videos # Google Play Movies &amp;amp; TV pm uninstall --user 0 com.google.android.music # Google Play Music</summary></entry><entry><title type="html">R-MAT: A Recursive Model for Graph Mining</title><link href="https://teju85.github.io/blog/2021/07/19/rmat.html" rel="alternate" type="text/html" title="R-MAT: A Recursive Model for Graph Mining" /><published>2021-07-19T00:00:00+05:30</published><updated>2021-07-19T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/19/rmat</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/19/rmat.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;http://www.cs.cmu.edu/~christos/PUBLICATIONS/siam04.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
@@ -1358,158 +1405,4 @@ method (probably do it at the end of each day)
       &lt;li&gt;reflect on why each of those good things have happened&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="leadership" /><category term="udemy-notes" /><summary type="html">Introduction This online video course by Robin Hills introduces students to the concept of Emotional Intelligence and why and how is it essential at work place. This course can be found here. Given below are the raw notes I took while attending this course.</summary></entry><entry><title type="html">Perfecting Patience</title><link href="https://teju85.github.io/blog/2021/01/10/perfecting-patience.html" rel="alternate" type="text/html" title="Perfecting Patience" /><published>2021-01-10T00:00:00+05:30</published><updated>2021-01-10T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/01/10/perfecting-patience</id><content type="html" xml:base="https://teju85.github.io/blog/2021/01/10/perfecting-patience.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
-&lt;p&gt;In this book Dalai Lama discusses the Buddhist practices for perfecting patience
-and tolerance, to help overcome anger and hatred. But I found that all the
-techniques that he shows here can be practiced by Buddhists and non-Buddhists
-alike. This book can be found
-&lt;a href=&quot;https://www.penguinrandomhouse.com/books/576117/perfecting-patience-by-the-dalai-lama-translated-by-thupten-jinpa/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;h4 id=&quot;the-challenge-of-patience&quot;&gt;the challenge of patience&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;a moment of anger can destroy the lifetime of merit - Shantideva
-    &lt;ul&gt;
-      &lt;li&gt;at first this sounds far fetched and extreme, but if you take into account
-the ripple effects of anger, this is certainly true&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;patience cannot be practiced in isolation but in our day to day interaction
-with other people&lt;/li&gt;
-  &lt;li&gt;patience can only be developed once we have some control over our anger&lt;/li&gt;
-  &lt;li&gt;three characteristics of patience are tolerance:
-    &lt;ul&gt;
-      &lt;li&gt;based on conscious acceptance of pain and hardship, which helps in
-understanding others pain and suffering and be compassionate towards them&lt;/li&gt;
-      &lt;li&gt;resulting from reflecting on the nature of reality. The more we are attached
-to something the more likely we get angry if we perceive a threat to it. We
-need to realise that the actions of others are never done in isolation but
-are related to the complex interdependencies in this world.&lt;/li&gt;
-      &lt;li&gt;towards injuries from others. In reality, you cannot separate the person
-from the circumstance that caused him to injure you and only hate him or get
-angry at him. Shantideva goes a step further and asks us to consider these
-enemies as very precious, since they are the ones who can help us practice
-patience!&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;there’s no evil like hatred. There’s no fortitude like patience&lt;/li&gt;
-  &lt;li&gt;often the fuel for the anger is some form of discomfort. Finding this
-connection is the first step towards controlling anger&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;day-one&quot;&gt;day one&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;compassion is a state of mind which is non-violent, non-aggressive and
-non-harming.&lt;/li&gt;
-  &lt;li&gt;one aspect of compassion is to respect others’ rights and their views.&lt;/li&gt;
-  &lt;li&gt;hatred is pure evil as it involves having ill-will against others. Whereas
-anger can be beneficial some times especially when it is fuelled by compassion&lt;/li&gt;
-  &lt;li&gt;state of mind is crucial to enjoying our physical health, wealth and
-friendship we have.&lt;/li&gt;
-  &lt;li&gt;The only thing that protects us from the destructive effects of anger and
-hatred is tolerance and patience&lt;/li&gt;
-  &lt;li&gt;to practice tolerance and patience is to seek the causal factors/conditions
-responsible for the origin of anger and hatred, then eliminate those instead
-of directly trying to go against these strong emotions&lt;/li&gt;
-  &lt;li&gt;our natural tendency is to dislike suffering and like pleasure. So, any
-discomfort/suffering physical or mental will eventually invoke nager and
-hatred&lt;/li&gt;
-  &lt;li&gt;there are only few causes for happiness, but many for suffering. So it is
-better for us to increase our tolerance for suffering&lt;/li&gt;
-  &lt;li&gt;eg: by being able to tolerate smaller harms, we can prepare ourselves to
-tolerate greater ones in future&lt;/li&gt;
-  &lt;li&gt;hatred, anger and attachment are rooted in ignorance&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;day-two&quot;&gt;day two&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;unwholesome actions are the ones done through undisciplined state of mind, and
-vice-versa&lt;/li&gt;
-  &lt;li&gt;practice of patience and tolerance; love and compassion; complement and
-reinforce each other&lt;/li&gt;
-  &lt;li&gt;true hero is the one who gains victory over hatred and anger&lt;/li&gt;
-  &lt;li&gt;by meditating on suffering, one can develop empathy towards the others, which
-will in turn help us to be more patient and tolerant&lt;/li&gt;
-  &lt;li&gt;We hold grudge on animate objects and never on inanimate objects like
-illnesses, when the latter can equally do us harm. Just like the latter, the
-former could also have caused the ill-will or hatred that are out of their
-control&lt;/li&gt;
-  &lt;li&gt;imagine someone close to you losing temper and thereby turning into an “ugly”
-being. Then meditate on the effects of such an outrage and realise the
-importance of patience and tolerance&lt;/li&gt;
-  &lt;li&gt;many of the harmful acts are not done with malicious intent but out of pure
-ignorance or carelessness&lt;/li&gt;
-  &lt;li&gt;being angry at disturbed people who harm others is like getting angry at fire
-for burning&lt;/li&gt;
-  &lt;li&gt;being angry at people who harm when under circumstances out of their control
-is like blaming the sky for the overcast of clouds&lt;/li&gt;
-  &lt;li&gt;why should we only hate the person who hits us with a stick and not instead
-hate the stick and the circumstances that are also responsible for his act?&lt;/li&gt;
-  &lt;li&gt;we too might have similarly caused pain to others so it is just right that we
-too receive the same from others, right?&lt;/li&gt;
-  &lt;li&gt;one’s pain is one’s own creation&lt;/li&gt;
-  &lt;li&gt;many of us take petty things too seriously and things which have grave impact
-on us very lightly!&lt;/li&gt;
-  &lt;li&gt;if someone is insulting us, it doesn’t cause bodily harm. So, why should our
-minds be bothered with such acts?&lt;/li&gt;
-  &lt;li&gt;imagine someone who gets on your nerves says something that irritates you.
-Further imagine your natural response to it and then observe the sequence of
-events that can unfold due to it. Now, meditate on what would have happened of
-you were to practice tolerance instead.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;day-three&quot;&gt;day three&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;if the person who’s at the recieving end of the harm also gets angry
-(ignorantly) with the perpetrator, then both these people are in the same
-category&lt;/li&gt;
-  &lt;li&gt;just like how we remove all the fire-spreading materials from a burning house
-to reduce its spread, we should also do similar thing in order to stop the
-spread of hatred. Eg: attachment is the root of hatred&lt;/li&gt;
-  &lt;li&gt;if one observes carefully, one can see that the reason all conflicts and
-fights arise even inside a family is because of strong attachment&lt;/li&gt;
-  &lt;li&gt;if we fall ill, worrying and feeling sorry for ourselves will only add
-additional mental burden&lt;/li&gt;
-  &lt;li&gt;we also cannot blame everything on karma and take a passive attitude towards
-life!&lt;/li&gt;
-  &lt;li&gt;visualize a person suffering badly. Now relate yourself to that person and try
-to share their suffering. Now make a resolution that you’ll help all such
-sentient beings&lt;/li&gt;
-  &lt;li&gt;when we hear our enemies being praised by others, we shouldn’t be angry or
-jealous about it. Instead we should feel happy that this enemy has atleast
-made someone else happy&lt;/li&gt;
-  &lt;li&gt;if we expect others to be happy when we are praised, then it’s logical to
-reciprocate the same when others are being praised too&lt;/li&gt;
-  &lt;li&gt;worrying when our fame/recognition decline is just like children who cry when
-their sandcastle topples down&lt;/li&gt;
-  &lt;li&gt;our ultimate goal is the freedom from suffering. We shouldn’t be distracted
-from it due to material gain and honor&lt;/li&gt;
-  &lt;li&gt;there are opportunities for practising generosity but very few for patience.
-So we need to be grateful when there are enemies who inflict harm onto us&lt;/li&gt;
-  &lt;li&gt;in your meditation practice the act of give-and-take. Visualize a very
-afflicted individual and give him all your successes whereas take all his
-sufferings&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;day-four&quot;&gt;day four&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;interaction with sentient beings are very much needed for us to practice
-tolerance and patience.&lt;/li&gt;
-  &lt;li&gt;thus one can argue that we should value sentient beings more than the Buddha’s
-for their contribution towards our perfection of these virtuous values&lt;/li&gt;
-  &lt;li&gt;in your meditation, practice thoughtlessness. By default our mind is always
-focused on external objects, because of sensory experience. Try to focus
-inward. Since there’s no object to focus on, there’s always the chance of
-falling asleep! Start by concentrating on your breath and then do meditation.&lt;/li&gt;
-  &lt;li&gt;a childish compassion is one where we are compassionate towards the sufferings
-of sentient beings but when we come across successful people we become envious
-of them&lt;/li&gt;
-  &lt;li&gt;people with worldly success are plagued by mental/emotional pains whereas the
-poor are plagued by physical pains&lt;/li&gt;
-  &lt;li&gt;this is because we are all under the power and influence of ignorance!&lt;/li&gt;
-  &lt;li&gt;meditate on the concept of “self”. Self is an aggregation of all our
-experiences. There’s always a difference between what we perceive and what the
-reality is. The conclusion here is that things are not independent or inherent
-as we think of them as. But instead, things are dependent on other factors.
-This is what is meant by meditating on emptiness.&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="self-help" /><category term="book-notes" /><summary type="html">Introduction In this book Dalai Lama discusses the Buddhist practices for perfecting patience and tolerance, to help overcome anger and hatred. But I found that all the techniques that he shows here can be practiced by Buddhists and non-Buddhists alike. This book can be found here.</summary></entry></feed>
+&lt;/ul&gt;</content><author><name></name></author><category term="leadership" /><category term="udemy-notes" /><summary type="html">Introduction This online video course by Robin Hills introduces students to the concept of Emotional Intelligence and why and how is it essential at work place. This course can be found here. Given below are the raw notes I took while attending this course.</summary></entry></feed>
