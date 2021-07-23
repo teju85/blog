@@ -1,4 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-07-22T09:03:39+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Debloating Redmi 7A</title><link href="https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat.html" rel="alternate" type="text/html" title="Debloating Redmi 7A" /><published>2021-07-22T00:00:00+05:30</published><updated>2021-07-22T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat.html">&lt;p&gt;Assuming you are inside the &lt;code class=&quot;highlighter-rouge&quot;&gt;adb shell&lt;/code&gt;, running the below commands would remove
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-07-23T14:22:14+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Large Graph Convolutional Network Training with GPU-Oriented Data Communication Architecture</title><link href="https://teju85.github.io/blog/2021/07/22/zero-copy-in-GNNs.html" rel="alternate" type="text/html" title="Large Graph Convolutional Network Training with GPU-Oriented Data Communication Architecture" /><published>2021-07-22T00:00:00+05:30</published><updated>2021-07-22T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/22/zero-copy-in-GNNs</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/22/zero-copy-in-GNNs.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/2103.03330v1.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;zero-copy based, SM-initiated host-to-device copies of embeddings&lt;/li&gt;
+  &lt;li&gt;perform aligned reads and MPS (for resource provisioning) to maximize PCIe utilization&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;DMA-based host-to-device copies work only when the data is bulk. Embeddings in
+GNN’s do not yield well to DMA-based copies. Thus, have SM’s on GPU’s issue
+host-to-device from zero-copy buffers&lt;/li&gt;
+  &lt;li&gt;even while doing zero-copy from the GPU’s care needs to be taken in order to coalesce
+and also make sure that the number of PCIe requests are minimized. (Because each PCIe
+packet has 12-16B header overhead)&lt;/li&gt;
+  &lt;li&gt;need to also fully utilize the PCIe links by issuing as many such requests as
+possible. On PCIe3 number of such outstanding requests is 256 and 768 on PCIe4.&lt;/li&gt;
+  &lt;li&gt;So, to reduce the number of PCIe requests due to misaligned addresses, a circular
+shift is applied to all threads and warps.&lt;/li&gt;
+  &lt;li&gt;As expected, this circular shift is not necessary if the embedding size is less
+than the GPU cacheline size or it is already 128B aligned.&lt;/li&gt;
+  &lt;li&gt;We also need to make sure that the computation kernels are running alongside of
+this zero-copy kernel in order to maximize GPU utilization.&lt;/li&gt;
+  &lt;li&gt;But this is not guaranteed when there are blocking CUDA API calls like
+&lt;code class=&quot;highlighter-rouge&quot;&gt;cudaMalloc&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;cudaFree&lt;/code&gt;, etc.&lt;/li&gt;
+  &lt;li&gt;So, the solution is to use MPS to provision the amount of SM’s to be dedicated
+for the purpose of zero-copy. Thus, there’ll be atleast 2 processes: one for
+zero-copy and the other for compute and CUDA IPC will be used to share the
+buffer addresses between these.&lt;/li&gt;
+  &lt;li&gt;The sample -&amp;gt; gather -&amp;gt; compute flow is pipelined (using ping-pong buffers) to
+maximize overlap of these phases.&lt;/li&gt;
+  &lt;li&gt;For multi-GPU training, this whole setup is duplicated across every GPU by just
+relying on DGL’s data-parallel approach. The catch though is that unified memory
+in CUDA is not shareable across processes! So, they first create a host shared
+memory region and then call &lt;code class=&quot;highlighter-rouge&quot;&gt;cudaHostRegister&lt;/code&gt; on this buffer inside each
+process for each of the GPU in the current node.&lt;/li&gt;
+  &lt;li&gt;They note that atleast on RTX-3090, SM split of 15:85 between zero-copy and the
+actual training kernels is good enough to saturate PCIe bandwidth.&lt;/li&gt;
+  &lt;li&gt;However they also note that a 10:90 split didn’t show any noticeable change in
+the overall end-to-time minibatch time&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">Debloating Redmi 7A</title><link href="https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat.html" rel="alternate" type="text/html" title="Debloating Redmi 7A" /><published>2021-07-22T00:00:00+05:30</published><updated>2021-07-22T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat.html">&lt;p&gt;Assuming you are inside the &lt;code class=&quot;highlighter-rouge&quot;&gt;adb shell&lt;/code&gt;, running the below commands would remove
 all the unnecessary apps from Redmi 7A. This does NOT require you to be root.
 However, as expected, the .apk of these apps would still be available inside
 &lt;code class=&quot;highlighter-rouge&quot;&gt;/data/app&lt;/code&gt; folder.&lt;/p&gt;
@@ -1222,187 +1263,4 @@ motivation
   &lt;/li&gt;
   &lt;li&gt;tannenbaum and schmidt is for planning and freedom ladder for doing&lt;/li&gt;
   &lt;li&gt;let your team help you in becoming a better boss!&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="leadership" /><category term="udemy-notes" /><summary type="html">Introduction This online video course by Chris Croft talks about various management and leadership styles and skills to help us become a better leader. This course can be found here. Given below are the raw notes I took while attending this course.</summary></entry><entry><title type="html">An Introduction To Emotional Intelligence</title><link href="https://teju85.github.io/blog/2021/01/11/an-introduction-to-emotional-intelligence.html" rel="alternate" type="text/html" title="An Introduction To Emotional Intelligence" /><published>2021-01-11T00:00:00+05:30</published><updated>2021-01-11T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/01/11/an-introduction-to-emotional-intelligence</id><content type="html" xml:base="https://teju85.github.io/blog/2021/01/11/an-introduction-to-emotional-intelligence.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
-&lt;p&gt;This online video course by Robin Hills introduces students to the concept of
-Emotional Intelligence and why and how is it essential at work place. This
-course can be found &lt;a href=&quot;https://www.udemy.com/course/introduction-to-emotional-intelligence/&quot;&gt;here&lt;/a&gt;.
-Given below are the raw notes I took while attending this course.&lt;/p&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Emotional Intelligence (EI) is a way to combine thinking and feelings in order
-to make better/creative decisions and to build authentic relationships. It
-helps us with dealing with or controlling emotions too.&lt;/li&gt;
-  &lt;li&gt;an example EI response would be: praise in public, criticize in private&lt;/li&gt;
-  &lt;li&gt;EI is a set of social and emotional skills to
-    &lt;ul&gt;
-      &lt;li&gt;understand and express oneself&lt;/li&gt;
-      &lt;li&gt;develop and maintain meaningful social relationships&lt;/li&gt;
-      &lt;li&gt;cope with challenges in life&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;EI and IQ are NOT correlated
-    &lt;ul&gt;
-      &lt;li&gt;IQ is a measure of how smart you are&lt;/li&gt;
-      &lt;li&gt;EQ (Emotional Quotient) is a measure of how well can you use that smartness&lt;/li&gt;
-      &lt;li&gt;EI typically grows with age, whereas IQ growth peaks at ~17yrs&lt;/li&gt;
-      &lt;li&gt;aka EQ is a measure of EI&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;EQ refers to the quantifiable aspects of EI&lt;/li&gt;
-  &lt;li&gt;EI mainly deals with inter and intra personal skills which are important for
-personal success&lt;/li&gt;
-  &lt;li&gt;We should enjoy and use our emotions for our best, not become enslaved by them&lt;/li&gt;
-  &lt;li&gt;basic emotions (from Paul Ekman)
-    &lt;ul&gt;
-      &lt;li&gt;happiness&lt;/li&gt;
-      &lt;li&gt;fear&lt;/li&gt;
-      &lt;li&gt;anger&lt;/li&gt;
-      &lt;li&gt;sadness&lt;/li&gt;
-      &lt;li&gt;disgust&lt;/li&gt;
-      &lt;li&gt;surprise&lt;/li&gt;
-      &lt;li&gt;contempt (was added later)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;more complex emotions are formed by mixing of these (just like colors)&lt;/li&gt;
-  &lt;li&gt;even though these are the basic ones, everyone “feels” about their emotions
-differently and it is essential that we learn to pin-point the correct one&lt;/li&gt;
-  &lt;li&gt;Plutchik’s wheel of emotions shows a nice interaction between basic emotions&lt;/li&gt;
-  &lt;li&gt;EI at work is NOT about
-    &lt;ul&gt;
-      &lt;li&gt;supressing emotions (but about raising those emotions and working with them)&lt;/li&gt;
-      &lt;li&gt;being nice (but about doing the right thing and making the right decisions)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;how you think about a situation depends on how you feel and vice-versa. Thus
-emotional management and engagement are very essential&lt;/li&gt;
-  &lt;li&gt;giving feedback
-    &lt;ul&gt;
-      &lt;li&gt;feedbacks should help not hurt&lt;/li&gt;
-      &lt;li&gt;provide constructive criticism&lt;/li&gt;
-      &lt;li&gt;ask before they tell&lt;/li&gt;
-      &lt;li&gt;be honest and specific&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;receiving feedback
-    &lt;ul&gt;
-      &lt;li&gt;listen&lt;/li&gt;
-      &lt;li&gt;don’t make excuses or deny&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;emotions are always involved when we interact with everyone, even while trying
-to access from our memories&lt;/li&gt;
-  &lt;li&gt;poor ability to read other’s emotions leads to poor social skills&lt;/li&gt;
-  &lt;li&gt;emotions are higher-order states that momentarily pass through limbic region
-    &lt;ul&gt;
-      &lt;li&gt;conscious experiences are observed in the cortex region&lt;/li&gt;
-      &lt;li&gt;unconscious inputs come from limbic region as inputs to cortex region to
-become conscious experiences&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;just looking at an image to read another person’s image is not enough and
-we’ll require some more context at times
-    &lt;ul&gt;
-      &lt;li&gt;people with Mobius syndrome will appear to have a mask-like face&lt;/li&gt;
-      &lt;li&gt;so, we cannot judge a person’s emotions just by looking at their face alone&lt;/li&gt;
-      &lt;li&gt;some expression of emotions are cultural even&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;emotions
-    &lt;ul&gt;
-      &lt;li&gt;are a complex set of feelings&lt;/li&gt;
-      &lt;li&gt;cause physical/physiological changes&lt;/li&gt;
-      &lt;li&gt;alter our thought process and behavior&lt;/li&gt;
-      &lt;li&gt;are highly subjective&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;there are no positive/negative emotions, it is the thought process and
-behavior that they trigger which require such labels
-    &lt;ul&gt;
-      &lt;li&gt;happiness can’t be expressed in all occassions, eg: funeral&lt;/li&gt;
-      &lt;li&gt;happiness can’t help during negotiation or critical thinking&lt;/li&gt;
-      &lt;li&gt;anger can be used to right a wrong&lt;/li&gt;
-      &lt;li&gt;sadness helps us to be thankful and move on from our loss&lt;/li&gt;
-      &lt;li&gt;fear helps us avoid taking unnecessary risks&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;understanding and working with emotions
-    &lt;ul&gt;
-      &lt;li&gt;we should recognize what kind of events/circumstances generate what kind of
-feelings in us&lt;/li&gt;
-      &lt;li&gt;we should develop the capacity to generate the right emotions in order to
-focus, reason and communicate&lt;/li&gt;
-      &lt;li&gt;identifying how we feel and how others feel&lt;/li&gt;
-      &lt;li&gt;what kind of music/art makes me happy/calm/sad etc&lt;/li&gt;
-      &lt;li&gt;learn to to detect real vs fake feelings&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Daniel Goleman’s framework for EI
-    &lt;ul&gt;
-      &lt;li&gt;motivation - drive to work and succeed (some people are motivated by money)&lt;/li&gt;
-      &lt;li&gt;self-awareness - understanding of ones strengths and weakness&lt;/li&gt;
-      &lt;li&gt;self-regulation - managing one’s own emotions (think before you act)&lt;/li&gt;
-      &lt;li&gt;empathy - understanding from another’s PoV&lt;/li&gt;
-      &lt;li&gt;social skills - working with others&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                   Awareness             Action
-
- Inner world    self-awareness ------&amp;gt; self-regulation
-                     |                      |
-                     |      motivation      |
-                     V                      V
- Outer world      empathy -----------&amp;gt; social skills
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;EI abilities
-    &lt;ul&gt;
-      &lt;li&gt;perceiving emotions - self and others&lt;/li&gt;
-      &lt;li&gt;using emotions - to facilitate thinking and problem solving&lt;/li&gt;
-      &lt;li&gt;understanding emotions&lt;/li&gt;
-      &lt;li&gt;managing emotions - to regulate them in self and others&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;six seconds model?&lt;/li&gt;
-  &lt;li&gt;improving EI
-    &lt;ul&gt;
-      &lt;li&gt;I’m responsible for my own feelings and behavior&lt;/li&gt;
-      &lt;li&gt;I always have choices on how to respond&lt;/li&gt;
-      &lt;li&gt;No one can make me express my emotions unless I choose to do so&lt;/li&gt;
-      &lt;li&gt;Identify my choices empowers me with a fresh perspective on how to behave&lt;/li&gt;
-      &lt;li&gt;recognizing my range of choices is an excellent way to start chaning my
-behavior for the better&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;practising EI
-    &lt;ul&gt;
-      &lt;li&gt;tune into your emotions (what are you experiencing physically? what are you
-feeling?)&lt;/li&gt;
-      &lt;li&gt;look at the layers of feeling (there could be multiple feelings happening)&lt;/li&gt;
-      &lt;li&gt;Deliberately choose a feeling and intensify it&lt;/li&gt;
-      &lt;li&gt;look at optimism with realism&lt;/li&gt;
-      &lt;li&gt;ask yourself (is this a factual issue or relationship issue?)&lt;/li&gt;
-      &lt;li&gt;when you are feeling uncertain ask yourself, what will create the most value
-for all?&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;one percent solution
-    &lt;ul&gt;
-      &lt;li&gt;identify something that’s a very small but slight improvement and make it an
-unconscious habit&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;we always try to dwelve on bad things (aka negative bias). This is one of the
-main reasons for a lower EI. One way to improve is the “three good things”
-method (probably do it at the end of each day)
-    &lt;ul&gt;
-      &lt;li&gt;think about anything good that has happened to you recently&lt;/li&gt;
-      &lt;li&gt;write 3 such good things&lt;/li&gt;
-      &lt;li&gt;reflect on why each of those good things have happened&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="leadership" /><category term="udemy-notes" /><summary type="html">Introduction This online video course by Robin Hills introduces students to the concept of Emotional Intelligence and why and how is it essential at work place. This course can be found here. Given below are the raw notes I took while attending this course.</summary></entry></feed>
+&lt;/ul&gt;</content><author><name></name></author><category term="leadership" /><category term="udemy-notes" /><summary type="html">Introduction This online video course by Chris Croft talks about various management and leadership styles and skills to help us become a better leader. This course can be found here. Given below are the raw notes I took while attending this course.</summary></entry></feed>
