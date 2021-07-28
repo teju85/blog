@@ -1,45 +1,117 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-07-23T14:22:14+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Large Graph Convolutional Network Training with GPU-Oriented Data Communication Architecture</title><link href="https://teju85.github.io/blog/2021/07/22/zero-copy-in-GNNs.html" rel="alternate" type="text/html" title="Large Graph Convolutional Network Training with GPU-Oriented Data Communication Architecture" /><published>2021-07-22T00:00:00+05:30</published><updated>2021-07-22T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/22/zero-copy-in-GNNs</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/22/zero-copy-in-GNNs.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
-&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/2103.03330v1.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-07-28T10:56:44+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Computing Extremely Accurate Quantiles Using t-Digests</title><link href="https://teju85.github.io/blog/2021/07/28/t-digest.html" rel="alternate" type="text/html" title="Computing Extremely Accurate Quantiles Using t-Digests" /><published>2021-07-28T00:00:00+05:30</published><updated>2021-07-28T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/28/t-digest</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/28/t-digest.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1902.04023&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;zero-copy based, SM-initiated host-to-device copies of embeddings&lt;/li&gt;
-  &lt;li&gt;perform aligned reads and MPS (for resource provisioning) to maximize PCIe utilization&lt;/li&gt;
+  &lt;li&gt;online approximate quantile computation&lt;/li&gt;
+  &lt;li&gt;accuracy of q-th quantile is max(q, 1-q)&lt;/li&gt;
+  &lt;li&gt;merging of summaries (aka digests) results is lesser loss of accuracy&lt;/li&gt;
+  &lt;li&gt;can also be extended for weighted samples&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
 &lt;ul&gt;
-  &lt;li&gt;DMA-based host-to-device copies work only when the data is bulk. Embeddings in
-GNN’s do not yield well to DMA-based copies. Thus, have SM’s on GPU’s issue
-host-to-device from zero-copy buffers&lt;/li&gt;
-  &lt;li&gt;even while doing zero-copy from the GPU’s care needs to be taken in order to coalesce
-and also make sure that the number of PCIe requests are minimized. (Because each PCIe
-packet has 12-16B header overhead)&lt;/li&gt;
-  &lt;li&gt;need to also fully utilize the PCIe links by issuing as many such requests as
-possible. On PCIe3 number of such outstanding requests is 256 and 768 on PCIe4.&lt;/li&gt;
-  &lt;li&gt;So, to reduce the number of PCIe requests due to misaligned addresses, a circular
-shift is applied to all threads and warps.&lt;/li&gt;
-  &lt;li&gt;As expected, this circular shift is not necessary if the embedding size is less
-than the GPU cacheline size or it is already 128B aligned.&lt;/li&gt;
-  &lt;li&gt;We also need to make sure that the computation kernels are running alongside of
-this zero-copy kernel in order to maximize GPU utilization.&lt;/li&gt;
-  &lt;li&gt;But this is not guaranteed when there are blocking CUDA API calls like
-&lt;code class=&quot;highlighter-rouge&quot;&gt;cudaMalloc&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;cudaFree&lt;/code&gt;, etc.&lt;/li&gt;
-  &lt;li&gt;So, the solution is to use MPS to provision the amount of SM’s to be dedicated
-for the purpose of zero-copy. Thus, there’ll be atleast 2 processes: one for
-zero-copy and the other for compute and CUDA IPC will be used to share the
-buffer addresses between these.&lt;/li&gt;
-  &lt;li&gt;The sample -&amp;gt; gather -&amp;gt; compute flow is pipelined (using ping-pong buffers) to
-maximize overlap of these phases.&lt;/li&gt;
-  &lt;li&gt;For multi-GPU training, this whole setup is duplicated across every GPU by just
-relying on DGL’s data-parallel approach. The catch though is that unified memory
-in CUDA is not shareable across processes! So, they first create a host shared
-memory region and then call &lt;code class=&quot;highlighter-rouge&quot;&gt;cudaHostRegister&lt;/code&gt; on this buffer inside each
-process for each of the GPU in the current node.&lt;/li&gt;
-  &lt;li&gt;They note that atleast on RTX-3090, SM split of 15:85 between zero-copy and the
-actual training kernels is good enough to saturate PCIe bandwidth.&lt;/li&gt;
-  &lt;li&gt;However they also note that a 10:90 split didn’t show any noticeable change in
-the overall end-to-time minibatch time&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">Debloating Redmi 7A</title><link href="https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat.html" rel="alternate" type="text/html" title="Debloating Redmi 7A" /><published>2021-07-22T00:00:00+05:30</published><updated>2021-07-22T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat.html">&lt;p&gt;Assuming you are inside the &lt;code class=&quot;highlighter-rouge&quot;&gt;adb shell&lt;/code&gt;, running the below commands would remove
+  &lt;li&gt;digest = partition of samples; aka clusters&lt;/li&gt;
+  &lt;li&gt;t-digest = a digest with any cluster of unit weight or bounded by some scale
+function.&lt;/li&gt;
+  &lt;li&gt;weight = number of samples in the cluster C; aka |C|&lt;/li&gt;
+  &lt;li&gt;fully merged t-digest = no two consecutive clusters can be merged without the
+violation of the weight bound&lt;/li&gt;
+  &lt;li&gt;a cluster is represented by its mean and number of samples in it&lt;/li&gt;
+  &lt;li&gt;clusters at both ends of the quantile are kept smaller while the ones in the
+middle are larger&lt;/li&gt;
+  &lt;li&gt;scale function
+    &lt;ul&gt;
+      &lt;li&gt;it must be a non-decreasing function&lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;k_1(q) = \frac{\delta}{2 \pi} arcsin(2q - 1)&lt;/script&gt;
+        &lt;ul&gt;
+          &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\delta&lt;/script&gt; = compression parameter. Atleast for &lt;script type=&quot;math/tex&quot;&gt;k_1&lt;/script&gt; it ends up bounding
+the number of clusters to &lt;script type=&quot;math/tex&quot;&gt;[\lfloor \frac{\delta}{2} \rfloor, \lceil \delta \rceil]&lt;/script&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt; is the notional index&lt;/li&gt;
+          &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt; = number of samples. It is assumed to be much larger than &lt;script type=&quot;math/tex&quot;&gt;\delta&lt;/script&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\|C_k\| = k(q_r) - k(q_l) \le 1&lt;/script&gt;, for any cluster with weight &lt;script type=&quot;math/tex&quot;&gt;\ge&lt;/script&gt; 1&lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;q_l = \frac{W_l(C)}{n}&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;q_r = q_l + \frac{\|C\|}{n}&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;W_l(C)&lt;/script&gt; = sum of weights of all clusters to the left of it&lt;/li&gt;
+      &lt;li&gt;this function leads to estimates which are very accurate near extreme quantiles
+and modestly accurate in the middle&lt;/li&gt;
+      &lt;li&gt;another scale function is linear: &lt;script type=&quot;math/tex&quot;&gt;k_0(q) = \frac{\delta q}{2}&lt;/script&gt;. It can work
+but trades off accuracy for computation&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;other scale functions are:
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;k_2(q) = \frac{\delta}{4 log(\frac{n}{\delta}) + 24} log(\frac{q}{1-q})&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;k_3(q) = \frac{\delta}{4 log(\frac{n}{\delta}) + 21} log(2q)  if q \le 0.5&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;k_3(q) = \frac{\delta}{4 log(\frac{n}{\delta}) + 21} (-log(2(1 - q)))  if q &gt; 0.5&lt;/script&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;merging 2 t-digests is still possible but might end up with weakly ordered
+clusters, whose error bounds are hard to prove&lt;/li&gt;
+  &lt;li&gt;but in practice merging doesn’t result in significant loss of accuracy, especially
+if we do stratified merging where we use higher value of &lt;script type=&quot;math/tex&quot;&gt;\delta&lt;/script&gt; while computing
+the clusters and lower value while merging 2 t-digests&lt;/li&gt;
+  &lt;li&gt;merging new-data with an existing t-digest
+    &lt;ul&gt;
+      &lt;li&gt;C = input t-digest to be merged&lt;/li&gt;
+      &lt;li&gt;X = input data to be merged with t-digest&lt;/li&gt;
+      &lt;li&gt;m = number of clusters in C&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;algo as follows:
+    &lt;ul&gt;
+      &lt;li&gt;X = sort(C union X)&lt;/li&gt;
+      &lt;li&gt;S = &lt;script type=&quot;math/tex&quot;&gt;\Sigma_i X_i.count&lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;C’ = []&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;q_0&lt;/script&gt; = 0&lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;q_{limit} = k^{-1}(k(q_0, \delta) + 1, \delta)&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;\sigma = x_1&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;for i = 2 … (m + n)
+        &lt;ul&gt;
+          &lt;li&gt;q = &lt;script type=&quot;math/tex&quot;&gt;q_0 + \frac{\sigma.count + x_i.count}{\delta}&lt;/script&gt;&lt;/li&gt;
+          &lt;li&gt;if q &lt;script type=&quot;math/tex&quot;&gt;\le&lt;/script&gt; &lt;script type=&quot;math/tex&quot;&gt;q_{limit}&lt;/script&gt;: &lt;script type=&quot;math/tex&quot;&gt;\sigma += x_i&lt;/script&gt;&lt;/li&gt;
+          &lt;li&gt;else:
+            &lt;ul&gt;
+              &lt;li&gt;C’.append(&lt;script type=&quot;math/tex&quot;&gt;\sigma&lt;/script&gt;)&lt;/li&gt;
+              &lt;li&gt;
+                &lt;script type=&quot;math/tex; mode=display&quot;&gt;q_0 += \frac{\sigma.count}{S}&lt;/script&gt;
+              &lt;/li&gt;
+              &lt;li&gt;
+                &lt;script type=&quot;math/tex; mode=display&quot;&gt;q_{limit} = k^{-1}(k(q_0, \delta) + 1, \delta)&lt;/script&gt;
+              &lt;/li&gt;
+              &lt;li&gt;
+                &lt;script type=&quot;math/tex; mode=display&quot;&gt;\sigma = x_i&lt;/script&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;C’.append(&lt;script type=&quot;math/tex&quot;&gt;\sigma&lt;/script&gt;)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;this merge could cause centroids near q = 0 to shift their centroids thereby
+causing weak ordering!&lt;/li&gt;
+  &lt;li&gt;effect of this issue can be reduced by alternating scan order of merge, ie.
+ascending order first, then descending order, and so on&lt;/li&gt;
+  &lt;li&gt;if instead we set the data buffer to be just 1, then there’s a clustering
+variant of the above merge algo too.&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="data-analytics" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">Debloating Redmi 7A</title><link href="https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat.html" rel="alternate" type="text/html" title="Debloating Redmi 7A" /><published>2021-07-22T00:00:00+05:30</published><updated>2021-07-22T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat.html">&lt;p&gt;Assuming you are inside the &lt;code class=&quot;highlighter-rouge&quot;&gt;adb shell&lt;/code&gt;, running the below commands would remove
 all the unnecessary apps from Redmi 7A. This does NOT require you to be root.
 However, as expected, the .apk of these apps would still be available inside
 &lt;code class=&quot;highlighter-rouge&quot;&gt;/data/app&lt;/code&gt; folder.&lt;/p&gt;
@@ -86,7 +158,48 @@ pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.google.a
 pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.google.android.feedback       &lt;span class=&quot;c&quot;&gt;# Google feedback&lt;/span&gt;
 pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.google.android.videos         &lt;span class=&quot;c&quot;&gt;# Google Play Movies &amp;amp; TV&lt;/span&gt;
 pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.google.android.music          &lt;span class=&quot;c&quot;&gt;# Google Play Music&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="android" /><summary type="html">Assuming you are inside the adb shell, running the below commands would remove all the unnecessary apps from Redmi 7A. This does NOT require you to be root. However, as expected, the .apk of these apps would still be available inside /data/app folder. pm uninstall --user 0 com.miui.compass # Mi Compass pm uninstall --user 0 com.facebook.appmanager # Facebook pm uninstall --user 0 com.facebook.system pm uninstall --user 0 com.facebook.services pm uninstall --user 0 com.miui.yellowpage # Mi Yellow Pages pm uninstall --user 0 com.mipay.wallet.in # Mi Pay pm uninstall --user 0 com.xiaomi.payment pm uninstall --user 0 com.miui.weather2 # Mi Weather pm uninstall --user 0 com.miui.screenrecorder # Screen Recorder pm uninstall --user 0 com.miui.player # Music pm uninstall --user 0 com.xiaomi.scanner # Scanner pm uninstall --user 0 com.xiaomi.midrop # ShareMe pm uninstall --user 0 com.miui.analytics # Analytics pm uninstall --user 0 com.xiaomi.mipicks # GetApps pm uninstall --user 0 com.miui.android.fashiongallery # Wallpaper Carousel (Got &quot;Failure [-1000]&quot;!!) pm uninstall --user 0 com.miui.msa.global # Mi Ads service pm uninstall --user 0 com.miui.micloudsync # Mi Cloud pm uninstall --user 0 com.miui.cloudbackup pm uninstall --user 0 com.miui.cloudservice pm uninstall --user 0 com.miui.cloudservice.sysbase pm uninstall --user 0 -k com.android.thememanager # Themes pm uninstall --user 0 com.xiaomi.glgm # Mi Games pm uninstall --user 0 com.miui.backup # Mi Backup pm uninstall --user 0 com.tencent.soter.soterserver # Tencent app!? pm uninstall --user 0 com.miui.bugreport # Mi bug report pm uninstall --user 0 com.miui.miservice # Services &amp;amp; Feedback pm uninstall --user 0 com.xiaomi.joyose # ?? pm uninstall --user 0 com.xiaomi.miplay_client # MiPlayClient pm uninstall --user 0 com.android.chrome # Chrome browser (I use Firefox) pm uninstall --user 0 com.netflix.partner.activation # Netflix!? pm uninstall --user 0 com.miui.miwallpaper # Mi Wallpaper pm uninstall --user 0 com.android.wallpaper.livepicker pm uninstall --user 0 com.android.wallpaperbackup pm uninstall --user 0 com.android.wallpapercropper pm uninstall --user 0 com.xiaomi.xmsf # Xiaomi service framework pm uninstall --user 0 com.xiaomi.xmsfkeeper pm uninstall --user 0 com.miui.hybrid # Quick Apps pm uninstall --user 0 com.miui.hybrid.accessory pm uninstall --user 0 com.xiaomi.account # Mi Account pm uninstall --user 0 com.google.android.apps.wellbeing # Google Digital Wellbeing pm uninstall --user 0 com.google.android.feedback # Google feedback pm uninstall --user 0 com.google.android.videos # Google Play Movies &amp;amp; TV pm uninstall --user 0 com.google.android.music # Google Play Music</summary></entry><entry><title type="html">R-MAT: A Recursive Model for Graph Mining</title><link href="https://teju85.github.io/blog/2021/07/19/rmat.html" rel="alternate" type="text/html" title="R-MAT: A Recursive Model for Graph Mining" /><published>2021-07-19T00:00:00+05:30</published><updated>2021-07-19T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/19/rmat</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/19/rmat.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="android" /><summary type="html">Assuming you are inside the adb shell, running the below commands would remove all the unnecessary apps from Redmi 7A. This does NOT require you to be root. However, as expected, the .apk of these apps would still be available inside /data/app folder. pm uninstall --user 0 com.miui.compass # Mi Compass pm uninstall --user 0 com.facebook.appmanager # Facebook pm uninstall --user 0 com.facebook.system pm uninstall --user 0 com.facebook.services pm uninstall --user 0 com.miui.yellowpage # Mi Yellow Pages pm uninstall --user 0 com.mipay.wallet.in # Mi Pay pm uninstall --user 0 com.xiaomi.payment pm uninstall --user 0 com.miui.weather2 # Mi Weather pm uninstall --user 0 com.miui.screenrecorder # Screen Recorder pm uninstall --user 0 com.miui.player # Music pm uninstall --user 0 com.xiaomi.scanner # Scanner pm uninstall --user 0 com.xiaomi.midrop # ShareMe pm uninstall --user 0 com.miui.analytics # Analytics pm uninstall --user 0 com.xiaomi.mipicks # GetApps pm uninstall --user 0 com.miui.android.fashiongallery # Wallpaper Carousel (Got &quot;Failure [-1000]&quot;!!) pm uninstall --user 0 com.miui.msa.global # Mi Ads service pm uninstall --user 0 com.miui.micloudsync # Mi Cloud pm uninstall --user 0 com.miui.cloudbackup pm uninstall --user 0 com.miui.cloudservice pm uninstall --user 0 com.miui.cloudservice.sysbase pm uninstall --user 0 -k com.android.thememanager # Themes pm uninstall --user 0 com.xiaomi.glgm # Mi Games pm uninstall --user 0 com.miui.backup # Mi Backup pm uninstall --user 0 com.tencent.soter.soterserver # Tencent app!? pm uninstall --user 0 com.miui.bugreport # Mi bug report pm uninstall --user 0 com.miui.miservice # Services &amp;amp; Feedback pm uninstall --user 0 com.xiaomi.joyose # ?? pm uninstall --user 0 com.xiaomi.miplay_client # MiPlayClient pm uninstall --user 0 com.android.chrome # Chrome browser (I use Firefox) pm uninstall --user 0 com.netflix.partner.activation # Netflix!? pm uninstall --user 0 com.miui.miwallpaper # Mi Wallpaper pm uninstall --user 0 com.android.wallpaper.livepicker pm uninstall --user 0 com.android.wallpaperbackup pm uninstall --user 0 com.android.wallpapercropper pm uninstall --user 0 com.xiaomi.xmsf # Xiaomi service framework pm uninstall --user 0 com.xiaomi.xmsfkeeper pm uninstall --user 0 com.miui.hybrid # Quick Apps pm uninstall --user 0 com.miui.hybrid.accessory pm uninstall --user 0 com.xiaomi.account # Mi Account pm uninstall --user 0 com.google.android.apps.wellbeing # Google Digital Wellbeing pm uninstall --user 0 com.google.android.feedback # Google feedback pm uninstall --user 0 com.google.android.videos # Google Play Movies &amp;amp; TV pm uninstall --user 0 com.google.android.music # Google Play Music</summary></entry><entry><title type="html">Large Graph Convolutional Network Training with GPU-Oriented Data Communication Architecture</title><link href="https://teju85.github.io/blog/2021/07/22/zero-copy-in-GNNs.html" rel="alternate" type="text/html" title="Large Graph Convolutional Network Training with GPU-Oriented Data Communication Architecture" /><published>2021-07-22T00:00:00+05:30</published><updated>2021-07-22T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/22/zero-copy-in-GNNs</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/22/zero-copy-in-GNNs.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/2103.03330v1.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;zero-copy based, SM-initiated host-to-device copies of embeddings&lt;/li&gt;
+  &lt;li&gt;perform aligned reads and MPS (for resource provisioning) to maximize PCIe utilization&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;DMA-based host-to-device copies work only when the data is bulk. Embeddings in
+GNN’s do not yield well to DMA-based copies. Thus, have SM’s on GPU’s issue
+host-to-device from zero-copy buffers&lt;/li&gt;
+  &lt;li&gt;even while doing zero-copy from the GPU’s care needs to be taken in order to coalesce
+and also make sure that the number of PCIe requests are minimized. (Because each PCIe
+packet has 12-16B header overhead)&lt;/li&gt;
+  &lt;li&gt;need to also fully utilize the PCIe links by issuing as many such requests as
+possible. On PCIe3 number of such outstanding requests is 256 and 768 on PCIe4.&lt;/li&gt;
+  &lt;li&gt;So, to reduce the number of PCIe requests due to misaligned addresses, a circular
+shift is applied to all threads and warps.&lt;/li&gt;
+  &lt;li&gt;As expected, this circular shift is not necessary if the embedding size is less
+than the GPU cacheline size or it is already 128B aligned.&lt;/li&gt;
+  &lt;li&gt;We also need to make sure that the computation kernels are running alongside of
+this zero-copy kernel in order to maximize GPU utilization.&lt;/li&gt;
+  &lt;li&gt;But this is not guaranteed when there are blocking CUDA API calls like
+&lt;code class=&quot;highlighter-rouge&quot;&gt;cudaMalloc&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;cudaFree&lt;/code&gt;, etc.&lt;/li&gt;
+  &lt;li&gt;So, the solution is to use MPS to provision the amount of SM’s to be dedicated
+for the purpose of zero-copy. Thus, there’ll be atleast 2 processes: one for
+zero-copy and the other for compute and CUDA IPC will be used to share the
+buffer addresses between these.&lt;/li&gt;
+  &lt;li&gt;The sample -&amp;gt; gather -&amp;gt; compute flow is pipelined (using ping-pong buffers) to
+maximize overlap of these phases.&lt;/li&gt;
+  &lt;li&gt;For multi-GPU training, this whole setup is duplicated across every GPU by just
+relying on DGL’s data-parallel approach. The catch though is that unified memory
+in CUDA is not shareable across processes! So, they first create a host shared
+memory region and then call &lt;code class=&quot;highlighter-rouge&quot;&gt;cudaHostRegister&lt;/code&gt; on this buffer inside each
+process for each of the GPU in the current node.&lt;/li&gt;
+  &lt;li&gt;They note that atleast on RTX-3090, SM split of 15:85 between zero-copy and the
+actual training kernels is good enough to saturate PCIe bandwidth.&lt;/li&gt;
+  &lt;li&gt;However they also note that a 10:90 split didn’t show any noticeable change in
+the overall end-to-time minibatch time&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">R-MAT: A Recursive Model for Graph Mining</title><link href="https://teju85.github.io/blog/2021/07/19/rmat.html" rel="alternate" type="text/html" title="R-MAT: A Recursive Model for Graph Mining" /><published>2021-07-19T00:00:00+05:30</published><updated>2021-07-19T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/19/rmat</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/19/rmat.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;http://www.cs.cmu.edu/~christos/PUBLICATIONS/siam04.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
@@ -1043,224 +1156,4 @@ they behave&lt;/li&gt;
   &lt;/li&gt;
   &lt;li&gt;those who give orders are very vulnerable of the opinions of those who are
 receiving their orders. Hence, legitimacy is highly needed&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="self-help" /><category term="book-notes" /><summary type="html">Introduction In this book Malcolm Gladwell, through series of real life incidents, shows that more is not always better and less is not always bad; as paradoxical as it sounds! Through various examples from history, he demonstrates the importance of inverted U-curve while making decisions. He shows that depending on the vantage point, what we usually perceive as advantages can turn out to be disdvantages and vice-versa. This book can be found here.</summary></entry><entry><title type="html">Leadership: Practical Leadership Skills</title><link href="https://teju85.github.io/blog/2021/01/18/practical-leadership-skills.html" rel="alternate" type="text/html" title="Leadership: Practical Leadership Skills" /><published>2021-01-18T00:00:00+05:30</published><updated>2021-01-18T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/01/18/practical-leadership-skills</id><content type="html" xml:base="https://teju85.github.io/blog/2021/01/18/practical-leadership-skills.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
-&lt;p&gt;This online video course by Chris Croft talks about various management and
-leadership styles and skills to help us become a better leader. This course can
-be found &lt;a href=&quot;https://www.udemy.com/course/practical-leadership/&quot;&gt;here&lt;/a&gt;. Given below
-are the raw notes I took while attending this course.&lt;/p&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;leaders are about vision and managers are about execution&lt;/li&gt;
-  &lt;li&gt;leader is like a captain of a ship
-    &lt;ul&gt;
-      &lt;li&gt;we dont want him to care about customer care&lt;/li&gt;
-      &lt;li&gt;we dont want him to serve food, prepare our bed&lt;/li&gt;
-      &lt;li&gt;we want him to steer the ship and NOT crash!&lt;/li&gt;
-      &lt;li&gt;a good boss is hands-off and knows how to delegate&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;leadership is all about people - system - vision
-    &lt;ul&gt;
-      &lt;li&gt;has got all the right people for the job&lt;/li&gt;
-      &lt;li&gt;a system is in place and it works&lt;/li&gt;
-      &lt;li&gt;vision about where the company is going&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;if the system crashes, it is the leadership’s fault, even in their absence!
-    &lt;ul&gt;
-      &lt;li&gt;if everything runs fine for a few weeks even in the absence of the manager
-means that he’s a good boss&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;everything is the management’s fault!&lt;/li&gt;
-  &lt;li&gt;connecting with the team, aka communication (a very important thing!)
-    &lt;ul&gt;
-      &lt;li&gt;management by wandering about - check if your managers are running a tight
-ship by just “walking” around the workplace&lt;/li&gt;
-      &lt;li&gt;back to the floor - a few days per year, go back and work with the lowest
-levels of the org. Also helps you with getting back in touch with the work,
-thereby helping you make better decisions&lt;/li&gt;
-      &lt;li&gt;information cascade - along the management chain and then use MBWA to check
-if this is really working&lt;/li&gt;
-      &lt;li&gt;team meetings - all your reportees, per week (can keep it snappy)&lt;/li&gt;
-      &lt;li&gt;addressing the troops - address your full org about profits, revenues and
-investments and plans for the next year&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;good leaders are because of what they DO not what they ARE
-    &lt;ul&gt;
-      &lt;li&gt;get the tasks done&lt;/li&gt;
-      &lt;li&gt;keep the team happy&lt;/li&gt;
-      &lt;li&gt;keep the individuals happy&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Maslow’s hierarchy of needs (we can’t skip the stages and they go in that order)
-    &lt;ul&gt;
-      &lt;li&gt;physiological needs - survival&lt;/li&gt;
-      &lt;li&gt;saftey/security - as a manager we need to provide this! Communicate clearly
-about the status of the reportees, be consistent&lt;/li&gt;
-      &lt;li&gt;belongingness - social&lt;/li&gt;
-      &lt;li&gt;esteem/status - be noticed&lt;/li&gt;
-      &lt;li&gt;self-fulfillment - this is an internal motivator&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;as a leader, we need to bring everyone to the final stage of self-actualization&lt;/li&gt;
-  &lt;li&gt;management potato - thanking people
-    &lt;ul&gt;
-      &lt;li&gt;it is essential for security, status and self-actualization&lt;/li&gt;
-      &lt;li&gt;most of us are doing ok 80% of the times, excellent 10% and not so good 10%&lt;/li&gt;
-      &lt;li&gt;but the management typically focuses only on the last 10%!&lt;/li&gt;
-      &lt;li&gt;that criticism can demotivate employees and they stop doing work&lt;/li&gt;
-      &lt;li&gt;so focus on the middle 10% and praise them for that&lt;/li&gt;
-      &lt;li&gt;but for the last 10%, ask them “what will you do differently to improve?”&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;leader needs to adopt to the different types of personalities
-    &lt;ul&gt;
-      &lt;li&gt;{introvert, extrovert} x {logical, emotional}&lt;/li&gt;
-      &lt;li&gt;introvert+logical =&amp;gt; analytical
-        &lt;ul&gt;
-          &lt;li&gt;give them freedom&lt;/li&gt;
-          &lt;li&gt;might prefer self-actualization more&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;introvert+emotional =&amp;gt; amiable
-        &lt;ul&gt;
-          &lt;li&gt;need to be felt safe and heard&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;extrovert+logical =&amp;gt; controller
-        &lt;ul&gt;
-          &lt;li&gt;motivated by challenges&lt;/li&gt;
-          &lt;li&gt;might be hard to manage&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;extrovert+emotional =&amp;gt; enthusiast
-        &lt;ul&gt;
-          &lt;li&gt;very social and status oriented&lt;/li&gt;
-          &lt;li&gt;might be disorganized&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;how will they be as leaders?
-    &lt;ul&gt;
-      &lt;li&gt;introvert+logical =&amp;gt; analytical
-        &lt;ul&gt;
-          &lt;li&gt;communicates clearly (mostly 1:1)&lt;/li&gt;
-          &lt;li&gt;like to have a plan and organized, might not be risk takers&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;introvert+emotional =&amp;gt; amiable
-        &lt;ul&gt;
-          &lt;li&gt;good at judging and putting right set of people to work together&lt;/li&gt;
-          &lt;li&gt;can be good senior managers&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;extrovert+logical =&amp;gt; controller
-        &lt;ul&gt;
-          &lt;li&gt;very dynamic&lt;/li&gt;
-          &lt;li&gt;might not be sympathetic&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-      &lt;li&gt;extrovert+emotional =&amp;gt; enthusiast
-        &lt;ul&gt;
-          &lt;li&gt;visionary and inspirational leader&lt;/li&gt;
-          &lt;li&gt;need to remember the details&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;money is not a motivator
-    &lt;ul&gt;
-      &lt;li&gt;it is actually a PUSH motivator. IOW, it will push you to do things, but not
-necessarily want you to do things (as opposed to a PULL motivator, which
-makes us want to do things)&lt;/li&gt;
-      &lt;li&gt;pay raise does give some temporary motivation. But it is really the praise
-that’s a bigger motivator than the money associated with it&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;motivational tips
-    &lt;ul&gt;
-      &lt;li&gt;give everyone ownership of something&lt;/li&gt;
-      &lt;li&gt;involve people in decision making as much as possible&lt;/li&gt;
-      &lt;li&gt;give out challenges&lt;/li&gt;
-      &lt;li&gt;let them set their own objectives&lt;/li&gt;
-      &lt;li&gt;do regular appraisals&lt;/li&gt;
-      &lt;li&gt;make them feel secure&lt;/li&gt;
-      &lt;li&gt;praise freely&lt;/li&gt;
-      &lt;li&gt;thank as much as possible&lt;/li&gt;
-      &lt;li&gt;coach and support (instead of criticize)&lt;/li&gt;
-      &lt;li&gt;get to know your people and motivate&lt;/li&gt;
-      &lt;li&gt;offer learning&lt;/li&gt;
-      &lt;li&gt;show progress&lt;/li&gt;
-      &lt;li&gt;co-develop (vision of where their learning is going to go)&lt;/li&gt;
-      &lt;li&gt;help them reach their potentials&lt;/li&gt;
-      &lt;li&gt;give people who need, the novelty in work&lt;/li&gt;
-      &lt;li&gt;provide a sociable work env&lt;/li&gt;
-      &lt;li&gt;build team spirit&lt;/li&gt;
-      &lt;li&gt;make money adequate&lt;/li&gt;
-      &lt;li&gt;set an example to your org&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;tannenbaum and schmidt management continuum
-    &lt;ul&gt;
-      &lt;li&gt;it’s all about deciding how much control you want to have&lt;/li&gt;
-      &lt;li&gt;continuum is: tells -&amp;gt; sells -&amp;gt; shares -&amp;gt; consults -&amp;gt; delegates&lt;/li&gt;
-      &lt;li&gt;this is in increasing order of freedom for your team, or decreasing order
-of your control&lt;/li&gt;
-      &lt;li&gt;final stage is empowerment where we are not monitoring but are available for
-support/consultation&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;delegating (or empowering)
-    &lt;ul&gt;
-      &lt;li&gt;provides a sense of ownership and motivation&lt;/li&gt;
-      &lt;li&gt;frees your time&lt;/li&gt;
-      &lt;li&gt;helps others learn&lt;/li&gt;
-      &lt;li&gt;increases bus factor and thereby reduces risk&lt;/li&gt;
-      &lt;li&gt;acts as a training experience&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;abdicating is basically delegating but not available for support and coaching!&lt;/li&gt;
-  &lt;li&gt;people don’t delegate because of the fear
-    &lt;ul&gt;
-      &lt;li&gt;that it might go wrong - but it is unfounded since you’ll be monitoring and
-supporting all the way!&lt;/li&gt;
-      &lt;li&gt;that they might be better than me - which is fine because that’ll make you
-look good in front of your boss!&lt;/li&gt;
-      &lt;li&gt;that they might be overloaded - but by giving them more work, they might
-become efficient! Remember that they’ll always look busy in front of you!&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;if your team can function for a few weeks to months without you, then you have
-delegated (or even empowered) them sufficiently!&lt;/li&gt;
-  &lt;li&gt;don’t take the monkey
-    &lt;ul&gt;
-      &lt;li&gt;if they come with a problem, don’t say “leave it with me”&lt;/li&gt;
-      &lt;li&gt;ask questions (or guide) to let them come with a plan and then follow-up&lt;/li&gt;
-      &lt;li&gt;remember, you are the boss and they work for you!&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;“situational” leadership
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                   competency
-              low                    high
-motivation
-     high    enthusiatic           experienced
-
-     low     lacking confidence    bored
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;freedom ladder (types of workers)
-    &lt;ul&gt;
-      &lt;li&gt;wait until told&lt;/li&gt;
-      &lt;li&gt;ask what’s next&lt;/li&gt;
-      &lt;li&gt;suggest next&lt;/li&gt;
-      &lt;li&gt;just do it and report afterwards&lt;/li&gt;
-      &lt;li&gt;free to act (occasional reporting only)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;tannenbaum and schmidt is for planning and freedom ladder for doing&lt;/li&gt;
-  &lt;li&gt;let your team help you in becoming a better boss!&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="leadership" /><category term="udemy-notes" /><summary type="html">Introduction This online video course by Chris Croft talks about various management and leadership styles and skills to help us become a better leader. This course can be found here. Given below are the raw notes I took while attending this course.</summary></entry></feed>
+&lt;/ul&gt;</content><author><name></name></author><category term="self-help" /><category term="book-notes" /><summary type="html">Introduction In this book Malcolm Gladwell, through series of real life incidents, shows that more is not always better and less is not always bad; as paradoxical as it sounds! Through various examples from history, he demonstrates the importance of inverted U-curve while making decisions. He shows that depending on the vantage point, what we usually perceive as advantages can turn out to be disdvantages and vice-versa. This book can be found here.</summary></entry></feed>
