@@ -1,0 +1,75 @@
+---
+layout: post
+title: "Computing Extremely Accurate Quantiles Using t-Digests"
+needmath: true
+tags: tech-notes paper-notes data-analytics
+---
+
+### Proposal
+Main paper can be found [here](https://arxiv.org/pdf/1902.04023).
+
+* online approximate quantile computation
+* accuracy of q-th quantile is max(q, 1-q)
+* merging of summaries (aka digests) results is lesser loss of accuracy
+* can also be extended for weighted samples
+
+### Summary
+- digest = partition of samples; aka clusters
+- t-digest = a digest with any cluster of unit weight or bounded by some scale
+  function.
+- weight = number of samples in the cluster C; aka \|C\|
+- fully merged t-digest = no two consecutive clusters can be merged without the
+  violation of the weight bound
+- a cluster is represented by its mean and number of samples in it
+- clusters at both ends of the quantile are kept smaller while the ones in the
+  middle are larger
+- scale function
+  - it must be a non-decreasing function
+  - $$k_1(q) = \frac{\delta}{2 \pi} arcsin(2q - 1)$$
+    - $$\delta$$ = compression parameter. Atleast for $$k_1$$ it ends up bounding
+      the number of clusters to $$[\lfloor \frac{\delta}{2} \rfloor, \lceil \delta \rceil]$$
+    - $$k$$ is the notional index
+    - $$n$$ = number of samples. It is assumed to be much larger than $$\delta$$
+  - $$\|C_k\| = k(q_r) - k(q_l) \le 1$$, for any cluster with weight $$\ge$$ 1
+  - $$q_l = \frac{W_l(C)}{n}$$
+  - $$q_r = q_l + \frac{\|C\|}{n}$$
+  - $$W_l(C)$$ = sum of weights of all clusters to the left of it
+  - this function leads to estimates which are very accurate near extreme quantiles
+    and modestly accurate in the middle
+  - another scale function is linear: $$k_0(q) = \frac{\delta q}{2}$$. It can work
+    but trades off accuracy for computation
+- other scale functions are:
+  - $$k_2(q) = \frac{\delta}{4 log(\frac{n}{\delta}) + 24} log(\frac{q}{1-q})$$
+  - $$k_3(q) = \frac{\delta}{4 log(\frac{n}{\delta}) + 21} log(2q)  if q \le 0.5$$
+  - $$k_3(q) = \frac{\delta}{4 log(\frac{n}{\delta}) + 21} (-log(2(1 - q)))  if q > 0.5$$
+- merging 2 t-digests is still possible but might end up with weakly ordered
+  clusters, whose error bounds are hard to prove
+- but in practice merging doesn't result in significant loss of accuracy, especially
+  if we do stratified merging where we use higher value of $$\delta$$ while computing
+  the clusters and lower value while merging 2 t-digests
+- merging new-data with an existing t-digest
+  - C = input t-digest to be merged
+  - X = input data to be merged with t-digest
+  - m = number of clusters in C
+- algo as follows:
+  - X = sort(C union X)
+  - S = $$\Sigma_i X_i.count$$
+  - C' = []
+  - $$q_0$$ = 0
+  - $$q_{limit} = k^{-1}(k(q_0, \delta) + 1, \delta)$$
+  - $$\sigma = x_1$$
+  - for i = 2 ... (m + n)
+    - q = $$q_0 + \frac{\sigma.count + x_i.count}{\delta}$$
+    - if q $$\le$$ $$q_{limit}$$: $$\sigma += x_i$$
+    - else:
+      - C'.append($$\sigma$$)
+      - $$q_0 += \frac{\sigma.count}{S}$$
+      - $$q_{limit} = k^{-1}(k(q_0, \delta) + 1, \delta)$$
+      - $$\sigma = x_i$$
+  - C'.append($$\sigma$$)
+- this merge could cause centroids near q = 0 to shift their centroids thereby
+  causing weak ordering!
+- effect of this issue can be reduced by alternating scan order of merge, ie.
+  ascending order first, then descending order, and so on
+- if instead we set the data buffer to be just 1, then there's a clustering
+  variant of the above merge algo too.
