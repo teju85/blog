@@ -1,4 +1,84 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-08-14T22:20:44+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">MLE and KLD from GAN’s PoV</title><link href="https://teju85.github.io/blog/2021/08/14/mle-and-kld.html" rel="alternate" type="text/html" title="MLE and KLD from GAN's PoV" /><published>2021-08-14T00:00:00+05:30</published><updated>2021-08-14T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/08/14/mle-and-kld</id><content type="html" xml:base="https://teju85.github.io/blog/2021/08/14/mle-and-kld.html">&lt;h3 id=&quot;mle-and-kld&quot;&gt;MLE and KLD&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-08-14T23:29:11+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Initial notes from my study on SAT solvers</title><link href="https://teju85.github.io/blog/2021/08/14/SAT-solvers.html" rel="alternate" type="text/html" title="Initial notes from my study on SAT solvers" /><published>2021-08-14T00:00:00+05:30</published><updated>2021-08-14T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/08/14/SAT-solvers</id><content type="html" xml:base="https://teju85.github.io/blog/2021/08/14/SAT-solvers.html">&lt;h3 id=&quot;sat-solvers&quot;&gt;SAT solvers&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;DNF - Disjunctive Normal Form. Eg: &lt;code class=&quot;highlighter-rouge&quot;&gt;(x AND y) OR (y AND z)&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;NNF - Negative Normal Form. All negations are only in front of variables&lt;/li&gt;
+  &lt;li&gt;CNF - Conjunctive Normal Form. Eg: &lt;code class=&quot;highlighter-rouge&quot;&gt;(x OR y) AND (y OR z)&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;CNF formula is a set of clauses (conjunctive) which each clause being a set of
+literals (disjunctive)
+    &lt;ul&gt;
+      &lt;li&gt;empty formula represents a true formula&lt;/li&gt;
+      &lt;li&gt;empty clause represents a false clause&lt;/li&gt;
+      &lt;li&gt;unit clause is a clause with just 1 literal&lt;/li&gt;
+      &lt;li&gt;variable is referred by its id&lt;/li&gt;
+      &lt;li&gt;positive id means the variable and negative means its negation&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;SAT is NP-complete but in practice (aka real world problems) we can do much better&lt;/li&gt;
+  &lt;li&gt;Serial SAT algos
+    &lt;ul&gt;
+      &lt;li&gt;complete algos (aka systematic solvers)
+        &lt;ul&gt;
+          &lt;li&gt;Typically based on backtracking&lt;/li&gt;
+          &lt;li&gt;eg: DPLL, GRASP&lt;/li&gt;
+          &lt;li&gt;computationally expensive&lt;/li&gt;
+          &lt;li&gt;will return all satisfying assignments if they exist&lt;/li&gt;
+          &lt;li&gt;else will give proof for unsatisfiability&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;incomplete algos
+        &lt;ul&gt;
+          &lt;li&gt;eg: randomized algos, local search based, GSAT, WalkSAT&lt;/li&gt;
+          &lt;li&gt;may or may not produce SAT/UNSAT&lt;/li&gt;
+          &lt;li&gt;these local search strategies do often reach global minima!&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Parallel algos
+    &lt;ul&gt;
+      &lt;li&gt;partioning based&lt;/li&gt;
+      &lt;li&gt;competition based&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;DPLL
+    &lt;ul&gt;
+      &lt;li&gt;complete solver based on backtracking&lt;/li&gt;
+      &lt;li&gt;most of the complete solvers are all mostly based on this algo&lt;/li&gt;
+      &lt;li&gt;if it is a unit clause then assign it to true&lt;/li&gt;
+      &lt;li&gt;repeat until no more unit clauses&lt;/li&gt;
+      &lt;li&gt;if a conflict is found, backtrack and assign a different value to that literal&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;GRASP
+    &lt;ul&gt;
+      &lt;li&gt;improvement over DPLL with learning clauses to reduce the amount of backtracking&lt;/li&gt;
+      &lt;li&gt;uses CDCL - Conflict Driven Clause Learning&lt;/li&gt;
+      &lt;li&gt;helps narrows search space with DPLL&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;k-CNF = formulat with every clause having exactly ‘k’ literals&lt;/li&gt;
+  &lt;li&gt;2-CNF formulae can be solved in poly-time, whereas 3-CNF is already NP-complete&lt;/li&gt;
+  &lt;li&gt;to reduce memory usage most solvers nowadays are iterative rather than recursive&lt;/li&gt;
+  &lt;li&gt;GSAT
+    &lt;ul&gt;
+      &lt;li&gt;randomized local search technique&lt;/li&gt;
+      &lt;li&gt;selects assignments which most reduces the number of remaining clauses&lt;/li&gt;
+      &lt;li&gt;can also move sideways (aka plateaus) which doesn’t reduce this at all!&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;WalkSAT
+    &lt;ul&gt;
+      &lt;li&gt;interleaves greedy moves of GSAT with random walks of a Metropolis search&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;m = #of clauses, n = #of variables, for k-CNF problems, if clauses are generated
+randomly, then the hardness of these problems (aka number of DP calls) follows
+an easy-hard-easy pattern as a function of &lt;script type=&quot;math/tex&quot;&gt;\frac{m}{n}&lt;/script&gt;. But when we don’t
+consider fixed length clauses then there are no such clean indication of hardness!&lt;/li&gt;
+  &lt;li&gt;the above was the main reason which motivated local search methods for SAT solvers&lt;/li&gt;
+  &lt;li&gt;SP - Survey Propagation. Use of probabilistic reasoning for solving combinatorial
+search problems. But SP is currently limited only for random SAT instances!&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="sat" /><summary type="html">SAT solvers DNF - Disjunctive Normal Form. Eg: (x AND y) OR (y AND z) NNF - Negative Normal Form. All negations are only in front of variables CNF - Conjunctive Normal Form. Eg: (x OR y) AND (y OR z) CNF formula is a set of clauses (conjunctive) which each clause being a set of literals (disjunctive) empty formula represents a true formula empty clause represents a false clause unit clause is a clause with just 1 literal variable is referred by its id positive id means the variable and negative means its negation SAT is NP-complete but in practice (aka real world problems) we can do much better Serial SAT algos complete algos (aka systematic solvers) Typically based on backtracking eg: DPLL, GRASP computationally expensive will return all satisfying assignments if they exist else will give proof for unsatisfiability incomplete algos eg: randomized algos, local search based, GSAT, WalkSAT may or may not produce SAT/UNSAT these local search strategies do often reach global minima! Parallel algos partioning based competition based DPLL complete solver based on backtracking most of the complete solvers are all mostly based on this algo if it is a unit clause then assign it to true repeat until no more unit clauses if a conflict is found, backtrack and assign a different value to that literal GRASP improvement over DPLL with learning clauses to reduce the amount of backtracking uses CDCL - Conflict Driven Clause Learning helps narrows search space with DPLL k-CNF = formulat with every clause having exactly ‘k’ literals 2-CNF formulae can be solved in poly-time, whereas 3-CNF is already NP-complete to reduce memory usage most solvers nowadays are iterative rather than recursive GSAT randomized local search technique selects assignments which most reduces the number of remaining clauses can also move sideways (aka plateaus) which doesn’t reduce this at all! WalkSAT interleaves greedy moves of GSAT with random walks of a Metropolis search m = #of clauses, n = #of variables, for k-CNF problems, if clauses are generated randomly, then the hardness of these problems (aka number of DP calls) follows an easy-hard-easy pattern as a function of . But when we don’t consider fixed length clauses then there are no such clean indication of hardness! the above was the main reason which motivated local search methods for SAT solvers SP - Survey Propagation. Use of probabilistic reasoning for solving combinatorial search problems. But SP is currently limited only for random SAT instances!</summary></entry><entry><title type="html">MLE and KLD from GAN’s PoV</title><link href="https://teju85.github.io/blog/2021/08/14/mle-and-kld.html" rel="alternate" type="text/html" title="MLE and KLD from GAN's PoV" /><published>2021-08-14T00:00:00+05:30</published><updated>2021-08-14T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/08/14/mle-and-kld</id><content type="html" xml:base="https://teju85.github.io/blog/2021/08/14/mle-and-kld.html">&lt;h3 id=&quot;mle-and-kld&quot;&gt;MLE and KLD&lt;/h3&gt;
 &lt;ul&gt;
   &lt;li&gt;Assume that &lt;script type=&quot;math/tex&quot;&gt;P_r(x)&lt;/script&gt; is the real distribution to be approximated&lt;/li&gt;
   &lt;li&gt;MLE = &lt;script type=&quot;math/tex&quot;&gt;max_\Theta \frac{1}{m} \Sigma_{i=1}^m log P_\Theta(x_i)&lt;/script&gt;&lt;/li&gt;
@@ -912,164 +992,4 @@ Sometimes, the way we treat or our belief in other people can have significant
 influence in their lives&lt;/li&gt;
   &lt;li&gt;to keep up with the upward spiral of renewal, we must continually learn,
 commit and do; over and over.&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="self-help" /><category term="book-notes" /><summary type="html">Introduction This very popular book by Stephen Covery teaches the seven habits that we all must inculcate to lead an effective and fruitful life. This book can be found here.</summary></entry><entry><title type="html">Heterogeneous Graph Transformer</title><link href="https://teju85.github.io/blog/2021/02/13/hgt.html" rel="alternate" type="text/html" title="Heterogeneous Graph Transformer" /><published>2021-02-13T00:00:00+05:30</published><updated>2021-02-13T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/02/13/hgt</id><content type="html" xml:base="https://teju85.github.io/blog/2021/02/13/hgt.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
-&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/abs/2003.01332&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;uses meta-relations on node and edge types for heterogeneous graphs&lt;/li&gt;
-  &lt;li&gt;proposes HGT network for working on such graphs&lt;/li&gt;
-  &lt;li&gt;propose a HGSampling algo tailor-made for this network for the purpose of
-minibatch training&lt;/li&gt;
-  &lt;li&gt;propose Relative Temporal Encoding (RTE) to work with dynamic graphs&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;h4 id=&quot;hetergeneous-mutual-attention&quot;&gt;Hetergeneous mutual attention&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;script type=&quot;math/tex; mode=display&quot;&gt;H^l(t) = Agg_{s \in N(t)}(Att(s, t) Msg(s))&lt;/script&gt;
-  &lt;/li&gt;
-  &lt;li&gt;where:
-    &lt;ul&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;t&lt;/script&gt; = target node&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;s&lt;/script&gt; = source nodes&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;l&lt;/script&gt; = &lt;script type=&quot;math/tex&quot;&gt;l&lt;/script&gt;-th layer of the network&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;H&lt;/script&gt; = output node embedding of the layer&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;Agg&lt;/script&gt; = heterogeneous aggregation function. &lt;script type=&quot;math/tex&quot;&gt;Agg(.) = \sigma(Mean(.))&lt;/script&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;N&lt;/script&gt; = neighborhood of the target node&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;Att&lt;/script&gt; = heterogeneous edgewise attention weights&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;Msg&lt;/script&gt; = heterogeneous message passing from the source nodes. &lt;script type=&quot;math/tex&quot;&gt;Msg(s) = W H^{l-1}(s)&lt;/script&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;L&lt;/script&gt; = number of layers in the network&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Hetergeneous Attention
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;Att(s, t) = softmax_{s \in N(t)}(concat_{i \in [1,h]}(AttHead^i(s, e, t))&lt;/script&gt;
-      &lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;h&lt;/script&gt; = number of attention heads&lt;/li&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;AttHead^i(s, e, t) = K^i(s) W^{ATT}_{\phi(e)} Q^i(t)^T \frac{\mu_{\tau(s),\phi(e),\tau(t)}}{\sqrt{d}}&lt;/script&gt;
-      &lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\phi&lt;/script&gt; = edge types&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\tau&lt;/script&gt; = node types&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\mu&lt;/script&gt; = significance weights based on the meta relation triplet&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;d&lt;/script&gt; = dimensionality of the final attention output&lt;/li&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;K^i(s) = KLinear^i_{\tau(s)}(H^{l-1}(s))&lt;/script&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;Q^i(t) = QLinear^i{\tau(t)}(H^{l-1}(t))&lt;/script&gt;
-      &lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;W^{ATT}_{\phi(e)}&lt;/script&gt; = edge-based attention weights&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Heterogeneous message passing
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;Msg(s, e, t) = concat_{i \in [1,h]}(MsgHead^i(s, e, t))&lt;/script&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;MsgHead^i(s, e, t) = MLinear^i_{\tau(s)}(H^{l-1}(s)) W^{MSG}_{\phi(e)}&lt;/script&gt;
-      &lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;W^{MSG}_{\phi(e)}&lt;/script&gt; = edge-based message weights&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;target specific aggregation
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;H^{~(l)}(t) = \Sigma_{s \in N(t)}(Att(s, e, t) . Msg(s, e, t))&lt;/script&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;H^l(t) = ALinear_{\tau(t)}(\sigma(H^{~(l)}(t))) + H^{l-1}(t)&lt;/script&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;rte&quot;&gt;RTE&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;to help work with dynamic graphs with timestamps&lt;/li&gt;
-  &lt;li&gt;based on Transformer’s positional encoding technique&lt;/li&gt;
-  &lt;li&gt;
-    &lt;script type=&quot;math/tex; mode=display&quot;&gt;\Delta(t, s) = T(t) - T(s)&lt;/script&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;T&lt;/script&gt; = timestamp associated with the nodes/edges&lt;/li&gt;
-  &lt;li&gt;
-    &lt;script type=&quot;math/tex; mode=display&quot;&gt;B(\Delta(t, s), 2i) = sin(\frac{\Delta(t, s)}{10000^{\frac{2i}{d}}})&lt;/script&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;script type=&quot;math/tex; mode=display&quot;&gt;B(\Delta(t, s), 2i+1) = cos(\frac{\Delta(t, s)}{10000^{\frac{2i+1}{d}}})&lt;/script&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;script type=&quot;math/tex; mode=display&quot;&gt;RTE(\Delta(t, s)) = TLinear(Base(\Delta(t, s)))&lt;/script&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Finally, the input node-embeddings at &lt;script type=&quot;math/tex&quot;&gt;l&lt;/script&gt;-th layer will be:
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;H^{~(l)}(s) = H^{l-1}(s) + RTE(\Delta(t, s)&lt;/script&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;hgsampling&quot;&gt;HGSampling&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;sampling method needs to be aware of different node and edge types so as not
-to create imbalances in sampling and reduce variance in sampling&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;AddInBudget(B, t, A, NS)&lt;/li&gt;
-  &lt;li&gt;for each source node type &lt;script type=&quot;math/tex&quot;&gt;\tau&lt;/script&gt; and edge type &lt;script type=&quot;math/tex&quot;&gt;\phi&lt;/script&gt;:
-    &lt;ul&gt;
-      &lt;li&gt;normalized node-degree &lt;script type=&quot;math/tex&quot;&gt;D_t = \frac{1}{len(A_{\tau(s), \phi(e), \tau(t)}(t))}&lt;/script&gt;&lt;/li&gt;
-      &lt;li&gt;for source node &lt;script type=&quot;math/tex&quot;&gt;s&lt;/script&gt; in &lt;script type=&quot;math/tex&quot;&gt;A_{\tau(s), \phi(e), \tau(t)}(t)&lt;/script&gt;:
-        &lt;ul&gt;
-          &lt;li&gt;if &lt;script type=&quot;math/tex&quot;&gt;s&lt;/script&gt; is not sampled:
-            &lt;ul&gt;
-              &lt;li&gt;if &lt;script type=&quot;math/tex&quot;&gt;s&lt;/script&gt; has no timestamp then &lt;script type=&quot;math/tex&quot;&gt;s.time = t.time&lt;/script&gt;&lt;/li&gt;
-              &lt;li&gt;update &lt;script type=&quot;math/tex&quot;&gt;B(\tau)(s) += D_t&lt;/script&gt;&lt;/li&gt;
-            &lt;/ul&gt;
-          &lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;for &lt;script type=&quot;math/tex&quot;&gt;t \in NS&lt;/script&gt;:
-    &lt;ul&gt;
-      &lt;li&gt;AddInBudget(B, t, A, NS)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;for &lt;script type=&quot;math/tex&quot;&gt;l \in [1, L]&lt;/script&gt;:
-    &lt;ul&gt;
-      &lt;li&gt;for source node type &lt;script type=&quot;math/tex&quot;&gt;\tau \in B&lt;/script&gt;:
-        &lt;ul&gt;
-          &lt;li&gt;for source node &lt;script type=&quot;math/tex&quot;&gt;s \in B(\tau)&lt;/script&gt;:
-            &lt;ul&gt;
-              &lt;li&gt;compute probability &lt;script type=&quot;math/tex&quot;&gt;p^{l-1}(\tau)(s) = \frac{B(\tau)(s)^2}{L2Norm(B(\tau))^2}&lt;/script&gt;&lt;/li&gt;
-            &lt;/ul&gt;
-          &lt;/li&gt;
-          &lt;li&gt;sample &lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt; nodes &lt;script type=&quot;math/tex&quot;&gt;t^n_i&lt;/script&gt; from &lt;script type=&quot;math/tex&quot;&gt;B(\tau)&lt;/script&gt; using &lt;script type=&quot;math/tex&quot;&gt;p^{l-1}(\tau)&lt;/script&gt;&lt;/li&gt;
-          &lt;li&gt;for &lt;script type=&quot;math/tex&quot;&gt;t \in t^n_i&lt;/script&gt;:
-            &lt;ul&gt;
-              &lt;li&gt;
-                &lt;script type=&quot;math/tex; mode=display&quot;&gt;OS(\tau).add(t)&lt;/script&gt;
-              &lt;/li&gt;
-              &lt;li&gt;AddInBudget(B, t, A, NS)&lt;/li&gt;
-              &lt;li&gt;
-                &lt;script type=&quot;math/tex; mode=display&quot;&gt;B(\tau).pop(t)&lt;/script&gt;
-              &lt;/li&gt;
-            &lt;/ul&gt;
-          &lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;construct the adjacency matrix for the subsampled graph&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;A&lt;/script&gt; = adjacency matrix&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;B&lt;/script&gt; = budget info used for computing probability of sampling&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;NS&lt;/script&gt; = sampled node set&lt;/li&gt;
-  &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;OS&lt;/script&gt; = output sampled node set&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry></feed>
+&lt;/ul&gt;</content><author><name></name></author><category term="self-help" /><category term="book-notes" /><summary type="html">Introduction This very popular book by Stephen Covery teaches the seven habits that we all must inculcate to lead an effective and fruitful life. This book can be found here.</summary></entry></feed>
