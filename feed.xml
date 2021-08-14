@@ -1,4 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-07-28T10:56:44+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Computing Extremely Accurate Quantiles Using t-Digests</title><link href="https://teju85.github.io/blog/2021/07/28/t-digest.html" rel="alternate" type="text/html" title="Computing Extremely Accurate Quantiles Using t-Digests" /><published>2021-07-28T00:00:00+05:30</published><updated>2021-07-28T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/28/t-digest</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/28/t-digest.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-08-14T22:20:44+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">MLE and KLD from GAN’s PoV</title><link href="https://teju85.github.io/blog/2021/08/14/mle-and-kld.html" rel="alternate" type="text/html" title="MLE and KLD from GAN's PoV" /><published>2021-08-14T00:00:00+05:30</published><updated>2021-08-14T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/08/14/mle-and-kld</id><content type="html" xml:base="https://teju85.github.io/blog/2021/08/14/mle-and-kld.html">&lt;h3 id=&quot;mle-and-kld&quot;&gt;MLE and KLD&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Assume that &lt;script type=&quot;math/tex&quot;&gt;P_r(x)&lt;/script&gt; is the real distribution to be approximated&lt;/li&gt;
+  &lt;li&gt;MLE = &lt;script type=&quot;math/tex&quot;&gt;max_\Theta \frac{1}{m} \Sigma_{i=1}^m log P_\Theta(x_i)&lt;/script&gt;&lt;/li&gt;
+  &lt;li&gt;in the limit &lt;script type=&quot;math/tex&quot;&gt;m -&gt; \infty&lt;/script&gt;, this is the same as minimizing KLD!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;equations&quot;&gt;Equations&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;lt_{m -&gt; \infty} max_\Theta \frac{1}{m} \Sigma_{i=1}^m log P_\Theta(x)&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;max_\Theta (integral(P_r(x) log P_\Theta(x) dx))&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;min_\Theta (-integral(P_r(x) log P_\Theta(x) dx))&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;min_\Theta (integral(P_r(x) log P_r(x) dx) - integral(P_\Theta(x) log P_\Theta(x) dx))&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;script type=&quot;math/tex; mode=display&quot;&gt;min_\Theta (integral(P_r(x) log \frac{P_r(x)}{P_\Theta(x)} dx))&lt;/script&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Which is the same as minimizing KLD!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;issues-with-kld&quot;&gt;Issues with KLD&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;KLD has numerical stability issues when &lt;script type=&quot;math/tex&quot;&gt;P_r(x)&lt;/script&gt; or &lt;script type=&quot;math/tex&quot;&gt;P_\Theta(x)&lt;/script&gt; is close
+to zero&lt;/li&gt;
+  &lt;li&gt;This is typically solved by adding noise to &lt;script type=&quot;math/tex&quot;&gt;P_\Theta&lt;/script&gt;&lt;/li&gt;
+  &lt;li&gt;Sampling from &lt;script type=&quot;math/tex&quot;&gt;P_\Theta&lt;/script&gt; is computationally expensive&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Thus, better to learn a function &lt;script type=&quot;math/tex&quot;&gt;g_\Theta&lt;/script&gt; which can transform a given
+transform a given distribution into &lt;script type=&quot;math/tex&quot;&gt;P_\Theta&lt;/script&gt; ie. &lt;script type=&quot;math/tex&quot;&gt;P_\Theta ~= g_\Theta(z)&lt;/script&gt;&lt;/li&gt;
+  &lt;li&gt;This is the basis of GAN’s :)&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="math" /><summary type="html">MLE and KLD Assume that is the real distribution to be approximated MLE = in the limit , this is the same as minimizing KLD!</summary></entry><entry><title type="html">Computing Extremely Accurate Quantiles Using t-Digests</title><link href="https://teju85.github.io/blog/2021/07/28/t-digest.html" rel="alternate" type="text/html" title="Computing Extremely Accurate Quantiles Using t-Digests" /><published>2021-07-28T00:00:00+05:30</published><updated>2021-07-28T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/28/t-digest</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/28/t-digest.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1902.04023&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
@@ -111,7 +151,48 @@ causing weak ordering!&lt;/li&gt;
 ascending order first, then descending order, and so on&lt;/li&gt;
   &lt;li&gt;if instead we set the data buffer to be just 1, then there’s a clustering
 variant of the above merge algo too.&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="data-analytics" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">Debloating Redmi 7A</title><link href="https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat.html" rel="alternate" type="text/html" title="Debloating Redmi 7A" /><published>2021-07-22T00:00:00+05:30</published><updated>2021-07-22T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat.html">&lt;p&gt;Assuming you are inside the &lt;code class=&quot;highlighter-rouge&quot;&gt;adb shell&lt;/code&gt;, running the below commands would remove
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="data-analytics" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">Large Graph Convolutional Network Training with GPU-Oriented Data Communication Architecture</title><link href="https://teju85.github.io/blog/2021/07/22/zero-copy-in-GNNs.html" rel="alternate" type="text/html" title="Large Graph Convolutional Network Training with GPU-Oriented Data Communication Architecture" /><published>2021-07-22T00:00:00+05:30</published><updated>2021-07-22T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/22/zero-copy-in-GNNs</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/22/zero-copy-in-GNNs.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/2103.03330v1.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;zero-copy based, SM-initiated host-to-device copies of embeddings&lt;/li&gt;
+  &lt;li&gt;perform aligned reads and MPS (for resource provisioning) to maximize PCIe utilization&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;DMA-based host-to-device copies work only when the data is bulk. Embeddings in
+GNN’s do not yield well to DMA-based copies. Thus, have SM’s on GPU’s issue
+host-to-device from zero-copy buffers&lt;/li&gt;
+  &lt;li&gt;even while doing zero-copy from the GPU’s care needs to be taken in order to coalesce
+and also make sure that the number of PCIe requests are minimized. (Because each PCIe
+packet has 12-16B header overhead)&lt;/li&gt;
+  &lt;li&gt;need to also fully utilize the PCIe links by issuing as many such requests as
+possible. On PCIe3 number of such outstanding requests is 256 and 768 on PCIe4.&lt;/li&gt;
+  &lt;li&gt;So, to reduce the number of PCIe requests due to misaligned addresses, a circular
+shift is applied to all threads and warps.&lt;/li&gt;
+  &lt;li&gt;As expected, this circular shift is not necessary if the embedding size is less
+than the GPU cacheline size or it is already 128B aligned.&lt;/li&gt;
+  &lt;li&gt;We also need to make sure that the computation kernels are running alongside of
+this zero-copy kernel in order to maximize GPU utilization.&lt;/li&gt;
+  &lt;li&gt;But this is not guaranteed when there are blocking CUDA API calls like
+&lt;code class=&quot;highlighter-rouge&quot;&gt;cudaMalloc&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;cudaFree&lt;/code&gt;, etc.&lt;/li&gt;
+  &lt;li&gt;So, the solution is to use MPS to provision the amount of SM’s to be dedicated
+for the purpose of zero-copy. Thus, there’ll be atleast 2 processes: one for
+zero-copy and the other for compute and CUDA IPC will be used to share the
+buffer addresses between these.&lt;/li&gt;
+  &lt;li&gt;The sample -&amp;gt; gather -&amp;gt; compute flow is pipelined (using ping-pong buffers) to
+maximize overlap of these phases.&lt;/li&gt;
+  &lt;li&gt;For multi-GPU training, this whole setup is duplicated across every GPU by just
+relying on DGL’s data-parallel approach. The catch though is that unified memory
+in CUDA is not shareable across processes! So, they first create a host shared
+memory region and then call &lt;code class=&quot;highlighter-rouge&quot;&gt;cudaHostRegister&lt;/code&gt; on this buffer inside each
+process for each of the GPU in the current node.&lt;/li&gt;
+  &lt;li&gt;They note that atleast on RTX-3090, SM split of 15:85 between zero-copy and the
+actual training kernels is good enough to saturate PCIe bandwidth.&lt;/li&gt;
+  &lt;li&gt;However they also note that a 10:90 split didn’t show any noticeable change in
+the overall end-to-time minibatch time&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">Debloating Redmi 7A</title><link href="https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat.html" rel="alternate" type="text/html" title="Debloating Redmi 7A" /><published>2021-07-22T00:00:00+05:30</published><updated>2021-07-22T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/22/redmi-7a-debloat.html">&lt;p&gt;Assuming you are inside the &lt;code class=&quot;highlighter-rouge&quot;&gt;adb shell&lt;/code&gt;, running the below commands would remove
 all the unnecessary apps from Redmi 7A. This does NOT require you to be root.
 However, as expected, the .apk of these apps would still be available inside
 &lt;code class=&quot;highlighter-rouge&quot;&gt;/data/app&lt;/code&gt; folder.&lt;/p&gt;
@@ -158,48 +239,7 @@ pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.google.a
 pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.google.android.feedback       &lt;span class=&quot;c&quot;&gt;# Google feedback&lt;/span&gt;
 pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.google.android.videos         &lt;span class=&quot;c&quot;&gt;# Google Play Movies &amp;amp; TV&lt;/span&gt;
 pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.google.android.music          &lt;span class=&quot;c&quot;&gt;# Google Play Music&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="android" /><summary type="html">Assuming you are inside the adb shell, running the below commands would remove all the unnecessary apps from Redmi 7A. This does NOT require you to be root. However, as expected, the .apk of these apps would still be available inside /data/app folder. pm uninstall --user 0 com.miui.compass # Mi Compass pm uninstall --user 0 com.facebook.appmanager # Facebook pm uninstall --user 0 com.facebook.system pm uninstall --user 0 com.facebook.services pm uninstall --user 0 com.miui.yellowpage # Mi Yellow Pages pm uninstall --user 0 com.mipay.wallet.in # Mi Pay pm uninstall --user 0 com.xiaomi.payment pm uninstall --user 0 com.miui.weather2 # Mi Weather pm uninstall --user 0 com.miui.screenrecorder # Screen Recorder pm uninstall --user 0 com.miui.player # Music pm uninstall --user 0 com.xiaomi.scanner # Scanner pm uninstall --user 0 com.xiaomi.midrop # ShareMe pm uninstall --user 0 com.miui.analytics # Analytics pm uninstall --user 0 com.xiaomi.mipicks # GetApps pm uninstall --user 0 com.miui.android.fashiongallery # Wallpaper Carousel (Got &quot;Failure [-1000]&quot;!!) pm uninstall --user 0 com.miui.msa.global # Mi Ads service pm uninstall --user 0 com.miui.micloudsync # Mi Cloud pm uninstall --user 0 com.miui.cloudbackup pm uninstall --user 0 com.miui.cloudservice pm uninstall --user 0 com.miui.cloudservice.sysbase pm uninstall --user 0 -k com.android.thememanager # Themes pm uninstall --user 0 com.xiaomi.glgm # Mi Games pm uninstall --user 0 com.miui.backup # Mi Backup pm uninstall --user 0 com.tencent.soter.soterserver # Tencent app!? pm uninstall --user 0 com.miui.bugreport # Mi bug report pm uninstall --user 0 com.miui.miservice # Services &amp;amp; Feedback pm uninstall --user 0 com.xiaomi.joyose # ?? pm uninstall --user 0 com.xiaomi.miplay_client # MiPlayClient pm uninstall --user 0 com.android.chrome # Chrome browser (I use Firefox) pm uninstall --user 0 com.netflix.partner.activation # Netflix!? pm uninstall --user 0 com.miui.miwallpaper # Mi Wallpaper pm uninstall --user 0 com.android.wallpaper.livepicker pm uninstall --user 0 com.android.wallpaperbackup pm uninstall --user 0 com.android.wallpapercropper pm uninstall --user 0 com.xiaomi.xmsf # Xiaomi service framework pm uninstall --user 0 com.xiaomi.xmsfkeeper pm uninstall --user 0 com.miui.hybrid # Quick Apps pm uninstall --user 0 com.miui.hybrid.accessory pm uninstall --user 0 com.xiaomi.account # Mi Account pm uninstall --user 0 com.google.android.apps.wellbeing # Google Digital Wellbeing pm uninstall --user 0 com.google.android.feedback # Google feedback pm uninstall --user 0 com.google.android.videos # Google Play Movies &amp;amp; TV pm uninstall --user 0 com.google.android.music # Google Play Music</summary></entry><entry><title type="html">Large Graph Convolutional Network Training with GPU-Oriented Data Communication Architecture</title><link href="https://teju85.github.io/blog/2021/07/22/zero-copy-in-GNNs.html" rel="alternate" type="text/html" title="Large Graph Convolutional Network Training with GPU-Oriented Data Communication Architecture" /><published>2021-07-22T00:00:00+05:30</published><updated>2021-07-22T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/22/zero-copy-in-GNNs</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/22/zero-copy-in-GNNs.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
-&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/2103.03330v1.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;zero-copy based, SM-initiated host-to-device copies of embeddings&lt;/li&gt;
-  &lt;li&gt;perform aligned reads and MPS (for resource provisioning) to maximize PCIe utilization&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;DMA-based host-to-device copies work only when the data is bulk. Embeddings in
-GNN’s do not yield well to DMA-based copies. Thus, have SM’s on GPU’s issue
-host-to-device from zero-copy buffers&lt;/li&gt;
-  &lt;li&gt;even while doing zero-copy from the GPU’s care needs to be taken in order to coalesce
-and also make sure that the number of PCIe requests are minimized. (Because each PCIe
-packet has 12-16B header overhead)&lt;/li&gt;
-  &lt;li&gt;need to also fully utilize the PCIe links by issuing as many such requests as
-possible. On PCIe3 number of such outstanding requests is 256 and 768 on PCIe4.&lt;/li&gt;
-  &lt;li&gt;So, to reduce the number of PCIe requests due to misaligned addresses, a circular
-shift is applied to all threads and warps.&lt;/li&gt;
-  &lt;li&gt;As expected, this circular shift is not necessary if the embedding size is less
-than the GPU cacheline size or it is already 128B aligned.&lt;/li&gt;
-  &lt;li&gt;We also need to make sure that the computation kernels are running alongside of
-this zero-copy kernel in order to maximize GPU utilization.&lt;/li&gt;
-  &lt;li&gt;But this is not guaranteed when there are blocking CUDA API calls like
-&lt;code class=&quot;highlighter-rouge&quot;&gt;cudaMalloc&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;cudaFree&lt;/code&gt;, etc.&lt;/li&gt;
-  &lt;li&gt;So, the solution is to use MPS to provision the amount of SM’s to be dedicated
-for the purpose of zero-copy. Thus, there’ll be atleast 2 processes: one for
-zero-copy and the other for compute and CUDA IPC will be used to share the
-buffer addresses between these.&lt;/li&gt;
-  &lt;li&gt;The sample -&amp;gt; gather -&amp;gt; compute flow is pipelined (using ping-pong buffers) to
-maximize overlap of these phases.&lt;/li&gt;
-  &lt;li&gt;For multi-GPU training, this whole setup is duplicated across every GPU by just
-relying on DGL’s data-parallel approach. The catch though is that unified memory
-in CUDA is not shareable across processes! So, they first create a host shared
-memory region and then call &lt;code class=&quot;highlighter-rouge&quot;&gt;cudaHostRegister&lt;/code&gt; on this buffer inside each
-process for each of the GPU in the current node.&lt;/li&gt;
-  &lt;li&gt;They note that atleast on RTX-3090, SM split of 15:85 between zero-copy and the
-actual training kernels is good enough to saturate PCIe bandwidth.&lt;/li&gt;
-  &lt;li&gt;However they also note that a 10:90 split didn’t show any noticeable change in
-the overall end-to-time minibatch time&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">R-MAT: A Recursive Model for Graph Mining</title><link href="https://teju85.github.io/blog/2021/07/19/rmat.html" rel="alternate" type="text/html" title="R-MAT: A Recursive Model for Graph Mining" /><published>2021-07-19T00:00:00+05:30</published><updated>2021-07-19T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/19/rmat</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/19/rmat.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="android" /><summary type="html">Assuming you are inside the adb shell, running the below commands would remove all the unnecessary apps from Redmi 7A. This does NOT require you to be root. However, as expected, the .apk of these apps would still be available inside /data/app folder. pm uninstall --user 0 com.miui.compass # Mi Compass pm uninstall --user 0 com.facebook.appmanager # Facebook pm uninstall --user 0 com.facebook.system pm uninstall --user 0 com.facebook.services pm uninstall --user 0 com.miui.yellowpage # Mi Yellow Pages pm uninstall --user 0 com.mipay.wallet.in # Mi Pay pm uninstall --user 0 com.xiaomi.payment pm uninstall --user 0 com.miui.weather2 # Mi Weather pm uninstall --user 0 com.miui.screenrecorder # Screen Recorder pm uninstall --user 0 com.miui.player # Music pm uninstall --user 0 com.xiaomi.scanner # Scanner pm uninstall --user 0 com.xiaomi.midrop # ShareMe pm uninstall --user 0 com.miui.analytics # Analytics pm uninstall --user 0 com.xiaomi.mipicks # GetApps pm uninstall --user 0 com.miui.android.fashiongallery # Wallpaper Carousel (Got &quot;Failure [-1000]&quot;!!) pm uninstall --user 0 com.miui.msa.global # Mi Ads service pm uninstall --user 0 com.miui.micloudsync # Mi Cloud pm uninstall --user 0 com.miui.cloudbackup pm uninstall --user 0 com.miui.cloudservice pm uninstall --user 0 com.miui.cloudservice.sysbase pm uninstall --user 0 -k com.android.thememanager # Themes pm uninstall --user 0 com.xiaomi.glgm # Mi Games pm uninstall --user 0 com.miui.backup # Mi Backup pm uninstall --user 0 com.tencent.soter.soterserver # Tencent app!? pm uninstall --user 0 com.miui.bugreport # Mi bug report pm uninstall --user 0 com.miui.miservice # Services &amp;amp; Feedback pm uninstall --user 0 com.xiaomi.joyose # ?? pm uninstall --user 0 com.xiaomi.miplay_client # MiPlayClient pm uninstall --user 0 com.android.chrome # Chrome browser (I use Firefox) pm uninstall --user 0 com.netflix.partner.activation # Netflix!? pm uninstall --user 0 com.miui.miwallpaper # Mi Wallpaper pm uninstall --user 0 com.android.wallpaper.livepicker pm uninstall --user 0 com.android.wallpaperbackup pm uninstall --user 0 com.android.wallpapercropper pm uninstall --user 0 com.xiaomi.xmsf # Xiaomi service framework pm uninstall --user 0 com.xiaomi.xmsfkeeper pm uninstall --user 0 com.miui.hybrid # Quick Apps pm uninstall --user 0 com.miui.hybrid.accessory pm uninstall --user 0 com.xiaomi.account # Mi Account pm uninstall --user 0 com.google.android.apps.wellbeing # Google Digital Wellbeing pm uninstall --user 0 com.google.android.feedback # Google feedback pm uninstall --user 0 com.google.android.videos # Google Play Movies &amp;amp; TV pm uninstall --user 0 com.google.android.music # Google Play Music</summary></entry><entry><title type="html">R-MAT: A Recursive Model for Graph Mining</title><link href="https://teju85.github.io/blog/2021/07/19/rmat.html" rel="alternate" type="text/html" title="R-MAT: A Recursive Model for Graph Mining" /><published>2021-07-19T00:00:00+05:30</published><updated>2021-07-19T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/19/rmat</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/19/rmat.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;http://www.cs.cmu.edu/~christos/PUBLICATIONS/siam04.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
@@ -1032,128 +1072,4 @@ to create imbalances in sampling and reduce variance in sampling&lt;/p&gt;
   &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;B&lt;/script&gt; = budget info used for computing probability of sampling&lt;/li&gt;
   &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;NS&lt;/script&gt; = sampled node set&lt;/li&gt;
   &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;OS&lt;/script&gt; = output sampled node set&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">David and Goliath</title><link href="https://teju85.github.io/blog/2021/01/22/david-and-goliath.html" rel="alternate" type="text/html" title="David and Goliath" /><published>2021-01-22T00:00:00+05:30</published><updated>2021-01-22T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/01/22/david-and-goliath</id><content type="html" xml:base="https://teju85.github.io/blog/2021/01/22/david-and-goliath.html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
-&lt;p&gt;In this book Malcolm Gladwell, through series of real life incidents, shows that
-more is not always better and less is not always bad; as paradoxical as it
-sounds! Through various examples from history, he demonstrates the importance of
-inverted U-curve while making decisions. He shows that depending on the vantage
-point, what we usually perceive as advantages can turn out to be disdvantages
-and vice-versa. This book can be found
-&lt;a href=&quot;https://www.amazon.com/David-Goliath-Underdogs-Misfits-Battling/dp/0316204374&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;h4 id=&quot;introduction-1&quot;&gt;Introduction&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;sometimes, the strength of these giants can become the source of their weakness&lt;/li&gt;
-  &lt;li&gt;act of facing overwhelming odds can change people, but we often misinterpret it&lt;/li&gt;
-  &lt;li&gt;key points to note in this epic fight:
-    &lt;ul&gt;
-      &lt;li&gt;David was a slinger (artillery), whereas Goliath was an infantry. Slingers
-always beat infantry.&lt;/li&gt;
-      &lt;li&gt;Goliath was expecting another infantry for a hand-to-hand battle and thus
-was heavily armored, making him slow in his movements.&lt;/li&gt;
-      &lt;li&gt;David had no intention of doing so with no armor and so could maneuver
-quickly.&lt;/li&gt;
-      &lt;li&gt;power comes not only in size but also with speed and surprise&lt;/li&gt;
-      &lt;li&gt;Goliath had an assistant to hold his shield, that was mostly because to
-guide him as he couldn’t see. (He says, “sticks” when David was carrying
-only one)&lt;/li&gt;
-      &lt;li&gt;Israeli army saw Goliath and jumped to conclusions about what he could do.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;the-advantages-of-disadvantages-and-disadvantages-of-advantages&quot;&gt;The advantages of disadvantages (and disadvantages of advantages)&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;there are certainly advantages of having material resources. But there are
-also equal advantages of not having those!- we have a very rigid definition of
-what an advantage is and thus we find a David-Goliath event to be a surprise
-always&lt;/li&gt;
-  &lt;li&gt;the underdog and the misfits have little invested in the conventions. Thus
-they end up trying things that are unheard of&lt;/li&gt;
-  &lt;li&gt;most parents would love to enroll their children to schools with less crowd
-because they are convinced that lesser students means more individual
-attention from the teachers.&lt;/li&gt;
-  &lt;li&gt;however, many studies have found no correlation/causation between these two
-things!&lt;/li&gt;
-  &lt;li&gt;just like children of poor struggle, the kids of the wealthy also struggle as
-they are spoiled by the comfort and have lost their ambition&lt;/li&gt;
-  &lt;li&gt;so both the ends of the spectrum suffer and probably it’s somewhat better at
-the middle&lt;/li&gt;
-  &lt;li&gt;thus the curve of easyness of parenting as a function of the parents’ wealth
-is an inverted U-curve!&lt;/li&gt;
-  &lt;li&gt;inverted U-curves are notorious in showing to us that doing/having more not
-necessarily means more “output”&lt;/li&gt;
-  &lt;li&gt;all positive traits and experiences have an inherent cost and at high levels
-these costs will outweigh their benefits&lt;/li&gt;
-  &lt;li&gt;everyone of us want to compete fiercely in order to get into the finest
-institutions&lt;/li&gt;
-  &lt;li&gt;have we ever considered that is it good for us to be small fish in a big pond
-or a big fish in a small pond of our choosing!?&lt;/li&gt;
-  &lt;li&gt;in the big pond, there’s always a chance of experiencing “relative deprivation”.&lt;/li&gt;
-  &lt;li&gt;we form our impressions by comparing to folks ‘in the same boat’, rather than
-comparing globally&lt;/li&gt;
-  &lt;li&gt;and our impressions are the starting point for motivation and confidence&lt;/li&gt;
-  &lt;li&gt;the smarter your peers, the dumber you feel!&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;theory-of-desirable-difficulty&quot;&gt;theory of desirable difficulty&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;we all want to avoid disadvantages as they can set us back. However there are
-a few “desirable difficulties” which bring with them their own advantages&lt;/li&gt;
-  &lt;li&gt;eg: many of the successful entrepreneurs are dyslexic!&lt;/li&gt;
-  &lt;li&gt;if you have to overcome a hurdle, people do it better when we increase the
-difficulty a bit.&lt;/li&gt;
-  &lt;li&gt;however, it should be duly noted that not all difficulties are desirable!&lt;/li&gt;
-  &lt;li&gt;most of us excel in the things that we are good at. Because we are good at
-something, we like to do it more often and the more we do the better we get.
-This is “capitalisation learning”. This is easy&lt;/li&gt;
-  &lt;li&gt;desirable difficulties on the other hand force you to compensate for what’s
-lacking (aka “compensation learning”)&lt;/li&gt;
-  &lt;li&gt;thus what is learnt out of necessity is much stronger than what comes as easy&lt;/li&gt;
-  &lt;li&gt;the prediction of Londoners to the WWII German bombings were completely wrong.
-People went with their daily business as if nothing had happened.&lt;/li&gt;
-  &lt;li&gt;basically there are 3 groups of people created by these bombings:
-    &lt;ul&gt;
-      &lt;li&gt;casualties - they are gone and can never cause panic&lt;/li&gt;
-      &lt;li&gt;near misses - the wounded or traumatized&lt;/li&gt;
-      &lt;li&gt;remote misses - these will start to feel a strange sense of invulnerability!&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;and we all know self-confidence is the very father and mother of courage&lt;/li&gt;
-  &lt;li&gt;and in a big city like London, there were far more remote misses than near
-misses&lt;/li&gt;
-  &lt;li&gt;too often we jump to the conclusion that there can only be one response to
-traumatic experience. But from the above example it’s clear that there can be
-two!&lt;/li&gt;
-  &lt;li&gt;gifted children and prodigies tend to come in highly supportive families
-whereas geniuses grow up in adverse conditions&lt;/li&gt;
-  &lt;li&gt;courage is not acquired but earned through triumph against tough times&lt;/li&gt;
-  &lt;li&gt;affective forecasting - predicting how we feel about a future event. We are
-pretty bad at it!&lt;/li&gt;
-  &lt;li&gt;moral of the Brer rabbit stories was that even the weakest can triumph in a
-lopsided event if they were willing to use their wits- in other words, one
-gets an unexpected freedom from having nothing to lose&lt;/li&gt;
-  &lt;li&gt;a trickster is not a trickster by nature, but by necessity. Necessity coming
-out of playing a very unfair game&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;the-limits-of-power&quot;&gt;the limits of power&lt;/h4&gt;
-&lt;ul&gt;
-  &lt;li&gt;it’s been said that the revolutions are not caused by revolutionaries but by
-the stupidity and brutality of the governments. And what happened in Northern
-Ireland was just this&lt;/li&gt;
-  &lt;li&gt;we often think authority to be the answer to disobedience. But at times,
-disobedience can itself be due to authority!&lt;/li&gt;
-  &lt;li&gt;when the people in authority want the rest to behave, it first depends on how
-they behave&lt;/li&gt;
-  &lt;li&gt;principle of legitimacy:
-    &lt;ul&gt;
-      &lt;li&gt;people should have a feeling that their voices are being heard&lt;/li&gt;
-      &lt;li&gt;rules should be the same for all&lt;/li&gt;
-      &lt;li&gt;rules should apply to everybody the same way&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;those who give orders are very vulnerable of the opinions of those who are
-receiving their orders. Hence, legitimacy is highly needed&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="self-help" /><category term="book-notes" /><summary type="html">Introduction In this book Malcolm Gladwell, through series of real life incidents, shows that more is not always better and less is not always bad; as paradoxical as it sounds! Through various examples from history, he demonstrates the importance of inverted U-curve while making decisions. He shows that depending on the vantage point, what we usually perceive as advantages can turn out to be disdvantages and vice-versa. This book can be found here.</summary></entry></feed>
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry></feed>
