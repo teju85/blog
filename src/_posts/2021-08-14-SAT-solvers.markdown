@@ -62,10 +62,9 @@ tags: tech-notes sat
   - initial hour or so talks about the theory/background
 
 ### SAT Benchmarks
-* SAT Benchmarks
-  - Large SAT problems in CNF format: http://www.miroslav-velev.com/sat_benchmarks.html
-  - low-to-medium sized SAT problems in DIMACS CNF format: https://www.cs.ubc.ca/~hoos/SATLIB/benchm.html
+- Large SAT problems in CNF format: http://www.miroslav-velev.com/sat_benchmarks.html
+- low-to-medium sized SAT problems in DIMACS CNF format: https://www.cs.ubc.ca/~hoos/SATLIB/benchm.html
 
 ### GPU SAT solver implementations
-  - https://github.com/QuentinFiard/cuda-sat-solver - But doesn't seem to be calling any cuda kernels at all!?
-  - https://github.com/nicolasprevot/GpuShareSat
+- https://github.com/QuentinFiard/cuda-sat-solver - But doesn't seem to be calling any cuda kernels at all!?
+- https://github.com/nicolasprevot/GpuShareSat
