@@ -56,3 +56,16 @@ tags: tech-notes sat
 * the above was the main reason which motivated local search methods for SAT solvers
 * SP - Survey Propagation. Use of probabilistic reasoning for solving combinatorial
   search problems. But SP is currently limited only for random SAT instances!
+* Nice (4hrs!) talk on implementing a SAT solver from scratch
+  - video: https://www.youtube.com/watch?v=II2RhzwYszQ
+  - repo: https://github.com/arminbiere/satch
+  - initial hour or so talks about the theory/background
+
+### SAT Benchmarks
+* SAT Benchmarks
+  - Large SAT problems in CNF format: http://www.miroslav-velev.com/sat_benchmarks.html
+  - low-to-medium sized SAT problems in DIMACS CNF format: https://www.cs.ubc.ca/~hoos/SATLIB/benchm.html
+
+### GPU SAT solver implementations
+  - https://github.com/QuentinFiard/cuda-sat-solver - But doesn't seem to be calling any cuda kernels at all!?
+  - https://github.com/nicolasprevot/GpuShareSat
