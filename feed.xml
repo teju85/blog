@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-08-17T16:19:18+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Initial notes from my study on SAT solvers</title><link href="https://teju85.github.io/blog/2021/08/14/SAT-solvers.html" rel="alternate" type="text/html" title="Initial notes from my study on SAT solvers" /><published>2021-08-14T00:00:00+05:30</published><updated>2021-08-14T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/08/14/SAT-solvers</id><content type="html" xml:base="https://teju85.github.io/blog/2021/08/14/SAT-solvers.html">&lt;h3 id=&quot;sat-solvers&quot;&gt;SAT solvers&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-08-17T16:21:53+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Initial notes from my study on SAT solvers</title><link href="https://teju85.github.io/blog/2021/08/14/SAT-solvers.html" rel="alternate" type="text/html" title="Initial notes from my study on SAT solvers" /><published>2021-08-14T00:00:00+05:30</published><updated>2021-08-14T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/08/14/SAT-solvers</id><content type="html" xml:base="https://teju85.github.io/blog/2021/08/14/SAT-solvers.html">&lt;h3 id=&quot;sat-solvers&quot;&gt;SAT solvers&lt;/h3&gt;
 &lt;ul&gt;
   &lt;li&gt;DNF - Disjunctive Normal Form. Eg: &lt;code class=&quot;highlighter-rouge&quot;&gt;(x AND y) OR (y AND z)&lt;/code&gt;&lt;/li&gt;
   &lt;li&gt;NNF - Negative Normal Form. All negations are only in front of variables&lt;/li&gt;
@@ -89,12 +89,8 @@ search problems. But SP is currently limited only for random SAT instances!&lt;/
 
 &lt;h3 id=&quot;sat-benchmarks&quot;&gt;SAT Benchmarks&lt;/h3&gt;
 &lt;ul&gt;
-  &lt;li&gt;SAT Benchmarks
-    &lt;ul&gt;
-      &lt;li&gt;Large SAT problems in CNF format: http://www.miroslav-velev.com/sat_benchmarks.html&lt;/li&gt;
-      &lt;li&gt;low-to-medium sized SAT problems in DIMACS CNF format: https://www.cs.ubc.ca/~hoos/SATLIB/benchm.html&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
+  &lt;li&gt;Large SAT problems in CNF format: http://www.miroslav-velev.com/sat_benchmarks.html&lt;/li&gt;
+  &lt;li&gt;low-to-medium sized SAT problems in DIMACS CNF format: https://www.cs.ubc.ca/~hoos/SATLIB/benchm.html&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&quot;gpu-sat-solver-implementations&quot;&gt;GPU SAT solver implementations&lt;/h3&gt;
