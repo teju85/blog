@@ -4,6 +4,8 @@ title: "Initial notes from my study on SAT solvers"
 tags: tech-notes sat
 ---
 
+Collection of random notes of mine while ramping up on the domain of SAT solvers.
+
 ### SAT solvers
 * DNF - Disjunctive Normal Form. Eg: `(x AND y) OR (y AND z)`
 * NNF - Negative Normal Form. All negations are only in front of variables
@@ -56,10 +58,55 @@ tags: tech-notes sat
 * the above was the main reason which motivated local search methods for SAT solvers
 * SP - Survey Propagation. Use of probabilistic reasoning for solving combinatorial
   search problems. But SP is currently limited only for random SAT instances!
+* Max-SAT
+  - Maximum satisfiability problem
+  - return the maximum number of clauses that can be satisfied by the assignments
+  - it is a generalization of the SAT problem
 * Nice (4hrs!) talk on implementing a SAT solver from scratch
   - video: https://www.youtube.com/watch?v=II2RhzwYszQ
-  - repo: https://github.com/arminbiere/satch
-  - initial hour or so talks about the theory/background
+  - repo: https://github.com/arminbiere/satch (It is a from-scratch serial solver
+    based on CDCL with restarting mechanism)
+  - initial hour or so talks about the theory/background introducing popular
+    solvers (eg: DPLL, CDCL)
+  - Stopped at 1:05:15
+* The Armin Biere's talk on SAT solving: https://www.youtube.com/watch?v=Emhg0uZnbNg
+  - Knuth himself acknowledged SAT solving to be the "killer app"!
+  - AIG - And-Inverter Gates. Logical gates built using only and and nor gates
+  - IPASIR model showing different states of a SAT solver: (UNKNOWN, SAT,
+    UNSAT, SOLVING), for interactive solving of formulae
+  - In one of his videos, the CTO of Amazon spends 20mins talking about SMT solvers!
+  - SMT solvers completely rely on CDCL technique
+  - after constructing impllication graph, typically we would like to learn the
+    clause out of its first UIP (Unique Implication Point) and then to recursive
+    clause minimization
+  - in his satch codebase this recursive clause minimization code when expressed in
+    recursive fashion is running faster than the iterative version!
+* Peek inside SAT solvers: https://www.youtube.com/watch?v=d76e4hV1iJY
+  - introduction to the SAT problem and CNF notation
+  - typical flow: high-level problem -> encode into SAT using a P-time algo -> use SAT solver
+  - introduces the DFS based search space to solving this brute-force
+  - but also notes that we are free to choose assignment as well as literal
+    order in this DFS!
+  - shows the benefit of simplifying the clause evaluation through unit propagation
+  - thereby deriving DPLL (DFS + backtrack + unit-prop)
+  - zChaff solver
+    - VSIDS - ranking the literals based on their occurence count and then using
+      this to assign values in order to reach solution faster
+    - two watched literals - have an index of pair of literals to reach its
+      clauses faster, especially to be notified when we get unit-prop
+ - CDCL - GRASP solver
+   - when conflicts arise, create an implication graph, separate the literals from
+     the conflicts and then derive the clause that can help us not revisit this
+     conflict during future traversals
+   - then depending on the clauses we could also backjump multiple levels!
+   - however one needs to consider the following while learning such clauses:
+     - we simply can't keep learning all the clauses (space issues)
+     - need to maintain these clauses in a clever manner
+     - need to minimize these clauses using a technique called "resolution"
+     - need to save the last assignment to variables called "phase saving"
+ - restarts
+   - we are not clearing the learned clauses, but only restarting the DFS
+   - can help us get unstuck at times
 
 ### SAT Benchmarks
 - Large SAT problems in CNF format: http://www.miroslav-velev.com/sat_benchmarks.html
