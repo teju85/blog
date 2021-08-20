@@ -1,0 +1,49 @@
+I"<p>Assuming you are inside the <code class="language-plaintext highlighter-rouge">adb shell</code>, running the below commands would remove
+all the unnecessary apps from Redmi 7A. This does NOT require you to be root.
+However, as expected, the .apk of these apps would still be available inside
+<code class="language-plaintext highlighter-rouge">/data/app</code> folder.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pm uninstall <span class="nt">--user</span> 0 com.miui.compass                  <span class="c"># Mi Compass</span>
+pm uninstall <span class="nt">--user</span> 0 com.facebook.appmanager           <span class="c"># Facebook</span>
+pm uninstall <span class="nt">--user</span> 0 com.facebook.system
+pm uninstall <span class="nt">--user</span> 0 com.facebook.services
+pm uninstall <span class="nt">--user</span> 0 com.miui.yellowpage               <span class="c"># Mi Yellow Pages </span>
+pm uninstall <span class="nt">--user</span> 0 com.mipay.wallet.in               <span class="c"># Mi Pay</span>
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.payment
+pm uninstall <span class="nt">--user</span> 0 com.miui.weather2                 <span class="c"># Mi Weather</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.screenrecorder           <span class="c"># Screen Recorder</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.player                   <span class="c"># Music</span>
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.scanner                <span class="c"># Scanner</span>
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.midrop                 <span class="c"># ShareMe</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.analytics                <span class="c"># Analytics</span>
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.mipicks                <span class="c"># GetApps</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.android.fashiongallery   <span class="c"># Wallpaper Carousel (Got "Failure [-1000]"!!)</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.msa.global               <span class="c"># Mi Ads service</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.micloudsync              <span class="c"># Mi Cloud</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.cloudbackup
+pm uninstall <span class="nt">--user</span> 0 com.miui.cloudservice
+pm uninstall <span class="nt">--user</span> 0 com.miui.cloudservice.sysbase
+pm uninstall <span class="nt">--user</span> 0 <span class="nt">-k</span> com.android.thememanager       <span class="c"># Themes</span>
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.glgm                   <span class="c"># Mi Games</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.backup                   <span class="c"># Mi Backup</span>
+pm uninstall <span class="nt">--user</span> 0 com.tencent.soter.soterserver     <span class="c"># Tencent app!?</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.bugreport                <span class="c"># Mi bug report</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.miservice                <span class="c"># Services &amp; Feedback</span>
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.joyose                 <span class="c"># ??</span>
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.miplay_client          <span class="c"># MiPlayClient</span>
+pm uninstall <span class="nt">--user</span> 0 com.android.chrome                <span class="c"># Chrome browser (I use Firefox)</span>
+pm uninstall <span class="nt">--user</span> 0 com.netflix.partner.activation    <span class="c"># Netflix!?</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.miwallpaper              <span class="c"># Mi Wallpaper</span>
+pm uninstall <span class="nt">--user</span> 0 com.android.wallpaper.livepicker
+pm uninstall <span class="nt">--user</span> 0 com.android.wallpaperbackup
+pm uninstall <span class="nt">--user</span> 0 com.android.wallpapercropper
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.xmsf                   <span class="c"># Xiaomi service framework</span>
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.xmsfkeeper
+pm uninstall <span class="nt">--user</span> 0 com.miui.hybrid                   <span class="c"># Quick Apps</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.hybrid.accessory
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.account                <span class="c"># Mi Account</span>
+pm uninstall <span class="nt">--user</span> 0 com.google.android.apps.wellbeing <span class="c"># Google Digital Wellbeing</span>
+pm uninstall <span class="nt">--user</span> 0 com.google.android.feedback       <span class="c"># Google feedback</span>
+pm uninstall <span class="nt">--user</span> 0 com.google.android.videos         <span class="c"># Google Play Movies &amp; TV</span>
+pm uninstall <span class="nt">--user</span> 0 com.google.android.music          <span class="c"># Google Play Music</span>
+</code></pre></div></div>
+:ET

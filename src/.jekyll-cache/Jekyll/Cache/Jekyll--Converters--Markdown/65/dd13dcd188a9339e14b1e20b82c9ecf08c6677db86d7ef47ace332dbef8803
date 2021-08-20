@@ -1,0 +1,49 @@
+I"À<h3 id="proposal">Proposal</h3>
+<p>Main paper can be found <a href="https://arxiv.org/abs/1703.06103">here</a>.</p>
+
+<ul>
+  <li>Constructs GCN which is node and edge type aware, called R-GCN</li>
+  <li>Mainly useful for relational multi-graphs</li>
+  <li>Demonstrate its effectiveness over entity classification and link prediction
+tasks</li>
+</ul>
+
+<h3 id="summary">Summary</h3>
+<ul>
+  <li>R-GCN layer is defined with the following equation</li>
+  <li>
+\[h_i^{l+1} = \sigma( \Sigma_{r \in R} \Sigma_{j \in N_i^r} \frac{1}{c_{i,r}} W_r^l h_j^l + W_0^l h_i^l)\]
+  </li>
+  <li>where:
+    <ul>
+      <li>\(R\) = set of all relations</li>
+      <li>\(l\) = l-th layer in the R-GCN model</li>
+      <li>\(h_i\) = hidden embeddings of i-th node</li>
+      <li>\(\sigma\) = activation function</li>
+      <li>\(N_i^r\) = neighborhood of i-th node on relation type r</li>
+      <li>\(c_{i,r}\) = normalization value which can be learnt are a constant (eg: \(\|N_i^r\|\))</li>
+      <li>\(W_r^l\) = weights for the l-th layer on relation type r</li>
+      <li>\(W_0^l\) = weights for the l-th layer on self-loop</li>
+    </ul>
+  </li>
+  <li>basis decomposition based regularization
+    <ul>
+      <li>
+\[W_r^l = \Sigma_{b \in [0,B)} a_{rb}^l V_b^l\]
+      </li>
+      <li>\(a_{rb}^l\) = coefficients to be learnt</li>
+      <li>\(V_b^l\) = basis matrices to be learnt</li>
+      <li>\(B\) = number of bases</li>
+    </ul>
+  </li>
+  <li>block-diagonal based regularization
+    <ul>
+      <li>
+\[W_r^l = diag_{b \in [0,B)} Q_{br}^l\]
+      </li>
+      <li>\(Q_{br}^l\) = matrices to be learnt of dimension \(\frac{d^{l+1}}{B} \times \frac{d^{l}}{B}\)</li>
+      <li>\(d^l\) = embedding dimension of l-th layer</li>
+    </ul>
+  </li>
+</ul>
+:ET

@@ -1,0 +1,27 @@
+I"v<h3 id="proposal">Proposal</h3>
+<p>Main paper can be found <a href="https://userweb.cs.txstate.edu/~burtscher/papers/pdpta11b.pdf">here</a>.</p>
+
+<ul>
+  <li>An optimized GPU version of TSP solver using Iterative Hill Climbing (IHC)
+technique</li>
+  <li>Paper limits itself to 100-cities with 100,000 random restarts.</li>
+  <li>However, the techniques suggested here can be generalized</li>
+</ul>
+
+<h3 id="summary">Summary</h3>
+<ul>
+  <li>each thread works on one of the climbers.
+    <ul>
+      <li>continues to perform the 4851 2-opt moves in each IHC step, until convergence</li>
+      <li>FYI, \(4851 = \frac{(100 - 1) * (100 - 2)}{2}\)</li>
+    </ul>
+  </li>
+  <li>after convergence of each climber, a global atomicCAS is performed in order to
+update the best solution found so far</li>
+  <li>they only compute the incremental TSP cost instead of computing the full path
+cost inside IHC step and only compute the global path cost after convergence</li>
+  <li>all threads continue to fetch their next climber from a global queue until it
+is exhausted</li>
+  <li>distance matrix is assumed to be pre-computed (for edge weights)</li>
+</ul>
+:ET

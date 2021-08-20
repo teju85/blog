@@ -1,0 +1,31 @@
+I"<h3 id="proposal">Proposal</h3>
+<p>Main paper can be found <a href="http://olab.is.s.u-tokyo.ac.jp/~kamil.rocki/rocki_hpcs2012.pdf">here</a>.</p>
+
+<ul>
+  <li>proposal to parallelize 2-opt and 3-opt swaps on GPUs, over-and-above the
+parallelization strategy discussed in <a href="/blog/blog/2020/12/06/parallel-tsp.html">this</a>
+paper.</li>
+  <li>they also further note that due to global memory access latencies, it is
+faster to recompute the distances by each thread, instead of pre-computing
+them.</li>
+</ul>
+
+<h3 id="summary">Summary</h3>
+<ul>
+  <li>make each block work on a particular climber and have each thread inside it
+work on multiple possible pairs (or triplets).</li>
+  <li>then finally do a block-wide reduction to compute the best swap.</li>
+  <li>this approach helps them to utilize shared memory for storing the city
+co-ordinates, as well as for storing the best path</li>
+  <li>they also note that pre-computing the distance matrix and accessing them while
+doing 2-opt/3-opt swaps leads to random accesses and thereby causing perf
+degradation.</li>
+  <li>thus, instead they propose to recompute this value from the input coordinates
+by all threads during the process of swap</li>
+  <li>the number of cities they can support with this approach is only limited by
+the available shared memory capacity on the chip.</li>
+  <li>the authors however do not talk about the number of climbers used in their
+code or even the algorithm used by them (I <em>think</em> it is IHC as used in the
+base paper mentioned above).</li>
+</ul>
+:ET

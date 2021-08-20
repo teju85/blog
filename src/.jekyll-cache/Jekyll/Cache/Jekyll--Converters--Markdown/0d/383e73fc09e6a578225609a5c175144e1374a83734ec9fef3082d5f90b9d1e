@@ -1,0 +1,23 @@
+I"$<h3 id="proposal">Proposal</h3>
+<p>Main paper can be found <a href="https://arxiv.org/pdf/2104.06700.pdf">here</a>.</p>
+
+<ul>
+  <li>Efficient full-graph GNN training on single node</li>
+  <li>Scalable full-graph GNN training on multi-nodes</li>
+  <li>A backend to DGL for optimized CPU training</li>
+</ul>
+
+<h3 id="summary">Summary</h3>
+<ul>
+  <li>Rearrangement of the aggregation loop in order to reuse neighbor vertex features</li>
+  <li>Use libxsmm in order to utilize SIMD units while doing neighborhood aggregation</li>
+  <li>usage of vertex-cut based graph partitioning in order to minimize communication cost</li>
+  <li>propose 3 ways to scale training to multi-nodes (all are data-parallel based)
+    <ul>
+      <li>0c - ignore split vertices aggregation from other socket/nodes</li>
+      <li>cd-0 - for the current epoch wait for partial aggregates from all split vertices to be available</li>
+      <li>cd-r - overlap communication with computation by doing a Hogwild-like delayed aggregation of split-vertex embeddings</li>
+    </ul>
+  </li>
+</ul>
+:ET

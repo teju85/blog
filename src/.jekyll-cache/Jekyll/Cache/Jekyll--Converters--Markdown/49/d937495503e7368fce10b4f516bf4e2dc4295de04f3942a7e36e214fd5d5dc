@@ -1,0 +1,115 @@
+I"l<h3 id="proposal">Proposal</h3>
+<p>Main paper can be found <a href="https://arxiv.org/pdf/1902.04023">here</a>.</p>
+
+<ul>
+  <li>online approximate quantile computation</li>
+  <li>accuracy of q-th quantile is max(q, 1-q)</li>
+  <li>merging of summaries (aka digests) results is lesser loss of accuracy</li>
+  <li>can also be extended for weighted samples</li>
+</ul>
+
+<h3 id="summary">Summary</h3>
+<ul>
+  <li>digest = partition of samples; aka clusters</li>
+  <li>t-digest = a digest with any cluster of unit weight or bounded by some scale
+function.</li>
+  <li>weight = number of samples in the cluster C; aka |C|</li>
+  <li>fully merged t-digest = no two consecutive clusters can be merged without the
+violation of the weight bound</li>
+  <li>a cluster is represented by its mean and number of samples in it</li>
+  <li>clusters at both ends of the quantile are kept smaller while the ones in the
+middle are larger</li>
+  <li>scale function
+    <ul>
+      <li>it must be a non-decreasing function</li>
+      <li>
+\[k_1(q) = \frac{\delta}{2 \pi} arcsin(2q - 1)\]
+        <ul>
+          <li>\(\delta\) = compression parameter. Atleast for \(k_1\) it ends up bounding
+the number of clusters to \([\lfloor \frac{\delta}{2} \rfloor, \lceil \delta \rceil]\)</li>
+          <li>\(k\) is the notional index</li>
+          <li>\(n\) = number of samples. It is assumed to be much larger than \(\delta\)</li>
+        </ul>
+      </li>
+      <li>\(\|C_k\| = k(q_r) - k(q_l) \le 1\), for any cluster with weight \(\ge\) 1</li>
+      <li>
+\[q_l = \frac{W_l(C)}{n}\]
+      </li>
+      <li>
+\[q_r = q_l + \frac{\|C\|}{n}\]
+      </li>
+      <li>\(W_l(C)\) = sum of weights of all clusters to the left of it</li>
+      <li>this function leads to estimates which are very accurate near extreme quantiles
+and modestly accurate in the middle</li>
+      <li>another scale function is linear: \(k_0(q) = \frac{\delta q}{2}\). It can work
+but trades off accuracy for computation</li>
+    </ul>
+  </li>
+  <li>other scale functions are:
+    <ul>
+      <li>
+\[k_2(q) = \frac{\delta}{4 log(\frac{n}{\delta}) + 24} log(\frac{q}{1-q})\]
+      </li>
+      <li>
+\[k_3(q) = \frac{\delta}{4 log(\frac{n}{\delta}) + 21} log(2q)  if q \le 0.5\]
+      </li>
+      <li>
+\[k_3(q) = \frac{\delta}{4 log(\frac{n}{\delta}) + 21} (-log(2(1 - q)))  if q &gt; 0.5\]
+      </li>
+    </ul>
+  </li>
+  <li>merging 2 t-digests is still possible but might end up with weakly ordered
+clusters, whose error bounds are hard to prove</li>
+  <li>but in practice merging doesn’t result in significant loss of accuracy, especially
+if we do stratified merging where we use higher value of \(\delta\) while computing
+the clusters and lower value while merging 2 t-digests</li>
+  <li>merging new-data with an existing t-digest
+    <ul>
+      <li>C = input t-digest to be merged</li>
+      <li>X = input data to be merged with t-digest</li>
+      <li>m = number of clusters in C</li>
+    </ul>
+  </li>
+  <li>algo as follows:
+    <ul>
+      <li>X = sort(C union X)</li>
+      <li>S = \(\Sigma_i X_i.count\)</li>
+      <li>C’ = []</li>
+      <li>\(q_0\) = 0</li>
+      <li>
+\[q_{limit} = k^{-1}(k(q_0, \delta) + 1, \delta)\]
+      </li>
+      <li>
+\[\sigma = x_1\]
+      </li>
+      <li>for i = 2 … (m + n)
+        <ul>
+          <li>q = \(q_0 + \frac{\sigma.count + x_i.count}{\delta}\)</li>
+          <li>if q \(\le\) \(q_{limit}\): \(\sigma += x_i\)</li>
+          <li>else:
+            <ul>
+              <li>C’.append(\(\sigma\))</li>
+              <li>
+\[q_0 += \frac{\sigma.count}{S}\]
+              </li>
+              <li>
+\[q_{limit} = k^{-1}(k(q_0, \delta) + 1, \delta)\]
+              </li>
+              <li>
+\[\sigma = x_i\]
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>C’.append(\(\sigma\))</li>
+    </ul>
+  </li>
+  <li>this merge could cause centroids near q = 0 to shift their centroids thereby
+causing weak ordering!</li>
+  <li>effect of this issue can be reduced by alternating scan order of merge, ie.
+ascending order first, then descending order, and so on</li>
+  <li>if instead we set the data buffer to be just 1, then there’s a clustering
+variant of the above merge algo too.</li>
+</ul>
+:ET

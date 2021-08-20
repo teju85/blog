@@ -1,0 +1,118 @@
+I"(<p>Assuming you are inside the <code class="language-plaintext highlighter-rouge">adb shell</code>, running the below commands would remove
+all the unnecessary apps from Redmi Note 10. This does NOT require you to be root.
+However, as expected, the .apk of these apps would still be available inside
+<code class="language-plaintext highlighter-rouge">/data/app</code> folder.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pm uninstall <span class="nt">--user</span> 0 com.miui.screenrecorder                     <span class="c"># Screen recorder</span>
+pm uninstall <span class="nt">--user</span> 0 com.google.android.apps.subscriptions.red   <span class="c"># Google One</span>
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.miplay_client                    <span class="c"># MiPlayClient</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.qr
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.scanner                          <span class="c"># Mi Scanner</span>
+pm uninstall <span class="nt">--user</span> 0 com.google.android.apps.googleassistant     <span class="c"># Google Assistant</span>
+pm uninstall <span class="nt">--user</span> 0 com.milink.service                          <span class="c"># UniPlay service</span>
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.account                          <span class="c"># Mi Account</span>
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.mi_connect_service
+pm uninstall <span class="nt">--user</span> 0 com.android.protips                         <span class="c"># home screen tips!?</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.msa.global                         <span class="c"># Mi Ads service</span>
+pm uninstall <span class="nt">--user</span> 0 com.mipay.wallet.in                         <span class="c"># Mi Pay</span>
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.payment
+pm uninstall <span class="nt">--user</span> 0 com.google.android.googlequicksearchbox     <span class="c"># Google Search Box</span>
+pm uninstall <span class="nt">--user</span> 0 <span class="nt">-k</span> com.android.thememanager                 <span class="c"># Themes</span>
+pm uninstall <span class="nt">--user</span> 0 <span class="nt">-k</span> com.android.thememanager.module
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.glgm                             <span class="c"># Mi Games</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.backup                             <span class="c"># Mi Backup</span>
+pm uninstall <span class="nt">--user</span> 0 android.autoinstalls.config.Xiaomi.qssi
+pm uninstall <span class="nt">--user</span> 0 com.netflix.partner.activation              <span class="c"># Netflix background app!?</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.guardprovider                      <span class="c"># Mi GuardProvider</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.micloudsync                        <span class="c"># Mi Cloud</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.cloudbackup
+pm uninstall <span class="nt">--user</span> 0 com.miui.cloudservice
+pm uninstall <span class="nt">--user</span> 0 com.miui.cloudservice.sysbase
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.micloud.sdk                      <span class="c"># Mi Cloud SDK (first remove the rest of the Cloud Apps!)</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.hybrid                             <span class="c"># Quick Apps</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.hybrid.accessory
+pm uninstall <span class="nt">--user</span> 0 com.miui.player                             <span class="c"># Music</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.bugreport                          <span class="c"># Mi bug report</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.miservice                          <span class="c"># Services &amp; Feedback</span>
+pm uninstall <span class="nt">--user</span> 0 com.facebook.appmanager                     <span class="c"># Facebook</span>
+pm uninstall <span class="nt">--user</span> 0 com.facebook.system
+pm uninstall <span class="nt">--user</span> 0 com.facebook.services
+pm uninstall <span class="nt">--user</span> 0 com.miui.compass                            <span class="c"># Mi Compass</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.android.fashiongallery             <span class="c"># Wallpaper Carousel</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.global.packageinstaller
+pm uninstall <span class="nt">--user</span> 0 com.android.chrome                          <span class="c"># Chrome browser. Personal Choice: I use Firefox</span>
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.xmsf                             <span class="c"># Xiaomi service framework</span>
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.xmsfkeeper
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.mipicks                          <span class="c"># GetApps</span>
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.joyose
+pm uninstall <span class="nt">--user</span> 0 com.xiaomi.midrop                           <span class="c"># ShareMe</span>
+pm uninstall <span class="nt">--user</span> 0 com.tencent.soter.soterserver               <span class="c"># Some random Tencent app!?</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.miwallpaper                        <span class="c"># Mi Wallpaper</span>
+pm uninstall <span class="nt">--user</span> 0 com.android.wallpaper.livepicker
+pm uninstall <span class="nt">--user</span> 0 com.android.wallpaperbackup
+pm uninstall <span class="nt">--user</span> 0 com.android.wallpapercropper
+pm uninstall <span class="nt">--user</span> 0 com.miui.analytics                          <span class="c"># Analytics</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.yellowpage                         <span class="c"># Mi Yellow Pages</span>
+pm uninstall <span class="nt">--user</span> 0 com.miui.weather2                           <span class="c"># Mi Weather</span>
+pm uninstall <span class="nt">--user</span> 0 com.facemoji.lite.xiaomi                    <span class="c"># FaceMoji (Gives error: Failure [-1000])</span>
+pm uninstall <span class="nt">--user</span> 0 com.google.android.apps.wellbeing           <span class="c"># Google Digital Wellbeing</span>
+pm uninstall <span class="nt">--user</span> 0 com.google.android.feedback                 <span class="c"># Market Agent Feedback</span>
+pm uninstall <span class="nt">--user</span> 0 com.google.android.marvin.talkback
+pm uninstall <span class="nt">--user</span> 0 com.android.soundrecorder                   <span class="c"># Mi Recorder</span>
+
+<span class="c"># Safer/Better to keep these</span>
+<span class="c"># com.miui.extraphoto             (used inside stock camera)</span>
+<span class="c"># com.miui.gallery                (removing this can cause soft brick!)</span>
+<span class="c"># com.miui.daemon                 (remove at your own risk!)</span>
+<span class="c"># com.miui.securitycore           (core security)</span>
+<span class="c"># com.miui.fm                     (FM Radio. Personal Choice: I use it)</span>
+<span class="c"># com.miui.fmservice</span>
+<span class="c"># com.miui.vsimcore               (needed for "Mi Roaming")</span>
+<span class="c"># com.miui.rom                    (supposedly a core component of MIUI?)</span>
+<span class="c"># com.xiaomi.location.fused       (Geolocation over networks)</span>
+<span class="c"># com.miui.freeform               (Freeform - helps run apps in windows)</span>
+<span class="c"># com.google.android.documentsui  (DocumentsUI)</span>
+<span class="c"># com.miui.face                   (MI BioMetric)</span>
+<span class="c"># com.miui.core</span>
+
+<span class="c"># Undecided whether to keep/remove</span>
+<span class="c">#? com.xiaomi.simactivate.service         (Sim Activation Service)</span>
+<span class="c">#? com.xiaomi.finddevice</span>
+<span class="c">#? com.mi.android.globalFileexplorer      (Mi File Manager?)</span>
+<span class="c">#? com.miui.notes                         (Mi Notes)</span>
+<span class="c">#? com.miui.calculator                    (Mi Calculator)</span>
+<span class="c">#? com.xiaomi.bluetooth                   (only com.android.bluetooth is enough?)</span>
+<span class="c">#? com.miui.cleanmaster                   (Cleaner app)</span>
+<span class="c">#? com.google.android.apps.nbu.paisa.user (Indian version of GPay!?)</span>
+<span class="c">#? com.xiaomi.calendar                    (only com.android.calendar is enough?)</span>
+<span class="c">#? com.miui.audioeffect                   (MusicFX)</span>
+<span class="c">#? com.xiaomi.powerchecker</span>
+<span class="c">#? com.miui.powerkeeper</span>
+
+<span class="c"># in case you figure out the (name and/or) purpose of these, let me know</span>
+<span class="c">#??? miui.systemui.plugin</span>
+<span class="c">#??? com.miui.securityadd</span>
+<span class="c">#??? com.miui.securitycenter</span>
+<span class="c">#??? com.lctautotest.current</span>
+<span class="c">#??? com.longcheertel.sarauth</span>
+<span class="c">#??? com.miui.phrase</span>
+<span class="c">#??? org.codeaurora.ims</span>
+<span class="c">#??? com.miui.system</span>
+<span class="c">#??? com.miui.maintenancemode</span>
+<span class="c">#??? com.miui.aod</span>
+<span class="c">#??? com.miui.misound</span>
+<span class="c">#??? com.fido.xiaomi.uafclient</span>
+<span class="c">#??? com.fido.asm</span>
+<span class="c">#??? com.miui.wmsvc</span>
+<span class="c">#??? com.xiaomi.misettings</span>
+<span class="c">#??? com.miui.audiomonitor</span>
+<span class="c">#??? com.miui.touchassistant</span>
+<span class="c">#??? com.mi.android.globalminusscreen</span>
+<span class="c">#??? com.longcheertel.AutoTest</span>
+<span class="c">#??? com.google.android.projection.gearhead</span>
+<span class="c">#??? com.caf.fmradio</span>
+<span class="c">#??? com.longcheertel.cit</span>
+<span class="c">#??? com.mi.globallayout</span>
+<span class="c">#??? com.xiaomi.discover</span>
+<span class="c">#??? com.miui.home</span>
+</code></pre></div></div>
+:ET

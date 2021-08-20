@@ -1,0 +1,162 @@
+I"¥<h3 id="proposal">Proposal</h3>
+<p>Main paper can be found <a href="https://arxiv.org/abs/2003.01332">here</a>.</p>
+
+<ul>
+  <li>uses meta-relations on node and edge types for heterogeneous graphs</li>
+  <li>proposes HGT network for working on such graphs</li>
+  <li>propose a HGSampling algo tailor-made for this network for the purpose of
+minibatch training</li>
+  <li>propose Relative Temporal Encoding (RTE) to work with dynamic graphs</li>
+</ul>
+
+<h3 id="summary">Summary</h3>
+<h4 id="hetergeneous-mutual-attention">Hetergeneous mutual attention</h4>
+<ul>
+  <li>
+\[H^l(t) = Agg_{s \in N(t)}(Att(s, t) Msg(s))\]
+  </li>
+  <li>where:
+    <ul>
+      <li>\(t\) = target node</li>
+      <li>\(s\) = source nodes</li>
+      <li>\(l\) = \(l\)-th layer of the network</li>
+      <li>\(H\) = output node embedding of the layer</li>
+      <li>\(Agg\) = heterogeneous aggregation function. \(Agg(.) = \sigma(Mean(.))\)</li>
+      <li>\(N\) = neighborhood of the target node</li>
+      <li>\(Att\) = heterogeneous edgewise attention weights</li>
+      <li>\(Msg\) = heterogeneous message passing from the source nodes. \(Msg(s) = W H^{l-1}(s)\)</li>
+      <li>\(L\) = number of layers in the network</li>
+    </ul>
+  </li>
+  <li>Hetergeneous Attention
+    <ul>
+      <li>
+\[Att(s, t) = softmax_{s \in N(t)}(concat_{i \in [1,h]}(AttHead^i(s, e, t))\]
+      </li>
+      <li>\(h\) = number of attention heads</li>
+      <li>
+\[AttHead^i(s, e, t) = K^i(s) W^{ATT}_{\phi(e)} Q^i(t)^T \frac{\mu_{\tau(s),\phi(e),\tau(t)}}{\sqrt{d}}\]
+      </li>
+      <li>\(\phi\) = edge types</li>
+      <li>\(\tau\) = node types</li>
+      <li>\(\mu\) = significance weights based on the meta relation triplet</li>
+      <li>\(d\) = dimensionality of the final attention output</li>
+      <li>
+\[K^i(s) = KLinear^i_{\tau(s)}(H^{l-1}(s))\]
+      </li>
+      <li>
+\[Q^i(t) = QLinear^i{\tau(t)}(H^{l-1}(t))\]
+      </li>
+      <li>\(W^{ATT}_{\phi(e)}\) = edge-based attention weights</li>
+    </ul>
+  </li>
+  <li>Heterogeneous message passing
+    <ul>
+      <li>
+\[Msg(s, e, t) = concat_{i \in [1,h]}(MsgHead^i(s, e, t))\]
+      </li>
+      <li>
+\[MsgHead^i(s, e, t) = MLinear^i_{\tau(s)}(H^{l-1}(s)) W^{MSG}_{\phi(e)}\]
+      </li>
+      <li>\(W^{MSG}_{\phi(e)}\) = edge-based message weights</li>
+    </ul>
+  </li>
+  <li>target specific aggregation
+    <ul>
+      <li>
+\[H^{~(l)}(t) = \Sigma_{s \in N(t)}(Att(s, e, t) . Msg(s, e, t))\]
+      </li>
+      <li>
+\[H^l(t) = ALinear_{\tau(t)}(\sigma(H^{~(l)}(t))) + H^{l-1}(t)\]
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="rte">RTE</h4>
+<ul>
+  <li>to help work with dynamic graphs with timestamps</li>
+  <li>based on Transformerâ€™s positional encoding technique</li>
+  <li>
+\[\Delta(t, s) = T(t) - T(s)\]
+  </li>
+  <li>\(T\) = timestamp associated with the nodes/edges</li>
+  <li>
+\[B(\Delta(t, s), 2i) = sin(\frac{\Delta(t, s)}{10000^{\frac{2i}{d}}})\]
+  </li>
+  <li>
+\[B(\Delta(t, s), 2i+1) = cos(\frac{\Delta(t, s)}{10000^{\frac{2i+1}{d}}})\]
+  </li>
+  <li>
+\[RTE(\Delta(t, s)) = TLinear(Base(\Delta(t, s)))\]
+  </li>
+  <li>Finally, the input node-embeddings at \(l\)-th layer will be:
+    <ul>
+      <li>
+\[H^{~(l)}(s) = H^{l-1}(s) + RTE(\Delta(t, s)\]
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="hgsampling">HGSampling</h4>
+<ul>
+  <li>
+    <p>sampling method needs to be aware of different node and edge types so as not
+to create imbalances in sampling and reduce variance in sampling</p>
+  </li>
+  <li>AddInBudget(B, t, A, NS)</li>
+  <li>for each source node type \(\tau\) and edge type \(\phi\):
+    <ul>
+      <li>normalized node-degree \(D_t = \frac{1}{len(A_{\tau(s), \phi(e), \tau(t)}(t))}\)</li>
+      <li>for source node \(s\) in \(A_{\tau(s), \phi(e), \tau(t)}(t)\):
+        <ul>
+          <li>if \(s\) is not sampled:
+            <ul>
+              <li>if \(s\) has no timestamp then \(s.time = t.time\)</li>
+              <li>update \(B(\tau)(s) += D_t\)</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>for \(t \in NS\):
+    <ul>
+      <li>AddInBudget(B, t, A, NS)</li>
+    </ul>
+  </li>
+  <li>for \(l \in [1, L]\):
+    <ul>
+      <li>for source node type \(\tau \in B\):
+        <ul>
+          <li>for source node \(s \in B(\tau)\):
+            <ul>
+              <li>compute probability \(p^{l-1}(\tau)(s) = \frac{B(\tau)(s)^2}{L2Norm(B(\tau))^2}\)</li>
+            </ul>
+          </li>
+          <li>sample \(n\) nodes \(t^n_i\) from \(B(\tau)\) using \(p^{l-1}(\tau)\)</li>
+          <li>for \(t \in t^n_i\):
+            <ul>
+              <li>
+\[OS(\tau).add(t)\]
+              </li>
+              <li>AddInBudget(B, t, A, NS)</li>
+              <li>
+\[B(\tau).pop(t)\]
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>construct the adjacency matrix for the subsampled graph</p>
+  </li>
+  <li>\(A\) = adjacency matrix</li>
+  <li>\(B\) = budget info used for computing probability of sampling</li>
+  <li>\(NS\) = sampled node set</li>
+  <li>\(OS\) = output sampled node set</li>
+</ul>
+:ET

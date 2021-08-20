@@ -1,0 +1,45 @@
+I"�<h3 id="proposal">Proposal</h3>
+<p>Main paper can be found <a href="http://www.cs.cmu.edu/~christos/PUBLICATIONS/siam04.pdf">here</a>.</p>
+
+<ul>
+  <li>recursive and procedural approach to building real-world-like graphs</li>
+  <li>Erdos-Renyi model becomes a special case of this approach (with a = b = c = d = 0.25)</li>
+  <li>proposes an AutoMAT-fast parameter fitting algorithm</li>
+  <li>generates graphs with:
+    <ul>
+      <li>power-law distribution</li>
+      <li>directed, undirected or bipartite properties</li>
+      <li>very efficient \(O(E log(E) log(N))\) complexity</li>
+      <li>can also generate “winner does not take all” kind of graphs too</li>
+      <li>generate communities (and also sub-communities within communities)</li>
+      <li>smaller diameter (proved experimentally in this paper)</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="summary">Summary</h3>
+<ul>
+  <li>Parameters:
+    <ul>
+      <li>\(N\) - number of nodes in the graph</li>
+      <li>\(E\) - number of edges in the graph</li>
+      <li>\(2^n\) - number of nodes in the RMAT graph (where \(n = ceil(log2(N))\))</li>
+      <li>\(a, b, c, d\) - probabilities of each quadrant in the adjacency matrix</li>
+      <li>
+\[a + b + c + d  = 1\]
+      </li>
+    </ul>
+  </li>
+  <li>Typically: \(a \ge b\) and \(a \ge c\) and \(a \ge d\)</li>
+  <li>Main algo
+    <ul>
+      <li>pick the quadrant based on the probabilities \(a, b, c, d\)</li>
+      <li>keep doing this until we hit the “leaf node” which is the pair of nodes which
+will get an edge</li>
+      <li>repeat this until we have \(E\) edges</li>
+    </ul>
+  </li>
+  <li>to smooth out fluctuations in the degree distributions, these probabilities are
+perturbed (and renormalized) slightly at each level</li>
+</ul>
+:ET

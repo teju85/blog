@@ -1,0 +1,62 @@
+I"�<p>Assuming you are inside the <code class="language-plaintext highlighter-rouge">adb shell</code>, running the below commands would remove
+all the unnecessary apps from Redmi Note 10. This does NOT require you to be root.
+However, as expected, the .apk of these apps would still be available inside
+<code class="language-plaintext highlighter-rouge">/data/app</code> folder.
+```bash
+pm uninstall –user 0 com.miui.screenrecorder                     # Screen recorder
+pm uninstall –user 0 com.google.android.apps.subscriptions.red   # Google One
+pm uninstall –user 0 com.xiaomi.miplay_client                    # MiPlayClient
+pm uninstall –user 0 com.miui.qr
+pm uninstall –user 0 com.xiaomi.scanner                          # Mi Scanner
+pm uninstall –user 0 com.google.android.apps.googleassistant     # Google Assistant
+pm uninstall –user 0 com.milink.service                          # UniPlay service
+pm uninstall –user 0 com.xiaomi.account                          # Mi Account
+pm uninstall –user 0 com.xiaomi.mi_connect_service
+pm uninstall –user 0 com.android.protips                         # home screen tips!?
+pm uninstall –user 0 com.miui.msa.global                         # Mi Ads service
+pm uninstall –user 0 com.mipay.wallet.in                         # Mi Pay
+pm uninstall –user 0 com.xiaomi.payment
+pm uninstall –user 0 com.google.android.googlequicksearchbox     # Google Search Box
+pm uninstall –user 0 -k com.android.thememanager                 # Themes
+pm uninstall –user 0 -k com.android.thememanager.module
+pm uninstall –user 0 com.xiaomi.glgm                             # Mi Games
+pm uninstall –user 0 com.miui.backup                             # Mi Backup
+pm uninstall –user 0 android.autoinstalls.config.Xiaomi.qssi
+pm uninstall –user 0 com.netflix.partner.activation              # Netflix background app!?
+pm uninstall –user 0 com.miui.guardprovider                      # Mi GuardProvider
+pm uninstall –user 0 com.miui.micloudsync                        # Mi Cloud
+pm uninstall –user 0 com.miui.cloudbackup
+pm uninstall –user 0 com.miui.cloudservice
+pm uninstall –user 0 com.miui.cloudservice.sysbase
+pm uninstall –user 0 com.xiaomi.micloud.sdk                      # Mi Cloud SDK (first remove the rest of the Cloud Apps!)
+pm uninstall –user 0 com.miui.hybrid                             # Quick Apps
+pm uninstall –user 0 com.miui.hybrid.accessory
+pm uninstall –user 0 com.miui.player                             # Music
+pm uninstall –user 0 com.miui.bugreport                          # Mi bug report
+pm uninstall –user 0 com.miui.miservice                          # Services &amp; Feedback
+pm uninstall –user 0 com.facebook.appmanager                     # Facebook
+pm uninstall –user 0 com.facebook.system
+pm uninstall –user 0 com.facebook.services
+pm uninstall –user 0 com.miui.compass                            # Mi Compass
+pm uninstall –user 0 com.miui.android.fashiongallery             # Wallpaper Carousel
+pm uninstall –user 0 com.miui.global.packageinstaller
+pm uninstall –user 0 com.android.chrome                          # Chrome browser. Personal Choice: I use Firefox
+pm uninstall –user 0 com.xiaomi.xmsf                             # Xiaomi service framework
+pm uninstall –user 0 com.xiaomi.xmsfkeeper
+pm uninstall –user 0 com.xiaomi.mipicks                          # GetApps
+pm uninstall –user 0 com.xiaomi.joyose
+pm uninstall –user 0 com.xiaomi.midrop                           # ShareMe
+pm uninstall –user 0 com.tencent.soter.soterserver               # Some random Tencent app!?
+pm uninstall –user 0 com.miui.miwallpaper                        # Mi Wallpaper
+pm uninstall –user 0 com.android.wallpaper.livepicker
+pm uninstall –user 0 com.android.wallpaperbackup
+pm uninstall –user 0 com.android.wallpapercropper
+pm uninstall –user 0 com.miui.analytics                          # Analytics
+pm uninstall –user 0 com.miui.yellowpage                         # Mi Yellow Pages
+pm uninstall –user 0 com.miui.weather2                           # Mi Weather
+pm uninstall –user 0 com.facemoji.lite.xiaomi                    # FaceMoji (Gives error: Failure [-1000])
+pm uninstall –user 0 com.google.android.apps.wellbeing           # Google Digital Wellbeing
+pm uninstall –user 0 com.google.android.feedback                 # Market Agent Feedback
+pm uninstall –user 0 com.google.android.marvin.talkback
+pm uninstall –user 0 com.android.soundrecorder                   # Mi Recorder</p>
+:ET
