@@ -65,33 +65,35 @@ pm uninstall --user 0 com.google.android.apps.wellbeing           # Google Digit
 pm uninstall --user 0 com.google.android.feedback                 # Market Agent Feedback
 pm uninstall --user 0 com.google.android.marvin.talkback
 pm uninstall --user 0 com.android.soundrecorder                   # Mi Recorder
+pm uninstall --user 0 com.miui.calculator                         # Mi Calculator
+pm uninstall --user 0 com.google.android.apps.nbu.paisa.user      # Indian version of GPay
+pm uninstall --user 0 com.miui.notes                              # Mi Notes (I use FiiNotes)
+pm uninstall --user 0 com.google.android.youtube                  # Youtube (I prefer to use browser)
+pm uninstall --user 0 com.miui.cleanmaster                        # Cleaner app
 
 # Safer/Better to keep these
-# com.miui.extraphoto             (used inside stock camera)
-# com.miui.gallery                (removing this can cause soft brick!)
-# com.miui.daemon                 (remove at your own risk!)
-# com.miui.securitycore           (core security)
-# com.miui.fm                     (FM Radio. Personal Choice: I use it)
+# com.miui.extraphoto             # used inside stock camera
+# com.miui.gallery                # removing this can cause soft brick!
+# com.miui.daemon                 # remove at your own risk!
+# com.miui.securitycore           # core security
+# com.miui.fm                     # FM Radio. Personal Choice: I use it
 # com.miui.fmservice
-# com.miui.vsimcore               (needed for "Mi Roaming")
-# com.miui.rom                    (supposedly a core component of MIUI?)
-# com.xiaomi.location.fused       (Geolocation over networks)
-# com.miui.freeform               (Freeform - helps run apps in windows)
-# com.google.android.documentsui  (DocumentsUI)
-# com.miui.face                   (MI BioMetric)
+# com.miui.vsimcore               # needed for "Mi Roaming"
+# com.miui.rom                    # supposedly a core component of MIUI?
+# com.xiaomi.location.fused       # Geolocation over networks
+# com.miui.freeform               # Freeform - helps run apps in windows
+# com.google.android.documentsui  # DocumentsUI
+# com.miui.face                   # MI BioMetric
 # com.miui.core
+# com.miui.home
 
 # Undecided whether to keep/remove
-#? com.xiaomi.simactivate.service         (Sim Activation Service)
+#? com.xiaomi.simactivate.service         # Sim Activation Service
 #? com.xiaomi.finddevice
-#? com.mi.android.globalFileexplorer      (Mi File Manager?)
-#? com.miui.notes                         (Mi Notes)
-#? com.miui.calculator                    (Mi Calculator)
-#? com.xiaomi.bluetooth                   (only com.android.bluetooth is enough?)
-#? com.miui.cleanmaster                   (Cleaner app)
-#? com.google.android.apps.nbu.paisa.user (Indian version of GPay!?)
-#? com.xiaomi.calendar                    (only com.android.calendar is enough?)
-#? com.miui.audioeffect                   (MusicFX)
+#? com.mi.android.globalFileexplorer      # Mi File Manager?
+#? com.xiaomi.bluetooth                   # only com.android.bluetooth is enough?
+#? com.xiaomi.calendar                    # only com.android.calendar is enough?
+#? com.miui.audioeffect                   # MusicFX
 #? com.xiaomi.powerchecker
 #? com.miui.powerkeeper
 
@@ -120,5 +122,4 @@ pm uninstall --user 0 com.android.soundrecorder                   # Mi Recorder
 #??? com.longcheertel.cit
 #??? com.mi.globallayout
 #??? com.xiaomi.discover
-#??? com.miui.home
 ```
