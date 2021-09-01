@@ -1,4 +1,110 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-08-21T16:01:51+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Accelerating Nearest Neighbor Search on Manycore Systems</title><link href="https://teju85.github.io/blog/2021/08/21/random-ball-cover.html" rel="alternate" type="text/html" title="Accelerating Nearest Neighbor Search on Manycore Systems" /><published>2021-08-21T00:00:00+05:30</published><updated>2021-08-21T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/08/21/random-ball-cover</id><content type="html" xml:base="https://teju85.github.io/blog/2021/08/21/random-ball-cover.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-09-01T11:45:53+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Incomplete Algorithms for SAT solving</title><link href="https://teju85.github.io/blog/2021/09/01/incomplete-algorithms.html" rel="alternate" type="text/html" title="Incomplete Algorithms for SAT solving" /><published>2021-09-01T00:00:00+05:30</published><updated>2021-09-01T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/09/01/incomplete-algorithms</id><content type="html" xml:base="https://teju85.github.io/blog/2021/09/01/incomplete-algorithms.html">&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+&lt;p&gt;This is my summary of the 6th Chapter of the Handbook of Satisfiability by
+Dr. Armin Biere et.al This book can be found &lt;a href=&quot;https://www.iospress.com/catalog/books/handbook-of-satisfiability&quot;&gt;here&lt;/a&gt;.
+This chapter provides a very concise view of some of the popular incomplete
+algorithms designed for solving SAT instances.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;incomplete methods don’t provide guarantee of both satisfying assignments or
+unsatisfiability&lt;/li&gt;
+  &lt;li&gt;mostly they are biased towards satisfying side (aka one-sided error)&lt;/li&gt;
+  &lt;li&gt;generally based on Stochastic Local Search (SLS)&lt;/li&gt;
+  &lt;li&gt;GSAT and WalkSAT pioneered these group of methods&lt;/li&gt;
+  &lt;li&gt;SAT formula &lt;script type=&quot;math/tex&quot;&gt;F&lt;/script&gt; with &lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt; variables and &lt;script type=&quot;math/tex&quot;&gt;m&lt;/script&gt; clauses &lt;script type=&quot;math/tex&quot;&gt;C_1, C_2, ..., C_m&lt;/script&gt;
+can be seen as a manifold in the space of &lt;script type=&quot;math/tex&quot;&gt;{0, 1}^n x {0, 1, ..., m}&lt;/script&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;{0, 1}^n&lt;/script&gt; = the truth assignment space&lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;{0, 1, ..., m}&lt;/script&gt; = number of unsatisfied clauses in &lt;script type=&quot;math/tex&quot;&gt;F&lt;/script&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;thus, this becomes a global minimization problem in the manifold, which obviously
+can have local minima!&lt;/li&gt;
+  &lt;li&gt;this is a useful representation because we can use to solve max-SAT instances
+too (but with two-sided error)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;gsat&quot;&gt;GSAT&lt;/h4&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;for i = 1 : max_tries:
+  sigma = random truth assignment for F
+  for j = 1 : max_flips:
+    if sigma satisfies F return sigma
+    v = variable whose flipping results in greatest decrease in the number of unsatisfied clauses
+    flip v in sigma
+return FAIL
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;typically the manifold has a lot of plateaus&lt;/li&gt;
+  &lt;li&gt;this means GSAT spends a lot of time in traversing these plateaus before
+jumping to another one&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;walksat&quot;&gt;WalkSAT&lt;/h4&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;for i = 1 : max_tries:
+  sigma = random truth assignment for F
+  for j = 1 : max_flips:
+    if sigma satisfied F return sigma
+    C = a random unsatisfied clause from F
+    if for a variable x in C which has break-count = 0&quot;
+      v = x  // freebie move
+    else:
+      if biased coin toss with probability p:
+        v = a random variable in C  // random walk move
+      else:
+        v = variable in C with smallest break-count  // greedy move
+    flip v in sigma
+return FAIL
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;ul&gt;
+  &lt;li&gt;introduces noise (aka uphill moves) to avoid the “plateau issue” of GSAT&lt;/li&gt;
+  &lt;li&gt;interleaves GSAT moves with random walks of a Metropolis search&lt;/li&gt;
+  &lt;li&gt;focuses the search space by always selecting the variables to flip from one of
+the unsatisfied clauses only&lt;/li&gt;
+  &lt;li&gt;break-count = number of satisfied clauses being unsatisfied due to the flip&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;others&quot;&gt;Others&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;UnitWalk = unit propagation + WalkSAT&lt;/li&gt;
+  &lt;li&gt;TSAT = tabu list + GSAT&lt;/li&gt;
+  &lt;li&gt;clause-re-weighting techniques
+    &lt;ul&gt;
+      &lt;li&gt;assign positive weights to each unsatisfied clauses&lt;/li&gt;
+      &lt;li&gt;attempt to minimize the sum of these weights&lt;/li&gt;
+      &lt;li&gt;re-weigh the remaining unsatisifed clauses and repeat&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;DLM - Discrete Lagrangian Methods
+    &lt;ul&gt;
+      &lt;li&gt;generalized version of clause re-weighting methods, but with theory from
+Lagrangian multipliers&lt;/li&gt;
+      &lt;li&gt;Assume &lt;script type=&quot;math/tex&quot;&gt;x&lt;/script&gt; to be an assigment of &lt;script type=&quot;math/tex&quot;&gt;F&lt;/script&gt;&lt;/li&gt;
+      &lt;li&gt;then a SAT problem can be represented as the following minimization problem&lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;minimize N(x) = \Sigma_{i=1}^m U_i(x) subject to U_i(x) = 0&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;U_i(x)&lt;/script&gt; is 0 if &lt;script type=&quot;math/tex&quot;&gt;C_i&lt;/script&gt; is satisifed by &lt;script type=&quot;math/tex&quot;&gt;x&lt;/script&gt;, else 1&lt;/li&gt;
+      &lt;li&gt;now rewrite this using Lagrangian multipliers by doing as below&lt;/li&gt;
+      &lt;li&gt;
+        &lt;script type=&quot;math/tex; mode=display&quot;&gt;L_d(x, \lambda) = N(x) + \Sigma_{i=1}^m \lambda_i U_i(x)&lt;/script&gt;
+      &lt;/li&gt;
+      &lt;li&gt;then use difference gradient methods to optimize this equation&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Survey Propagation (SP)
+    &lt;ul&gt;
+      &lt;li&gt;performs iterative local message updates on the marginal probabilities of
+the set of satisfying assignments&lt;/li&gt;
+      &lt;li&gt;assigns the values to variables with extreme probabilities&lt;/li&gt;
+      &lt;li&gt;simplifies the formula based on this assignment and repeats&lt;/li&gt;
+      &lt;li&gt;this is based on methods derived from statistical physics&lt;/li&gt;
+      &lt;li&gt;works well on random SAT instances, though not yet on real world problems&lt;/li&gt;
+      &lt;li&gt;they are recently found to be similar to belief propagation methods&lt;/li&gt;
+      &lt;li&gt;first example of using probabilistic reasoning to solve a combinatorial
+optimization problem!&lt;/li&gt;
+      &lt;li&gt;Note: This seems to be similar to message passing neural nets!?&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="sat" /><summary type="html">Summary This is my summary of the 6th Chapter of the Handbook of Satisfiability by Dr. Armin Biere et.al This book can be found here. This chapter provides a very concise view of some of the popular incomplete algorithms designed for solving SAT instances.</summary></entry><entry><title type="html">Accelerating Nearest Neighbor Search on Manycore Systems</title><link href="https://teju85.github.io/blog/2021/08/21/random-ball-cover.html" rel="alternate" type="text/html" title="Accelerating Nearest Neighbor Search on Manycore Systems" /><published>2021-08-21T00:00:00+05:30</published><updated>2021-08-21T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/08/21/random-ball-cover</id><content type="html" xml:base="https://teju85.github.io/blog/2021/08/21/random-ball-cover.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
 &lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/1103.2635.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;ul&gt;
@@ -679,25 +785,4 @@ will get an edge&lt;/li&gt;
   &lt;/li&gt;
   &lt;li&gt;to smooth out fluctuations in the degree distributions, these probabilities are
 perturbed (and renormalized) slightly at each level&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><summary type="html">Proposal Main paper can be found here.</summary></entry><entry><title type="html">DistGNN: Scalable Distributed Training for Large-Scale Graph Neural Networks</title><link href="https://teju85.github.io/blog/2021/07/15/distgnn.html" rel="alternate" type="text/html" title="DistGNN: Scalable Distributed Training for Large-Scale Graph Neural Networks" /><published>2021-07-15T00:00:00+05:30</published><updated>2021-07-15T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/15/distgnn</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/15/distgnn.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
-&lt;p&gt;Main paper can be found &lt;a href=&quot;https://arxiv.org/pdf/2104.06700.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Efficient full-graph GNN training on single node&lt;/li&gt;
-  &lt;li&gt;Scalable full-graph GNN training on multi-nodes&lt;/li&gt;
-  &lt;li&gt;A backend to DGL for optimized CPU training&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Rearrangement of the aggregation loop in order to reuse neighbor vertex features&lt;/li&gt;
-  &lt;li&gt;Use libxsmm in order to utilize SIMD units while doing neighborhood aggregation&lt;/li&gt;
-  &lt;li&gt;usage of vertex-cut based graph partitioning in order to minimize communication cost&lt;/li&gt;
-  &lt;li&gt;propose 3 ways to scale training to multi-nodes (all are data-parallel based)
-    &lt;ul&gt;
-      &lt;li&gt;0c - ignore split vertices aggregation from other socket/nodes&lt;/li&gt;
-      &lt;li&gt;cd-0 - for the current epoch wait for partial aggregates from all split vertices to be available&lt;/li&gt;
-      &lt;li&gt;cd-r - overlap communication with computation by doing a Hogwild-like delayed aggregation of split-vertex embeddings&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><category term="gnn" /><summary type="html">Proposal Main paper can be found here.</summary></entry></feed>
+&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><summary type="html">Proposal Main paper can be found here.</summary></entry></feed>
