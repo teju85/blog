@@ -1,4 +1,61 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-09-01T11:45:53+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Incomplete Algorithms for SAT solving</title><link href="https://teju85.github.io/blog/2021/09/01/incomplete-algorithms.html" rel="alternate" type="text/html" title="Incomplete Algorithms for SAT solving" /><published>2021-09-01T00:00:00+05:30</published><updated>2021-09-01T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/09/01/incomplete-algorithms</id><content type="html" xml:base="https://teju85.github.io/blog/2021/09/01/incomplete-algorithms.html">&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.6">Jekyll</generator><link href="https://teju85.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://teju85.github.io/blog/" rel="alternate" type="text/html" /><updated>2021-09-02T20:58:05+05:30</updated><id>https://teju85.github.io/blog/feed.xml</id><title type="html">Quagmire</title><subtitle>Stuff I find cool/useful</subtitle><entry><title type="html">Noise strategies for improving local search</title><link href="https://teju85.github.io/blog/2021/09/02/walksat.html" rel="alternate" type="text/html" title="Noise strategies for improving local search" /><published>2021-09-02T00:00:00+05:30</published><updated>2021-09-02T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/09/02/walksat</id><content type="html" xml:base="https://teju85.github.io/blog/2021/09/02/walksat.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
+&lt;p&gt;This is my summary of the WalkSAT paper which can be found &lt;a href=&quot;https://www.aaai.org/Papers/AAAI/1994/AAAI94-051.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Notes that GSAT spends a lot of time in “sideways” moves&lt;/li&gt;
+  &lt;li&gt;Proposes and compares the following 3 approaches
+    &lt;ul&gt;
+      &lt;li&gt;Simulated Annealing&lt;/li&gt;
+      &lt;li&gt;GSAT + random walk&lt;/li&gt;
+      &lt;li&gt;GSAT + random noise&lt;/li&gt;
+      &lt;li&gt;WalkSAT&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Empirically they show WalkSAT does pretty well on hard SAT problems compared
+to complete solvers&lt;/li&gt;
+  &lt;li&gt;Authors also show that they can solve MAX-SAT problems with this solver too&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;summary&quot;&gt;Summary&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;Simulated Annealing
+    &lt;ul&gt;
+      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;\delta&lt;/script&gt; = number of unsat clauses turning into sat&lt;/li&gt;
+      &lt;li&gt;if &lt;script type=&quot;math/tex&quot;&gt;\delta &gt;= 0&lt;/script&gt;, flip the best such variable&lt;/li&gt;
+      &lt;li&gt;else flip the variable with probability &lt;script type=&quot;math/tex&quot;&gt;e^{-\frac{\delta}{T}}&lt;/script&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;GSAT + random walk (mixed random walk strategy)
+    &lt;ul&gt;
+      &lt;li&gt;focus on only variables from unsat clauses&lt;/li&gt;
+      &lt;li&gt;with probability &lt;script type=&quot;math/tex&quot;&gt;p&lt;/script&gt;, pick a variable occuring in some unsat clause and
+flip its truth assignment&lt;/li&gt;
+      &lt;li&gt;with probability &lt;script type=&quot;math/tex&quot;&gt;1 - p&lt;/script&gt;, follow the standard GSAT scheme&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;GSAT + random noise
+    &lt;ul&gt;
+      &lt;li&gt;same as previous approach but do not limit only to variables from unsat clauses&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Algo for WalkSAT is given below&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;for i = 1 : max_tries:
+  sigma = random truth assignment for F
+  for j = 1 : max_flips:
+    if sigma satisfied F return sigma
+    C = a random unsatisfied clause from F
+    if for a variable x in C which has break-count = 0&quot;
+      v = x  // freebie move
+    else:
+      if biased coin toss with probability p:
+        v = a random variable in C  // random walk move
+      else:
+        v = variable in C with smallest break-count  // greedy move
+    flip v in sigma
+return FAIL
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="sat" /><summary type="html">Proposal This is my summary of the WalkSAT paper which can be found here.</summary></entry><entry><title type="html">Incomplete Algorithms for SAT solving</title><link href="https://teju85.github.io/blog/2021/09/01/incomplete-algorithms.html" rel="alternate" type="text/html" title="Incomplete Algorithms for SAT solving" /><published>2021-09-01T00:00:00+05:30</published><updated>2021-09-01T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/09/01/incomplete-algorithms</id><content type="html" xml:base="https://teju85.github.io/blog/2021/09/01/incomplete-algorithms.html">&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
 &lt;p&gt;This is my summary of the 6th Chapter of the Handbook of Satisfiability by
 Dr. Armin Biere et.al This book can be found &lt;a href=&quot;https://www.iospress.com/catalog/books/handbook-of-satisfiability&quot;&gt;here&lt;/a&gt;.
 This chapter provides a very concise view of some of the popular incomplete
@@ -742,47 +799,4 @@ pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.google.a
 pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.google.android.feedback       &lt;span class=&quot;c&quot;&gt;# Google feedback&lt;/span&gt;
 pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.google.android.videos         &lt;span class=&quot;c&quot;&gt;# Google Play Movies &amp;amp; TV&lt;/span&gt;
 pm uninstall &lt;span class=&quot;nt&quot;&gt;--user&lt;/span&gt; 0 com.google.android.music          &lt;span class=&quot;c&quot;&gt;# Google Play Music&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="android" /><summary type="html">Assuming you are inside the adb shell, running the below commands would remove all the unnecessary apps from Redmi 7A. This does NOT require you to be root. However, as expected, the .apk of these apps would still be available inside /data/app folder. pm uninstall --user 0 com.miui.compass # Mi Compass pm uninstall --user 0 com.facebook.appmanager # Facebook pm uninstall --user 0 com.facebook.system pm uninstall --user 0 com.facebook.services pm uninstall --user 0 com.miui.yellowpage # Mi Yellow Pages pm uninstall --user 0 com.mipay.wallet.in # Mi Pay pm uninstall --user 0 com.xiaomi.payment pm uninstall --user 0 com.miui.weather2 # Mi Weather pm uninstall --user 0 com.miui.screenrecorder # Screen Recorder pm uninstall --user 0 com.miui.player # Music pm uninstall --user 0 com.xiaomi.scanner # Scanner pm uninstall --user 0 com.xiaomi.midrop # ShareMe pm uninstall --user 0 com.miui.analytics # Analytics pm uninstall --user 0 com.xiaomi.mipicks # GetApps pm uninstall --user 0 com.miui.android.fashiongallery # Wallpaper Carousel (Got &quot;Failure [-1000]&quot;!!) pm uninstall --user 0 com.miui.msa.global # Mi Ads service pm uninstall --user 0 com.miui.micloudsync # Mi Cloud pm uninstall --user 0 com.miui.cloudbackup pm uninstall --user 0 com.miui.cloudservice pm uninstall --user 0 com.miui.cloudservice.sysbase pm uninstall --user 0 -k com.android.thememanager # Themes pm uninstall --user 0 com.xiaomi.glgm # Mi Games pm uninstall --user 0 com.miui.backup # Mi Backup pm uninstall --user 0 com.tencent.soter.soterserver # Tencent app!? pm uninstall --user 0 com.miui.bugreport # Mi bug report pm uninstall --user 0 com.miui.miservice # Services &amp;amp; Feedback pm uninstall --user 0 com.xiaomi.joyose # ?? pm uninstall --user 0 com.xiaomi.miplay_client # MiPlayClient pm uninstall --user 0 com.android.chrome # Chrome browser (I use Firefox) pm uninstall --user 0 com.netflix.partner.activation # Netflix!? pm uninstall --user 0 com.miui.miwallpaper # Mi Wallpaper pm uninstall --user 0 com.android.wallpaper.livepicker pm uninstall --user 0 com.android.wallpaperbackup pm uninstall --user 0 com.android.wallpapercropper pm uninstall --user 0 com.xiaomi.xmsf # Xiaomi service framework pm uninstall --user 0 com.xiaomi.xmsfkeeper pm uninstall --user 0 com.miui.hybrid # Quick Apps pm uninstall --user 0 com.miui.hybrid.accessory pm uninstall --user 0 com.xiaomi.account # Mi Account pm uninstall --user 0 com.google.android.apps.wellbeing # Google Digital Wellbeing pm uninstall --user 0 com.google.android.feedback # Google feedback pm uninstall --user 0 com.google.android.videos # Google Play Movies &amp;amp; TV pm uninstall --user 0 com.google.android.music # Google Play Music</summary></entry><entry><title type="html">R-MAT: A Recursive Model for Graph Mining</title><link href="https://teju85.github.io/blog/2021/07/19/rmat.html" rel="alternate" type="text/html" title="R-MAT: A Recursive Model for Graph Mining" /><published>2021-07-19T00:00:00+05:30</published><updated>2021-07-19T00:00:00+05:30</updated><id>https://teju85.github.io/blog/2021/07/19/rmat</id><content type="html" xml:base="https://teju85.github.io/blog/2021/07/19/rmat.html">&lt;h3 id=&quot;proposal&quot;&gt;Proposal&lt;/h3&gt;
-&lt;p&gt;Main paper can be found &lt;a href=&quot;http://www.cs.cmu.edu/~christos/PUBLICATIONS/siam04.pdf&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;recursive and procedural approach to building real-world-like graphs&lt;/li&gt;
-  &lt;li&gt;Erdos-Renyi model becomes a special case of this approach (with a = b = c = d = 0.25)&lt;/li&gt;
-  &lt;li&gt;proposes an AutoMAT-fast parameter fitting algorithm&lt;/li&gt;
-  &lt;li&gt;generates graphs with:
-    &lt;ul&gt;
-      &lt;li&gt;power-law distribution&lt;/li&gt;
-      &lt;li&gt;directed, undirected or bipartite properties&lt;/li&gt;
-      &lt;li&gt;very efficient &lt;script type=&quot;math/tex&quot;&gt;O(E log(E) log(N))&lt;/script&gt; complexity&lt;/li&gt;
-      &lt;li&gt;can also generate “winner does not take all” kind of graphs too&lt;/li&gt;
-      &lt;li&gt;generate communities (and also sub-communities within communities)&lt;/li&gt;
-      &lt;li&gt;smaller diameter (proved experimentally in this paper)&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Parameters:
-    &lt;ul&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;N&lt;/script&gt; - number of nodes in the graph&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;E&lt;/script&gt; - number of edges in the graph&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;2^n&lt;/script&gt; - number of nodes in the RMAT graph (where &lt;script type=&quot;math/tex&quot;&gt;n = ceil(log2(N))&lt;/script&gt;)&lt;/li&gt;
-      &lt;li&gt;&lt;script type=&quot;math/tex&quot;&gt;a, b, c, d&lt;/script&gt; - probabilities of each quadrant in the adjacency matrix&lt;/li&gt;
-      &lt;li&gt;
-        &lt;script type=&quot;math/tex; mode=display&quot;&gt;a + b + c + d  = 1&lt;/script&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Typically: &lt;script type=&quot;math/tex&quot;&gt;a \ge b&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;a \ge c&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;a \ge d&lt;/script&gt;&lt;/li&gt;
-  &lt;li&gt;Main algo
-    &lt;ul&gt;
-      &lt;li&gt;pick the quadrant based on the probabilities &lt;script type=&quot;math/tex&quot;&gt;a, b, c, d&lt;/script&gt;&lt;/li&gt;
-      &lt;li&gt;keep doing this until we hit the “leaf node” which is the pair of nodes which
-will get an edge&lt;/li&gt;
-      &lt;li&gt;repeat this until we have &lt;script type=&quot;math/tex&quot;&gt;E&lt;/script&gt; edges&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;to smooth out fluctuations in the degree distributions, these probabilities are
-perturbed (and renormalized) slightly at each level&lt;/li&gt;
-&lt;/ul&gt;</content><author><name></name></author><category term="tech-notes" /><category term="paper-notes" /><category term="graph" /><summary type="html">Proposal Main paper can be found here.</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><category term="android" /><summary type="html">Assuming you are inside the adb shell, running the below commands would remove all the unnecessary apps from Redmi 7A. This does NOT require you to be root. However, as expected, the .apk of these apps would still be available inside /data/app folder. pm uninstall --user 0 com.miui.compass # Mi Compass pm uninstall --user 0 com.facebook.appmanager # Facebook pm uninstall --user 0 com.facebook.system pm uninstall --user 0 com.facebook.services pm uninstall --user 0 com.miui.yellowpage # Mi Yellow Pages pm uninstall --user 0 com.mipay.wallet.in # Mi Pay pm uninstall --user 0 com.xiaomi.payment pm uninstall --user 0 com.miui.weather2 # Mi Weather pm uninstall --user 0 com.miui.screenrecorder # Screen Recorder pm uninstall --user 0 com.miui.player # Music pm uninstall --user 0 com.xiaomi.scanner # Scanner pm uninstall --user 0 com.xiaomi.midrop # ShareMe pm uninstall --user 0 com.miui.analytics # Analytics pm uninstall --user 0 com.xiaomi.mipicks # GetApps pm uninstall --user 0 com.miui.android.fashiongallery # Wallpaper Carousel (Got &quot;Failure [-1000]&quot;!!) pm uninstall --user 0 com.miui.msa.global # Mi Ads service pm uninstall --user 0 com.miui.micloudsync # Mi Cloud pm uninstall --user 0 com.miui.cloudbackup pm uninstall --user 0 com.miui.cloudservice pm uninstall --user 0 com.miui.cloudservice.sysbase pm uninstall --user 0 -k com.android.thememanager # Themes pm uninstall --user 0 com.xiaomi.glgm # Mi Games pm uninstall --user 0 com.miui.backup # Mi Backup pm uninstall --user 0 com.tencent.soter.soterserver # Tencent app!? pm uninstall --user 0 com.miui.bugreport # Mi bug report pm uninstall --user 0 com.miui.miservice # Services &amp;amp; Feedback pm uninstall --user 0 com.xiaomi.joyose # ?? pm uninstall --user 0 com.xiaomi.miplay_client # MiPlayClient pm uninstall --user 0 com.android.chrome # Chrome browser (I use Firefox) pm uninstall --user 0 com.netflix.partner.activation # Netflix!? pm uninstall --user 0 com.miui.miwallpaper # Mi Wallpaper pm uninstall --user 0 com.android.wallpaper.livepicker pm uninstall --user 0 com.android.wallpaperbackup pm uninstall --user 0 com.android.wallpapercropper pm uninstall --user 0 com.xiaomi.xmsf # Xiaomi service framework pm uninstall --user 0 com.xiaomi.xmsfkeeper pm uninstall --user 0 com.miui.hybrid # Quick Apps pm uninstall --user 0 com.miui.hybrid.accessory pm uninstall --user 0 com.xiaomi.account # Mi Account pm uninstall --user 0 com.google.android.apps.wellbeing # Google Digital Wellbeing pm uninstall --user 0 com.google.android.feedback # Google feedback pm uninstall --user 0 com.google.android.videos # Google Play Movies &amp;amp; TV pm uninstall --user 0 com.google.android.music # Google Play Music</summary></entry></feed>
