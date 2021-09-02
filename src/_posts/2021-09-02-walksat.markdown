@@ -1,0 +1,50 @@
+---
+layout: post
+title: "Noise strategies for improving local search"
+needmath: true
+tags: tech-notes paper-notes sat
+---
+
+### Proposal
+This is my summary of the WalkSAT paper which can be found [here](https://www.aaai.org/Papers/AAAI/1994/AAAI94-051.pdf).
+
+- Notes that GSAT spends a lot of time in "sideways" moves
+- Proposes and compares the following 3 approaches
+  - Simulated Annealing
+  - GSAT + random walk
+  - GSAT + random noise
+  - WalkSAT
+- Empirically they show WalkSAT does pretty well on hard SAT problems compared
+  to complete solvers
+- Authors also show that they can solve MAX-SAT problems with this solver too
+
+#### Summary
+- Simulated Annealing
+  - $$\delta$$ = number of unsat clauses turning into sat
+  - if $$\delta >= 0$$, flip the best such variable
+  - else flip the variable with probability $$e^{-\frac{\delta}{T}}$$
+- GSAT + random walk (mixed random walk strategy)
+  - focus on only variables from unsat clauses
+  - with probability $$p$$, pick a variable occuring in some unsat clause and
+    flip its truth assignment
+  - with probability $$1 - p$$, follow the standard GSAT scheme
+- GSAT + random noise
+  - same as previous approach but do not limit only to variables from unsat clauses
+- Algo for WalkSAT is given below
+
+```
+for i = 1 : max_tries:
+  sigma = random truth assignment for F
+  for j = 1 : max_flips:
+    if sigma satisfied F return sigma
+    C = a random unsatisfied clause from F
+    if for a variable x in C which has break-count = 0"
+      v = x  // freebie move
+    else:
+      if biased coin toss with probability p:
+        v = a random variable in C  // random walk move
+      else:
+        v = variable in C with smallest break-count  // greedy move
+    flip v in sigma
+return FAIL
+```
