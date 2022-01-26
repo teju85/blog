@@ -1,0 +1,20 @@
+---
+layout: post
+title: "OrbNet: Deep Learning for Quantum Chemistry Using Symmetry-Adapted Atomic-Orbital Features"
+needmath: true
+tags: tech-notes paper-notes graph gnn
+---
+
+### Proposal
+Main paper can be found [here](https://arxiv.org/abs/2007.08026v2).
+
+* ML based method to predict energy solutions from the Schroedinger equation
+* Use symmetry adapted atomic orbitals + graph neural networks as their
+  architecture for this purpose
+* This architecture is called as OrbNet
+
+### Summary
+- This is a regression model that is being learnt through DL techniques
+- Regression targets themselves are quantum mechanical energies
+- the GNN model will have edge and node attention built into it
+- 
