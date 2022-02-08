@@ -16,6 +16,7 @@ default:
 	@echo " . publish   - commit and then push to remote repo"
 	@echo " . serve     - start the server to test changes locally. Assumes"
 	@echo "               that you are inside the '$(SRC_BRANCH)' branch!"
+	@echo " . init      - setup all required packages"
 
 publish:
 	$(MAKE) commit push
@@ -38,4 +39,7 @@ _commit:
 	git checkout $(SRC_BRANCH)
 
 serve:
-	jekyll serve -s $(SRC_DIR) -d $(SITE_DIR)
+	cd $(SRC) && bundle exec jekyll serve -d $(SITE_DIR)
+
+init:
+	cd $(SRC) && bundle install --full-index
