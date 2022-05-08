@@ -1,0 +1,17 @@
+{
+    "title": "Quagmire",
+    "email": "rao.thejaswi@gmail.com",
+    "description": "Stuff I find cool/useful",
+    "maxhomeposts": 5,
+    "lang": "en",
+    "list_title": "Recent Posts",
+    "tags": [],
+    "needmath": false,
+    "dirs": {
+        "html": ".",
+        "main": "src",
+        "layouts": "src/_layouts",
+        "assets": "assets",
+        "posts": "src/_posts"
+    }
+}
