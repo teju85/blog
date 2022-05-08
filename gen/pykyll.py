@@ -1,4 +1,6 @@
 import mistletoe
+import argparse
+import json
 
 
 def parse_markdown(mdfile):
@@ -34,3 +36,37 @@ def parse_markdown(mdfile):
         lines = lines[i:]
     content = mistletoe.markdown(''.join(lines))
     return page_cfg, content
+
+
+def validateargs(args):
+    if args.md is None:
+        raise Exception("-md is mandatory")
+    if args.html is None:
+        raise Exception("-html is mandatory")
+
+
+def parseargs():
+    desc = "Generate jekyll-like pages but using python"
+    parser = argparse.ArgumentParser(description=desc)
+    parser.add_argument("-cfg", default="config.json", type=str,
+        help="Path to the global config file.")
+    parser.add_argument("-html", default=None, type=str,
+        help="Path to the html page for the given input markdown file.")
+    parser.add_argument("-md", default=None, type=str,
+        help="Path to the markdown file that needs to be converted to html.")
+    args = parser.parse_args()
+    validateargs(args)
+    with open(args.cfg, "r") as fp:
+        args.cfg = json.load(fp)
+    return args
+
+
+def main():
+    args = parseargs()
+    if args.md and args.html:
+        page_cfg, content = parse_markdown(args.md)
+    return
+
+
+if __name__ == "__main__":
+    main()
