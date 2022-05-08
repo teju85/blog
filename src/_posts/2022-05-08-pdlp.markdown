@@ -1,0 +1,121 @@
+---
+layout: post
+title: "Practical Large-Scale Linear Programming using Primal-Dual Hybrid Gradient"
+needmath: true
+tags: tech-notes paper-notes optimization
+---
+
+### Proposal
+Main paper can be found [here](http://www.optimization-online.org/DB_FILE/2021/06/8439.pdf).
+
+* First order method for Linear Programming with high accuracy while being
+  amenable to parallelization and scaling to large problems
+* algorithmic improvements to PDHG: adaptive restarting, dynamic primal-dual step
+  size selection, presolving techniques and diagonal preconditioning.
+* however the proposed algo here has no convergence guarantee!
+
+### Summary
+- simplex and IPM wont scale well to large scale problems due to their need for
+  matrix factorization
+- primal LP problem is stated as:
+  - $$min_x c x$$
+  - subject to:
+    - $$G x >= h$$
+    - $$A x = b$$
+    - $$l <= x <= u $$
+  - where:
+    - $$x \epsilon R^n$$
+    - $$c \epsilon R^n$$
+    - $$G \epsilon R^{m_1 x n}$$
+    - $$h \epsilon R^{m_1}$$
+    - $$A \epsilon R^{m_2 x n}$$
+    - $$b \epsilon R^{m_2}$$
+    - $$l \epsilon R^n$$
+    - $$u \epsilon R^n$$
+    - $$n$$ = number of variables
+- dual LP problem is then stated as:
+  - $$max_y q y + l \lambda^+ - u \lambda^-$$
+  - subject to:
+    - $$c - K y = \lambda$$
+    - $$y_{1:m_1} >= 0$$
+    - $$\lambda \epsilon \Gamma$$
+    - $$K = (G, A)$$
+    - $$q = (h, b)$$
+  - where:
+    - $$y \epsilon R^{m_1 + m_2}$$
+    - $$\lambda \epsilon R^n$$
+    - $$\Gamma = product_i \Gamma_i  i \epsilon [1,n]$$
+    - $$\Gamma_i = 0 if l_i = -\inf, u_i = \inf$$
+    - $$\Gamma_i = R^- if l_i = -\inf, u_i \epsilon R$$
+    - $$\Gamma_i = R^+ if l_i \epsilon R, u_i = \inf$$
+    - $$\Gamma_i = R else$$
+    - $$\lambda_+ = max(0, \lambda)$$
+    - $$\lambda_- = min(0, \lambda)$$
+    - $$R^-$$ = set of non-positive real numbers
+    - $$R^+$$ = set of non-negative real numbers
+- this is represented as the following saddle point problem: $$min_x max_y c x - y K x + q y$$
+- PDHG solves this iteratively as:
+  - $$ x^{k+1} = proj_X(x^k - \tau (c - K y^k))$$
+  - $$ y^{k+1} = proj_Y(y^k + \sigma (q - K (2x^{k+1} - x^k)))$$
+  - where:
+    - $$\tau = \frac{\eta}{\omega}$$ = primal stepsize
+    - $$\sigma = \eta \omega$$ = dual stepsize
+    - $$\eta \epsilon (0, \inf)$$ = stepsize
+    - $$\omega \epsilon (0, \inf)$$ = primal weight
+- PDHG is known to converge for all values of $$\eta < \frac{1}{sn(K)}$$
+- $$sn(.)$$ = matrix spectral norm, estimated via power iteration
+
+#### PDLP Algorithm
+- $$z^{0,0}$$ = initial solution
+- $$n = 0$$ = outer loop counter
+- $$k = 0$$ = total iterations
+- $$\eta_c^{0,0} = \frac{1}{infnorm(K)}$$
+- $$\omega^0 = initializePrimalWeight()$$
+- repeat until termination
+  - $$t = 0$$
+  - repeat until restart or termination (this check is done once every 40 iterations to reduce overhead)
+    - $$z^{n,t+1}, \eta^{n,t+1}, \eta_c^{t,t+1} = adaptivePDHGstep(z^{n,t}, \omega^n, \eta_c^{n,t}, k)$$
+    - $$z'^{n,t+1} = \frac{1}{\Sigma_{i=1}^{t+1} \eta^{n,i}} \Sigma_{i=1}^{t+1} \eta^{n,i} z^{n,i}$$
+    - $$z_c^{n,t+1} = restartCandidate(z^{n,t+1}, z'^{n,t+1}, z^{n,0})$$
+    - $$t = t + 1$$
+    - $$k = k + 1$$
+  - $$z^{n+1,0} = $$z_c^{n,t}$$
+  - $$n = n + 1$$
+  - $$\omega^n = primalWeightUpdate(z^{n,0}, z^{n-1,0}, \omega^{n-1})$$
+- output = $$z^{n,0}$$
+
+#### adaptivePDHGstep
+- $$(x, y) = z^{n,t}$$
+- $$\eta = \eta_c^{n,t}$$
+- while not done
+  - $$x' = proj_X(x - \frac{\eta}{\omega^n} (c - K y))$$
+  - $$y' = proj_Y(y + \eta \omega^n (q - K (2x' - x)))$$
+  - $$\eta_b = \frac{norm(x' - x, y' - y)_{\omega^n}^2}{2(y' - y)K(x' - x)}$$
+  - $$\eta' = min((1 - (k + 1)^{-0.3})\eta_b, (1 + (k + 1)^{-0.6})\eta)$$
+  - return $$((x', y'), \eta, \eta')$$ if $$\eta <= \eta'$$
+  - $$\eta = \eta'$$
+
+#### restartCandidate
+- WTF is this!!????
+
+#### initializePrimalWeight
+- $$\omega_0 = \frac{l2norm(c)}{l2norm(q)}$$ if both numerator and denominator are $$> \epsilon_{zero}$$
+- $$\omega_0 = 1$$ else
+- $$\epsilon_{zero}$$ = a small nonzero tolerance
+
+#### primalWeightupdate
+- $$\Delta_x^n = l2norm(x^{n,0} - x^{n-1,0})$$
+- $$\Delta_y^n = l2norm(y^{n,0} - y^{n-1,0})$$
+- return $$e^{\theta log(\frac{\Delta_y^n}{\Delta^x^n}) + (1 - \theta)log(\omega^{n-1})}$$ if $$\Delta_x^n > \epsilon_{zero} && \Delta_y^n > \epsilon_{zero}$$
+- return $$\omega^{n-1}$$ else
+- $$\theta \epsilon [0,1]$$ = exponential smoothing parameter (default = 0.5)
+
+#### Presolve
+- detect inconsistent bounds
+- delete empty rows/columns of $$K$$
+- removing variables with equal lower/upper bounds
+- tightening bounds
+- removing duplicate rows of $$K$$
+
+#### diagonal preconditioning
+- TBD

@@ -39,7 +39,7 @@ _commit:
 	git checkout $(SRC_BRANCH)
 
 serve:
-	cd $(SRC) && bundle exec jekyll serve -d $(SITE_DIR)
+	cd $(SRC_DIR) && bundle exec jekyll serve -d $(SITE_DIR)
 
 init:
-	cd $(SRC) && bundle install --full-index
+	cd $(SRC_DIR) && bundle install --full-index
