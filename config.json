@@ -11,7 +11,7 @@
         "html": ".",
         "main": "src",
         "layouts": "src/_layouts",
-        "assets": "assets",
+        "assets": "src/assets",
         "posts": "src/_posts"
     }
 }
