@@ -83,8 +83,7 @@ def post_last_modified(mdfile):
 
 def post_url(filename, site, is_post):
     base = os.path.basename(filename)
-    base = base.replace(".md", ".html")  # TODO: use "extension" keyword!
-    base = base.replace(".markdown", ".html")
+    base = base.replace("." + site["extension"], ".html")
     return os.path.join(site["dirs"]["html"],
                         site["dirs"]["posts"] if is_post else "",
                         base)
@@ -162,7 +161,7 @@ def generate_html(args):
         parse_markdown(file, args, True)
     # generate the final set of pages inside 'main' directory next
     main_dir = os.path.join(args.cfg["dirs"]["main"],
-                            "*.md")  # TODO: use "extension" keyword!!
+                            "*." + args.cfg["extension"])
     for file in glob.glob(main_dir):
         parse_markdown(file, args, False)
 
