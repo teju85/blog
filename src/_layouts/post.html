@@ -8,7 +8,7 @@ layout: default
       <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
         Published: {{ page.date }}
       </time>
-      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+      <time class="dt-published" datetime="{{ page.last_modified | date_to_xmlschema }}" itemprop="datePublished">
         Last Modifed: {{ page.last_modified }}
       </time>
     </p>

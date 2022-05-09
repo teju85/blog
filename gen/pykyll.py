@@ -114,14 +114,14 @@ def parse_template(tmplfile, args, content, prev_cfg):
     return content
 
 
-def parse_markdown(mdfile, args, is_post=False):
+def parse_markdown(mdfile, args, is_post=False, check_timestamp=False):
     post = {}
     post["date"] = post_date(mdfile)
     post["url"] = post_url(mdfile, args.cfg, is_post)
     post["last_modified"] = post_last_modified(mdfile)
     md_time = os.path.getmtime(mdfile)
     html_time = os.path.getmtime(post["url"]) if os.path.exists(post["url"]) else 0
-    if md_time < html_time:
+    if md_time < html_time and check_timestamp:
         return
     page_cfg, lines = parse_preamble(mdfile)
     post.update(page_cfg)
