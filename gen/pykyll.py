@@ -55,7 +55,7 @@ def length(arr):
     return len(arr)
 
 
-def parse_markdown(mdfile, args, content=""):
+def parse_markdown(mdfile, args, content="", is_post=False):
     page_cfg, lines = parse_preamble(mdfile)
     next_content = mistletoe.markdown(lines)
     if "layout" in page_cfg:
@@ -69,7 +69,15 @@ def parse_markdown(mdfile, args, content=""):
     environment.filters["escape"] = escape
     environment.filters["length"] = length
     tm = environment.from_string(text)
-    content = tm.render(site=args.cfg, content=content, page=page_cfg, post={})
+    content = tm.render(site=args.cfg, content=content, page=page_cfg)
+    if is_post:
+        post = page_cfg
+        post["date"] = "-NA-"  # TODO!
+        post["url"] = "-NA-"   # TODO!
+        if "tags" in post:
+            for tag in post["tags"]:
+                args.cfg["tags"].insert(tag)
+        args.cfg["posts"].append(post)
     return content
 
 
@@ -93,13 +101,15 @@ def parseargs():
     validateargs(args)
     with open(args.cfg, "r") as fp:
         args.cfg = json.load(fp)
+        args.cfg["posts"] = []
+        args.cfg["tags"] = set()
     return args
 
 
 def main():
     args = parseargs()
     if args.md and args.html:
-        content = parse_markdown(args.md, args)
+        content = parse_markdown(args.md, args, content="", is_post=True)
         print(content)
     return
 
