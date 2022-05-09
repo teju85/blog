@@ -4,6 +4,7 @@ import json
 import jinja2
 import os
 import re
+import subprocess
 
 
 POST_DATE = re.compile(r"^(\d{4})-(\d{2})-(\d{2})-")
@@ -73,6 +74,12 @@ def post_date(filename):
     return "%s-%s-%s" % (grp.group(1), grp.group(2), grp.group(3))
 
 
+def post_last_modified(mdfile):
+    out = subprocess.check_output("git log -1 --date=format:'%%Y-%%m-%%d' --format='%%ad' %s" % mdfile, shell=True)
+    out = out.strip()
+    return out.decode("ascii")
+
+
 def post_url(filename, site, is_post):
     base = os.path.basename(filename)
     base = base.replace(".markdown", ".html")
@@ -111,23 +118,31 @@ def parse_markdown(mdfile, args, is_post=False):
     post = {}
     post["date"] = post_date(mdfile)
     post["url"] = post_url(mdfile, args.cfg, is_post)
+    post["last_modified"] = post_last_modified(mdfile)
     md_time = os.path.getmtime(mdfile)
     html_time = os.path.getmtime(post["url"]) if os.path.exists(post["url"]) else 0
     if md_time < html_time:
         return
     page_cfg, lines = parse_preamble(mdfile)
+    post.update(page_cfg)
     content = mistletoe.markdown(lines)
     if "layout" in page_cfg:
         next_file = os.path.join(args.cfg["dirs"]["main"],
                                  args.cfg["dirs"]["layouts"],
                                  page_cfg["layout"] + ".html")
-        content = parse_template(next_file, args, content, page_cfg)
-    post.update(page_cfg)
+        content = parse_template(next_file, args, content, post)
+    # collect all tags mentioned for this post
     if "tags" in post:
         for tag in post["tags"]:
             args.cfg["tags"].add(tag)
     if is_post:
+        # maintain a global list of posts
         args.cfg["posts"].append(post)
+        # also maintain a tags to posts mapping
+        for tag in post["tags"]:
+            if tag not in args.cfg["tags_to_posts"]:
+                args.cfg["tags_to_posts"][tag] = []
+            args.cfg["tags_to_posts"][tag].append(len(args.cfg["posts"]))
     d = os.path.dirname(post["url"])
     if not os.path.exists(d):
         os.mkdir(d)
@@ -155,6 +170,7 @@ def parseargs():
         args.cfg = json.load(fp)
         args.cfg["posts"] = []
         args.cfg["tags"] = set()
+        args.cfg["tags_to_posts"] = {}
     return args
 
 
