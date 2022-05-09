@@ -2,6 +2,11 @@ import mistletoe
 import argparse
 import json
 import jinja2
+import os
+import re
+
+
+POST_DATE = re.compile(r"^(\d{4})-(\d{2})-(\d{2})-")
 
 
 def parse_preamble(file):
@@ -60,8 +65,25 @@ def length(arr):
     return len(arr)
 
 
+def post_date(filename):
+    base = os.path.basename(filename)
+    grp = re.search(POST_DATE, base)
+    if not grp:
+        raise Exception(f"Post {filename} does not have date prefix!")
+    return "%s-%s-%s" % (grp.group(1), grp.group(2), grp.group(3))
+
+
+def post_url(filename, site, is_post):
+    base = os.path.basename(filename)
+    base = base.replace(".markdown", ".html")
+    return os.path.join(site["dirs"]["html"],
+                        site["dirs"]["posts"] if is_post else "",
+                        base)
+
+
 def get_tmpl(args, text):
-    loader = jinja2.FileSystemLoader(args.cfg["dirs"]["layouts"])
+    loader = jinja2.FileSystemLoader(os.path.join(args.cfg["dirs"]["main"],
+                                                  args.cfg["dirs"]["layouts"]))
     environment = jinja2.Environment(loader=loader)
     environment.filters["relative_url"] = relative_url
     environment.filters["escape"] = escape
@@ -78,31 +100,48 @@ def parse_template(tmplfile, args, content, prev_cfg):
     tm = get_tmpl(args, lines)
     content = tm.render(site=args.cfg, content=content, page=page_cfg)
     if "layout" in page_cfg:
-        next_file = args.cfg["dirs"]["layouts"] + "/" + page_cfg["layout"] + ".html"
+        next_file = os.path.join(args.cfg["dirs"]["main"],
+                                 args.cfg["dirs"]["layouts"],
+                                 page_cfg["layout"] + ".html")
         content = parse_template(next_file, args, content, page_cfg)
     return content
 
 
 def parse_markdown(mdfile, args, is_post=False):
+    post = {}
+    post["date"] = post_date(mdfile)
+    post["url"] = post_url(mdfile, args.cfg, is_post)
+    md_time = os.path.getmtime(mdfile)
+    html_time = os.path.getmtime(post["url"]) if os.path.exists(post["url"]) else 0
+    if md_time < html_time:
+        return
     page_cfg, lines = parse_preamble(mdfile)
     content = mistletoe.markdown(lines)
     if "layout" in page_cfg:
-        next_file = args.cfg["dirs"]["layouts"] + "/" + page_cfg["layout"] + ".html"
+        next_file = os.path.join(args.cfg["dirs"]["main"],
+                                 args.cfg["dirs"]["layouts"],
+                                 page_cfg["layout"] + ".html")
         content = parse_template(next_file, args, content, page_cfg)
+    post.update(page_cfg)
+    if "tags" in post:
+        for tag in post["tags"]:
+            args.cfg["tags"].add(tag)
     if is_post:
-        post = page_cfg
-        post["date"] = "-NA-"  # TODO!
-        post["url"] = "-NA-"   # TODO!
-        if "tags" in post:
-            for tag in post["tags"]:
-                args.cfg["tags"].add(tag)
         args.cfg["posts"].append(post)
-    return content
+    d = os.path.dirname(post["url"])
+    if not os.path.exists(d):
+        os.mkdir(d)
+    with open(post["url"], "w") as fp:
+        fp.write(content)
+    return
+
+
+def generate_html(args):
+    parse_markdown("src/_posts/2017-12-31-cmdlogger-in-emacs.markdown", args, True)
 
 
 def validateargs(args):
-    if args.md is None:
-        raise Exception("-md is mandatory")
+    pass
 
 
 def parseargs():
@@ -110,8 +149,6 @@ def parseargs():
     parser = argparse.ArgumentParser(description=desc)
     parser.add_argument("-cfg", default="config.json", type=str,
         help="Path to the global config file.")
-    parser.add_argument("-md", default=None, type=str,
-        help="Path to the markdown file that needs to be converted to html.")
     args = parser.parse_args()
     validateargs(args)
     with open(args.cfg, "r") as fp:
@@ -121,13 +158,6 @@ def parseargs():
     return args
 
 
-def main():
-    args = parseargs()
-    if args.md:
-        content = parse_markdown(args.md, args, is_post=True)
-        print(content)
-    return
-
-
 if __name__ == "__main__":
-    main()
+    args = parseargs()
+    generate_html(args)

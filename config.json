@@ -11,8 +11,8 @@
     "dirs": {
         "html": ".",
         "main": "src",
-        "assets": "src/assets",
-        "layouts": "src/_layouts",
-        "posts": "src/_posts"
+        "assets": "assets",
+        "layouts": "_layouts",
+        "posts": "_posts"
     }
 }
