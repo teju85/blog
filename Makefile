@@ -19,7 +19,6 @@ default:
 	@echo "               that you are inside the '$(SRC_BRANCH)' branch!"
 	@echo " . init      - setup all required packages"
 	@echo " . generate  - generate the pykyll pages"
-	@echo " . regen     - forcefully regenerate all the pykyll pages"
 
 publish:
 	$(MAKE) commit push
@@ -49,6 +48,3 @@ init:
 
 generate:
 	env PYTHONPATH=gen python gen/pykyll.py -cfg $(CFG)
-
-regen:
-	env PYTHONPATH=gen python gen/pykyll.py -cfg $(CFG) -regen

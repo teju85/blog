@@ -118,18 +118,15 @@ def parse_template(tmplfile, args, content, prev_cfg):
 
 def parse_markdown(mdfile, args, is_post=False):
     post = {}
-    if is_post:
-        post["date"] = post_date(mdfile)
     post["url"] = post_url(mdfile, args.cfg, is_post)
-    if not args.regen:
-        md_time = os.path.getmtime(mdfile)
-        html_time = os.path.getmtime(post["url"]) if os.path.exists(post["url"]) else 0
-        if md_time < html_time:
-            return
-    post["last_modified"] = post_last_modified(mdfile)
-    print(f"Generating html for {mdfile}...")
     page_cfg, lines = parse_preamble(mdfile)
     post.update(page_cfg)
+    print(f"Generating html for {mdfile}...")
+    # modified dates should not be overridden by the preamble!
+    if is_post:
+        post["date"] = post_date(mdfile)
+    post["last_modified"] = post_last_modified(mdfile)
+    # convert to html now along with jinja expansion
     content = mistletoe.markdown(lines)
     if "layout" in page_cfg:
         next_file = os.path.join(args.cfg["dirs"]["main"],
@@ -179,8 +176,6 @@ def parseargs():
     parser = argparse.ArgumentParser(description=desc)
     parser.add_argument("-cfg", default="config.json", type=str,
         help="Path to the global config file.")
-    parser.add_argument("-regen", action="store_true", default=False,
-        help="Forcefully regenerate all the html files")
     args = parser.parse_args()
     validateargs(args)
     with open(args.cfg, "r") as fp:
