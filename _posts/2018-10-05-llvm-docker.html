@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/src/assets/main.css">
+  
+  
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/">Quagmire</a>
+
+    
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">"LLVM/Clang inside Docker"</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-10-05" itemprop="datePublished">
+        Published: 2018-10-05
+      </time>
+      <time class="dt-published" datetime="2021-07-15" itemprop="datePublished">
+        Last Modifed: 2021-07-15
+      </time>
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    <li><a href="/blog/tags.html#compiler" class="tag">compiler</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>Introduction</h3>
+<p>The <a href="https://clang.llvm.org/get_started.html">instructions</a> on building LLVM/Clang
+from source are pretty accurate. That and the fact that it&#x27;s dependencies are very
+minimal, building it from source is a cake-walk!</p>
+<h3>Setting up llvm inside docker</h3>
+<p>As part of my work, I needed the clang tools for code analysis. I nowadays prefer
+working inside docker. So, as a first shot, here&#x27;s how I set up my initial
+Dockerfile.</p>
+<p>{% highlight shell %}
+RUN apt-get update &amp;&amp; <br />
+apt-get install -y --no-install-recommends <br />
+build-essential <br />
+ca-certificates <br />
+cmake <br />
+git <br />
+make <br />
+python <br />
+zlib1g-dev &amp;&amp; <br />
+rm -rf /var/lib/apt/lists*</p>
+<p>RUN mkdir -p /opt/compiler &amp;&amp; <br />
+cd /opt/compiler &amp;&amp; <br />
+git clone &quot;http://llvm.org/git/llvm&quot; &amp;&amp; <br />
+cd llvm/tools &amp;&amp; <br />
+git clone &quot;http://llvm.org/git/clang&quot; &amp;&amp; <br />
+cd clang/tools &amp;&amp; <br />
+git clone &quot;http://llvm.org/git/clang-tools-extra&quot; extra &amp;&amp; <br />
+mkdir -p /opt/compiler/build &amp;&amp; <br />
+cd /opt/compiler/build &amp;&amp; <br />
+cmake -G &quot;Unix Makefiles&quot; ../llvm &amp;&amp; <br />
+make -j8 &amp;&amp; <br />
+make install &amp;&amp; <br />
+cd / &amp;&amp; <br />
+rm -rf /opt/compiler</p>
+<p>ENV PATH=/usr/local/bin:$PATH
+ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+{% endhighlight shell %}</p>
+<p>Interestingly, this ended up generating a really huge docker image!
+{% highlight shell %}
+$ docker images | head -n2
+REPOSITORY              TAG                  IMAGE ID            CREATED             SIZE
+llvm                    latest-9.2           ba5b2786b5e5        About an hour ago   47.1GB
+{% endhighlight shell %}</p>
+<h3>Solution (LLVM_TARGETS_TO_BUILD)</h3>
+<p>Main reason for this is clang ends up generating cross-compilation for multiple
+targets. (Refer to LLVM_ALL_TARGETS variable inside llvm/CMakeLists.txt) Thus, I
+had to update the cmake command to only build for my targets of interest.</p>
+<p>{% highlight shell %}
+RUN apt-get update &amp;&amp; <br />
+apt-get install -y --no-install-recommends <br />
+build-essential <br />
+ca-certificates <br />
+cmake <br />
+git <br />
+make <br />
+python <br />
+zlib1g-dev &amp;&amp; <br />
+rm -rf /var/lib/apt/lists*</p>
+<p>RUN mkdir -p /opt/compiler &amp;&amp; <br />
+cd /opt/compiler &amp;&amp; <br />
+git clone &quot;http://llvm.org/git/llvm&quot; &amp;&amp; <br />
+cd llvm/tools &amp;&amp; <br />
+git clone &quot;http://llvm.org/git/clang&quot; &amp;&amp; <br />
+cd clang/tools &amp;&amp; <br />
+git clone &quot;http://llvm.org/git/clang-tools-extra&quot; extra &amp;&amp; <br />
+mkdir -p /opt/compiler/build &amp;&amp; <br />
+cd /opt/compiler/build &amp;&amp; <br />
+cmake -G &quot;Unix Makefiles&quot; <br />
+-DLLVM_TARGETS_TO_BUILD=&quot;X86;NVPTX&quot; <br />
+-DCMAKE_BUILD_TYPE=Release <br />
+../llvm &amp;&amp; <br />
+make -j8 &amp;&amp; <br />
+make install &amp;&amp; <br />
+cd / &amp;&amp; <br />
+rm -rf /opt/compiler</p>
+<p>ENV PATH=/usr/local/bin:$PATH
+ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+{% endhighlight shell %}</p>
+<p>This puts me in a more reasonable docker image size. :)
+{% highlight shell %}
+$ docker images | head -n2
+REPOSITORY              TAG                  IMAGE ID            CREATED             SIZE
+llvm                    latest-9.2           57ee054cbfe8        18 seconds ago      3.62GB
+{% endhighlight shell %}</p>
+<p>Hope this is useful to others.</p>
+
+  </div>
+  <a class="u-url" href="./_posts/2018-10-05-llvm-docker.html" hidden></a>
+</article>
+      </div>
+    </main>
+          
+
+<footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

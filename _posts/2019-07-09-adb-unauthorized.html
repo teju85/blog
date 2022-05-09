@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/src/assets/main.css">
+  
+  
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/">Quagmire</a>
+
+    
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">"Resolving ADB unauthorized issue"</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-07-09" itemprop="datePublished">
+        Published: 2019-07-09
+      </time>
+      <time class="dt-published" datetime="2021-07-15" itemprop="datePublished">
+        Last Modifed: 2021-07-15
+      </time>
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    <li><a href="/blog/tags.html#android" class="tag">android</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>Issue</h3>
+<pre><code class="language-bash">cd $ANDROID_SDK_HOME/platform-tools
+adb devices
+List of devices attached
+fffffffffffffff        unauthorized
+</code></pre>
+<p>One would see the &#x27;unauthorized&#x27; keyword in the place of the device name.
+<code>adb shell</code> would also fail stating something about &#x27;keys not set&#x27;.</p>
+<h3>Solution</h3>
+<ol>
+<li>Unplug your android device from the computer, if it is connected</li>
+<li>Inside your computer:
+<ul>
+<li>Go to <code>$ANDROID_SDK_HOME/platform-tools</code></li>
+<li>Run <code>adb keygen .android/adb_key</code></li>
+</ul>
+</li>
+<li>Open your android device</li>
+<li>Go to Settings -&gt; Developer Options</li>
+<li>Touch &#x27;Revoke USB debugging authorizations&#x27;</li>
+<li>Plug the device back into the computer</li>
+<li>The device should now ask you for whether to trust this computer. Say yes.</li>
+</ol>
+
+  </div>
+  <a class="u-url" href="./_posts/2019-07-09-adb-unauthorized.html" hidden></a>
+</article>
+      </div>
+    </main>
+          
+
+<footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

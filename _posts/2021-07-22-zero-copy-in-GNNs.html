@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/src/assets/main.css">
+  
+    <link rel="stylesheet" href="/src/assets/katex.min.css">
+    <script rel="src" src="/src/assets/jquery-1.11.1.min.js"></script>
+    <script rel="src" src="/src/assets/katex.min.js"></script>
+  
+  
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/">Quagmire</a>
+
+    
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">"Large Graph Convolutional Network Training with GPU-Oriented Data Communication Architecture"</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2021-07-22" itemprop="datePublished">
+        Published: 2021-07-22
+      </time>
+      <time class="dt-published" datetime="2021-07-23" itemprop="datePublished">
+        Last Modifed: 2021-07-23
+      </time>
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    <li><a href="/blog/tags.html#tech-notes" class="tag">tech-notes</a></li>
+  
+    <li><a href="/blog/tags.html#paper-notes" class="tag">paper-notes</a></li>
+  
+    <li><a href="/blog/tags.html#graph" class="tag">graph</a></li>
+  
+    <li><a href="/blog/tags.html#gnn" class="tag">gnn</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>Proposal</h3>
+<p>Main paper can be found <a href="https://arxiv.org/pdf/2103.03330v1.pdf">here</a>.</p>
+<ul>
+<li>zero-copy based, SM-initiated host-to-device copies of embeddings</li>
+<li>perform aligned reads and MPS (for resource provisioning) to maximize PCIe utilization</li>
+</ul>
+<h3>Summary</h3>
+<ul>
+<li>DMA-based host-to-device copies work only when the data is bulk. Embeddings in
+GNN&#x27;s do not yield well to DMA-based copies. Thus, have SM&#x27;s on GPU&#x27;s issue
+host-to-device from zero-copy buffers</li>
+<li>even while doing zero-copy from the GPU&#x27;s care needs to be taken in order to coalesce
+and also make sure that the number of PCIe requests are minimized. (Because each PCIe
+packet has 12-16B header overhead)</li>
+<li>need to also fully utilize the PCIe links by issuing as many such requests as
+possible. On PCIe3 number of such outstanding requests is 256 and 768 on PCIe4.</li>
+<li>So, to reduce the number of PCIe requests due to misaligned addresses, a circular
+shift is applied to all threads and warps.</li>
+<li>As expected, this circular shift is not necessary if the embedding size is less
+than the GPU cacheline size or it is already 128B aligned.</li>
+<li>We also need to make sure that the computation kernels are running alongside of
+this zero-copy kernel in order to maximize GPU utilization.</li>
+<li>But this is not guaranteed when there are blocking CUDA API calls like
+<code>cudaMalloc</code>, <code>cudaFree</code>, etc.</li>
+<li>So, the solution is to use MPS to provision the amount of SM&#x27;s to be dedicated
+for the purpose of zero-copy. Thus, there&#x27;ll be atleast 2 processes: one for
+zero-copy and the other for compute and CUDA IPC will be used to share the
+buffer addresses between these.</li>
+<li>The sample -&gt; gather -&gt; compute flow is pipelined (using ping-pong buffers) to
+maximize overlap of these phases.</li>
+<li>For multi-GPU training, this whole setup is duplicated across every GPU by just
+relying on DGL&#x27;s data-parallel approach. The catch though is that unified memory
+in CUDA is not shareable across processes! So, they first create a host shared
+memory region and then call <code>cudaHostRegister</code> on this buffer inside each
+process for each of the GPU in the current node.</li>
+<li>They note that atleast on RTX-3090, SM split of 15:85 between zero-copy and the
+actual training kernels is good enough to saturate PCIe bandwidth.</li>
+<li>However they also note that a 10:90 split didn&#x27;t show any noticeable change in
+the overall end-to-time minibatch time</li>
+</ul>
+
+  </div>
+  <a class="u-url" href="./_posts/2021-07-22-zero-copy-in-GNNs.html" hidden></a>
+</article>
+      </div>
+    </main>
+    
+  <script type="text/javascript">
+   $("script[type='math/tex']").replaceWith(
+     function(){
+       var tex = $(this).text();
+       return "<span class=\"inline-equation\">" + 
+              katex.renderToString(tex) +
+              "</span>";
+   });
+   
+   $("script[type='math/tex; mode=display']").replaceWith(
+     function(){
+       var tex = $(this).text();
+       return "<div class=\"equation\">" + 
+              katex.renderToString("\\displaystyle "+tex) +
+              "</div>";
+   });
+  </script>
+      
+
+<footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

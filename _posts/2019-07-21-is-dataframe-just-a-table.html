@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/src/assets/main.css">
+  
+  
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/">Quagmire</a>
+
+    
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">"Is dataframe just a table?"</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-07-21" itemprop="datePublished">
+        Published: 2019-07-21
+      </time>
+      <time class="dt-published" datetime="2021-07-15" itemprop="datePublished">
+        Last Modifed: 2021-07-15
+      </time>
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    <li><a href="/blog/tags.html#tech-notes" class="tag">tech-notes</a></li>
+  
+    <li><a href="/blog/tags.html#paper-notes" class="tag">paper-notes</a></li>
+  
+    <li><a href="/blog/tags.html#data-analytics" class="tag">data-analytics</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>Is Dataframe just a table?</h3>
+<p>Full article can be found <a href="https://plateau-workshop.org/assets/papers-2019/10.pdf">here</a></p>
+<h4>Proposal</h4>
+<p>The author tries to explain the reasons why the design of dataframes and tables
+are different.</p>
+<h4>Details</h4>
+<ul>
+<li>database folks think in terms of tables (aka relations)</li>
+<li>datascience folks think in terms of dataframes (read pandas)</li>
+<li>former uses lists, whereas the latter uses sets
+<ul>
+<li>author argues that this can have impact on how the implementations will differ
+between these cases use-cases!</li>
+<li>because lists are dependent on the order whereas sets aren&#x27;t</li>
+</ul>
+</li>
+<li>matrices vs tables
+<ul>
+<li>matrices are good at aggregation kind of operations</li>
+<li>however, by storing variables also as columns, such a &quot;matrix&quot; could be converted
+into a relation, thereby easing this process too!</li>
+</ul>
+</li>
+<li>however, tables seem to outshine dataframes when it comes to joins
+<ul>
+<li>closest operation in dataframes is a merge</li>
+<li>author argues that merge and concat ops in dataframes are not actually the same as
+as in join and union ops in tables and these dataframes ops are needlessly
+complicated!</li>
+</ul>
+</li>
+<li>dataframes are procedural interfaces while relations offer more declarative style</li>
+<li>sql ops, for eg, only support first-order logic (looping across items is 2nd order)</li>
+<li>code reuse is better with dataframes than with tables</li>
+<li>debugging is also better with dataframes</li>
+<li>tables have query-optimizers which can lead to better optimized operations internally
+<ul>
+<li>in dataframes, users have to manually tune for perf</li>
+</ul>
+</li>
+<li>dataframes offer many ways to solve one thing, which can be confusing to programmers</li>
+</ul>
+
+  </div>
+  <a class="u-url" href="./_posts/2019-07-21-is-dataframe-just-a-table.html" hidden></a>
+</article>
+      </div>
+    </main>
+          
+
+<footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

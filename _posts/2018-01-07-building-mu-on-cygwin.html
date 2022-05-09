@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/src/assets/main.css">
+  
+  
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/">Quagmire</a>
+
+    
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">"Building 'mu' on cygwin"</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-01-07" itemprop="datePublished">
+        Published: 2018-01-07
+      </time>
+      <time class="dt-published" datetime="2021-07-15" itemprop="datePublished">
+        Last Modifed: 2021-07-15
+      </time>
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    <li><a href="/blog/tags.html#tools" class="tag">tools</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Recently, I wanted to play with the popular &#x27;mu&#x27; tool for indexing my mails. Started with Matthias&#x27; <a href="https://frosch03.de/blog/2016/05/mu4e-within-cygwin.html">mu-on-cygwin</a> blog. Interestingly, even after following the steps he mentions there, I was welcomed with the below error!</p>
+<p>{% highlight bash %}
+CXX      utils.lo
+utils.cc: In function ‘std::string Mux::format(const char*, ...)’:
+utils.cc:187:44: error: ‘vasprintf’ was not declared in this scope
+const auto res = vasprintf (&amp;s, frm, args);
+^
+utils.cc: In function ‘std::string Mux::date_to_time_t_string(const string&amp;, bool)’:
+utils.cc:313:52: error: ‘strptime’ was not declared in this scope
+if (!strptime (date.c_str(), &quot;%Y%m%d%H%M%S&quot;, &amp;tbuf) &amp;&amp;
+^
+make[3]: *** [Makefile:749: utils.lo] Error 1
+{% endhighlight bash %}</p>
+<p>I had to do the following hack in order to get this working on my cygwin-env. (assuming you&#x27;re already inside &#x27;mu&#x27;)</p>
+<p>{% highlight bash %}
+$ cd lib/parser
+$ sed -e &#x27;s/^#define GNU_SOURCE/#define _GNU_SOURCE/&#x27; utils.cc  &gt; tmp
+$ mv tmp utils.cc
+{% endhighlight bash %}</p>
+<p>After this, the compilation and installation happened without any errors. Hope this helps others, in case they get stuck with the same error.</p>
+
+  </div>
+  <a class="u-url" href="./_posts/2018-01-07-building-mu-on-cygwin.html" hidden></a>
+</article>
+      </div>
+    </main>
+          
+
+<footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

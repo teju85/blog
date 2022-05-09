@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/src/assets/main.css">
+  
+  
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/">Quagmire</a>
+
+    
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">"CUDA distutils"</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-03-14" itemprop="datePublished">
+        Published: 2018-03-14
+      </time>
+      <time class="dt-published" datetime="2021-07-15" itemprop="datePublished">
+        Last Modifed: 2021-07-15
+      </time>
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    <li><a href="/blog/tags.html#cuda" class="tag">cuda</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>Introduction</h3>
+<p>After reading McGibbon&#x27;s <a href="https://github.com/rmcgibbo/npcuda-example">npcuda-example</a>,
+I set out on an attempt at creating extension modules by creating a separate
+nvcc cuda compiler to the distutils process.</p>
+<p>Obviously, most of the idea is inspired from npcuda-example. But instead of
+doing runtime hot-patches to the compiler object, this goes via the OO way, in
+the hope of keeping things cleaner.</p>
+<h3>Example Usage</h3>
+<p>Taking the setup.py of npcuda-example/cython/setup.py as an example, here&#x27;s
+what it would take to add support for building extension modules having CUDA
+kernels.
+{% highlight python %}
+import os
+from setuptools import setup
+from distutils.extension import Extension
+import cudistutils as cud
+import numpy as np
+env = cud.CudaEnv()
+ext = Extension(&quot;gpuadder&quot;,
+sources=[&quot;src/manager.cu&quot;, &quot;wrapper.pyx&quot;],
+library_dirs=[env.lib64],
+libraries=env.base_cuda_libs,
+language=&quot;c++&quot;,
+runtime_library_dirs=[env.lib64],
+extra_compile_args={&quot;gcc&quot;  : [],
+&quot;nvcc&quot; : env.default_nvcc_opts()},
+include_dirs = [np.get_include(), env.include, &quot;src&quot;])
+setup(name=&quot;gpuadder&quot;,
+author=&quot;Robert McGibbon&quot;,
+version=&quot;0.1&quot;,
+ext_modules = [ext],
+cmdclass={&quot;build_ext&quot;: cud.cuda_build_ext},
+zip_safe=False)
+{% endhighlight python %}
+As can be seen, most of your setup.py remains similar to writing C/C++ extension
+modules. Only change comes with passing &#x27;extra_compile_args&#x27;, which is needed
+since the underlying compiler class switches between C/C++ compiler and cuda
+compiler based on the input source file extension.</p>
+<p>The project is hosted <a href="https://github.com/teju85/cudistutils">here</a>.
+Hopefully will spend some time to get it accessible via &#x27;pip install&#x27;.</p>
+
+  </div>
+  <a class="u-url" href="./_posts/2018-03-14-cudistutils.html" hidden></a>
+</article>
+      </div>
+    </main>
+          
+
+<footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

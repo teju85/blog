@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/src/assets/main.css">
+  
+  
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/">Quagmire</a>
+
+    
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">"Debloating Redmi Note 10"</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2021-08-20" itemprop="datePublished">
+        Published: 2021-08-20
+      </time>
+      <time class="dt-published" datetime="2021-08-21" itemprop="datePublished">
+        Last Modifed: 2021-08-21
+      </time>
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    <li><a href="/blog/tags.html#android" class="tag">android</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Assuming you are inside the <code>adb shell</code>, running the below commands would remove
+all the unnecessary apps from Redmi Note 10. This does NOT require you to be root.
+However, as expected, the .apk of these apps would still be available inside
+<code>/data/app</code> folder.</p>
+<pre><code class="language-bash">pm uninstall --user 0 com.miui.screenrecorder                     # Screen recorder
+pm uninstall --user 0 com.google.android.apps.subscriptions.red   # Google One
+pm uninstall --user 0 com.xiaomi.miplay_client                    # MiPlayClient
+pm uninstall --user 0 com.miui.qr
+pm uninstall --user 0 com.xiaomi.scanner                          # Mi Scanner
+pm uninstall --user 0 com.google.android.apps.googleassistant     # Google Assistant
+pm uninstall --user 0 com.milink.service                          # UniPlay service
+pm uninstall --user 0 com.xiaomi.account                          # Mi Account
+pm uninstall --user 0 com.xiaomi.mi_connect_service
+pm uninstall --user 0 com.android.protips                         # home screen tips!?
+pm uninstall --user 0 com.miui.msa.global                         # Mi Ads service
+pm uninstall --user 0 com.mipay.wallet.in                         # Mi Pay
+pm uninstall --user 0 com.xiaomi.payment
+pm uninstall --user 0 com.google.android.googlequicksearchbox     # Google Search Box
+pm uninstall --user 0 -k com.android.thememanager                 # Themes
+pm uninstall --user 0 -k com.android.thememanager.module
+pm uninstall --user 0 com.xiaomi.glgm                             # Mi Games
+pm uninstall --user 0 com.miui.backup                             # Mi Backup
+pm uninstall --user 0 android.autoinstalls.config.Xiaomi.qssi
+pm uninstall --user 0 com.netflix.partner.activation              # Netflix background app!?
+pm uninstall --user 0 com.miui.guardprovider                      # Mi GuardProvider
+pm uninstall --user 0 com.miui.micloudsync                        # Mi Cloud
+pm uninstall --user 0 com.miui.cloudbackup
+pm uninstall --user 0 com.miui.cloudservice
+pm uninstall --user 0 com.miui.cloudservice.sysbase
+pm uninstall --user 0 com.xiaomi.micloud.sdk                      # Mi Cloud SDK (first remove the rest of the Cloud Apps!)
+pm uninstall --user 0 com.miui.hybrid                             # Quick Apps
+pm uninstall --user 0 com.miui.hybrid.accessory
+pm uninstall --user 0 com.miui.player                             # Music
+pm uninstall --user 0 com.miui.bugreport                          # Mi bug report
+pm uninstall --user 0 com.miui.miservice                          # Services &amp; Feedback
+pm uninstall --user 0 com.facebook.appmanager                     # Facebook
+pm uninstall --user 0 com.facebook.system
+pm uninstall --user 0 com.facebook.services
+pm uninstall --user 0 com.miui.compass                            # Mi Compass
+pm uninstall --user 0 com.miui.android.fashiongallery             # Wallpaper Carousel
+pm uninstall --user 0 com.miui.global.packageinstaller
+pm uninstall --user 0 com.android.chrome                          # Chrome browser. Personal Choice: I use Firefox
+pm uninstall --user 0 com.xiaomi.xmsf                             # Xiaomi service framework
+pm uninstall --user 0 com.xiaomi.xmsfkeeper
+pm uninstall --user 0 com.xiaomi.mipicks                          # GetApps
+pm uninstall --user 0 com.xiaomi.joyose
+pm uninstall --user 0 com.xiaomi.midrop                           # ShareMe
+pm uninstall --user 0 com.tencent.soter.soterserver               # Some random Tencent app!?
+pm uninstall --user 0 com.miui.miwallpaper                        # Mi Wallpaper
+pm uninstall --user 0 com.android.wallpaper.livepicker
+pm uninstall --user 0 com.android.wallpaperbackup
+pm uninstall --user 0 com.android.wallpapercropper
+pm uninstall --user 0 com.miui.analytics                          # Analytics
+pm uninstall --user 0 com.miui.yellowpage                         # Mi Yellow Pages
+pm uninstall --user 0 com.miui.weather2                           # Mi Weather
+pm uninstall --user 0 com.facemoji.lite.xiaomi                    # FaceMoji (Gives error: Failure [-1000])
+pm uninstall --user 0 com.google.android.apps.wellbeing           # Google Digital Wellbeing
+pm uninstall --user 0 com.google.android.feedback                 # Market Agent Feedback
+pm uninstall --user 0 com.google.android.marvin.talkback
+pm uninstall --user 0 com.android.soundrecorder                   # Mi Recorder
+pm uninstall --user 0 com.miui.calculator                         # Mi Calculator
+pm uninstall --user 0 com.google.android.apps.nbu.paisa.user      # Indian version of GPay
+pm uninstall --user 0 com.miui.notes                              # Mi Notes (I use FiiNotes)
+pm uninstall --user 0 com.google.android.youtube                  # Youtube (I prefer to use browser)
+pm uninstall --user 0 com.miui.cleanmaster                        # Cleaner app
+
+# Safer/Better to keep these
+# com.miui.extraphoto             # used inside stock camera
+# com.miui.gallery                # removing this can cause soft brick!
+# com.miui.daemon                 # remove at your own risk!
+# com.miui.securitycore           # core security
+# com.miui.fm                     # FM Radio. Personal Choice: I use it
+# com.miui.fmservice
+# com.miui.vsimcore               # needed for &quot;Mi Roaming&quot;
+# com.miui.rom                    # supposedly a core component of MIUI?
+# com.xiaomi.location.fused       # Geolocation over networks
+# com.miui.freeform               # Freeform - helps run apps in windows
+# com.google.android.documentsui  # DocumentsUI
+# com.miui.face                   # MI BioMetric
+# com.miui.core
+# com.miui.home
+
+# Undecided whether to keep/remove
+#? com.xiaomi.simactivate.service         # Sim Activation Service
+#? com.xiaomi.finddevice
+#? com.mi.android.globalFileexplorer      # Mi File Manager?
+#? com.xiaomi.bluetooth                   # only com.android.bluetooth is enough?
+#? com.xiaomi.calendar                    # only com.android.calendar is enough?
+#? com.miui.audioeffect                   # MusicFX
+#? com.xiaomi.powerchecker
+#? com.miui.powerkeeper
+
+# in case you figure out the (name and/or) purpose of these, let me know
+#??? miui.systemui.plugin
+#??? com.miui.securityadd
+#??? com.miui.securitycenter
+#??? com.lctautotest.current
+#??? com.longcheertel.sarauth
+#??? com.miui.phrase
+#??? org.codeaurora.ims
+#??? com.miui.system
+#??? com.miui.maintenancemode
+#??? com.miui.aod
+#??? com.miui.misound
+#??? com.fido.xiaomi.uafclient
+#??? com.fido.asm
+#??? com.miui.wmsvc
+#??? com.xiaomi.misettings
+#??? com.miui.audiomonitor
+#??? com.miui.touchassistant
+#??? com.mi.android.globalminusscreen
+#??? com.longcheertel.AutoTest
+#??? com.google.android.projection.gearhead
+#??? com.caf.fmradio
+#??? com.longcheertel.cit
+#??? com.mi.globallayout
+#??? com.xiaomi.discover
+</code></pre>
+
+  </div>
+  <a class="u-url" href="./_posts/2021-08-20-redmi-note-10-debloat.html" hidden></a>
+</article>
+      </div>
+    </main>
+          
+
+<footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

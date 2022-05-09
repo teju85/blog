@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/src/assets/main.css">
+  
+    <link rel="stylesheet" href="/src/assets/katex.min.css">
+    <script rel="src" src="/src/assets/jquery-1.11.1.min.js"></script>
+    <script rel="src" src="/src/assets/katex.min.js"></script>
+  
+  
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/">Quagmire</a>
+
+    
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">"Computing Extremely Accurate Quantiles Using t-Digests"</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2021-07-28" itemprop="datePublished">
+        Published: 2021-07-28
+      </time>
+      <time class="dt-published" datetime="2021-07-28" itemprop="datePublished">
+        Last Modifed: 2021-07-28
+      </time>
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    <li><a href="/blog/tags.html#tech-notes" class="tag">tech-notes</a></li>
+  
+    <li><a href="/blog/tags.html#paper-notes" class="tag">paper-notes</a></li>
+  
+    <li><a href="/blog/tags.html#data-analytics" class="tag">data-analytics</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>Proposal</h3>
+<p>Main paper can be found <a href="https://arxiv.org/pdf/1902.04023">here</a>.</p>
+<ul>
+<li>online approximate quantile computation</li>
+<li>accuracy of q-th quantile is max(q, 1-q)</li>
+<li>merging of summaries (aka digests) results is lesser loss of accuracy</li>
+<li>can also be extended for weighted samples</li>
+</ul>
+<h3>Summary</h3>
+<ul>
+<li>digest = partition of samples; aka clusters</li>
+<li>t-digest = a digest with any cluster of unit weight or bounded by some scale
+function.</li>
+<li>weight = number of samples in the cluster C; aka |C|</li>
+<li>fully merged t-digest = no two consecutive clusters can be merged without the
+violation of the weight bound</li>
+<li>a cluster is represented by its mean and number of samples in it</li>
+<li>clusters at both ends of the quantile are kept smaller while the ones in the
+middle are larger</li>
+<li>scale function
+<ul>
+<li>it must be a non-decreasing function</li>
+<li>$$k_1(q) = \frac{\delta}{2 \pi} arcsin(2q - 1)$$
+<ul>
+<li>$$\delta$$ = compression parameter. Atleast for $$k_1$$ it ends up bounding
+the number of clusters to $$[\lfloor \frac{\delta}{2} \rfloor, \lceil \delta \rceil]$$</li>
+<li>$$k$$ is the notional index</li>
+<li>$$n$$ = number of samples. It is assumed to be much larger than $$\delta$$</li>
+</ul>
+</li>
+<li>$$|C_k| = k(q_r) - k(q_l) \le 1$$, for any cluster with weight $$\ge$$ 1</li>
+<li>$$q_l = \frac{W_l(C)}{n}$$</li>
+<li>$$q_r = q_l + \frac{|C|}{n}$$</li>
+<li>$$W_l(C)$$ = sum of weights of all clusters to the left of it</li>
+<li>this function leads to estimates which are very accurate near extreme quantiles
+and modestly accurate in the middle</li>
+<li>another scale function is linear: $$k_0(q) = \frac{\delta q}{2}$$. It can work
+but trades off accuracy for computation</li>
+</ul>
+</li>
+<li>other scale functions are:
+<ul>
+<li>$$k_2(q) = \frac{\delta}{4 log(\frac{n}{\delta}) + 24} log(\frac{q}{1-q})$$</li>
+<li>$$k_3(q) = \frac{\delta}{4 log(\frac{n}{\delta}) + 21} log(2q)  if q \le 0.5$$</li>
+<li>$$k_3(q) = \frac{\delta}{4 log(\frac{n}{\delta}) + 21} (-log(2(1 - q)))  if q &gt; 0.5$$</li>
+</ul>
+</li>
+<li>merging 2 t-digests is still possible but might end up with weakly ordered
+clusters, whose error bounds are hard to prove</li>
+<li>but in practice merging doesn&#x27;t result in significant loss of accuracy, especially
+if we do stratified merging where we use higher value of $$\delta$$ while computing
+the clusters and lower value while merging 2 t-digests</li>
+<li>merging new-data with an existing t-digest
+<ul>
+<li>C = input t-digest to be merged</li>
+<li>X = input data to be merged with t-digest</li>
+<li>m = number of clusters in C</li>
+</ul>
+</li>
+<li>algo as follows:
+<ul>
+<li>X = sort(C union X)</li>
+<li>S = $$\Sigma_i X_i.count$$</li>
+<li>C&#x27; = []</li>
+<li>$$q_0$$ = 0</li>
+<li>$$q_{limit} = k^{-1}(k(q_0, \delta) + 1, \delta)$$</li>
+<li>$$\sigma = x_1$$</li>
+<li>for i = 2 ... (m + n)
+<ul>
+<li>q = $$q_0 + \frac{\sigma.count + x_i.count}{\delta}$$</li>
+<li>if q $$\le$$ $$q_{limit}$$: $$\sigma += x_i$$</li>
+<li>else:
+<ul>
+<li>C&#x27;.append($$\sigma$$)</li>
+<li>$$q_0 += \frac{\sigma.count}{S}$$</li>
+<li>$$q_{limit} = k^{-1}(k(q_0, \delta) + 1, \delta)$$</li>
+<li>$$\sigma = x_i$$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>C&#x27;.append($$\sigma$$)</li>
+</ul>
+</li>
+<li>this merge could cause centroids near q = 0 to shift their centroids thereby
+causing weak ordering!</li>
+<li>effect of this issue can be reduced by alternating scan order of merge, ie.
+ascending order first, then descending order, and so on</li>
+<li>if instead we set the data buffer to be just 1, then there&#x27;s a clustering
+variant of the above merge algo too.</li>
+</ul>
+
+  </div>
+  <a class="u-url" href="./_posts/2021-07-28-t-digest.html" hidden></a>
+</article>
+      </div>
+    </main>
+    
+  <script type="text/javascript">
+   $("script[type='math/tex']").replaceWith(
+     function(){
+       var tex = $(this).text();
+       return "<span class=\"inline-equation\">" + 
+              katex.renderToString(tex) +
+              "</span>";
+   });
+   
+   $("script[type='math/tex; mode=display']").replaceWith(
+     function(){
+       var tex = $(this).text();
+       return "<div class=\"equation\">" + 
+              katex.renderToString("\\displaystyle "+tex) +
+              "</div>";
+   });
+  </script>
+      
+
+<footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

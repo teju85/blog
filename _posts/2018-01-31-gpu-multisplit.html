@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/src/assets/main.css">
+  
+  
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/">Quagmire</a>
+
+    
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">"GPU Multisplit"</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-01-31" itemprop="datePublished">
+        Published: 2018-01-31
+      </time>
+      <time class="dt-published" datetime="2021-07-15" itemprop="datePublished">
+        Last Modifed: 2021-07-15
+      </time>
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    <li><a href="/blog/tags.html#tech-notes" class="tag">tech-notes</a></li>
+  
+    <li><a href="/blog/tags.html#paper-notes" class="tag">paper-notes</a></li>
+  
+    <li><a href="/blog/tags.html#cuda" class="tag">cuda</a></li>
+  
+    <li><a href="/blog/tags.html#algorithms" class="tag">algorithms</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>GPU Multisplit</h3>
+<p>Main paper can be found <a href="http://delivery.acm.org/10.1145/2860000/2851169/a12-ashkiani.pdf?ip=121.244.166.165&amp;id=2851169&amp;acc=ACTIVE%20SERVICE&amp;key=D494438A622BF6CC%2ED494438A622BF6CC%2E4D4702B0C3E38B35%2E4D4702B0C3E38B35&amp;__acm__=1561962172_44fee4c400764be9c464ccd99ad0ab9d">here</a>
+and their reference implementation is <a href="https://github.com/owensgroup/GpuMultisplit">here</a>.</p>
+<ul>
+<li>efficiently bucketizing arrays based on keys</li>
+<li>only small number of buckets are considered here (2 - 64)</li>
+<li>for these cases, such an implementation will be much faster than full sort</li>
+<li>Idea is to split the algo into 3 phases
+<ul>
+<li>local - compute bucket histograms and their scans</li>
+<li>global - compute global location of each element</li>
+<li>local - compute local location of each element and perform scatter</li>
+</ul>
+</li>
+<li>They also perform local multisplit to reduce memory divergence!</li>
+</ul>
+
+  </div>
+  <a class="u-url" href="./_posts/2018-01-31-gpu-multisplit.html" hidden></a>
+</article>
+      </div>
+    </main>
+          
+
+<footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

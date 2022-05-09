@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/src/assets/main.css">
+  
+  
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/">Quagmire</a>
+
+    
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">"Demystifying word2vec"</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-12-02" itemprop="datePublished">
+        Published: 2018-12-02
+      </time>
+      <time class="dt-published" datetime="2021-07-15" itemprop="datePublished">
+        Last Modifed: 2021-07-15
+      </time>
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    <li><a href="/blog/tags.html#tech-notes" class="tag">tech-notes</a></li>
+  
+    <li><a href="/blog/tags.html#machine-learning" class="tag">machine-learning</a></li>
+  
+    <li><a href="/blog/tags.html#word2vec" class="tag">word2vec</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Summary of <a href="http://www.deeplearningweekly.com/blog/demystifying-word2vec">this</a>
+introductory blog post on word2vec.</p>
+<ul>
+<li>Latent Semantic Analysis
+<ul>
+<li>construct a matrix of wordOccurences-by-document</li>
+<li>convert the frequency into tf-idf notation
+<ul>
+<li>term-frequency-inverse-document-frequency</li>
+<li>this helps normalize the frequency values and prevent the stop words (a, an, the)
+in dominating the matrix</li>
+</ul>
+</li>
+<li>take SVD of this matrix and descending-order sort the singular values</li>
+<li>the corresponding col-vectors in U matrix will represent the words grouped closer
+according to the frequency of their occurence (or topic)</li>
+<li>this approach cannot predict subtle relationship with words</li>
+<li>certainly cannot understand the relationship across sequence of words</li>
+</ul>
+</li>
+<li>Word2vec
+<ul>
+<li>converts the words to vectors such that the words neighboring in context to the
+current word all appear close in the vector-domain (according to a certain norm)</li>
+<li>skip-gram
+<ul>
+<li>predict a word given its surrounding context</li>
+<li>pick a context of +/- &#x27;c&#x27; words wrt a given word</li>
+<li>maximize the log-probability of vector dot products (usually softmax is used)</li>
+<li>this typically maintains distance between groups of words with similar meanings
+<ul>
+<li>eg: man-&gt;woman, king-&gt;queen, gentleman-&gt;lady, etc</li>
+</ul>
+</li>
+<li>this can also help predict similar words for a given word</li>
+</ul>
+</li>
+<li>continuous bag of words
+<ul>
+<li>given a word predict its surrounding context</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <a class="u-url" href="./_posts/2018-12-02-demystifying-word2vec.html" hidden></a>
+</article>
+      </div>
+    </main>
+          
+
+<footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

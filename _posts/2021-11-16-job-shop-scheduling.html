@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/src/assets/main.css">
+  
+    <link rel="stylesheet" href="/src/assets/katex.min.css">
+    <script rel="src" src="/src/assets/jquery-1.11.1.min.js"></script>
+    <script rel="src" src="/src/assets/katex.min.js"></script>
+  
+  
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/">Quagmire</a>
+
+    
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">"Google vs IBM: A Constraint Solving Challenge on the Job-Shop Scheduling Problem"</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2021-11-16" itemprop="datePublished">
+        Published: 2021-11-16
+      </time>
+      <time class="dt-published" datetime="2021-11-22" itemprop="datePublished">
+        Last Modifed: 2021-11-22
+      </time>
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    <li><a href="/blog/tags.html#tech-notes" class="tag">tech-notes</a></li>
+  
+    <li><a href="/blog/tags.html#paper-notes" class="tag">paper-notes</a></li>
+  
+    <li><a href="/blog/tags.html#sat" class="tag">sat</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>Proposal</h3>
+<p>This is my summary of the paper that compares the quality and performance of
+job-shop scheduling solvers by Google and IBM. The paper can be found
+<a href="https://arxiv.org/pdf/1909.08247">here</a>.</p>
+<ul>
+<li>compare the quality of and time to (both single and quad core) solutions by
+the two famous solvers: Google OR-Tools and IBM CPO</li>
+<li>they compare these 2 against classic instances in the literature as well as
+a large scale benchmark with known optimal solutions</li>
+<li>CPO in general performs better on both these types of instances</li>
+<li>ORT performs better in the quad core setup</li>
+<li>CPO is much superior when it comes to large scale problems</li>
+</ul>
+<h4>Summary</h4>
+<ul>
+<li>there are different types of scheduling problems: job-shop, flow-shop,
+open-shop etc</li>
+<li>job-shop is the most popular among them and it tries to minimize the makespan
+of the whole process.</li>
+<li>makespan = interval between the start of the earliest job and end of the
+latest job</li>
+<li>till now this has been posed as a constraint satisfaction problem</li>
+<li>recently it is being solved using LNS (Large Neighborhood Search) methods</li>
+<li>they chose CP-SAT from OR-Tools for solving job-shop problem and kept the
+default optimizer from CPO</li>
+<li>they only look at rectangular job-shop instances. Meaning:
+<ul>
+<li>every job has to go through all the machines</li>
+<li>every job has number of ops equal to the number of machines</li>
+<li>every machine will have assigned a number of ops equal to the number of jobs</li>
+</ul>
+</li>
+<li>Both CPO and ORT use LNS as their technique</li>
+<li>CPO uses portfolio strategies along with ML to converge to the best
+neighborhoods but ORT uses the simple variable/constraint selection techniques</li>
+</ul>
+
+  </div>
+  <a class="u-url" href="./_posts/2021-11-16-job-shop-scheduling.html" hidden></a>
+</article>
+      </div>
+    </main>
+    
+  <script type="text/javascript">
+   $("script[type='math/tex']").replaceWith(
+     function(){
+       var tex = $(this).text();
+       return "<span class=\"inline-equation\">" + 
+              katex.renderToString(tex) +
+              "</span>";
+   });
+   
+   $("script[type='math/tex; mode=display']").replaceWith(
+     function(){
+       var tex = $(this).text();
+       return "<div class=\"equation\">" + 
+              katex.renderToString("\\displaystyle "+tex) +
+              "</div>";
+   });
+  </script>
+      
+
+<footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

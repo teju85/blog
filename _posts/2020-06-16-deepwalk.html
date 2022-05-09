@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/src/assets/main.css">
+  
+    <link rel="stylesheet" href="/src/assets/katex.min.css">
+    <script rel="src" src="/src/assets/jquery-1.11.1.min.js"></script>
+    <script rel="src" src="/src/assets/katex.min.js"></script>
+  
+  
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/">Quagmire</a>
+
+    
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">"DeepWalk: Online Learning of Social Representations"</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2020-06-16" itemprop="datePublished">
+        Published: 2020-06-16
+      </time>
+      <time class="dt-published" datetime="2021-07-15" itemprop="datePublished">
+        Last Modifed: 2021-07-15
+      </time>
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    <li><a href="/blog/tags.html#tech-notes" class="tag">tech-notes</a></li>
+  
+    <li><a href="/blog/tags.html#paper-notes" class="tag">paper-notes</a></li>
+  
+    <li><a href="/blog/tags.html#graph" class="tag">graph</a></li>
+  
+    <li><a href="/blog/tags.html#gnn" class="tag">gnn</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>Proposal</h3>
+<p>Main paper can be found <a href="https://arxiv.org/pdf/1403.6652.pdf">here</a> and a quick
+summary of the techniques of this paper can be found in <a href="https://medium.com/analytics-vidhya/an-intuitive-explanation-of-deepwalk-84177f7f2b72">this blog</a>.</p>
+<ul>
+<li>Learns representations of the nodes in a graph, inspired from word2vec.</li>
+<li>Treats the list of nodes from a random walk as sentences</li>
+</ul>
+<h3>Summary</h3>
+<ul>
+<li>Authors note a striking similarity of power-law distribution of nodes in the
+random walk and words in natural languages</li>
+<li>Such random walks are also helpful from implementation PoV, as they are easy
+to parallelize</li>
+<li>They are also helpful when the graph changes and we need to iteratively update
+the learnings, instead of costly global recomputation</li>
+</ul>
+<h4>Algorithm</h4>
+<p>Inputs:</p>
+<ul>
+<li>$$G(V, E)$$ graph
+<ul>
+<li>$$n$$ number of nodes</li>
+<li>$$m$$ number of edges</li>
+</ul>
+</li>
+<li>$$w$$ window size</li>
+<li>$$d$$ output embedding size</li>
+<li>$$\gamma$$ walks per node</li>
+<li>$$t$$ walk length</li>
+</ul>
+<p>Output:</p>
+<ul>
+<li>$$\Phi \epsilon R^{n x d}$$ the embeddings for each node</li>
+</ul>
+<p>DeepWalk algo:</p>
+<ol>
+<li>Randomly initialize $$\Phi$$</li>
+<li>for i from 0 to $$\gamma$$
+<ol>
+<li>for each $$v_i$$ in shuffle(V)
+<ul>
+<li>$$W_{v_i}$$ = randomwalk(G, $$v_i$$, t)</li>
+<li>skipgram($$\Phi$$, $$W_{v_i}, w)</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<p>skipgram algo:</p>
+<ol>
+<li>for each $$v_j \epsilon W_{v_i}$$
+<ol>
+<li>for each $$u_k \epsilon W_{v_i}[j - w : j + w]$$
+<ul>
+<li>$$J(\Phi) = -log(Pr(u_k || \Phi(v_j)))$$</li>
+<li>$$\Phi = \Phi - \alpha \frac{\partial J}{\partial \Phi}$$</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<p>$$Pr(.)$$ above uses hierarchical softmax to be computationally more efficient.</p>
+
+  </div>
+  <a class="u-url" href="./_posts/2020-06-16-deepwalk.html" hidden></a>
+</article>
+      </div>
+    </main>
+    
+  <script type="text/javascript">
+   $("script[type='math/tex']").replaceWith(
+     function(){
+       var tex = $(this).text();
+       return "<span class=\"inline-equation\">" + 
+              katex.renderToString(tex) +
+              "</span>";
+   });
+   
+   $("script[type='math/tex; mode=display']").replaceWith(
+     function(){
+       var tex = $(this).text();
+       return "<div class=\"equation\">" + 
+              katex.renderToString("\\displaystyle "+tex) +
+              "</div>";
+   });
+  </script>
+      
+
+<footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

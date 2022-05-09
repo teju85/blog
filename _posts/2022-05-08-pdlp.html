@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/src/assets/main.css">
+  
+    <link rel="stylesheet" href="/src/assets/katex.min.css">
+    <script rel="src" src="/src/assets/jquery-1.11.1.min.js"></script>
+    <script rel="src" src="/src/assets/katex.min.js"></script>
+  
+  
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/">Quagmire</a>
+
+    
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">"Practical Large-Scale Linear Programming using Primal-Dual Hybrid Gradient"</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2022-05-08" itemprop="datePublished">
+        Published: 2022-05-08
+      </time>
+      <time class="dt-published" datetime="2022-05-08" itemprop="datePublished">
+        Last Modifed: 2022-05-08
+      </time>
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    <li><a href="/blog/tags.html#tech-notes" class="tag">tech-notes</a></li>
+  
+    <li><a href="/blog/tags.html#paper-notes" class="tag">paper-notes</a></li>
+  
+    <li><a href="/blog/tags.html#optimization" class="tag">optimization</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>Proposal</h3>
+<p>Main paper can be found <a href="http://www.optimization-online.org/DB_FILE/2021/06/8439.pdf">here</a>.</p>
+<ul>
+<li>First order method for Linear Programming with high accuracy while being
+amenable to parallelization and scaling to large problems</li>
+<li>algorithmic improvements to PDHG: adaptive restarting, dynamic primal-dual step
+size selection, presolving techniques and diagonal preconditioning.</li>
+<li>however the proposed algo here has no convergence guarantee!</li>
+</ul>
+<h3>Summary</h3>
+<ul>
+<li>simplex and IPM wont scale well to large scale problems due to their need for
+matrix factorization</li>
+<li>primal LP problem is stated as:
+<ul>
+<li>$$min_x c x$$</li>
+<li>subject to:
+<ul>
+<li>$$G x &gt;= h$$</li>
+<li>$$A x = b$$</li>
+<li>$$l &lt;= x &lt;= u $$</li>
+</ul>
+</li>
+<li>where:
+<ul>
+<li>$$x \epsilon R^n$$</li>
+<li>$$c \epsilon R^n$$</li>
+<li>$$G \epsilon R^{m_1 x n}$$</li>
+<li>$$h \epsilon R^{m_1}$$</li>
+<li>$$A \epsilon R^{m_2 x n}$$</li>
+<li>$$b \epsilon R^{m_2}$$</li>
+<li>$$l \epsilon R^n$$</li>
+<li>$$u \epsilon R^n$$</li>
+<li>$$n$$ = number of variables</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>dual LP problem is then stated as:
+<ul>
+<li>$$max_y q y + l \lambda^+ - u \lambda^-$$</li>
+<li>subject to:
+<ul>
+<li>$$c - K y = \lambda$$</li>
+<li>$$y_{1:m_1} &gt;= 0$$</li>
+<li>$$\lambda \epsilon \Gamma$$</li>
+<li>$$K = (G, A)$$</li>
+<li>$$q = (h, b)$$</li>
+</ul>
+</li>
+<li>where:
+<ul>
+<li>$$y \epsilon R^{m_1 + m_2}$$</li>
+<li>$$\lambda \epsilon R^n$$</li>
+<li>$$\Gamma = product_i \Gamma_i  i \epsilon [1,n]$$</li>
+<li>$$\Gamma_i = 0 if l_i = -\inf, u_i = \inf$$</li>
+<li>$$\Gamma_i = R^- if l_i = -\inf, u_i \epsilon R$$</li>
+<li>$$\Gamma_i = R^+ if l_i \epsilon R, u_i = \inf$$</li>
+<li>$$\Gamma_i = R else$$</li>
+<li>$$\lambda_+ = max(0, \lambda)$$</li>
+<li>$$\lambda_- = min(0, \lambda)$$</li>
+<li>$$R^-$$ = set of non-positive real numbers</li>
+<li>$$R^+$$ = set of non-negative real numbers</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>this is represented as the following saddle point problem: $$min_x max_y c x - y K x + q y$$</li>
+<li>PDHG solves this iteratively as:
+<ul>
+<li>$$ x^{k+1} = proj_X(x^k - \tau (c - K y^k))$$</li>
+<li>$$ y^{k+1} = proj_Y(y^k + \sigma (q - K (2x^{k+1} - x^k)))$$</li>
+<li>where:
+<ul>
+<li>$$\tau = \frac{\eta}{\omega}$$ = primal stepsize</li>
+<li>$$\sigma = \eta \omega$$ = dual stepsize</li>
+<li>$$\eta \epsilon (0, \inf)$$ = stepsize</li>
+<li>$$\omega \epsilon (0, \inf)$$ = primal weight</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>PDHG is known to converge for all values of $$\eta &lt; \frac{1}{sn(K)}$$</li>
+<li>$$sn(.)$$ = matrix spectral norm, estimated via power iteration</li>
+</ul>
+<h4>PDLP Algorithm</h4>
+<ul>
+<li>$$z^{0,0}$$ = initial solution</li>
+<li>$$n = 0$$ = outer loop counter</li>
+<li>$$k = 0$$ = total iterations</li>
+<li>$$\eta_c^{0,0} = \frac{1}{infnorm(K)}$$</li>
+<li>$$\omega^0 = initializePrimalWeight()$$</li>
+<li>repeat until termination
+<ul>
+<li>$$t = 0$$</li>
+<li>repeat until restart or termination (this check is done once every 40 iterations to reduce overhead)
+<ul>
+<li>$$z^{n,t+1}, \eta^{n,t+1}, \eta_c^{t,t+1} = adaptivePDHGstep(z^{n,t}, \omega^n, \eta_c^{n,t}, k)$$</li>
+<li>$$z&#x27;^{n,t+1} = \frac{1}{\Sigma_{i=1}^{t+1} \eta^{n,i}} \Sigma_{i=1}^{t+1} \eta^{n,i} z^{n,i}$$</li>
+<li>$$z_c^{n,t+1} = restartCandidate(z^{n,t+1}, z&#x27;^{n,t+1}, z^{n,0})$$</li>
+<li>$$t = t + 1$$</li>
+<li>$$k = k + 1$$</li>
+</ul>
+</li>
+<li>$$z^{n+1,0} = $$z_c^{n,t}$$</li>
+<li>$$n = n + 1$$</li>
+<li>$$\omega^n = primalWeightUpdate(z^{n,0}, z^{n-1,0}, \omega^{n-1})$$</li>
+</ul>
+</li>
+<li>output = $$z^{n,0}$$</li>
+</ul>
+<h4>adaptivePDHGstep</h4>
+<ul>
+<li>$$(x, y) = z^{n,t}$$</li>
+<li>$$\eta = \eta_c^{n,t}$$</li>
+<li>while not done
+<ul>
+<li>$$x&#x27; = proj_X(x - \frac{\eta}{\omega^n} (c - K y))$$</li>
+<li>$$y&#x27; = proj_Y(y + \eta \omega^n (q - K (2x&#x27; - x)))$$</li>
+<li>$$\eta_b = \frac{norm(x&#x27; - x, y&#x27; - y)_{\omega^n}^2}{2(y&#x27; - y)K(x&#x27; - x)}$$</li>
+<li>$$\eta&#x27; = min((1 - (k + 1)^{-0.3})\eta_b, (1 + (k + 1)^{-0.6})\eta)$$</li>
+<li>return $$((x&#x27;, y&#x27;), \eta, \eta&#x27;)$$ if $$\eta &lt;= \eta&#x27;$$</li>
+<li>$$\eta = \eta&#x27;$$</li>
+</ul>
+</li>
+</ul>
+<h4>restartCandidate</h4>
+<ul>
+<li>WTF is this!!????</li>
+</ul>
+<h4>initializePrimalWeight</h4>
+<ul>
+<li>$$\omega_0 = \frac{l2norm(c)}{l2norm(q)}$$ if both numerator and denominator are $$&gt; \epsilon_{zero}$$</li>
+<li>$$\omega_0 = 1$$ else</li>
+<li>$$\epsilon_{zero}$$ = a small nonzero tolerance</li>
+</ul>
+<h4>primalWeightupdate</h4>
+<ul>
+<li>$$\Delta_x^n = l2norm(x^{n,0} - x^{n-1,0})$$</li>
+<li>$$\Delta_y^n = l2norm(y^{n,0} - y^{n-1,0})$$</li>
+<li>return $$e^{\theta log(\frac{\Delta_y^n}{\Delta^x^n}) + (1 - \theta)log(\omega^{n-1})}$$ if $$\Delta_x^n &gt; \epsilon_{zero} &amp;&amp; \Delta_y^n &gt; \epsilon_{zero}$$</li>
+<li>return $$\omega^{n-1}$$ else</li>
+<li>$$\theta \epsilon [0,1]$$ = exponential smoothing parameter (default = 0.5)</li>
+</ul>
+<h4>Presolve</h4>
+<ul>
+<li>detect inconsistent bounds</li>
+<li>delete empty rows/columns of $$K$$</li>
+<li>removing variables with equal lower/upper bounds</li>
+<li>tightening bounds</li>
+<li>removing duplicate rows of $$K$$</li>
+</ul>
+<h4>diagonal preconditioning</h4>
+<ul>
+<li>TBD</li>
+</ul>
+
+  </div>
+  <a class="u-url" href="./_posts/2022-05-08-pdlp.html" hidden></a>
+</article>
+      </div>
+    </main>
+    
+  <script type="text/javascript">
+   $("script[type='math/tex']").replaceWith(
+     function(){
+       var tex = $(this).text();
+       return "<span class=\"inline-equation\">" + 
+              katex.renderToString(tex) +
+              "</span>";
+   });
+   
+   $("script[type='math/tex; mode=display']").replaceWith(
+     function(){
+       var tex = $(this).text();
+       return "<div class=\"equation\">" + 
+              katex.renderToString("\\displaystyle "+tex) +
+              "</div>";
+   });
+  </script>
+      
+
+<footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

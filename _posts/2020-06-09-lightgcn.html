@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/src/assets/main.css">
+  
+    <link rel="stylesheet" href="/src/assets/katex.min.css">
+    <script rel="src" src="/src/assets/jquery-1.11.1.min.js"></script>
+    <script rel="src" src="/src/assets/katex.min.js"></script>
+  
+  
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/">Quagmire</a>
+
+    
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">"LightGCN"</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2020-06-09" itemprop="datePublished">
+        Published: 2020-06-09
+      </time>
+      <time class="dt-published" datetime="2021-07-15" itemprop="datePublished">
+        Last Modifed: 2021-07-15
+      </time>
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    <li><a href="/blog/tags.html#tech-notes" class="tag">tech-notes</a></li>
+  
+    <li><a href="/blog/tags.html#paper-notes" class="tag">paper-notes</a></li>
+  
+    <li><a href="/blog/tags.html#graph" class="tag">graph</a></li>
+  
+    <li><a href="/blog/tags.html#gnn" class="tag">gnn</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>LightGCN - Simplifying and Powering Graph ConvolutionNetwork for Recommendation</h3>
+<p>Main paper can be found <a href="https://arxiv.org/pdf/2002.02126.pdf">here</a></p>
+<h4>Proposal</h4>
+<p>For collaborative filtering, instead of using full GCNs they only keep the
+neighborhood aggregation function and discard feature transformation and the
+non-linear activation functions, thereby gaining better final accuracy as well
+as simplifying the implementation.</p>
+<h4>Details</h4>
+<p>GCN was originally proposed for classification on rich attributes graph. However
+in the case of CF, there are only user-item interaction graphs. They emperically
+find that the NGCF&#x27;s (Neural Graph Collaborative Filtering, inspired from GCN)
+feature transformation and non-linear functions cause accuracy degradation. They
+also needlessly increase the complexity of the model. Thus, in LightGCN, they
+propose to remove these 2 operations and only keep the neighborhood aggregation.
+They create an ID embedding for each user and item and use the user-item
+interaction graph to propagate the current embeddings.</p>
+<p>The core graph convolution operation that they are proposing is:</p>
+<p>$$e_u^{k+1} = \sum_{i \epsilon N_u} \frac{1}{\sqrt{N_i N_u}} e_i^k$$</p>
+<p>$$e_i^{k+1} = \sum_{i \epsilon N_i} \frac{1}{\sqrt{N_i N_u}} e_u^k$$</p>
+<p>Note that self-connections are ignored here! As this will be handled in the
+final layer combination phase. Final representation (aka combination phase) is:</p>
+<p>$$e_u = \sum_{k=0}^K \alpha_k e_u^k$$</p>
+<p>$$e_i = \sum_{k=0}^K \alpha_k e_i^k$$</p>
+<p>$$\alpha_k$$ can be hyper-params are model-params. In this paper, however, they
+are setting them to be $$\frac{1}{K+1}$$ for simplicity.</p>
+<p>Final model prediction is: $$y_{ui} = e_u^T * e_i$$</p>
+<p>Their code can be found:</p>
+<ol>
+<li><a href="https://github.com/kuandeng/LightGCN">here</a> for TF</li>
+<li><a href="https://github.com/gusye1234/pytorch-light-gcn">here</a> for pytorch</li>
+</ol>
+
+  </div>
+  <a class="u-url" href="./_posts/2020-06-09-lightgcn.html" hidden></a>
+</article>
+      </div>
+    </main>
+    
+  <script type="text/javascript">
+   $("script[type='math/tex']").replaceWith(
+     function(){
+       var tex = $(this).text();
+       return "<span class=\"inline-equation\">" + 
+              katex.renderToString(tex) +
+              "</span>";
+   });
+   
+   $("script[type='math/tex; mode=display']").replaceWith(
+     function(){
+       var tex = $(this).text();
+       return "<div class=\"equation\">" + 
+              katex.renderToString("\\displaystyle "+tex) +
+              "</div>";
+   });
+  </script>
+      
+
+<footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>
