@@ -7,13 +7,12 @@
     "maxhomeposts": 5,
     "lang": "en",
     "list_title": "Recent Posts",
-    "tags": [],
     "needmath": false,
     "dirs": {
         "html": ".",
         "main": "src",
-        "layouts": "src/_layouts",
         "assets": "src/assets",
+        "layouts": "src/_layouts",
         "posts": "src/_posts"
     }
 }
