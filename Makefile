@@ -6,6 +6,7 @@ SRC_BRANCH = master
 SRC_DIR    = src
 # branch used to publish the static pages
 DST_BRANCH = gh-pages
+CFG        = config.json
 
 
 default:
@@ -17,6 +18,7 @@ default:
 	@echo " . serve     - start the server to test changes locally. Assumes"
 	@echo "               that you are inside the '$(SRC_BRANCH)' branch!"
 	@echo " . init      - setup all required packages"
+	@echo " . generate  - generate the pykyll pages"
 
 publish:
 	$(MAKE) commit push
@@ -43,3 +45,6 @@ serve:
 
 init:
 	cd $(SRC_DIR) && bundle install --full-index
+
+generate:
+	env PYTHONPATH=gen python gen/pykyll.py -cfg $(CFG)
