@@ -6,15 +6,14 @@ layout: default
     subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a>
   </p>
   <h1 class="page-heading">All Posts</h1>
-  {% if site.posts.size > 0 %}
+  {% if site.posts | length > 0 %}
     <ul class="post-list">
       {% for post in site.posts %}
         <li>
-          {% assign date_format = site.minima.date_format | default: "%b %-d, %Y" %}
-          <a class="post-link" href="{{ post.url | prepend:site.baseurl }}">
+          <a class="post-link" href="{{ post.url }}">
             {{ post.title | escape }}
           </a>
-          <span class="post-meta">{{ post.date | date: date_format }}</span>
+          <span class="post-meta">{{ post.date }}</span>
         </li>
       {% endfor %}
     </ul>
