@@ -51,32 +51,51 @@ def escape(text):
     return text
 
 
+# TODO!
+def date_to_xmlschema(text):
+    return text
+
+
 def length(arr):
     return len(arr)
 
 
-def parse_markdown(mdfile, args, content="", is_post=False):
-    page_cfg, lines = parse_preamble(mdfile)
-    next_content = mistletoe.markdown(lines)
-    if "layout" in page_cfg:
-        next_file = args.cfg["dirs"]["layouts"] + "/" + page_cfg["layout"] + ".html"
-        text = parse_markdown(next_file, args, content=next_content)
-    else:
-        text = next_content
+def get_tmpl(args, text):
     loader = jinja2.FileSystemLoader(args.cfg["dirs"]["layouts"])
     environment = jinja2.Environment(loader=loader)
     environment.filters["relative_url"] = relative_url
     environment.filters["escape"] = escape
     environment.filters["length"] = length
-    tm = environment.from_string(text)
+    environment.filters["date_to_xmlschema"] = date_to_xmlschema
+    return environment.from_string(text)
+
+
+def parse_template(tmplfile, args, content, prev_cfg):
+    tmp_cfg = prev_cfg.copy()
+    del tmp_cfg["layout"]
+    page_cfg, lines = parse_preamble(tmplfile)
+    page_cfg.update(tmp_cfg)  # child's preamble gets higher priority
+    tm = get_tmpl(args, lines)
     content = tm.render(site=args.cfg, content=content, page=page_cfg)
+    if "layout" in page_cfg:
+        next_file = args.cfg["dirs"]["layouts"] + "/" + page_cfg["layout"] + ".html"
+        content = parse_template(next_file, args, content, page_cfg)
+    return content
+
+
+def parse_markdown(mdfile, args, is_post=False):
+    page_cfg, lines = parse_preamble(mdfile)
+    content = mistletoe.markdown(lines)
+    if "layout" in page_cfg:
+        next_file = args.cfg["dirs"]["layouts"] + "/" + page_cfg["layout"] + ".html"
+        content = parse_template(next_file, args, content, page_cfg)
     if is_post:
         post = page_cfg
         post["date"] = "-NA-"  # TODO!
         post["url"] = "-NA-"   # TODO!
         if "tags" in post:
             for tag in post["tags"]:
-                args.cfg["tags"].insert(tag)
+                args.cfg["tags"].add(tag)
         args.cfg["posts"].append(post)
     return content
 
@@ -84,8 +103,6 @@ def parse_markdown(mdfile, args, content="", is_post=False):
 def validateargs(args):
     if args.md is None:
         raise Exception("-md is mandatory")
-    if args.html is None:
-        raise Exception("-html is mandatory")
 
 
 def parseargs():
@@ -93,8 +110,6 @@ def parseargs():
     parser = argparse.ArgumentParser(description=desc)
     parser.add_argument("-cfg", default="config.json", type=str,
         help="Path to the global config file.")
-    parser.add_argument("-html", default=None, type=str,
-        help="Path to the html page for the given input markdown file.")
     parser.add_argument("-md", default=None, type=str,
         help="Path to the markdown file that needs to be converted to html.")
     args = parser.parse_args()
@@ -108,8 +123,8 @@ def parseargs():
 
 def main():
     args = parseargs()
-    if args.md and args.html:
-        content = parse_markdown(args.md, args, content="", is_post=True)
+    if args.md:
+        content = parse_markdown(args.md, args, is_post=True)
         print(content)
     return
 
