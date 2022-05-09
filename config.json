@@ -8,6 +8,7 @@
     "lang": "en",
     "list_title": "Recent Posts",
     "needmath": false,
+    "extension": "markdown",
     "dirs": {
         "html": ".",
         "main": "src",

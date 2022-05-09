@@ -5,6 +5,7 @@ import jinja2
 import os
 import re
 import subprocess
+import glob
 
 
 POST_DATE = re.compile(r"^(\d{4})-(\d{2})-(\d{2})-")
@@ -82,7 +83,7 @@ def post_last_modified(mdfile):
 
 def post_url(filename, site, is_post):
     base = os.path.basename(filename)
-    base = base.replace(".markdown", ".html")
+    base = base.replace(site["extension"], "html")
     return os.path.join(site["dirs"]["html"],
                         site["dirs"]["posts"] if is_post else "",
                         base)
@@ -114,15 +115,17 @@ def parse_template(tmplfile, args, content, prev_cfg):
     return content
 
 
-def parse_markdown(mdfile, args, is_post=False, check_timestamp=False):
+def parse_markdown(mdfile, args, is_post=False):
     post = {}
     post["date"] = post_date(mdfile)
     post["url"] = post_url(mdfile, args.cfg, is_post)
+    if not args.regen:
+        md_time = os.path.getmtime(mdfile)
+        html_time = os.path.getmtime(post["url"]) if os.path.exists(post["url"]) else 0
+        if md_time < html_time:
+            return
     post["last_modified"] = post_last_modified(mdfile)
-    md_time = os.path.getmtime(mdfile)
-    html_time = os.path.getmtime(post["url"]) if os.path.exists(post["url"]) else 0
-    if md_time < html_time and check_timestamp:
-        return
+    print(f"Generating html for {mdfile}...")
     page_cfg, lines = parse_preamble(mdfile)
     post.update(page_cfg)
     content = mistletoe.markdown(lines)
@@ -152,7 +155,12 @@ def parse_markdown(mdfile, args, is_post=False, check_timestamp=False):
 
 
 def generate_html(args):
-    parse_markdown("src/_posts/2017-12-31-cmdlogger-in-emacs.markdown", args, True)
+    # generate all the posts first
+    posts_dir = os.path.join(args.cfg["dirs"]["main"],
+                             args.cfg["dirs"]["posts"],
+                             "*." + args.cfg["extension"])
+    for file in glob.glob(posts_dir):
+        parse_markdown(file, args, True)
 
 
 def validateargs(args):
@@ -164,6 +172,8 @@ def parseargs():
     parser = argparse.ArgumentParser(description=desc)
     parser.add_argument("-cfg", default="config.json", type=str,
         help="Path to the global config file.")
+    parser.add_argument("-regen", action="store_true", default=False,
+        help="Forcefully regenerate all the html files")
     args = parser.parse_args()
     validateargs(args)
     with open(args.cfg, "r") as fp:
