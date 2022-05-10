@@ -14,7 +14,7 @@ As part of my work, I needed the clang tools for code analysis. I nowadays prefe
 working inside docker. So, as a first shot, here's how I set up my initial
 Dockerfile.
 
-{% highlight shell %}
+```
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         build-essential \
@@ -43,21 +43,21 @@ RUN mkdir -p /opt/compiler && \
 
 ENV PATH=/usr/local/bin:$PATH
 ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-{% endhighlight shell %}
+```
 
 Interestingly, this ended up generating a really huge docker image!
-{% highlight shell %}
+```
 $ docker images | head -n2
 REPOSITORY              TAG                  IMAGE ID            CREATED             SIZE
 llvm                    latest-9.2           ba5b2786b5e5        About an hour ago   47.1GB
-{% endhighlight shell %}
+```
 
 ### Solution (LLVM_TARGETS_TO_BUILD)
 Main reason for this is clang ends up generating cross-compilation for multiple
 targets. (Refer to LLVM_ALL_TARGETS variable inside llvm/CMakeLists.txt) Thus, I
 had to update the cmake command to only build for my targets of interest.
 
-{% highlight shell %}
+```
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         build-essential \
@@ -89,13 +89,13 @@ RUN mkdir -p /opt/compiler && \
 
 ENV PATH=/usr/local/bin:$PATH
 ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-{% endhighlight shell %}
+```
 
 This puts me in a more reasonable docker image size. :)
-{% highlight shell %}
+```
 $ docker images | head -n2
 REPOSITORY              TAG                  IMAGE ID            CREATED             SIZE
 llvm                    latest-9.2           57ee054cbfe8        18 seconds ago      3.62GB
-{% endhighlight shell %}
+```
 
 Hope this is useful to others.

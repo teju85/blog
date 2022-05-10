@@ -41,24 +41,22 @@
 
   <div class="post-content e-content" itemprop="articleBody">
     <p>Recently, I wanted to play with the popular &#x27;mu&#x27; tool for indexing my mails. Started with Matthias&#x27; <a href="https://frosch03.de/blog/2016/05/mu4e-within-cygwin.html">mu-on-cygwin</a> blog. Interestingly, even after following the steps he mentions there, I was welcomed with the below error!</p>
-<p>{% highlight bash %}
-CXX      utils.lo
+<pre><code>  CXX      utils.lo
 utils.cc: In function ‘std::string Mux::format(const char*, ...)’:
 utils.cc:187:44: error: ‘vasprintf’ was not declared in this scope
-const auto res = vasprintf (&amp;s, frm, args);
-^
+   const auto res = vasprintf (&amp;s, frm, args);
+                                            ^
 utils.cc: In function ‘std::string Mux::date_to_time_t_string(const string&amp;, bool)’:
 utils.cc:313:52: error: ‘strptime’ was not declared in this scope
-if (!strptime (date.c_str(), &quot;%Y%m%d%H%M%S&quot;, &amp;tbuf) &amp;&amp;
-^
+  if (!strptime (date.c_str(), &quot;%Y%m%d%H%M%S&quot;, &amp;tbuf) &amp;&amp;
+                                                    ^
 make[3]: *** [Makefile:749: utils.lo] Error 1
-{% endhighlight bash %}</p>
+</code></pre>
 <p>I had to do the following hack in order to get this working on my cygwin-env. (assuming you&#x27;re already inside &#x27;mu&#x27;)</p>
-<p>{% highlight bash %}
-$ cd lib/parser
+<pre><code>$ cd lib/parser
 $ sed -e &#x27;s/^#define GNU_SOURCE/#define _GNU_SOURCE/&#x27; utils.cc  &gt; tmp
-$ mv tmp utils.cc
-{% endhighlight bash %}</p>
+$ mv tmp utils.cc 
+</code></pre>
 <p>After this, the compilation and installation happened without any errors. Hope this helps others, in case they get stuck with the same error.</p>
 
   </div>

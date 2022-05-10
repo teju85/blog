@@ -17,7 +17,7 @@ the hope of keeping things cleaner.
 Taking the setup.py of npcuda-example/cython/setup.py as an example, here's
 what it would take to add support for building extension modules having CUDA
 kernels.
-{% highlight python %}
+```
 import os
 from setuptools import setup
 from distutils.extension import Extension
@@ -39,7 +39,7 @@ setup(name="gpuadder",
       ext_modules = [ext],
       cmdclass={"build_ext": cud.cuda_build_ext},
       zip_safe=False)
-{% endhighlight python %}
+```
 As can be seen, most of your setup.py remains similar to writing C/C++ extension
 modules. Only change comes with passing 'extra_compile_args', which is needed
 since the underlying compiler class switches between C/C++ compiler and cuda

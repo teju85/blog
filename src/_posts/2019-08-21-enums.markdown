@@ -8,7 +8,7 @@ tags: c cpp
 Save the below code in a file named `enum.c` and try to compile it using the
 following command: `gcc enum.c -o enum && ./enum`. This will give the following
 error:
-{% highlight text %}
+```
 enum.c:8:3: error: overflow in enumeration values
    _4
    ^
@@ -19,20 +19,20 @@ enum.c:11:48: error: ‘FourBytes’ undeclared (first use in this function)
 enum.c:11:48: note: each undeclared identifier is reported only once for each function it appears in
 enum.c:12:49: error: ‘EightBytes’ undeclared (first use in this function)
    printf("sizeof(EightBytes)=%d\n", (int)sizeof(EightBytes));
-{% endhighlight text %}
+```
 
 However, if you save this same code as `enum.cpp` and compile it as:
 `g++ enum.cpp -o enum && ./enum`. This will compile successfully and gives the
 following output!
-{% highlight text %}
+```
 sizeof(FourBytes)=4
 sizeof(EightBytes)=8
-{% endhighlight text %}
+```
 Yes! The C++ compiler automatically takes care of overflows by 'upgrading' the
 enum to be of 8 bytes!
 
 ### Code
-{% highlight cpp %}
+```
 #include <stdio.h>
 enum FourBytes {
   _1,
@@ -47,4 +47,4 @@ int main(int argc, char** argv) {
   printf("sizeof(EightBytes)=%d\n", (int)sizeof(EightBytes));
   return 0;
 }
-{% endhighlight cpp %}
+```

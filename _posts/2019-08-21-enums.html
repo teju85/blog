@@ -45,45 +45,42 @@
     <h3>Introduction</h3>
 <p>Save the below code in a file named <code>enum.c</code> and try to compile it using the
 following command: <code>gcc enum.c -o enum &amp;&amp; ./enum</code>. This will give the following
-error:
-{% highlight text %}
-enum.c:8:3: error: overflow in enumeration values
-_4
-^
+error:</p>
+<pre><code>enum.c:8:3: error: overflow in enumeration values
+   _4
+   ^
 enum.c: In function ‘main’:
 enum.c:11:48: error: ‘FourBytes’ undeclared (first use in this function)
-printf(&quot;sizeof(FourBytes)=%d\n&quot;, (int)sizeof(FourBytes));
-^
+   printf(&quot;sizeof(FourBytes)=%d\n&quot;, (int)sizeof(FourBytes));
+                                                ^
 enum.c:11:48: note: each undeclared identifier is reported only once for each function it appears in
 enum.c:12:49: error: ‘EightBytes’ undeclared (first use in this function)
-printf(&quot;sizeof(EightBytes)=%d\n&quot;, (int)sizeof(EightBytes));
-{% endhighlight text %}</p>
+   printf(&quot;sizeof(EightBytes)=%d\n&quot;, (int)sizeof(EightBytes));
+</code></pre>
 <p>However, if you save this same code as <code>enum.cpp</code> and compile it as:
 <code>g++ enum.cpp -o enum &amp;&amp; ./enum</code>. This will compile successfully and gives the
-following output!
-{% highlight text %}
-sizeof(FourBytes)=4
+following output!</p>
+<pre><code>sizeof(FourBytes)=4
 sizeof(EightBytes)=8
-{% endhighlight text %}
-Yes! The C++ compiler automatically takes care of overflows by &#x27;upgrading&#x27; the
+</code></pre>
+<p>Yes! The C++ compiler automatically takes care of overflows by &#x27;upgrading&#x27; the
 enum to be of 8 bytes!</p>
 <h3>Code</h3>
-<p>{% highlight cpp %}
-#include &lt;stdio.h&gt;
+<pre><code>#include &lt;stdio.h&gt;
 enum FourBytes {
-_1,
-_2
+  _1,
+  _2
 };
 enum EightBytes {
-_3 = 0xffffffff,
-_4
+  _3 = 0xffffffff,
+  _4
 };
 int main(int argc, char** argv) {
-printf(&quot;sizeof(FourBytes)=%d\n&quot;, (int)sizeof(FourBytes));
-printf(&quot;sizeof(EightBytes)=%d\n&quot;, (int)sizeof(EightBytes));
-return 0;
+  printf(&quot;sizeof(FourBytes)=%d\n&quot;, (int)sizeof(FourBytes));
+  printf(&quot;sizeof(EightBytes)=%d\n&quot;, (int)sizeof(EightBytes));
+  return 0;
 }
-{% endhighlight cpp %}</p>
+</code></pre>
 
   </div>
   <a class="u-url" href="./_posts/2019-08-21-enums.html" hidden></a>

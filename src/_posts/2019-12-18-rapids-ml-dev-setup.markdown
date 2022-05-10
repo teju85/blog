@@ -20,8 +20,8 @@ easiest way to get started.
 Run the bash script to install cuML and its dependencies. Recommended approach
 is to use [anaconda](https://www.anaconda.com/). This script installs all the
 needed dependencies in a stand-alone folder and thus does not need root access.
-{% highlight bash %}
+```
 bash ./rapids-setup installCuml
-{% endhighlight bash %}
+```
 At the end, it prints a couple of environment variables to be set in your bash
 terminal. Execute them and you should now be ready to run tests and develop!

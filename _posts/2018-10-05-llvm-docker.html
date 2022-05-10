@@ -48,81 +48,81 @@ minimal, building it from source is a cake-walk!</p>
 <p>As part of my work, I needed the clang tools for code analysis. I nowadays prefer
 working inside docker. So, as a first shot, here&#x27;s how I set up my initial
 Dockerfile.</p>
-<p>{% highlight shell %}
-RUN apt-get update &amp;&amp; <br />
-apt-get install -y --no-install-recommends <br />
-build-essential <br />
-ca-certificates <br />
-cmake <br />
-git <br />
-make <br />
-python <br />
-zlib1g-dev &amp;&amp; <br />
-rm -rf /var/lib/apt/lists*</p>
-<p>RUN mkdir -p /opt/compiler &amp;&amp; <br />
-cd /opt/compiler &amp;&amp; <br />
-git clone &quot;http://llvm.org/git/llvm&quot; &amp;&amp; <br />
-cd llvm/tools &amp;&amp; <br />
-git clone &quot;http://llvm.org/git/clang&quot; &amp;&amp; <br />
-cd clang/tools &amp;&amp; <br />
-git clone &quot;http://llvm.org/git/clang-tools-extra&quot; extra &amp;&amp; <br />
-mkdir -p /opt/compiler/build &amp;&amp; <br />
-cd /opt/compiler/build &amp;&amp; <br />
-cmake -G &quot;Unix Makefiles&quot; ../llvm &amp;&amp; <br />
-make -j8 &amp;&amp; <br />
-make install &amp;&amp; <br />
-cd / &amp;&amp; <br />
-rm -rf /opt/compiler</p>
-<p>ENV PATH=/usr/local/bin:$PATH
+<pre><code>RUN apt-get update &amp;&amp; \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        ca-certificates \
+        cmake \
+        git \
+        make \
+        python \
+        zlib1g-dev &amp;&amp; \
+    rm -rf /var/lib/apt/lists*
+
+RUN mkdir -p /opt/compiler &amp;&amp; \
+    cd /opt/compiler &amp;&amp; \
+    git clone &quot;http://llvm.org/git/llvm&quot; &amp;&amp; \
+    cd llvm/tools &amp;&amp; \
+    git clone &quot;http://llvm.org/git/clang&quot; &amp;&amp; \
+    cd clang/tools &amp;&amp; \
+    git clone &quot;http://llvm.org/git/clang-tools-extra&quot; extra &amp;&amp; \
+    mkdir -p /opt/compiler/build &amp;&amp; \
+    cd /opt/compiler/build &amp;&amp; \
+    cmake -G &quot;Unix Makefiles&quot; ../llvm &amp;&amp; \
+    make -j8 &amp;&amp; \
+    make install &amp;&amp; \
+    cd / &amp;&amp; \
+    rm -rf /opt/compiler
+
+ENV PATH=/usr/local/bin:$PATH
 ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-{% endhighlight shell %}</p>
-<p>Interestingly, this ended up generating a really huge docker image!
-{% highlight shell %}
-$ docker images | head -n2
+</code></pre>
+<p>Interestingly, this ended up generating a really huge docker image!</p>
+<pre><code>$ docker images | head -n2
 REPOSITORY              TAG                  IMAGE ID            CREATED             SIZE
 llvm                    latest-9.2           ba5b2786b5e5        About an hour ago   47.1GB
-{% endhighlight shell %}</p>
+</code></pre>
 <h3>Solution (LLVM_TARGETS_TO_BUILD)</h3>
 <p>Main reason for this is clang ends up generating cross-compilation for multiple
 targets. (Refer to LLVM_ALL_TARGETS variable inside llvm/CMakeLists.txt) Thus, I
 had to update the cmake command to only build for my targets of interest.</p>
-<p>{% highlight shell %}
-RUN apt-get update &amp;&amp; <br />
-apt-get install -y --no-install-recommends <br />
-build-essential <br />
-ca-certificates <br />
-cmake <br />
-git <br />
-make <br />
-python <br />
-zlib1g-dev &amp;&amp; <br />
-rm -rf /var/lib/apt/lists*</p>
-<p>RUN mkdir -p /opt/compiler &amp;&amp; <br />
-cd /opt/compiler &amp;&amp; <br />
-git clone &quot;http://llvm.org/git/llvm&quot; &amp;&amp; <br />
-cd llvm/tools &amp;&amp; <br />
-git clone &quot;http://llvm.org/git/clang&quot; &amp;&amp; <br />
-cd clang/tools &amp;&amp; <br />
-git clone &quot;http://llvm.org/git/clang-tools-extra&quot; extra &amp;&amp; <br />
-mkdir -p /opt/compiler/build &amp;&amp; <br />
-cd /opt/compiler/build &amp;&amp; <br />
-cmake -G &quot;Unix Makefiles&quot; <br />
--DLLVM_TARGETS_TO_BUILD=&quot;X86;NVPTX&quot; <br />
--DCMAKE_BUILD_TYPE=Release <br />
-../llvm &amp;&amp; <br />
-make -j8 &amp;&amp; <br />
-make install &amp;&amp; <br />
-cd / &amp;&amp; <br />
-rm -rf /opt/compiler</p>
-<p>ENV PATH=/usr/local/bin:$PATH
+<pre><code>RUN apt-get update &amp;&amp; \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        ca-certificates \
+        cmake \
+        git \
+        make \
+        python \
+        zlib1g-dev &amp;&amp; \
+    rm -rf /var/lib/apt/lists*
+
+RUN mkdir -p /opt/compiler &amp;&amp; \
+    cd /opt/compiler &amp;&amp; \
+    git clone &quot;http://llvm.org/git/llvm&quot; &amp;&amp; \
+    cd llvm/tools &amp;&amp; \
+    git clone &quot;http://llvm.org/git/clang&quot; &amp;&amp; \
+    cd clang/tools &amp;&amp; \
+    git clone &quot;http://llvm.org/git/clang-tools-extra&quot; extra &amp;&amp; \
+    mkdir -p /opt/compiler/build &amp;&amp; \
+    cd /opt/compiler/build &amp;&amp; \
+    cmake -G &quot;Unix Makefiles&quot; \
+        -DLLVM_TARGETS_TO_BUILD=&quot;X86;NVPTX&quot; \
+        -DCMAKE_BUILD_TYPE=Release \
+        ../llvm &amp;&amp; \
+    make -j8 &amp;&amp; \
+    make install &amp;&amp; \
+    cd / &amp;&amp; \
+    rm -rf /opt/compiler
+
+ENV PATH=/usr/local/bin:$PATH
 ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-{% endhighlight shell %}</p>
-<p>This puts me in a more reasonable docker image size. :)
-{% highlight shell %}
-$ docker images | head -n2
+</code></pre>
+<p>This puts me in a more reasonable docker image size. :)</p>
+<pre><code>$ docker images | head -n2
 REPOSITORY              TAG                  IMAGE ID            CREATED             SIZE
 llvm                    latest-9.2           57ee054cbfe8        18 seconds ago      3.62GB
-{% endhighlight shell %}</p>
+</code></pre>
 <p>Hope this is useful to others.</p>
 
   </div>

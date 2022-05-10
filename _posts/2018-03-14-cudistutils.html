@@ -50,31 +50,30 @@ the hope of keeping things cleaner.</p>
 <h3>Example Usage</h3>
 <p>Taking the setup.py of npcuda-example/cython/setup.py as an example, here&#x27;s
 what it would take to add support for building extension modules having CUDA
-kernels.
-{% highlight python %}
-import os
+kernels.</p>
+<pre><code>import os
 from setuptools import setup
 from distutils.extension import Extension
 import cudistutils as cud
 import numpy as np
 env = cud.CudaEnv()
 ext = Extension(&quot;gpuadder&quot;,
-sources=[&quot;src/manager.cu&quot;, &quot;wrapper.pyx&quot;],
-library_dirs=[env.lib64],
-libraries=env.base_cuda_libs,
-language=&quot;c++&quot;,
-runtime_library_dirs=[env.lib64],
-extra_compile_args={&quot;gcc&quot;  : [],
-&quot;nvcc&quot; : env.default_nvcc_opts()},
-include_dirs = [np.get_include(), env.include, &quot;src&quot;])
+                sources=[&quot;src/manager.cu&quot;, &quot;wrapper.pyx&quot;],
+                library_dirs=[env.lib64],
+                libraries=env.base_cuda_libs,
+                language=&quot;c++&quot;,
+                runtime_library_dirs=[env.lib64],
+                extra_compile_args={&quot;gcc&quot;  : [],
+                                    &quot;nvcc&quot; : env.default_nvcc_opts()},
+                include_dirs = [np.get_include(), env.include, &quot;src&quot;])
 setup(name=&quot;gpuadder&quot;,
-author=&quot;Robert McGibbon&quot;,
-version=&quot;0.1&quot;,
-ext_modules = [ext],
-cmdclass={&quot;build_ext&quot;: cud.cuda_build_ext},
-zip_safe=False)
-{% endhighlight python %}
-As can be seen, most of your setup.py remains similar to writing C/C++ extension
+      author=&quot;Robert McGibbon&quot;,
+      version=&quot;0.1&quot;,
+      ext_modules = [ext],
+      cmdclass={&quot;build_ext&quot;: cud.cuda_build_ext},
+      zip_safe=False)
+</code></pre>
+<p>As can be seen, most of your setup.py remains similar to writing C/C++ extension
 modules. Only change comes with passing &#x27;extra_compile_args&#x27;, which is needed
 since the underlying compiler class switches between C/C++ compiler and cuda
 compiler based on the input source file extension.</p>
