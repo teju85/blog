@@ -182,7 +182,8 @@ def parseargs():
     parser.add_argument("-port", default=80, type=int,
         help="Port where to listen for the http server.")
     parser.add_argument("-serve", action="store_true", default=False,
-        help="Start a server to serve these generated files.")
+        help="Start a server to serve these generated files. This will NOT"
+             " generate the files")
     args = parser.parse_args()
     validateargs(args)
     with open(args.cfg, "r") as fp:
@@ -205,6 +206,7 @@ def serve(args):
 
 if __name__ == "__main__":
     args = parseargs()
-    generate_html(args)
     if args.serve:
         serve(args)
+    else:
+        generate_html(args)
