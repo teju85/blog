@@ -4,6 +4,7 @@
     "twitter": "teju85",
     "github": "teju85",
     "description": "Stuff I find cool/useful",
+    "base_url": "/blog",
     "maxhomeposts": 5,
     "lang": "en",
     "list_title": "Recent Posts",

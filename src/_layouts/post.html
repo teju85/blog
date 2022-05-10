@@ -19,12 +19,13 @@ layout: default
 
   <ul class="tags">
   {% for tag in page.tags %}
-    <li><a href="/tags.html#{{ tag }}" class="tag">{{ tag }}</a></li>
+    {% set href = "/tags.html#" + tag %}
+    <li><a href="{{ href | relative_url(site) }}" class="tag">{{ tag }}</a></li>
   {% endfor %}
   </ul>
 
   <div class="post-content e-content" itemprop="articleBody">
     {{ content }}
   </div>
-  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+  <a class="u-url" href="{{ page.url | relative_url(site) }}" hidden></a>
 </article>

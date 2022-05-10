@@ -49,9 +49,8 @@ def parse_preamble(file):
     return page_cfg, lines
 
 
-# TODO!
-def relative_url(url):
-    return url
+def relative_url(url, site):
+    return site["base_url"] + url
 
 
 # TODO!
@@ -85,9 +84,12 @@ def post_last_modified(mdfile):
 def post_url(filename, site, is_post):
     base = os.path.basename(filename)
     base = base.replace("." + site["extension"], ".html")
-    return os.path.join(site["dirs"]["html"],
-                        site["dirs"]["posts"] if is_post else "",
-                        base)
+    url = os.path.join(site["dirs"]["html"],
+                       site["dirs"]["posts"] if is_post else "",
+                       base)
+    if url.startswith("./"):
+        url = url[1:]
+    return url
 
 
 def recent_posts(posts, top):
@@ -155,10 +157,15 @@ def parse_markdown(mdfile, args, is_post=False, last_modified=None):
             if tag not in args.cfg["tags_to_posts"]:
                 args.cfg["tags_to_posts"][tag] = []
             args.cfg["tags_to_posts"][tag].append(post)
-    d = os.path.dirname(post["url"])
+    # write the page
+    if args.cfg["dirs"]["html"].startswith("."):
+        outfile = "." + post["url"]
+    else:
+        outfile = post["url"]
+    d = os.path.dirname(outfile)
     if not os.path.exists(d):
         os.mkdir(d)
-    with open(post["url"], "w") as fp:
+    with open(outfile, "w") as fp:
         fp.write(content)
     return
 
