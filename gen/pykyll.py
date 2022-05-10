@@ -196,8 +196,8 @@ def parseargs():
 
 def serve(args):
     import flask
-    d = args.cfg["dirs"]["html"]
-    app = flask.Flask(__name__, static_folder=d)
+    d = os.path.abspath(args.cfg["dirs"]["html"])
+    app = flask.Flask(__name__, static_url_path='', static_folder=d)
     @app.route("/")
     def index():
         return flask.send_from_directory(d, "index.html")

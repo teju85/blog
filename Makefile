@@ -15,8 +15,7 @@ default:
 	@echo "               are inside the '$(SRC_BRANCH)' branch!"
 	@echo " . push      - push the changes to remote repo."
 	@echo " . publish   - commit and then push to remote repo"
-	@echo " . serve     - start the server to test changes locally. Assumes"
-	@echo "               that you are inside the '$(SRC_BRANCH)' branch!"
+	@echo " . serve     - start the server to test changes locally"
 	@echo " . init      - setup all required packages"
 	@echo " . generate  - generate the pykyll pages"
 
@@ -41,7 +40,8 @@ _commit:
 	git checkout $(SRC_BRANCH)
 
 serve:
-	cd $(SRC_DIR) && bundle exec jekyll serve -d $(SITE_DIR)
+	env PYTHONPATH=gen python gen/pykyll.py -serve
+#	cd $(SRC_DIR) && bundle exec jekyll serve -d $(SITE_DIR)
 
 init:
 	cd $(SRC_DIR) && bundle install --full-index
