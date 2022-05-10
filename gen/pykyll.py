@@ -148,7 +148,6 @@ def parse_markdown(mdfile, args, is_post=False, last_modified=None):
 
 
 def generate_html(args):
-    # generate all the posts first
     posts_dir = os.path.join(args.cfg["dirs"]["main"],
                              args.cfg["dirs"]["posts"],
                              "*." + args.cfg["extension"])
@@ -156,8 +155,12 @@ def generate_html(args):
     print("Getting last modified timestamps for all posts...")
     with multiprocessing.Pool(args.np) as p:
         last_modified = p.map(post_last_modified, posts)
+    # generate all the posts first
     for idx, file in enumerate(posts):
         parse_markdown(file, args, True, last_modified[idx])
+    # put the tags in an alphabetical order
+    args.cfg["tags"] = list(args.cfg["tags"])
+    args.cfg["tags"].sort()
     # generate the final set of pages inside 'main' directory next
     main_dir = os.path.join(args.cfg["dirs"]["main"],
                             "*." + args.cfg["extension"])
