@@ -224,6 +224,9 @@ def serve(args):
     @app.route("/")
     def index():
         return flask.send_from_directory(d, "index.html")
+    @app.route(args.cfg["base_url"] + "/")
+    def index_home():
+        return flask.send_from_directory(d, "index.html")
     app.run(port=args.port)
 
 
