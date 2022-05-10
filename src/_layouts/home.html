@@ -6,27 +6,24 @@ layout: default
     <h1 class="page-heading">{{ page.title }}</h1>
   {% endif %}
   {{ content }}
-  {% if site.posts | length > 0 %}
-    <h2 class="post-list-heading">Recent Posts</h2>
-    <ul class="post-list">
-      {% for post in site.posts %}
-        <li>
-          <span class="post-meta">{{ post.date }}</span>
-          <h3>
-            <a class="post-link" href="{{ post.url | relative_url }}">
-              {{ post.title | escape }}
-            </a>
-          </h3>
-        </li>
-      {% endfor %}
-    </ul>
-  {% endif %}
+  <h2 class="post-list-heading">Recent Posts</h2>
+  <ul class="post-list">
+    {% set recents = site.posts | recent_posts(site.maxhomeposts) %}
+    {% for post in recents %}
+      <li>
+        <span class="post-meta">{{ post.date }}</span>
+        <h3>
+          <a class="post-link" href="{{ post.url | relative_url }}">
+            {{ post.title | escape }}
+          </a>
+        </h3>
+      </li>
+    {% endfor %}
+  </ul>
+  <h2 class="post-list-heading">All Tags</h2>
   <ul class="tags">
   {% for tag in site.tags %}
     <li><a href="/tags#{{ tag }}" class="tag">{{ tag }}</a></li>
   {% endfor %}
   </ul>
-  <p class="rss-subscribe">
-    subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a>
-  </p>
 </div>

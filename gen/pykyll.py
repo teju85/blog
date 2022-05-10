@@ -59,6 +59,11 @@ def escape(text):
     return text
 
 
+# TODO!
+def cgi_escape(text):
+    return text
+
+
 def length(arr):
     return len(arr)
 
@@ -85,13 +90,24 @@ def post_url(filename, site, is_post):
                         base)
 
 
+def recent_posts(posts, top):
+    if len(posts) <= 0:
+        return []
+    rev = posts[::-1]
+    if len(rev) < top:
+        return rev
+    return rev[:top]
+
+
 def get_tmpl(args, text):
     loader = jinja2.FileSystemLoader(os.path.join(args.cfg["dirs"]["main"],
                                                   args.cfg["dirs"]["layouts"]))
     environment = jinja2.Environment(loader=loader)
     environment.filters["relative_url"] = relative_url
     environment.filters["escape"] = escape
+    environment.filters["cgi_escape"] = cgi_escape
     environment.filters["length"] = length
+    environment.filters["recent_posts"] = recent_posts
     return environment.from_string(text)
 
 
@@ -138,7 +154,7 @@ def parse_markdown(mdfile, args, is_post=False, last_modified=None):
         for tag in post["tags"]:
             if tag not in args.cfg["tags_to_posts"]:
                 args.cfg["tags_to_posts"][tag] = []
-            args.cfg["tags_to_posts"][tag].append(len(args.cfg["posts"]))
+            args.cfg["tags_to_posts"][tag].append(post)
     d = os.path.dirname(post["url"])
     if not os.path.exists(d):
         os.mkdir(d)

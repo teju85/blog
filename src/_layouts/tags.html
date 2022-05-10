@@ -1,0 +1,35 @@
+---
+layout: default
+---
+<!-- Inspired from: http://pavdmyt.com/how-to-implement-tags-at-jekyll-website/ -->
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
+</header>
+
+<!-- List of all tags -->
+<ul class="tags">
+  {% for tag in site.tags %}
+    <li>
+      <a href="#{{ tag | cgi_escape }}" class="tag">{{ tag }}
+        <span>({{ site.tags_to_posts[tag] | length }})</span>
+      </a>
+    </li>
+  {% endfor %}
+</ul>
+
+<!-- Posts by Tag -->
+<div>
+  {% for tag in site.tags %}
+    <h2 id="{{ tag | cgi_escape }}">{{ tag }}</h2>
+    {% for post in site.tags_to_posts[tag] %}
+      <div>
+        <span style="float: left;">
+          <a href="{{ post.url }}">{{ post.title }}</a>
+        </span>
+        <span style="float: right;">{{ post.date }}</span>
+      </div>
+      <div style="clear: both;"></div>
+    {% endfor %}
+  {% endfor %}
+</div>
