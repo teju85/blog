@@ -29,7 +29,7 @@ _commit:
 	git commit -m "$(COMMIT_MSG)"
 	$(MAKE) generate
 	git add -A
-	git commit -m "$(COMMIT_MSG)"
+	git commit -m "$(COMMIT_MSG)" || echo
 
 serve:
 	env PYTHONPATH=gen python gen/pykyll.py -serve
