@@ -1,50 +1,35 @@
-# where to temporarily build the static pages
-SITE_DIR   = _site
-# source branch, where to build the static pages
-SRC_BRANCH = master
-# source directory which contains jekyll files
-SRC_DIR    = src
-# branch used to publish the static pages
-DST_BRANCH = gh-pages
-CFG        = config.json
+CFG        := config.json
+SRC_BRANCH := gh-pages
 
 
 default:
 	@echo "make what? Available targets are:"
-	@echo " . commit    - commit all the changes locally. Assumes that you"
-	@echo "               are inside the '$(SRC_BRANCH)' branch!"
-	@echo " . push      - push the changes to remote repo."
-	@echo " . publish   - commit and then push to remote repo"
+	@echo " . commit    - commit all the changes locally."
+	@echo " . push      - push the changes to the remote repo."
+	@echo " . publish   - generate the pages, commit the changes and then"
+	@echo "               push everything to the remote repo."
 	@echo " . serve     - start the server to test changes locally"
-	@echo " . init      - setup all required packages"
 	@echo " . generate  - generate the pykyll pages"
 
-publish:
-	$(MAKE) commit push
-
-push:
-	git push origin $(SRC_BRANCH) $(DST_BRANCH)
+generate:
+	env PYTHONPATH=gen python gen/pykyll.py -cfg $(CFG)
 
 commit:
 	@read -p "Enter commit message: " cmtMsg && \
 	    $(MAKE) COMMIT_MSG="$$cmtMsg" _commit
 
+push:
+	git push origin $(SRC_BRANCH)
+
+publish:
+	$(MAKE) commit push
+
 _commit:
-	jekyll build -s $(SRC_DIR) -d $(SITE_DIR)
 	git add -A
 	git commit -m "$(COMMIT_MSG)"
-	git checkout $(DST_BRANCH)
-	cp -r $(SITE_DIR)/* .
+	$(MAKE) generate
 	git add -A
 	git commit -m "$(COMMIT_MSG)"
-	git checkout $(SRC_BRANCH)
 
 serve:
 	env PYTHONPATH=gen python gen/pykyll.py -serve
-#	cd $(SRC_DIR) && bundle exec jekyll serve -d $(SITE_DIR)
-
-init:
-	cd $(SRC_DIR) && bundle install --full-index
-
-generate:
-	env PYTHONPATH=gen python gen/pykyll.py -cfg $(CFG)
