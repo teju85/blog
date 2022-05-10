@@ -6,6 +6,7 @@ import os
 import re
 import subprocess
 import glob
+import multiprocessing
 
 
 POST_DATE = re.compile(r"^(\d{4})-(\d{2})-(\d{2})-")
@@ -115,7 +116,7 @@ def parse_template(tmplfile, args, content, prev_cfg):
     return content
 
 
-def parse_markdown(mdfile, args, is_post=False):
+def parse_markdown(mdfile, args, is_post=False, last_modified=None):
     post = {}
     post["url"] = post_url(mdfile, args.cfg, is_post)
     page_cfg, lines = parse_preamble(mdfile)
@@ -124,7 +125,7 @@ def parse_markdown(mdfile, args, is_post=False):
     # modified dates should not be overridden by the preamble!
     if is_post:
         post["date"] = post_date(mdfile)
-    post["last_modified"] = post_last_modified(mdfile)
+        post["last_modified"] = last_modified
     # convert to html now along with jinja expansion
     content = mistletoe.markdown(lines)
     if "layout" in page_cfg:
@@ -157,8 +158,12 @@ def generate_html(args):
     posts_dir = os.path.join(args.cfg["dirs"]["main"],
                              args.cfg["dirs"]["posts"],
                              "*." + args.cfg["extension"])
-    for file in glob.glob(posts_dir):
-        parse_markdown(file, args, True)
+    posts = glob.glob(posts_dir)
+    print("Getting last modified timestamps for all posts...")
+    with multiprocessing.Pool(args.np) as p:
+        last_modified = p.map(post_last_modified, posts)
+    for idx, file in enumerate(posts):
+        parse_markdown(file, args, True, last_modified[idx])
     # generate the final set of pages inside 'main' directory next
     main_dir = os.path.join(args.cfg["dirs"]["main"],
                             "*." + args.cfg["extension"])
@@ -175,6 +180,12 @@ def parseargs():
     parser = argparse.ArgumentParser(description=desc)
     parser.add_argument("-cfg", default="config.json", type=str,
         help="Path to the global config file.")
+    parser.add_argument("-np", default=10, type=int,
+        help="Number of processes to use to run git queries.")
+    parser.add_argument("-port", default=80, type=int,
+        help="Port where to listen for the http server.")
+    parser.add_argument("-serve", action="store_true", default=False,
+        help="Start a server to serve these generated files.")
     args = parser.parse_args()
     validateargs(args)
     with open(args.cfg, "r") as fp:
@@ -185,6 +196,18 @@ def parseargs():
     return args
 
 
+def serve(args):
+    import flask
+    d = args.cfg["dirs"]["html"]
+    app = flask.Flask(__name__, static_folder=d)
+    @app.route("/")
+    def index():
+        return flask.send_from_directory(d, "index.html")
+    app.run(port=args.port)
+
+
 if __name__ == "__main__":
     args = parseargs()
     generate_html(args)
+    if args.serve:
+        serve(args)
