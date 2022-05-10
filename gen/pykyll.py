@@ -59,11 +59,6 @@ def escape(text):
     return text
 
 
-# TODO!
-def date_to_xmlschema(text):
-    return text
-
-
 def length(arr):
     return len(arr)
 
@@ -97,7 +92,6 @@ def get_tmpl(args, text):
     environment.filters["relative_url"] = relative_url
     environment.filters["escape"] = escape
     environment.filters["length"] = length
-    environment.filters["date_to_xmlschema"] = date_to_xmlschema
     return environment.from_string(text)
 
 
