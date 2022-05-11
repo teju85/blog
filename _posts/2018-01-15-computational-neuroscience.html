@@ -62,8 +62,8 @@
       </time>
       
         <br/>
-        <time class="dt-published" datetime="2021-07-15" itemprop="datePublished">
-          Last Modifed: 2021-07-15
+        <time class="dt-published" datetime="2022-05-11" itemprop="datePublished">
+          Last Modifed: 2022-05-11
         </time>
       
     </p>
@@ -136,7 +136,7 @@ determining how they function, and understanding why operate in particular ways
 <ul>
 <li>efficient coding hypothesis (EC)
 <ul>
-<li>goal is to represent images as faithfully and efficiently as possible using neurons with RF_i</li>
+<li>goal is to represent images as faithfully and efficiently as possible using neurons with $$RF_i$$</li>
 <li>I = image, I&#x27; = reconstructed image, $$r_i$$ = neural responses</li>
 <li>I&#x27; = $$\sum_i (RF_i * r_i)$$</li>
 <li>what are the $$RF_i$$ that minimize $$|I-I&#x27;|^2$$ and are as independent as possible?</li>
@@ -496,13 +496,13 @@ determining how they function, and understanding why operate in particular ways
 <li>population codes = decoding from many neurons</li>
 <li>cricket neurons are sensitive to wind
 <ul>
-<li>(f(s) / r_max) = cos(s - s_a)</li>
-<li>s_a = preferred angle for the neuron where the firing rate is maximum</li>
-<li>r_max = max firing rate, used to normalize the output</li>
+<li>$$\frac{f(s)}{r_{max}} = cos(s - s_a)$$</li>
+<li>$$s_a$$ = preferred angle for the neuron where the firing rate is maximum</li>
+<li>$$r_{max}$$ = max firing rate, used to normalize the output</li>
 <li>can also be written as dot product of vectors:
 <ul>
-<li>(f(s) / r_max) = v . c_a</li>
-<li>c_a = preffered direction of wind for the neuron&#x27;s maximum firing rate</li>
+<li>$$\frac{f(s)}{r_{max}} = v . c_a$$</li>
+<li>$$c_a$$ = preffered direction of wind for the neuron&#x27;s maximum firing rate</li>
 </ul>
 </li>
 <li>summing up across all neurons gives rise to population vector</li>
@@ -511,11 +511,11 @@ determining how they function, and understanding why operate in particular ways
 <li>however, population vector is neither general nor optimal!?</li>
 <li>Baye&#x27;s law
 <ul>
-<li>p(s|r) = p(r|s) * p(s) / p(r)</li>
-<li>p(r|s) = likelihood function, conditional distribution</li>
-<li>p(s) = prior distribution</li>
-<li>p(r) = marginal distribution</li>
-<li>p(s|r) = aposteriori distribution</li>
+<li>$$p(s|r) = p(r|s) * \frac{p(s)}{p(r)}$$</li>
+<li>$$p(r|s)$$ = likelihood function, conditional distribution</li>
+<li>$$p(s)$$ = prior distribution</li>
+<li>$$p(r)$$ = marginal distribution</li>
+<li>$$p(s|r)$$ = aposteriori distribution</li>
 </ul>
 </li>
 <li>assume gaussian distribution for stimulus and poisson for response</li>
@@ -547,13 +547,13 @@ determining how they function, and understanding why operate in particular ways
 <h2>Week4</h2>
 <h3>information and entropy</h3>
 <ul>
-<li>probability of seeing an event = P(1) = p, thus P(0) = 1-p
+<li>probability of seeing an event = P(1) = p, thus P(0) = 1 - p
 <ul>
-<li>information(P(1)) = -log_2(p)</li>
-<li>information(P(0)) = -log_2(1-p)</li>
+<li>information(P(1)) = $$-log_2(p)$$</li>
+<li>information(P(0)) = $$-log_2(1-p)$$</li>
 </ul>
 </li>
-<li>Entropy = avg. information = -\Sigma_i(p_i * log_2(p_i))
+<li>Entropy = avg. information = $$-\Sigma_i(p_i * log_2(p_i))$$
 <ul>
 <li>units are bits</li>
 </ul>
@@ -562,12 +562,12 @@ determining how they function, and understanding why operate in particular ways
 <ul>
 <li>amount of entropy that is used in coding the stimulus</li>
 <li>MI(S,R) = TotalEntropy - AvgNoiseEntropy</li>
-<li>MI(S,R) = -\Sigma_r(p(r) * log_2(p(r))) + \Sigma_s(p(s) * \Sigma_r(p(r|s) * log_2(p(r|s))))</li>
+<li>$$MI(S,R) = -\Sigma_r(p(r) * log_2(p(r))) + \Sigma_s(p(s) * \Sigma_r(p(r|s) * log_2(p(r|s))))$$</li>
 </ul>
 </li>
 <li>Quantifying how independent R and S are:
 <ul>
-<li>I(S,R) = D_KL(P(S,R), P(S)P(R))</li>
+<li>$$I(S,R) = D_{KL}(P(S,R), P(S)P(R))$$</li>
 <li>using this, one can derive with the MI equation above!</li>
 <li>MI is symmetric between S and R!</li>
 </ul>
@@ -578,8 +578,8 @@ determining how they function, and understanding why operate in particular ways
 <li>information in spike patterns
 <ul>
 <li>each time, if there&#x27;s spike assign a binary 1, else 0</li>
-<li>create binary words (w_i) of fixed bits out of this resulting bit-vector</li>
-<li>compute p(w_i), then use entropy equation on it</li>
+<li>create binary words ($$w_i$$) of fixed bits out of this resulting bit-vector</li>
+<li>compute $$p(w_i)$$, then use entropy equation on it</li>
 <li>calculate the diff between total variability driven by stimuli and that due to noise, averaged over stimuli</li>
 </ul>
 </li>
@@ -606,8 +606,8 @@ determining how they function, and understanding why operate in particular ways
 </li>
 <li>redundancy reduction
 <ul>
-<li>entropy(R_1,R_2) &lt;= entropy(R_1) + entropy(R_2)</li>
-<li>R_1 and R_2 are responses of 2 neurons</li>
+<li>$$entropy(R_1,R_2) &lt;= entropy(R_1) + entropy(R_2)$$</li>
+<li>$$R_1$$ and $$R_2$$ are responses of 2 neurons</li>
 <li>in order to be efficient in terms of entropy and coding, neurons must be independent</li>
 </ul>
 </li>
@@ -625,26 +625,26 @@ determining how they function, and understanding why operate in particular ways
 <li>membrane can be thought of as a capacitor and resistor in parallel
 <ul>
 <li>thus, using kirchoff&#x27;s law:</li>
-<li>C.dV/dt = -V/R + I_ext</li>
+<li>$$C \frac{dV}{dt} = -\frac{V}{R} + I_{ext}$$</li>
 </ul>
 </li>
 <li>but membrane also has potential due to ionic equilibrium (called nernst potential)
 <ul>
-<li>E = k_B * T / (z * q) * ln(inside/outside)
+<li>$$E = k_B * \frac{T}{z * q} * ln(\frac{inside}{outside})$$
 <ul>
-<li>k_B = boltzmann constant</li>
+<li>$$k_B$$ = boltzmann constant</li>
 <li>inside, outside = ionic concentration</li>
-<li>T = temperature</li>
-<li>z = number of charges in the ion</li>
-<li>q = ionic charge</li>
+<li>$$T$$ = temperature</li>
+<li>$$z$$ = number of charges in the ion</li>
+<li>$$q$$ = ionic charge</li>
 </ul>
 </li>
 <li>thus, part of voltage drop across resistor will be due to this potential</li>
-<li>C.dV/dt = -(V - V_rest)/R + I_ext</li>
+<li>$$C \frac{dV}{dt} = -\frac{V - V_rest}{R} + I_{ext}$$</li>
 <li>solution to this is the classic exponential decay RC circuit!</li>
 </ul>
 </li>
-<li>conductance = resistance^-1</li>
+<li>conductance = $$resistance^{-1}$$</li>
 <li>different ion channels have associated conductances
 <ul>
 <li>given conductance tends to move the membrane potential toward the equilibrium potential for that ion</li>
@@ -663,10 +663,10 @@ determining how they function, and understanding why operate in particular ways
 <li>integrate-and-fire neuron model
 <ul>
 <li>pretty close to real neuronal spikes</li>
-<li>V_0 = stability potential</li>
-<li>V_reset = reset potential immediately after the spike</li>
-<li>V_th = threshold potential after which spike occurs</li>
-<li>V_max = max spike potential</li>
+<li>$$V_0$$ = stability potential</li>
+<li>$$V_{reset}$$ = reset potential immediately after the spike</li>
+<li>$$V_{th}$$ = threshold potential after which spike occurs</li>
+<li>$$V_{max}$$ = max spike potential</li>
 </ul>
 </li>
 <li>to make the above model fire intrinsically
@@ -700,7 +700,7 @@ determining how they function, and understanding why operate in particular ways
 <li>pairwise correlation
 <ul>
 <li>count number of spikes in a moving window for 2 neurons</li>
-<li>\rho = cov(n_1,n_2) / sqrt(var(n_1)*var(n_2))</li>
+<li>$$\rho = \frac{cov(n_1,n_2)}{\sqrt{var(n_1)*var(n_2)}}$$</li>
 </ul>
 </li>
 <li>correlation can degrade the signal encoding
@@ -762,18 +762,18 @@ determining how they function, and understanding why operate in particular ways
 <ul>
 <li>output firing rate changes like this
 <ul>
-<li>\tau_r . dv/dt = -v + F(I_s(t))</li>
+<li>$$\tau_r \frac{dv}{dt} = -v + F(I_s(t))$$</li>
 </ul>
 </li>
 <li>input synaptic current changes like this
 <ul>
-<li>\tau_s . dI_s/dt = -I_s + w.u</li>
+<li>$$\tau_s \frac{dI_s}{dt} = -I_s + w.u$$</li>
 </ul>
 </li>
 <li>the steady state function is the same as used in ANNs!</li>
 <li>recurrent networks
 <ul>
-<li>\tau . dv/dt = -v + F(Wu + Mv)</li>
+<li>$$\tau \frac{dv}{dt} = -v + F(Wu + Mv)$$</li>
 <li>M = weight matrix for recurrent connections</li>
 <li>W = weight matrix for feedforward connections</li>
 </ul>
@@ -787,8 +787,8 @@ determining how they function, and understanding why operate in particular ways
 <ul>
 <li>will give orthogonal eigen vectors</li>
 <li>thus we can write output to be linear combination of these eigen vectors</li>
-<li>v(t) = \Sigma_i c_i(t)e_i</li>
-<li>then we can solve for each of these c_i to finally solve for v(t)</li>
+<li>$$v(t) = \Sigma_i c_i(t)e_i$$</li>
+<li>then we can solve for each of these $$c_i$$ to finally solve for v(t)</li>
 <li>the eigen values determine the network stability</li>
 <li>it can amplify its inputs!</li>
 <li>it can also manifest memory!</li>
