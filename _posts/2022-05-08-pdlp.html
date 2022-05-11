@@ -150,7 +150,7 @@ matrix factorization</li>
 </li>
 </ul>
 </li>
-<li>this is represented as the following saddle point problem: $$min_x max_y c x - y K x + q y$$</li>
+<li>this is represented as the following saddle point problem: $$min_x max_y L(x, y) = c x - y K x + q y$$</li>
 <li>PDHG solves this iteratively as:
 <ul>
 <li>$$x^{k+1} = proj_X(x^k - \tau (c - K y^k))$$</li>
@@ -180,14 +180,14 @@ matrix factorization</li>
 <li>$$t = 0$$</li>
 <li>repeat until restart or termination (this check is done once every 40 iterations to reduce overhead)
 <ul>
-<li>$$z^{n,t+1}, \eta^{n,t+1}, \eta_c^{t,t+1} = adaptivePDHGstep(z^{n,t}, \omega^n, \eta_c^{n,t}, k)$$</li>
+<li>$$z^{n,t+1}, \eta^{n,t+1}, \eta_c^{n,t+1} = adaptivePDHGstep(z^{n,t}, \omega^n, \eta_c^{n,t}, k)$$</li>
 <li>$$z&#x27;^{n,t+1} = \frac{1}{\Sigma_{i=1}^{t+1} \eta^{n,i}} \Sigma_{i=1}^{t+1} \eta^{n,i} z^{n,i}$$</li>
 <li>$$z_c^{n,t+1} = restartCandidate(z^{n,t+1}, z&#x27;^{n,t+1}, z^{n,0})$$</li>
 <li>$$t = t + 1$$</li>
 <li>$$k = k + 1$$</li>
 </ul>
 </li>
-<li>$$z^{n+1,0} = $$z_c^{n,t}$$</li>
+<li>$$z^{n+1,0} = z_c^{n,t}$$</li>
 <li>$$n = n + 1$$</li>
 <li>$$\omega^n = primalWeightUpdate(z^{n,0}, z^{n-1,0}, \omega^{n-1})$$</li>
 </ul>
@@ -200,7 +200,7 @@ matrix factorization</li>
 <li>$$\eta = \eta_c^{n,t}$$</li>
 <li>while not done
 <ul>
-<li>$$x&#x27; = proj_X(x - \frac{\eta}{\omega^n} (c - K y))$$</li>
+<li>$$x&#x27; = proj_X(x - \frac{\eta}{\omega^n} (c - K^T y))$$</li>
 <li>$$y&#x27; = proj_Y(y + \eta \omega^n (q - K (2x&#x27; - x)))$$</li>
 <li>$$\eta_b = \frac{norm(x&#x27; - x, y&#x27; - y)_{\omega^n}^2}{2(y&#x27; - y)K(x&#x27; - x)}$$</li>
 <li>$$\eta&#x27; = min((1 - (k + 1)^{-0.3})\eta_b, (1 + (k + 1)^{-0.6})\eta)$$</li>
@@ -211,7 +211,40 @@ matrix factorization</li>
 </ul>
 <h4>restartCandidate</h4>
 <ul>
-<li>WTF is this!!????</li>
+<li>normalized duality gap for a radius $$r$$ is:
+$$\rho_r^n(z) = \frac{1}{r} max_{(x&#x27;,y&#x27;) = z&#x27;, norm(z&#x27;-z)_{\omega^n} &lt;= r} (L(x, y&#x27;) - L(x&#x27;, y))$$</li>
+<li>for a given $$z_{ref}$$ let&#x27;s write this as: $$\mu_n(z, z_{ref}) = \rho_{norm(z - z_{ref})_{\omega^n}}(z)$$</li>
+<li>then the restart candidate would be</li>
+<li>if $$\mu_n(z^{n,t+1}, z^{n,0}) &lt; \mu_n(z&#x27;^{n,t+1}, z^{n,0})$$
+<ul>
+<li>$$z^{n,t+1}$$</li>
+</ul>
+</li>
+<li>else
+<ul>
+<li>$$z&#x27;^{n,t+1}$$</li>
+</ul>
+</li>
+</ul>
+<h4>restart criteria</h4>
+<ul>
+<li>$$\beta_{sufficient} \epsilon (0, 1)$$</li>
+<li>$$\beta_{necessary} \epsilon (0, \beta_{sufficient})$$</li>
+<li>$$\beta_{artificial} \epsilon (0, 1)$$</li>
+<li>algo inner loop restarts if one of the below conditions hold</li>
+<li>sufficient decay in the normalized duality gap
+<ul>
+<li>$$\mu_n(z_c^{n,t+1}, z^{n,0}) &lt;= \beta_{sufficient} \mu_n(z^{n,0}, z^{n-1,0})$$</li>
+</ul>
+</li>
+<li>necessary decay + no progress in the normalized duality gap
+<ul>
+<li>$$\mu_n(z_c^{n,t+1}, z^{n,0}) &lt;= \beta_{necessary} \mu_n(z^{n,0}, z^{n-1,0})$$</li>
+<li>and</li>
+<li>$$\mu_n(z_c^{n,t+1}, z^{n,0}) &gt; \mu_n(z_c^{n,t}, z^{n,0})$$</li>
+</ul>
+</li>
+<li>long inner loop: $$t &gt;= \beta_{artificial} k$$</li>
 </ul>
 <h4>initializePrimalWeight</h4>
 <ul>
@@ -241,7 +274,23 @@ matrix factorization</li>
 </ul>
 <h4>diagonal preconditioning</h4>
 <ul>
-<li>TBD</li>
+<li>helps improve convergence</li>
+<li>Idea is to rescale $$K$$ as $$D_1 K D_2$$ with $$D_1$$ and $$D_2$$ being diagonal matrices</li>
+<li>Ruiz scaling
+<ul>
+<li>iterative in nature</li>
+<li>$$D_1(i, i) = \sqrt{infnorm(K_{i,.})}$$</li>
+<li>$$D_2(i, i) = \sqrt{infnorm(K_{.,i})}$$</li>
+</ul>
+</li>
+<li>Pock-Chambolle
+<ul>
+<li>$$\alpha$$ = parameter $$\epsilon [0, 2]$$</li>
+<li>$$D_1(i, i) = \sqrt{norm(K_{i,.})_{2-\alpha}}$$</li>
+<li>$$D_2(i, i) = \sqrt{norm(K_{.,i})_{2-\alpha}}  \forall i \epsilon [1, n]$$</li>
+</ul>
+</li>
+<li>applies 10 iterations of Ruiz scaling and then apply Pock-Chambolle scaling.</li>
 </ul>
 
   </div>
