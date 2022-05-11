@@ -53,7 +53,7 @@ Main paper can be found [here](http://www.optimization-online.org/DB_FILE/2021/0
     - $$\lambda_- = min(0, \lambda)$$
     - $$R^-$$ = set of non-positive real numbers
     - $$R^+$$ = set of non-negative real numbers
-- this is represented as the following saddle point problem: $$min_x max_y c x - y K x + q y$$
+- this is represented as the following saddle point problem: $$min_x max_y L(x, y) = c x - y K x + q y$$
 - PDHG solves this iteratively as:
   - $$x^{k+1} = proj_X(x^k - \tau (c - K y^k))$$
   - $$y^{k+1} = proj_Y(y^k + \sigma (q - K (2x^{k+1} - x^k)))$$
@@ -74,12 +74,12 @@ Main paper can be found [here](http://www.optimization-online.org/DB_FILE/2021/0
 - repeat until termination
   - $$t = 0$$
   - repeat until restart or termination (this check is done once every 40 iterations to reduce overhead)
-    - $$z^{n,t+1}, \eta^{n,t+1}, \eta_c^{t,t+1} = adaptivePDHGstep(z^{n,t}, \omega^n, \eta_c^{n,t}, k)$$
+    - $$z^{n,t+1}, \eta^{n,t+1}, \eta_c^{n,t+1} = adaptivePDHGstep(z^{n,t}, \omega^n, \eta_c^{n,t}, k)$$
     - $$z'^{n,t+1} = \frac{1}{\Sigma_{i=1}^{t+1} \eta^{n,i}} \Sigma_{i=1}^{t+1} \eta^{n,i} z^{n,i}$$
     - $$z_c^{n,t+1} = restartCandidate(z^{n,t+1}, z'^{n,t+1}, z^{n,0})$$
     - $$t = t + 1$$
     - $$k = k + 1$$
-  - $$z^{n+1,0} = $$z_c^{n,t}$$
+  - $$z^{n+1,0} = z_c^{n,t}$$
   - $$n = n + 1$$
   - $$\omega^n = primalWeightUpdate(z^{n,0}, z^{n-1,0}, \omega^{n-1})$$
 - output = $$z^{n,0}$$
@@ -88,7 +88,7 @@ Main paper can be found [here](http://www.optimization-online.org/DB_FILE/2021/0
 - $$(x, y) = z^{n,t}$$
 - $$\eta = \eta_c^{n,t}$$
 - while not done
-  - $$x' = proj_X(x - \frac{\eta}{\omega^n} (c - K y))$$
+  - $$x' = proj_X(x - \frac{\eta}{\omega^n} (c - K^T y))$$
   - $$y' = proj_Y(y + \eta \omega^n (q - K (2x' - x)))$$
   - $$\eta_b = \frac{norm(x' - x, y' - y)_{\omega^n}^2}{2(y' - y)K(x' - x)}$$
   - $$\eta' = min((1 - (k + 1)^{-0.3})\eta_b, (1 + (k + 1)^{-0.6})\eta)$$
@@ -96,7 +96,27 @@ Main paper can be found [here](http://www.optimization-online.org/DB_FILE/2021/0
   - $$\eta = \eta'$$
 
 #### restartCandidate
-- WTF is this!!????
+- normalized duality gap for a radius $$r$$ is:
+  $$\rho_r^n(z) = \frac{1}{r} max_{(x',y') = z', norm(z'-z)_{\omega^n} <= r} (L(x, y') - L(x', y))$$
+- for a given $$z_{ref}$$ let's write this as: $$\mu_n(z, z_{ref}) = \rho_{norm(z - z_{ref})_{\omega^n}}(z)$$
+- then the restart candidate would be
+- if $$\mu_n(z^{n,t+1}, z^{n,0}) < \mu_n(z'^{n,t+1}, z^{n,0})$$
+  - $$z^{n,t+1}$$
+- else
+  - $$z'^{n,t+1}$$
+
+#### restart criteria
+- $$\beta_{sufficient} \epsilon (0, 1)$$
+- $$\beta_{necessary} \epsilon (0, \beta_{sufficient})$$
+- $$\beta_{artificial} \epsilon (0, 1)$$
+- algo inner loop restarts if one of the below conditions hold
+- sufficient decay in the normalized duality gap
+  - $$\mu_n(z_c^{n,t+1}, z^{n,0}) <= \beta_{sufficient} \mu_n(z^{n,0}, z^{n-1,0})$$
+- necessary decay + no progress in the normalized duality gap
+  - $$\mu_n(z_c^{n,t+1}, z^{n,0}) <= \beta_{necessary} \mu_n(z^{n,0}, z^{n-1,0})$$
+  - and
+  - $$\mu_n(z_c^{n,t+1}, z^{n,0}) > \mu_n(z_c^{n,t}, z^{n,0})$$
+- long inner loop: $$t >= \beta_{artificial} k$$
 
 #### initializePrimalWeight
 - $$\omega_0 = \frac{l2norm(c)}{l2norm(q)}$$ if both numerator and denominator are $$> \epsilon_{zero}$$
@@ -119,4 +139,14 @@ Main paper can be found [here](http://www.optimization-online.org/DB_FILE/2021/0
 - removing duplicate rows of $$K$$
 
 #### diagonal preconditioning
-- TBD
+- helps improve convergence
+- Idea is to rescale $$K$$ as $$D_1 K D_2$$ with $$D_1$$ and $$D_2$$ being diagonal matrices
+- Ruiz scaling
+  - iterative in nature
+  - $$D_1(i, i) = \sqrt{infnorm(K_{i,.})}$$
+  - $$D_2(i, i) = \sqrt{infnorm(K_{.,i})}$$
+- Pock-Chambolle
+  - $$\alpha$$ = parameter $$\epsilon [0, 2]$$
+  - $$D_1(i, i) = \sqrt{norm(K_{i,.})_{2-\alpha}}$$
+  - $$D_2(i, i) = \sqrt{norm(K_{.,i})_{2-\alpha}}  \forall i \epsilon [1, n]$$
+- applies 10 iterations of Ruiz scaling and then apply Pock-Chambolle scaling.
