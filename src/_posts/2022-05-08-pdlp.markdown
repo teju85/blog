@@ -55,8 +55,8 @@ Main paper can be found [here](http://www.optimization-online.org/DB_FILE/2021/0
     - $$R^+$$ = set of non-negative real numbers
 - this is represented as the following saddle point problem: $$min_x max_y c x - y K x + q y$$
 - PDHG solves this iteratively as:
-  - $$ x^{k+1} = proj_X(x^k - \tau (c - K y^k))$$
-  - $$ y^{k+1} = proj_Y(y^k + \sigma (q - K (2x^{k+1} - x^k)))$$
+  - $$x^{k+1} = proj_X(x^k - \tau (c - K y^k))$$
+  - $$y^{k+1} = proj_Y(y^k + \sigma (q - K (2x^{k+1} - x^k)))$$
   - where:
     - $$\tau = \frac{\eta}{\omega}$$ = primal stepsize
     - $$\sigma = \eta \omega$$ = dual stepsize

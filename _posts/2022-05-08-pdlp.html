@@ -5,12 +5,24 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/blog/src/assets/main.css">
-  
-    <link rel="stylesheet" href="/blog/src/assets/katex.min.css">
-    <script rel="src" src="/blog/src/assets/jquery-1.11.1.min.js"></script>
-    <script rel="src" src="/blog/src/assets/katex.min.js"></script>
-  
-  
+
+  <link rel="stylesheet" href="/blog/src/assets/katex.min.css">
+  <script rel="src" src="/blog/src/assets/jquery-1.11.1.min.js"></script>
+  <script rel="src" src="/blog/src/assets/katex.min.js"></script>
+  <script rel="src" src="/blog/src/assets/auto-render.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+              {left: '$$', right: '$$', display: false},
+              {left: '$', right: '$', display: false}
+          ],
+          throwOnError : false
+        });
+    });
+  </script>
+
+
 </head>
   <body>
     <header class="site-header" role="banner">
@@ -136,8 +148,8 @@ matrix factorization</li>
 <li>this is represented as the following saddle point problem: $$min_x max_y c x - y K x + q y$$</li>
 <li>PDHG solves this iteratively as:
 <ul>
-<li>$$ x^{k+1} = proj_X(x^k - \tau (c - K y^k))$$</li>
-<li>$$ y^{k+1} = proj_Y(y^k + \sigma (q - K (2x^{k+1} - x^k)))$$</li>
+<li>$$x^{k+1} = proj_X(x^k - \tau (c - K y^k))$$</li>
+<li>$$y^{k+1} = proj_Y(y^k + \sigma (q - K (2x^{k+1} - x^k)))$$</li>
 <li>where:
 <ul>
 <li>$$\tau = \frac{\eta}{\omega}$$ = primal stepsize</li>
@@ -228,27 +240,7 @@ matrix factorization</li>
 </article>
       </div>
     </main>
-    
-  <script type="text/javascript">
-   $("script[type='math/tex']").replaceWith(
-     function(){
-       var tex = $(this).text();
-       return "<span class=\"inline-equation\">" + 
-              katex.renderToString(tex) +
-              "</span>";
-   });
-   
-   $("script[type='math/tex; mode=display']").replaceWith(
-     function(){
-       var tex = $(this).text();
-       return "<div class=\"equation\">" + 
-              katex.renderToString("\\displaystyle "+tex) +
-              "</div>";
-   });
-  </script>
-
-
-<footer class="site-footer h-card">
+    <footer class="site-footer h-card">
   <data class="u-url" href="/blog/"></data>
   <div class="wrapper">
     <div class="footer-col-wrapper">
