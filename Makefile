@@ -4,7 +4,8 @@ SRC_BRANCH := gh-pages
 
 default:
 	@echo "make what? Available targets are:"
-	@echo " . commit    - commit all the changes locally."
+	@echo " . commit    - generate the pages and commit all the changes"
+	@echo "               locally. This will NOT push changes to remote."
 	@echo " . push      - push the changes to the remote repo."
 	@echo " . publish   - generate the pages, commit the changes and then"
 	@echo "               push everything to the remote repo."

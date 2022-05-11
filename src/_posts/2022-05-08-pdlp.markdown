@@ -106,7 +106,8 @@ Main paper can be found [here](http://www.optimization-online.org/DB_FILE/2021/0
 #### primalWeightupdate
 - $$\Delta_x^n = l2norm(x^{n,0} - x^{n-1,0})$$
 - $$\Delta_y^n = l2norm(y^{n,0} - y^{n-1,0})$$
-- return $$e^{\theta log(\frac{\Delta_y^n}{\Delta^x^n}) + (1 - \theta)log(\omega^{n-1})}$$ if $$\Delta_x^n > \epsilon_{zero} && \Delta_y^n > \epsilon_{zero}$$
+- if $$\Delta_x^n > \epsilon_{zero} and \Delta_y^n > \epsilon_{zero}$$
+  - return $$exp(\theta log(\frac{\Delta_y^n}{\Delta_x^n}) + (1 - \theta)log(\omega^{n-1}))$$
 - return $$\omega^{n-1}$$ else
 - $$\theta \epsilon [0,1]$$ = exponential smoothing parameter (default = 0.5)
 
