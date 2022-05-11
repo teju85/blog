@@ -47,7 +47,7 @@ My notes while taking the Computational Neuroscience course.
 
 ### IM of RFs
 - efficient coding hypothesis (EC)
-  - goal is to represent images as faithfully and efficiently as possible using neurons with RF_i
+  - goal is to represent images as faithfully and efficiently as possible using neurons with $$RF_i$$
   - I = image, I' = reconstructed image, $$r_i$$ = neural responses
   - I' = $$\sum_i (RF_i * r_i)$$
   - what are the $$RF_i$$ that minimize $$\|I-I'\|^2$$ and are as independent as possible?
@@ -280,20 +280,20 @@ My notes while taking the Computational Neuroscience course.
 ### population coding and bayesian estimation
 - population codes = decoding from many neurons
 - cricket neurons are sensitive to wind
-  - (f(s) / r_max) = cos(s - s_a)
-  - s_a = preferred angle for the neuron where the firing rate is maximum
-  - r_max = max firing rate, used to normalize the output
+  - $$\frac{f(s)}{r_{max}} = cos(s - s_a)$$
+  - $$s_a$$ = preferred angle for the neuron where the firing rate is maximum
+  - $$r_{max}$$ = max firing rate, used to normalize the output
   - can also be written as dot product of vectors:
-    - (f(s) / r_max) = v . c_a
-    - c_a = preffered direction of wind for the neuron's maximum firing rate
+    - $$\frac{f(s)}{r_{max}} = v . c_a$$
+    - $$c_a$$ = preffered direction of wind for the neuron's maximum firing rate
   - summing up across all neurons gives rise to population vector
 - however, population vector is neither general nor optimal!?
 - Baye's law
-  - p(s|r) = p(r|s) * p(s) / p(r)
-  - p(r|s) = likelihood function, conditional distribution
-  - p(s) = prior distribution
-  - p(r) = marginal distribution
-  - p(s|r) = aposteriori distribution
+  - $$p(s\|r) = p(r\|s) * \frac{p(s)}{p(r)}$$
+  - $$p(r\|s)$$ = likelihood function, conditional distribution
+  - $$p(s)$$ = prior distribution
+  - $$p(r)$$ = marginal distribution
+  - $$p(s\|r)$$ = aposteriori distribution
 - assume gaussian distribution for stimulus and poisson for response
 - also assume firing rate of each neuron is independent of another
 - with this, one can generate likelihood distribution for response given stimulus
@@ -314,25 +314,25 @@ My notes while taking the Computational Neuroscience course.
 
 ## Week4
 ### information and entropy
-- probability of seeing an event = P(1) = p, thus P(0) = 1-p
-  - information(P(1)) = -log_2(p)
-  - information(P(0)) = -log_2(1-p)
-- Entropy = avg. information = -\Sigma_i(p_i * log_2(p_i))
+- probability of seeing an event = P(1) = p, thus P(0) = 1 - p
+  - information(P(1)) = $$-log_2(p)$$
+  - information(P(0)) = $$-log_2(1-p)$$
+- Entropy = avg. information = $$-\Sigma_i(p_i * log_2(p_i))$$
   - units are bits
 - mutual information
   - amount of entropy that is used in coding the stimulus
   - MI(S,R) = TotalEntropy - AvgNoiseEntropy
-  - MI(S,R) = -\Sigma_r(p(r) * log_2(p(r))) + \Sigma_s(p(s) * \Sigma_r(p(r|s) * log_2(p(r|s))))
+  - $$MI(S,R) = -\Sigma_r(p(r) * log_2(p(r))) + \Sigma_s(p(s) * \Sigma_r(p(r\|s) * log_2(p(r\|s))))$$
 - Quantifying how independent R and S are:
-  - I(S,R) = D_KL(P(S,R), P(S)P(R))
+  - $$I(S,R) = D_{KL}(P(S,R), P(S)P(R))$$
   - using this, one can derive with the MI equation above!
   - MI is symmetric between S and R!
 
 ### calculating info in spike trains
 - information in spike patterns
   - each time, if there's spike assign a binary 1, else 0
-  - create binary words (w_i) of fixed bits out of this resulting bit-vector
-  - compute p(w_i), then use entropy equation on it
+  - create binary words ($$w_i$$) of fixed bits out of this resulting bit-vector
+  - compute $$p(w_i)$$, then use entropy equation on it
   - calculate the diff between total variability driven by stimuli and that due to noise, averaged over stimuli
 - information in single spike
   - repeat similar such analysis but with words of one bit!
@@ -345,8 +345,8 @@ My notes while taking the Computational Neuroscience course.
   - this also optimizes mutual info between i/p and o/p
   - and as one changes the characteristics of i/p, changes can occur in the i/p -> o/p function and in the encoded feature!
 - redundancy reduction
-  - entropy(R_1,R_2) <= entropy(R_1) + entropy(R_2)
-  - R_1 and R_2 are responses of 2 neurons
+  - $$entropy(R_1,R_2) <= entropy(R_1) + entropy(R_2)$$
+  - $$R_1$$ and $$R_2$$ are responses of 2 neurons
   - in order to be efficient in terms of entropy and coding, neurons must be independent
 - But neurons are observed to be redundant
   - error correction
@@ -357,18 +357,18 @@ My notes while taking the Computational Neuroscience course.
 ### modeling neurons
 - membrane can be thought of as a capacitor and resistor in parallel
   - thus, using kirchoff's law:
-  - C.dV/dt = -V/R + I_ext
+  - $$C \frac{dV}{dt} = -\frac{V}{R} + I_{ext}$$
 - but membrane also has potential due to ionic equilibrium (called nernst potential)
-  - E = k_B * T / (z * q) * ln(inside/outside)
-    - k_B = boltzmann constant
+  - $$E = k_B * \frac{T}{z * q} * ln(\frac{inside}{outside})$$
+    - $$k_B$$ = boltzmann constant
     - inside, outside = ionic concentration
-    - T = temperature
-    - z = number of charges in the ion
-    - q = ionic charge
+    - $$T$$ = temperature
+    - $$z$$ = number of charges in the ion
+    - $$q$$ = ionic charge
   - thus, part of voltage drop across resistor will be due to this potential
-  - C.dV/dt = -(V - V_rest)/R + I_ext
+  - $$C \frac{dV}{dt} = -\frac{V - V_rest}{R} + I_{ext}$$
   - solution to this is the classic exponential decay RC circuit!
-- conductance = resistance^-1
+- conductance = $$resistance^{-1}$$
 - different ion channels have associated conductances
   - given conductance tends to move the membrane potential toward the equilibrium potential for that ion
 
@@ -381,10 +381,10 @@ My notes while taking the Computational Neuroscience course.
 - motor neurons typically fire in regular intervals
 - integrate-and-fire neuron model
   - pretty close to real neuronal spikes
-  - V_0 = stability potential
-  - V_reset = reset potential immediately after the spike
-  - V_th = threshold potential after which spike occurs
-  - V_max = max spike potential
+  - $$V_0$$ = stability potential
+  - $$V_{reset}$$ = reset potential immediately after the spike
+  - $$V_{th}$$ = threshold potential after which spike occurs
+  - $$V_{max}$$ = max spike potential
 - to make the above model fire intrinsically
   - add a non-linearity after the linear region
     - quadratic or exponential
@@ -404,7 +404,7 @@ My notes while taking the Computational Neuroscience course.
 - tuning curve = plot of firing rate against the stimulus
 - pairwise correlation
   - count number of spikes in a moving window for 2 neurons
-  - \rho = cov(n_1,n_2) / sqrt(var(n_1)*var(n_2))
+  - $$\rho = \frac{cov(n_1,n_2)}{\sqrt{var(n_1)*var(n_2)}}$$
 - correlation can degrade the signal encoding
   - it becomes hard to distinguish between the responses for different stimuli
   - since there will be more overlap of responses
@@ -439,12 +439,12 @@ My notes while taking the Computational Neuroscience course.
 - total synaptic current to the neuron input is summation of weighted inputs from all its synapses
 - firing rate based model
   - output firing rate changes like this
-    - \tau_r . dv/dt = -v + F(I_s(t))
+    - $$\tau_r \frac{dv}{dt} = -v + F(I_s(t))$$
   - input synaptic current changes like this
-    - \tau_s . dI_s/dt = -I_s + w.u
+    - $$\tau_s \frac{dI_s}{dt} = -I_s + w.u$$
   - the steady state function is the same as used in ANNs!
   - recurrent networks
-    - \tau . dv/dt = -v + F(Wu + Mv)
+    - $$\tau \frac{dv}{dt} = -v + F(Wu + Mv)$$
     - M = weight matrix for recurrent connections
     - W = weight matrix for feedforward connections
 
@@ -452,8 +452,8 @@ My notes while taking the Computational Neuroscience course.
 - linear recurrent network with symmetric M
   - will give orthogonal eigen vectors
   - thus we can write output to be linear combination of these eigen vectors
-  - v(t) = \Sigma_i c_i(t)e_i
-  - then we can solve for each of these c_i to finally solve for v(t)
+  - $$v(t) = \Sigma_i c_i(t)e_i$$
+  - then we can solve for each of these $$c_i$$ to finally solve for v(t)
   - the eigen values determine the network stability
   - it can amplify its inputs!
   - it can also manifest memory!
