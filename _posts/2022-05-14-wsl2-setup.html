@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/blog/src/assets/main.css">
+
+
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/blog/">Quagmire</a>
+
+    <nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon">
+          <svg viewBox="0 0 18 15" width="18px" height="15px">
+            <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+            <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+            <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+          </svg>
+        </span>
+      </label>
+
+      <div class="trigger">
+        <a class="page-link" href="/blog/about.html">About</a>
+        <a class="page-link" href="/blog/allposts.html">All Posts</a>
+        <a class="page-link" href="/blog/tags.html">Tags</a>
+      </div>
+    </nav>
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">WSL2 setup</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2022-05-14" itemprop="datePublished">
+        Published: 2022-05-14
+      </time>
+      
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    
+    <li><a href="/blog/tags.html#wsl2" class="tag">wsl2</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>Introduction</h3>
+<p>WSL2, although provides a nice unix-y abilities while on windows, still has quite
+a bit of rough edges! This collects all the issues I have faced with WSL2 and
+some fixes/workarounds that others have suggested. Since this</p>
+<h3>prevent /etc/resolv.conf from getting overwritten</h3>
+<p>This file is responsible for containing your DNS information. By default, this
+gets overwritten upon every shutdown/startup. To fix this, you need the following
+lines put inside <code>/etc/wsl.conf</code>: <code>generateResolvConf = false</code>. IOW:</p>
+<pre><code>sudo tee /etc/wsl.conf &lt;&lt; EOF
+[network]
+generateResolvConf = false
+EOF
+</code></pre>
+<p>I <em>think</em> this requires a shutdown/startup of WSL2.</p>
+<h3>/etc/resolv.conf gets deleted upon shutdown/startup</h3>
+<p>This happens even after one has updated the <code>/etc/wsl.conf</code> to explicitly prevent
+the OS from rewriting this file upon startup! Full issue can be found
+<a href="https://github.com/microsoft/WSL/issues/6977">here</a>. This seems to be a
+regression in WSL2. So, for now, the solution is to make this file
+write-protected by doing: <code>sudo chattr +i /etc/resolv.conf</code>. Obviously, this
+means that you wont be able to modify this file later as well! So, you&#x27;ll have
+to remove the write protection before modifying this file and then adding it
+back afterwards.</p>
+<h3>Network not working (while NOT on VPN)</h3>
+<p>This is one of the common issues. If you are NOT on VPN, then you need to make
+sure that the DNS server as shown by your windows command <code>ipconfig /all</code> has
+been updated inside the <code>/etc/resolv.conf</code>. If your system has Intel WiFi adapter
+then the following <em>powershell</em> command gives you the DNS servers (<a href="https://gist.github.com/pyther/b7c03579a5ea55fe431561b502ec1ba8">Reference</a>):</p>
+<pre><code>(Get-NetAdapter | Where-Object InterfaceDescription -like &quot;Intel*&quot; | Get-DnsClientServerAddress).ServerAddresses
+</code></pre>
+<h3>Network not working (while on VPN)</h3>
+<p>Same as above, but you can use the following command (for eg if you are using
+Cisco&#x27;s AnyConnect VPN) to know the DNS servers:</p>
+<pre><code>(Get-NetAdapter | Where-Object InterfaceDescription -like &quot;Cisco*&quot; | Get-DnsClientServerAddress).ServerAddresses
+</code></pre>
+<p>Additionally, I have noticed that it helps to also add the <code>domain</code> directive
+which helps resolve short hostnames, if some of the URIs you are using while on
+VPN connection could be shortened.</p>
+<h3>After a shutdown, fresh WSL2 instance fails with <code>The Windows Subsystem for Linux instance has terminated.</code></h3>
+<p>TODO: haven&#x27;t yet found a reliable solution that worked for me!</p>
+<h3>Fresh WSL2 instance takes quite a bit of time to start</h3>
+<p>Basically, everytime I start a fresh WSL2 instance (for eg: after a
+<code>wsl --shutdown</code>), I have noticed that it takes almost 5-10 seconds before the
+commandline shows up. I have seen this happening only after my upgrade to Windows 11.</p>
+<p>TODO: haven&#x27;t yet found a reliable solution that worked for me!</p>
+
+  </div>
+  <a class="u-url" href="/blog/_posts/2022-05-14-wsl2-setup.html" hidden></a>
+</article>
+      </div>
+    </main>
+    <footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

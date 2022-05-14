@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/blog/src/assets/main.css">
+
+  <link rel="stylesheet" href="/blog/src/assets/katex.min.css">
+  <script rel="src" src="/blog/src/assets/jquery-1.11.1.min.js"></script>
+  <script rel="src" src="/blog/src/assets/katex.min.js"></script>
+  <script rel="src" src="/blog/src/assets/auto-render.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+              {left: '$$', right: '$$', display: false},
+              {left: '$', right: '$', display: false}
+          ],
+          throwOnError : false
+        });
+    });
+  </script>
+
+
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/blog/">Quagmire</a>
+
+    <nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon">
+          <svg viewBox="0 0 18 15" width="18px" height="15px">
+            <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+            <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+            <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+          </svg>
+        </span>
+      </label>
+
+      <div class="trigger">
+        <a class="page-link" href="/blog/about.html">About</a>
+        <a class="page-link" href="/blog/allposts.html">All Posts</a>
+        <a class="page-link" href="/blog/tags.html">Tags</a>
+      </div>
+    </nav>
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">MLE and KLD from GAN's PoV</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2021-08-14" itemprop="datePublished">
+        Published: 2021-08-14
+      </time>
+      
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    
+    <li><a href="/blog/tags.html#tech-notes" class="tag">tech-notes</a></li>
+  
+    
+    <li><a href="/blog/tags.html#math" class="tag">math</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>MLE and KLD</h3>
+<ul>
+<li>Assume that $$P_r(x)$$ is the real distribution to be approximated</li>
+<li>MLE = $$max_\Theta \frac{1}{m} \Sigma_{i=1}^m log P_\Theta(x_i)$$</li>
+<li>in the limit $$m -&gt; \infty$$, this is the same as minimizing KLD!</li>
+</ul>
+<h3>Equations</h3>
+<ul>
+<li>$$lt_{m -&gt; \infty} max_\Theta \frac{1}{m} \Sigma_{i=1}^m log P_\Theta(x)$$</li>
+<li>$$max_\Theta (integral(P_r(x) log P_\Theta(x) dx))$$</li>
+<li>$$min_\Theta (-integral(P_r(x) log P_\Theta(x) dx))$$</li>
+<li>$$min_\Theta (integral(P_r(x) log P_r(x) dx) - integral(P_\Theta(x) log P_\Theta(x) dx))$$</li>
+<li>$$min_\Theta (integral(P_r(x) log \frac{P_r(x)}{P_\Theta(x)} dx))$$</li>
+<li>Which is the same as minimizing KLD!</li>
+</ul>
+<h3>Issues with KLD</h3>
+<ul>
+<li>KLD has numerical stability issues when $$P_r(x)$$ or $$P_\Theta(x)$$ is close
+to zero</li>
+<li>This is typically solved by adding noise to $$P_\Theta$$</li>
+<li>Sampling from $$P_\Theta$$ is computationally expensive</li>
+</ul>
+<h3>Conclusion</h3>
+<ul>
+<li>Thus, better to learn a function $$g_\Theta$$ which can transform a given
+transform a given distribution into $$P_\Theta$$ ie. $$P_\Theta ~= g_\Theta(z)$$</li>
+<li>This is the basis of GAN&#x27;s :)</li>
+</ul>
+
+  </div>
+  <a class="u-url" href="/blog/_posts/2021-08-14-mle-and-kld.html" hidden></a>
+</article>
+      </div>
+    </main>
+    <footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

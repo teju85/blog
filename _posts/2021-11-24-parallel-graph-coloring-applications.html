@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/blog/src/assets/main.css">
+
+  <link rel="stylesheet" href="/blog/src/assets/katex.min.css">
+  <script rel="src" src="/blog/src/assets/jquery-1.11.1.min.js"></script>
+  <script rel="src" src="/blog/src/assets/katex.min.js"></script>
+  <script rel="src" src="/blog/src/assets/auto-render.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+              {left: '$$', right: '$$', display: false},
+              {left: '$', right: '$', display: false}
+          ],
+          throwOnError : false
+        });
+    });
+  </script>
+
+
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/blog/">Quagmire</a>
+
+    <nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon">
+          <svg viewBox="0 0 18 15" width="18px" height="15px">
+            <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+            <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+            <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+          </svg>
+        </span>
+      </label>
+
+      <div class="trigger">
+        <a class="page-link" href="/blog/about.html">About</a>
+        <a class="page-link" href="/blog/allposts.html">All Posts</a>
+        <a class="page-link" href="/blog/tags.html">Tags</a>
+      </div>
+    </nav>
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Parallel Graph Coloring with Applications to the Incomplete-LU Factorization on the GPU</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2021-11-24" itemprop="datePublished">
+        Published: 2021-11-24
+      </time>
+      
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    
+    <li><a href="/blog/tags.html#tech-notes" class="tag">tech-notes</a></li>
+  
+    
+    <li><a href="/blog/tags.html#paper-notes" class="tag">paper-notes</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>Proposal</h3>
+<p>This is my summary of the paper that gives a parallel graph coloring approach
+and discusses its application to incomplete LU factorization. The paper can be
+found <a href="https://research.nvidia.com/sites/default/files/pubs/2015-05_Parallel-Graph-Coloring/nvr-2015-001.pdf">here</a>.</p>
+<p>Note that I mostly read this paper for the discussions related only to the
+parallelization of graph coloring problem. Thus, my notes below only reflect
+this! If you need to know more the applications, please refer to the main paper
+itself.</p>
+<h4>Summary</h4>
+<ul>
+<li>a simple sequential approach to graph coloring is the standard BFS approach.
+This is simple to implement but might not be optimal.</li>
+<li>However a different approach to parallelize this is to instead focus on the
+maximal independent set construction.</li>
+<li>Luby&#x27;s parallel algo for independent set construction is as follows:</li>
+</ul>
+<pre><code>Generate a random number for each vertex: r(v)
+for all vertices in parallel:
+  if r(v) &gt; r(w) for all its neighboring nodes w:
+    Add vertex v into the independent set S
+</code></pre>
+<ul>
+<li>Jones and Plassman extended this to (called JPL):</li>
+</ul>
+<pre><code>W = V   # start with full set of vertices in the graph
+for k in 1, 2, ... until W becomes empty:
+  S = find independent set based on Luby&#x27;s algo above
+  assign color k to all vertices in S
+  remove vertices in S from W
+</code></pre>
+<ul>
+<li>Cohen and Castonguay updated this by proposing different heuristic for
+ordering the vertices (called CC): (implemented in csrcolor of cusparse)
+<ul>
+<li>use a hash function to compute on-the-fly instead of random numbers</li>
+<li>associate multiple hash values to each node thereby generating different
+independent sets at once</li>
+</ul>
+</li>
+<li>we could also stop after certain iterations and color the remaining uncolored
+nodes with the next highest unchosen color or color them all sequentially with
+different colors</li>
+<li>CC can be 2-3x faster than JPL, but can use 2-3x more colors!</li>
+</ul>
+
+  </div>
+  <a class="u-url" href="/blog/_posts/2021-11-24-parallel-graph-coloring-applications.html" hidden></a>
+</article>
+      </div>
+    </main>
+    <footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

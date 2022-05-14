@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/blog/src/assets/main.css">
+
+
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/blog/">Quagmire</a>
+
+    <nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon">
+          <svg viewBox="0 0 18 15" width="18px" height="15px">
+            <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+            <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+            <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+          </svg>
+        </span>
+      </label>
+
+      <div class="trigger">
+        <a class="page-link" href="/blog/about.html">About</a>
+        <a class="page-link" href="/blog/allposts.html">All Posts</a>
+        <a class="page-link" href="/blog/tags.html">Tags</a>
+      </div>
+    </nav>
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Initial notes from my study on SAT solvers</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2021-08-14" itemprop="datePublished">
+        Published: 2021-08-14
+      </time>
+      
+        <br/>
+        <time class="dt-published" datetime="2021-08-20" itemprop="datePublished">
+          Last Modifed: 2021-08-20
+        </time>
+      
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    
+    <li><a href="/blog/tags.html#tech-notes" class="tag">tech-notes</a></li>
+  
+    
+    <li><a href="/blog/tags.html#sat" class="tag">sat</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Collection of random notes of mine while ramping up on the domain of SAT solvers.</p>
+<h3>SAT solvers</h3>
+<ul>
+<li>DNF - Disjunctive Normal Form. Eg: <code>(x AND y) OR (y AND z)</code></li>
+<li>NNF - Negative Normal Form. All negations are only in front of variables</li>
+<li>CNF - Conjunctive Normal Form. Eg: <code>(x OR y) AND (y OR z)</code></li>
+<li>CNF formula is a set of clauses (conjunctive) which each clause being a set of
+literals (disjunctive)
+<ul>
+<li>empty formula represents a true formula</li>
+<li>empty clause represents a false clause</li>
+<li>unit clause is a clause with just 1 literal</li>
+<li>variable is referred by its id</li>
+<li>positive id means the variable and negative means its negation</li>
+</ul>
+</li>
+<li>SAT is NP-complete but in practice (aka real world problems) we can do much better</li>
+<li>Serial SAT algos
+<ul>
+<li>complete algos (aka systematic solvers)
+<ul>
+<li>Typically based on backtracking</li>
+<li>eg: DPLL, GRASP</li>
+<li>computationally expensive</li>
+<li>will return all satisfying assignments if they exist</li>
+<li>else will give proof for unsatisfiability</li>
+</ul>
+</li>
+<li>incomplete algos
+<ul>
+<li>eg: randomized algos, local search based, GSAT, WalkSAT</li>
+<li>may or may not produce SAT/UNSAT</li>
+<li>these local search strategies do often reach global minima!</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Parallel algos
+<ul>
+<li>partioning based</li>
+<li>competition based</li>
+</ul>
+</li>
+<li>DPLL
+<ul>
+<li>complete solver based on backtracking</li>
+<li>most of the complete solvers are all mostly based on this algo</li>
+<li>if it is a unit clause then assign it to true</li>
+<li>repeat until no more unit clauses</li>
+<li>if a conflict is found, backtrack and assign a different value to that literal</li>
+</ul>
+</li>
+<li>GRASP
+<ul>
+<li>improvement over DPLL with learning clauses to reduce the amount of backtracking</li>
+<li>uses CDCL - Conflict Driven Clause Learning</li>
+<li>helps narrows search space with DPLL</li>
+</ul>
+</li>
+<li>k-CNF = formulat with every clause having exactly &#x27;k&#x27; literals</li>
+<li>2-CNF formulae can be solved in poly-time, whereas 3-CNF is already NP-complete</li>
+<li>to reduce memory usage most solvers nowadays are iterative rather than recursive</li>
+<li>GSAT
+<ul>
+<li>randomized local search technique</li>
+<li>selects assignments which most reduces the number of remaining clauses</li>
+<li>can also move sideways (aka plateaus) which doesn&#x27;t reduce this at all!</li>
+</ul>
+</li>
+<li>WalkSAT
+<ul>
+<li>interleaves greedy moves of GSAT with random walks of a Metropolis search</li>
+</ul>
+</li>
+<li>m = #of clauses, n = #of variables, for k-CNF problems, if clauses are generated
+randomly, then the hardness of these problems (aka number of DP calls) follows
+an easy-hard-easy pattern as a function of $$\frac{m}{n}$$. But when we don&#x27;t
+consider fixed length clauses then there are no such clean indication of hardness!</li>
+<li>the above was the main reason which motivated local search methods for SAT solvers</li>
+<li>SP - Survey Propagation. Use of probabilistic reasoning for solving combinatorial
+search problems. But SP is currently limited only for random SAT instances!</li>
+<li>Max-SAT
+<ul>
+<li>Maximum satisfiability problem</li>
+<li>return the maximum number of clauses that can be satisfied by the assignments</li>
+<li>it is a generalization of the SAT problem</li>
+</ul>
+</li>
+<li>Nice (4hrs!) talk on implementing a SAT solver from scratch
+<ul>
+<li>video: https://www.youtube.com/watch?v=II2RhzwYszQ</li>
+<li>repo: https://github.com/arminbiere/satch (It is a from-scratch serial solver
+based on CDCL with restarting mechanism)</li>
+<li>initial hour or so talks about the theory/background introducing popular
+solvers (eg: DPLL, CDCL)</li>
+<li>Stopped at 1:05:15</li>
+</ul>
+</li>
+<li>The Armin Biere&#x27;s talk on SAT solving: https://www.youtube.com/watch?v=Emhg0uZnbNg
+<ul>
+<li>Knuth himself acknowledged SAT solving to be the &quot;killer app&quot;!</li>
+<li>AIG - And-Inverter Gates. Logical gates built using only and and nor gates</li>
+<li>IPASIR model showing different states of a SAT solver: (UNKNOWN, SAT,
+UNSAT, SOLVING), for interactive solving of formulae</li>
+<li>In one of his videos, the CTO of Amazon spends 20mins talking about SMT solvers!</li>
+<li>SMT solvers completely rely on CDCL technique</li>
+<li>after constructing impllication graph, typically we would like to learn the
+clause out of its first UIP (Unique Implication Point) and then to recursive
+clause minimization</li>
+<li>in his satch codebase this recursive clause minimization code when expressed in
+recursive fashion is running faster than the iterative version!</li>
+</ul>
+</li>
+<li>Peek inside SAT solvers: https://www.youtube.com/watch?v=d76e4hV1iJY
+<ul>
+<li>introduction to the SAT problem and CNF notation</li>
+<li>typical flow: high-level problem -&gt; encode into SAT using a P-time algo -&gt; use SAT solver</li>
+<li>introduces the DFS based search space to solving this brute-force</li>
+<li>but also notes that we are free to choose assignment as well as literal
+order in this DFS!</li>
+<li>shows the benefit of simplifying the clause evaluation through unit propagation</li>
+<li>thereby deriving DPLL (DFS + backtrack + unit-prop)</li>
+<li>zChaff solver
+<ul>
+<li>VSIDS - ranking the literals based on their occurence count and then using
+this to assign values in order to reach solution faster</li>
+<li>two watched literals - have an index of pair of literals to reach its
+clauses faster, especially to be notified when we get unit-prop</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>CDCL - GRASP solver
+<ul>
+<li>when conflicts arise, create an implication graph, separate the literals from
+the conflicts and then derive the clause that can help us not revisit this
+conflict during future traversals</li>
+<li>then depending on the clauses we could also backjump multiple levels!</li>
+<li>however one needs to consider the following while learning such clauses:
+<ul>
+<li>we simply can&#x27;t keep learning all the clauses (space issues)</li>
+<li>need to maintain these clauses in a clever manner</li>
+<li>need to minimize these clauses using a technique called &quot;resolution&quot;</li>
+<li>need to save the last assignment to variables called &quot;phase saving&quot;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>restarts
+<ul>
+<li>we are not clearing the learned clauses, but only restarting the DFS</li>
+<li>can help us get unstuck at times</li>
+</ul>
+</li>
+</ul>
+<h3>SAT Benchmarks</h3>
+<ul>
+<li>Large SAT problems in CNF format: http://www.miroslav-velev.com/sat_benchmarks.html</li>
+<li>low-to-medium sized SAT problems in DIMACS CNF format: https://www.cs.ubc.ca/~hoos/SATLIB/benchm.html</li>
+</ul>
+<h3>GPU SAT solver implementations</h3>
+<ul>
+<li>https://github.com/QuentinFiard/cuda-sat-solver - But doesn&#x27;t seem to be calling any cuda kernels at all!?</li>
+<li>https://github.com/nicolasprevot/GpuShareSat</li>
+</ul>
+
+  </div>
+  <a class="u-url" href="/blog/_posts/2021-08-14-SAT-solvers.html" hidden></a>
+</article>
+      </div>
+    </main>
+    <footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

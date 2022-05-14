@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/blog/src/assets/main.css">
+
+  <link rel="stylesheet" href="/blog/src/assets/katex.min.css">
+  <script rel="src" src="/blog/src/assets/jquery-1.11.1.min.js"></script>
+  <script rel="src" src="/blog/src/assets/katex.min.js"></script>
+  <script rel="src" src="/blog/src/assets/auto-render.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+              {left: '$$', right: '$$', display: false},
+              {left: '$', right: '$', display: false}
+          ],
+          throwOnError : false
+        });
+    });
+  </script>
+
+
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/blog/">Quagmire</a>
+
+    <nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon">
+          <svg viewBox="0 0 18 15" width="18px" height="15px">
+            <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+            <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+            <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+          </svg>
+        </span>
+      </label>
+
+      <div class="trigger">
+        <a class="page-link" href="/blog/about.html">About</a>
+        <a class="page-link" href="/blog/allposts.html">All Posts</a>
+        <a class="page-link" href="/blog/tags.html">Tags</a>
+      </div>
+    </nav>
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Analyzing Learned Molecular Representations for Property Prediction</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2022-02-08" itemprop="datePublished">
+        Published: 2022-02-08
+      </time>
+      
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    
+    <li><a href="/blog/tags.html#tech-notes" class="tag">tech-notes</a></li>
+  
+    
+    <li><a href="/blog/tags.html#paper-notes" class="tag">paper-notes</a></li>
+  
+    
+    <li><a href="/blog/tags.html#graph" class="tag">graph</a></li>
+  
+    
+    <li><a href="/blog/tags.html#gnn" class="tag">gnn</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>Proposal</h3>
+<p>Main paper can be found <a href="https://arxiv.org/pdf/1904.01561.pdf">here</a>.</p>
+<ul>
+<li>compares neural-nets with handcrafted molecular fingerprints against GNN&#x27;s
+across a wide variety of public and private datasets</li>
+<li>introduces a new GNN architecture called D-MPNN</li>
+<li>this model learns representations by message passing across bonds, instead of
+the usual approach of atoms</li>
+</ul>
+<h3>Summary</h3>
+<ul>
+<li>Authors observe that if the dataset has small number of molecules, then
+traditional NN-based models outperform GNNs</li>
+<li>They also find that a hybrid representation based on fixed fingerprints and
+the learned representations via GNNs, along with HPO and ensemble learning,
+consistently yield the best result</li>
+<li>D-MPNN = Directed Message Passing Neural Network</li>
+<li>D-MPNN uses messages associated with directed edges (aka bonds), instead of
+vertices (aka atoms).</li>
+<li>This setup helps avoid sending the messages back to the originating nodes,
+thereby creating some sort of a loop</li>
+<li>propagation equations at &#x27;t&#x27;th layer are:
+<ul>
+<li>$$m_{vw}^{t+1} = \Sigma_{k \epsilon N(v) \ w} M_t(x_v, x_k, h_{kv}^t)$$</li>
+<li>$$h_{vw}^t = U_t(h_{vw}^t, m_{vw}^{t+1})$$</li>
+</ul>
+</li>
+<li>$$m_{vw}^{t+1}$$ = message passed from vertex &#x27;w&#x27; to &#x27;v&#x27; at &#x27;t&#x27;th layer of the network</li>
+<li>$$h_{vw}^t$$ = hidden representation of the edge between &#x27;w&#x27; to &#x27;v&#x27; at &#x27;t&#x27;th layer</li>
+<li>$$M_t$$ = message passing function at &#x27;t&#x27;th layer</li>
+<li>$$U_t$$ = update/transformation function at &#x27;t&#x27;th layer</li>
+<li>$$x_v$$ = node embeddings</li>
+<li>Note that $$h_{vw}^t != h_{wv}^t$$! They also don&#x27;t end up passing message between
+each other</li>
+<li>edge hidden states are initialized with: $$h_{vw}^0 = \tau (W_i cat(x_v, e_{vw}))$$
+<ul>
+<li>$$e_{vw}$$ = edge embeddings between &#x27;w&#x27; to &#x27;v&#x27; edge</li>
+<li>$$\tau$$ = ReLU activation function</li>
+<li>$$W_i$$ = learnable weights matrix</li>
+</ul>
+</li>
+<li>$$U_t = \tau (h_{vw}^0 + W_m m_{vw}^{t+1})$$
+<ul>
+<li>$$W_m$$ = learnable weights matrix</li>
+<li>sort of provides a skip connection</li>
+</ul>
+</li>
+<li>$$M_t = h_{vw}^t$$. They are keeping this simple.</li>
+<li>finally, to generate atom representation
+<ul>
+<li>$$m_v = \Sigma_{k \epsilon N(v)} h_{kv}^T$$</li>
+<li>$$T$$ = total number of layers in the network</li>
+<li>$$h_v = \tau (W_a cat(x_v, m_v))$$</li>
+<li>$$W_a$$ = learnable weights matrix</li>
+</ul>
+</li>
+<li>readout phase to generate the final molecular representation is
+<ul>
+<li>$$h = \Sigma_{v \epsilon G} h_v$$</li>
+</ul>
+</li>
+<li>final prediction is: $$y&#x27; = f(cat(h, h_f))$$
+<ul>
+<li>$$h_f$$ = other fingerprints/representation of the molecule</li>
+<li>$$f$$ = feedfoward NN</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <a class="u-url" href="/blog/_posts/2022-02-08-d-mpnn.html" hidden></a>
+</article>
+      </div>
+    </main>
+    <footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>
