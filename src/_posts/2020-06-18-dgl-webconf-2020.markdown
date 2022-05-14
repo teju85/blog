@@ -26,18 +26,18 @@ Recording of the talk can be found [here](https://www.youtube.com/watch?v=bD6S3x
   - with pruning of neighborhood via sampling to reduce computational complexity
 
 ### Deep Graph Library - an update
-![DGL stack]({{ site.baseurl }}/assets/dgl/01-dgl-stack.png)
+![DGL stack](/blog/assets/dgl/01-dgl-stack.png)
 - already having active customers using DGL via AWS Sagemaker
 - started out with multiple backends
 
 #### flexible message propagation
-![Flexible message handling]({{ site.baseurl }}/assets/dgl/02-flexible-message-handling.png)
+![Flexible message handling](/blog/assets/dgl/02-flexible-message-handling.png)
 - full propagation
 - propagation by graph traversal: sampling on ego-network
 - propagation by random walk
 
 #### DGL programming interface
-![DGL API]({{ site.baseurl }}/assets/dgl/03-dgl-api.png)
+![DGL API](/blog/assets/dgl/03-dgl-api.png)
 - `DGLGraph` is the core abstraction
   - `DGLGraph.ndata["h"]` - the node representation matrix
 - simple and flexible message passing APIs
