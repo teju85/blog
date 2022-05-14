@@ -1,5 +1,5 @@
 ---
 layout: allposts
-title: "All Posts"
+title: All Posts
 permalink: /allposts/
 ---

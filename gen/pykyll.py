@@ -37,6 +37,14 @@ def parse_preamble(file):
             val = kv[1]
             if key == "tags":
                 val = val.split(" ")
+            # NOTE: This is a hack to not include the surrounding quotes
+            elif key == "title":
+                if len(val) <= 2:
+                    continue
+                if val[0] == "\"" and val[-1] == "\"":
+                    val = val[1:len(val)-1]
+                elif val[0] == "'" and val[-1] == "'":
+                    val = val[1:len(val)-1]
             elif key == "needmath":
                 val = True if val == "true" else False
             page_cfg[key] = val

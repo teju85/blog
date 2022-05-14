@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "WSL2 setup"
+title: WSL2 setup
 tags: wsl2
 ---
 
