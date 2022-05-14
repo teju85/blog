@@ -69,6 +69,10 @@ def relative_url(url, site):
     return url
 
 
+def reverse(arr):
+    return arr[::-1]
+
+
 # TODO!
 def escape(text):
     return text
