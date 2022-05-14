@@ -22,7 +22,7 @@ layout: default
 <div>
   {% for tag in site.tags %}
     <h2 id="{{ tag | cgi_escape }}">{{ tag }}</h2>
-    {% for post in site.tags_to_posts[tag] %}
+    {% for post in site.tags_to_posts[tag] | reverse %}
       <div>
         <span style="float: left;">
           <a href="{{ post.url }}">{{ post.title }}</a>

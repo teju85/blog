@@ -113,7 +113,7 @@ def post_url(filename, site, is_post):
 def recent_posts(posts, top):
     if len(posts) <= 0:
         return []
-    rev = posts[::-1]
+    rev = reverse(posts)
     if len(rev) < top:
         return rev
     return rev[:top]
