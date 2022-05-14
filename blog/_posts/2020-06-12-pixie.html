@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/blog/assets/main.css">
+
+  <link rel="stylesheet" href="/blog/assets/katex.min.css">
+  <script rel="src" src="/blog/assets/jquery-1.11.1.min.js"></script>
+  <script rel="src" src="/blog/assets/katex.min.js"></script>
+  <script rel="src" src="/blog/assets/auto-render.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+              {left: '$$', right: '$$', display: false},
+              {left: '$', right: '$', display: false}
+          ],
+          throwOnError : false
+        });
+    });
+  </script>
+
+
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/blog/">Quagmire</a>
+
+    <nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon">
+          <svg viewBox="0 0 18 15" width="18px" height="15px">
+            <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+            <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+            <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+          </svg>
+        </span>
+      </label>
+
+      <div class="trigger">
+        <a class="page-link" href="/blog/about.html">About</a>
+        <a class="page-link" href="/blog/allposts.html">All Posts</a>
+        <a class="page-link" href="/blog/tags.html">Tags</a>
+      </div>
+    </nav>
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Pixie</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2020-06-12" itemprop="datePublished">
+        Published: 2020-06-12
+      </time>
+      
+        <br/>
+        <time class="dt-published" datetime="2021-07-15" itemprop="datePublished">
+          Last Modifed: 2021-07-15
+        </time>
+      
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    
+    <li><a href="/blog/tags.html#tech-notes" class="tag">tech-notes</a></li>
+  
+    
+    <li><a href="/blog/tags.html#paper-notes" class="tag">paper-notes</a></li>
+  
+    
+    <li><a href="/blog/tags.html#graph" class="tag">graph</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>Pixie: A System for Recommending 3+ Billion Items to200+ Million Users in Real-Time</h3>
+<p>Main paper can be found <a href="https://arxiv.org/pdf/1711.07601.pdf">here</a> and a more
+digestable version is presented in a blog format <a href="https://medium.com/pinterest-engineering/introducing-pixie-an-advanced-graph-based-recommendation-system-e7b4229b664b">here</a>
+and <a href="https://medium.com/pinterest-engineering/an-update-on-pixie-pinterests-recommendation-system-6f273f737e1b">here</a>.</p>
+<h4>Proposal</h4>
+<p>Provide real-time recommendations to the users via:</p>
+<ol>
+<li>Pixie random walk algorithm to generate recommendations whose runtime is
+constant wrt the size of the input graph.</li>
+<li>description of the implementation (in production) based on C++ on top of
+<a href="http://snap.stanford.edu/">SNAP</a>.</li>
+</ol>
+<h4>Details</h4>
+<p>Input to this system is a query set $$Q = {(q, w_q)}$$, which is a collection of
+pins with associated weights to represent its importance in current query set.</p>
+<p><strong>Pixie random walk</strong></p>
+<ol>
+<li><em>Biased walks</em>: walks are biased for a query set $$Q$$ based on the user. This
+helps provide personalized recommendations.</li>
+<li><em>multiple query pins with weights</em>: weights to the input query pins are
+assigned based on the time since the user interacted with this pin and the
+interaction type.</li>
+<li><em>sample walk length</em>: helps provide enough walks for pins with lower degree
+but also reduces runtime cost for pins with higher degree.</li>
+<li><em>multi-hit booster</em>: weightage given to the candidate pins which have high
+visit counts for all the pins in the $$Q$$. $$V[p] = (\sum_{q \epsilon Q}\sqrt{V_q[p]})^2$$
+where $$V_q$$ is visit count for the query $$q \epsilon Q$$.</li>
+<li><em>early stopping</em>: stop the random walk when the top visited candidates have
+crossed certain threshold.</li>
+</ol>
+<p>Computation of walk length for a given pin is as follows:</p>
+<p>$$s_q = |E(q)|.(C - log|E(q)|)$$</p>
+<p>$$Nq = N w_q \frac{s_q}{\sum_{r \epsilon Q} s_r}$$</p>
+<ul>
+<li>$$Nq$$ = walk length for random walk starting from pin q</li>
+<li>$$|E(q)|$$ = degree of pin q</li>
+<li>C = max degree of all pins</li>
+</ul>
+<p>Algorithm for a single query is as follows:</p>
+<pre><code>PixieRandomWalk(q, E, U, alpha, Nq, nv, np):
+  totSteps = nHighVisited = 0
+  V = {0}
+  do
+    currPin = q
+    currSteps = SampleWalkLength(alpha)
+    for i in range(currSteps):
+      currBoard = E(currPin)[PersonalizedNeighbor(E, U)]
+      currPin = E(currBoard)[PersonalizedNeighbor(E, U)]
+      V[currPin]++
+      if V[currPin] == nv:
+        nHighVisited++
+    totSteps += currSteps
+  while totSteps &lt; Nq and nHighVisited &lt; np
+</code></pre>
+<ul>
+<li>q = query pin</li>
+<li>E = edges in the graph</li>
+<li>U = user features</li>
+<li>alpha = helps determine the number of steps per random walk</li>
+<li>PersonalizedNeighbor(E, U) = randomized method to return neighbors, but
+edges being weighted by user features</li>
+<li>Nq = total number of steps taken in the random walk</li>
+<li>nv and np = used for early stopping. the random walk is terminated when there
+are np number of pins that have been visited atleast nv number of times</li>
+</ul>
+<p><strong>graph pruning</strong></p>
+<p>Prunes the graph to fit in RAM and thus do not have to distribute it.</p>
+<ul>
+<li>Removes duplicate pins</li>
+<li>Removes pins assigned to incorrect boards</li>
+<li>Removes boards with larger entropy: computes LDA on each pin description and
+computes entropy for a board by combining LDA vectors from all pins associated
+with this board.</li>
+<li>Prune the degree (or remove) pins with abnormally high degree: only keep the
+edges with highest cosine similarity. Threshold is determined by the pruning
+factor $$\delta$$.</li>
+</ul>
+
+  </div>
+  <a class="u-url" href="/blog/_posts/2020-06-12-pixie.html" hidden></a>
+</article>
+      </div>
+    </main>
+    <footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

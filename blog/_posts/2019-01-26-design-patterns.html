@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/blog/assets/main.css">
+
+
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/blog/">Quagmire</a>
+
+    <nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon">
+          <svg viewBox="0 0 18 15" width="18px" height="15px">
+            <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+            <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+            <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+          </svg>
+        </span>
+      </label>
+
+      <div class="trigger">
+        <a class="page-link" href="/blog/about.html">About</a>
+        <a class="page-link" href="/blog/allposts.html">All Posts</a>
+        <a class="page-link" href="/blog/tags.html">Tags</a>
+      </div>
+    </nav>
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Design Principles and Design Patterns</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2019-01-26" itemprop="datePublished">
+        Published: 2019-01-26
+      </time>
+      
+        <br/>
+        <time class="dt-published" datetime="2021-07-15" itemprop="datePublished">
+          Last Modifed: 2021-07-15
+        </time>
+      
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    
+    <li><a href="/blog/tags.html#book-notes" class="tag">book-notes</a></li>
+  
+    
+    <li><a href="/blog/tags.html#programming" class="tag">programming</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>The Book</h3>
+<p>This is a really concise article/chapter on software design principles and
+patterns by Robert C. Martin (commonly called Uncle Bob). The pdf version of
+this book/chapter is available
+<a href="https://fi.ort.edu.uy/innovaportal/file/2032/1/design_principles.pdf">here</a></p>
+<h3>Summary</h3>
+<ul>
+<li>software arch is multi-tiered
+<ul>
+<li>At the highest level, there are the architecture patterns that define the
+overall shape and structure of software applications.</li>
+<li>Down a level is the architecture that is specifically related to the purpose
+of the software application.</li>
+<li>Yet another level down resides the architecture of the modules and their
+interconnections. This is the domain of design patterns, packages,
+components, and classes.</li>
+</ul>
+</li>
+<li>four symptoms of rotting design: rigidity, fragility, immobility, and
+viscosity.
+<ul>
+<li>rigidity: tendency for the sw to be difficult to change</li>
+<li>fragility: tendency of sw to break at many places even on a simple change</li>
+<li>immobility: inability to reuse parts of other or the same project</li>
+<li>viscosity of design: when design preserving solutions are harder to
+implement than hacks</li>
+<li>viscosity of environment: development environment is inefficient</li>
+</ul>
+</li>
+<li>reasons for sw rot
+<ul>
+<li>changing reqs</li>
+<li>bad dependency management</li>
+</ul>
+</li>
+<li>OCP: open closed principle
+<ul>
+<li>A module should be open for extension but closed for modification</li>
+<li>the most important rule of sw design</li>
+<li>abstraction is the key to OCP</li>
+<li>achieved through runtime and static polymorphism</li>
+</ul>
+</li>
+<li>If you don’t have to change working code, you aren’t likely to break it.</li>
+<li>LSP: liskov substitution principle
+<ul>
+<li>Subclasses should be substitutable for their base classes.</li>
+<li>best paradox for this is circle/ellipse dillema
+<ul>
+<li>designing circle to inherit from ellipse is fine</li>
+<li>but users of this code will ruin everything when one wants to pass
+ellipse-like args to a circle object! (think about foci)</li>
+</ul>
+</li>
+<li>thus the contract of base class must be obeyed by the child class</li>
+</ul>
+</li>
+<li>contract of a method consists of precondition and postcondtion</li>
+<li>restating LSP in terms of contracts
+<ul>
+<li>derived class is substitutable for its base class if:
+<ul>
+<li>Its preconditions are no stronger than the base class method.</li>
+<li>Its postconditions are no weaker than the base class method.</li>
+<li>in other words, derived methods should expect no more and provide no less.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>violations of LSP are latent violations of OCP</li>
+<li>DIP: dependency inversion principle
+<ul>
+<li>Depend upon Abstractions. Do not depend upon concretions.</li>
+<li>If the OCP states the goal of OO architecture, the DIP states the primary
+mechanism.</li>
+<li>No dependency should target a concrete class.</li>
+<li>concrete things change alot, abstract things change much less frequently</li>
+<li>abstractions are &quot;hinge points&quot;, they represent the places where the design
+can bend or be extended, without themselves being modified (OCP)</li>
+</ul>
+</li>
+<li>ISP: interface segregation principle. Many client specific interfaces are
+better than one general purpose interface</li>
+<li>PCP: package cohesion principles
+<ul>
+<li>REP: release reuse equivalency principle
+<ul>
+<li>The granule of reuse is the granule of release.</li>
+</ul>
+</li>
+<li>CCP: common closure principle
+<ul>
+<li>Classes that change together, belong together.</li>
+</ul>
+</li>
+<li>CRP: common reuse principle
+<ul>
+<li>Classes that aren’t reused together should not be grouped together.</li>
+</ul>
+</li>
+<li>these three principles are mutually exclusive. All of them cannot be
+simultaneously satisfied</li>
+</ul>
+</li>
+<li>PCP: package coupling principles
+<ul>
+<li>ADP: acyclic dependencies principle
+<ul>
+<li>The dependencies betwen packages must not form cycles</li>
+<li>Cycles can be broken in two ways. The first involves creating a new
+package, and the second makes use of the DIP and ISP</li>
+<li>Interfaces are very often included in the package that uses them, rather
+than in the package that implements them.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>SDP: stable dependencies principle
+<ul>
+<li>Depend in the direction of stability.</li>
+<li>package stability measurement
+<ul>
+<li>Ca = Afferent Coupling. The number of classes outside the package that
+depend upon classes inside the package. (i.e. incoming dependencies)</li>
+<li>Ce = Efferent Coupling. The number of classes outside the package that
+classes inside the package depend upon. (i.e. outgoing dependencies)</li>
+<li>I = instability = Ce/(Ca+Ce)</li>
+</ul>
+</li>
+<li>Depend upon packages whose I metric is lower than yours</li>
+</ul>
+</li>
+<li>SAP: stable abstractions principle
+<ul>
+<li>Stable packages should be abstract packages.</li>
+<li>compose application from instable packages that are easy to change, and
+stable packages that are easy to extend.</li>
+<li>abstractness metric:
+<ul>
+<li>Nc = Number of classes in the package.</li>
+<li>Na = Number of abstract classes in the package. Remember, an abstract
+class is a class with at least one pure interface, and cannot be instantiated.</li>
+<li>A Abstractness = Na / Nc</li>
+</ul>
+</li>
+<li>I should increase as A decreases</li>
+</ul>
+</li>
+<li>two zones in the IA graph
+<ul>
+<li>upper right corner = zone of uselessness = only abstract classes</li>
+<li>lower left corner = zone of pain = lots of dependencies = only concrete
+classes</li>
+<li>maximizing distance between these two zones gives us a line called main
+sequence</li>
+<li>ideally our packages should sit on this line</li>
+</ul>
+</li>
+<li>distance metric
+<ul>
+<li>D = Distance from main sequence = |A+I-1|/sqrt(2). This ranges
+from [0,~0.707].</li>
+<li>D&#x27; = Normalized Distance = |A+I-1|. This metric is much more convenient than
+D since it ranges from [0,1]. Zero indicates that the package is directly on
+the main sequence. One indicates that the package is as far away as possible
+from the main sequence.</li>
+</ul>
+</li>
+<li>design patterns = repeating structures of design and architecture</li>
+<li>abstract server: when client depends directly on server DIP is violated. Thus
+create an interface which client uses but server implements</li>
+<li>adapter: delegator of methods from an abstract interface to the third party
+server implementation</li>
+<li>observer: when changes in one object needs to be informed to another without
+each knowing much about the other</li>
+<li>bridge: base and child classes are tightly coupled. This creates a strong
+separation between interface and implementation</li>
+<li>abstract factory: DIP strongly recommends that modules not depend upon
+concrete classes. However, in order ot create an instance of a class, you must
+depend upon the concrete class. This allows that dependency upon the concrete
+class to exist in one, and only one, place.</li>
+</ul>
+
+  </div>
+  <a class="u-url" href="/blog/_posts/2019-01-26-design-patterns.html" hidden></a>
+</article>
+      </div>
+    </main>
+    <footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

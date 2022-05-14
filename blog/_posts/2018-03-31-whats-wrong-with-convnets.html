@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/blog/assets/main.css">
+
+
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/blog/">Quagmire</a>
+
+    <nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon">
+          <svg viewBox="0 0 18 15" width="18px" height="15px">
+            <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+            <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+            <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+          </svg>
+        </span>
+      </label>
+
+      <div class="trigger">
+        <a class="page-link" href="/blog/about.html">About</a>
+        <a class="page-link" href="/blog/allposts.html">All Posts</a>
+        <a class="page-link" href="/blog/tags.html">Tags</a>
+      </div>
+    </nav>
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">What's wrong with convnets</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-03-31" itemprop="datePublished">
+        Published: 2018-03-31
+      </time>
+      
+        <br/>
+        <time class="dt-published" datetime="2021-07-15" itemprop="datePublished">
+          Last Modifed: 2021-07-15
+        </time>
+      
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    
+    <li><a href="/blog/tags.html#tech-notes" class="tag">tech-notes</a></li>
+  
+    
+    <li><a href="/blog/tags.html#machine-learning" class="tag">machine-learning</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>Summary</h3>
+<p>A talk given by Dr. Geoffrey Hinton listing all the shortcomings in the current
+convolutional networks and then alluding to his work on Capsule nets. Recording
+can be found <a href="http://techtv.mit.edu/collections/bcs/videos/30698-what-s-wrong-with-convolutional-nets">here</a></p>
+<ul>
+<li>our neural nets have very few structure (unlike our brain!)
+<ul>
+<li>neurons, layers, the whole net - that&#x27;s it</li>
+</ul>
+</li>
+<li>we are also lacking entities in these nets
+<ul>
+<li>one way to define entities is through a group of neurons
+<ul>
+<li>aka capsule</li>
+<li>aka mini-column</li>
+<li>one entity per capsule</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>capsule? - a group of neurons that represents:
+<ul>
+<li>probability of presence of a multi-dimensional entity it has been designed
+to search for</li>
+<li>and that entity&#x27;s instantiation params
+<ul>
+<li>these could be pose of the object - location, orientation, velocity,
+deformation, etc</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>these capsules are then connected to form multiple layers</li>
+<li>coincidence filtering
+<ul>
+<li>a capsule receives a batch of multi-dim vec&#x27;s from capsules beneath it</li>
+<li>looks for tightly coupled clusters in that batch</li>
+<li>if found this outputs
+<ul>
+<li>a high probability that an entity of &quot;its&quot; type exists in the batch</li>
+<li>the center of gravity of the cluster</li>
+</ul>
+</li>
+<li>because, at higher dims coincidences very rarely happen by chance</li>
+</ul>
+</li>
+<li>he believes in convolutions, but not pooling. He provides 4 arguments:</li>
+<li>Point1: doesn&#x27;t model the psychology of shape perception
+<ul>
+<li>humans use rectangular coordinate frames to perceive shapes.</li>
+<li>probably even have hierarchy of such frames used for final perception</li>
+<li>This plays a vital role in our perception!</li>
+<li>convnets have no notion of this</li>
+<li>Hinton demonstrated this using a 2-sliced tetrahedron experiment!</li>
+<li>another demonstration was the use of mental rotation
+<ul>
+<li>eg: tilted &#x27;R&#x27; letter and deciding correct handedness</li>
+</ul>
+</li>
+<li>relation between object and viewer represented by bunch of active neurons</li>
+</ul>
+</li>
+<li>Point2: doesn&#x27;t solve the right problem
+<ul>
+<li>convnets aim for invariance
+<ul>
+<li>it&#x27;s ok, as it is guided by label being invariant to viewpoint</li>
+<li>however its better to aim for equivariance</li>
+<li>changes in viewpoint lead to corresponding changes in neural activities</li>
+</ul>
+</li>
+<li>place-coded equivariance - PCE
+<ul>
+<li>different capsule represents this object while its translating</li>
+<li>eg: convnets without pooling (wrt translated images)</li>
+</ul>
+</li>
+<li>rate-coded equivariance - RCE
+<ul>
+<li>for very slight translations, the same capsule represents it</li>
+<li>but, its instantiation params change</li>
+</ul>
+</li>
+<li>lower level PCE is translated into higher level RCE
+<ul>
+<li>at lower capsules
+<ul>
+<li>most of it is PCE</li>
+<li>only small changes cause RCE</li>
+</ul>
+</li>
+<li>at higher capsules
+<ul>
+<li>most of it is RCE</li>
+<li>only very large changes cause PCE</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Point3: fails to take advantage of linear manifold (eg: computer graphics)
+<ul>
+<li>eg: comp-graphics
+<ul>
+<li>it already represents objects in the rectangular coordinate frame</li>
+<li>that manifold of object representation is globally linear.</li>
+<li>convnets don&#x27;t exploit this property!</li>
+<li>they collect and train on data of objects under different &quot;properties&quot;</li>
+<li>thus need a lot of data to train such models</li>
+</ul>
+</li>
+<li>approach of figuring out the manifold through objects&#x27; pose, location,
+translation, deformation, etc is much better compared to convnets</li>
+<li>this means we&#x27;ll also need very less data to train our models</li>
+<li>basically, we should design our nets to perform inverse graphics!
+<ul>
+<li>literally the inverse of the process what graphics pipelines do</li>
+<li>this then exploits the underlying linear manifold</li>
+<li>obviously, applies only to computer vision problems</li>
+</ul>
+</li>
+<li>this approach of coincidence filtering is more similar to hough transform</li>
+</ul>
+</li>
+<li>Point4: a primitive way to do routing
+<ul>
+<li>convnets handle this through pooling by picking the most active neuron
+<ul>
+<li>certainly a primitive way of doing routing!</li>
+</ul>
+</li>
+<li>much better approach
+<ul>
+<li>route the info in images to the neurons that can best make sense of it!</li>
+<li>route info dynamically based on agreement provided by upper capsules</li>
+<li>upper capsules will request more input from the lower ones which vote
+for its cluster. They will request less, otherwise.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>proof of concept (on mnist dataset)
+<ul>
+<li>pixel intensities to primary capsules
+<ul>
+<li>i/p -&gt; conv layer patch -&gt; logistic layer -&gt; capsules</li>
+<li>this is done for each patch in the i/p image</li>
+<li>all patches, however, share the same weights (similar to conv layer)</li>
+</ul>
+</li>
+<li>2nd layer
+<ul>
+<li>poses of each capsule from each patch vote for poses of each o/p class</li>
+<li>these layers are linear (see the globally linear manifold argument)</li>
+<li>to take translation into account, the first 2 pose params will get added
+by x,y coordinates of the patch</li>
+<li>no. of transformation matrices = #types x #classes</li>
+</ul>
+</li>
+<li>how to detect agreements?
+<ul>
+<li>use a mixture of gaussians and uniform distributions</li>
+<li>use EM to estimate mean/var of these gaussians
+<ul>
+<li>typically converges in few iterations, it seems</li>
+</ul>
+</li>
+<li>find a score that is the difference of log-prob of all samples under
+condition from mixture and condition from only uniform</li>
+<li>apply softmax on these to do final prediction</li>
+</ul>
+</li>
+<li>our brain doesn&#x27;t do such clustering to find agreements!</li>
+</ul>
+</li>
+<li>his prediction is that if we can use unsupervised learning to come up with
+primary capsules, then we will much less data
+<ul>
+<li>aka &quot;derendering stage&quot;</li>
+<li>this has to be highly non-linear</li>
+<li>one idea is to use the autoencoder approach
+<ul>
+<li>decoder tries to reconstruct the image based on each of the capsules</li>
+<li>encoder then tries to learn how to map pixel intensities to capsules!</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>the output these primary capsules is concatenated into a single vector
+<ul>
+<li>then &#x27;N&#x27; number of factor analyzers will be applied on these</li>
+<li>we&#x27;ll get a mixture of factor analyzers</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <a class="u-url" href="/blog/_posts/2018-03-31-whats-wrong-with-convnets.html" hidden></a>
+</article>
+      </div>
+    </main>
+    <footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>
