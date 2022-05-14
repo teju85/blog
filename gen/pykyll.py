@@ -7,7 +7,6 @@ import re
 import subprocess
 import glob
 import multiprocessing
-import shutil
 
 
 POST_DATE = re.compile(r"^(\d{4})-(\d{2})-(\d{2})-")
@@ -104,8 +103,7 @@ def post_last_modified(mdfile):
 def post_url(filename, site, is_post):
     base = os.path.basename(filename)
     base = base.replace("." + site["extension"], ".html")
-    url = os.path.join(site["baseurl"],
-                       site["dirs"]["posts"] if is_post else "",
+    url = os.path.join(site["dirs"]["posts"] if is_post else "",
                        base)
     return url
 
@@ -178,18 +176,11 @@ def parse_markdown(mdfile, args, is_post=False, last_modified=None):
     # write the page
     outfile = post["url"]
     d = os.path.dirname(outfile)
-    if not os.path.exists(d):
+    if d and not os.path.exists(d):
         os.makedirs(d)
     with open(outfile, "w") as fp:
         fp.write(content)
     return
-
-def copy_assets(site):
-    src = os.path.join(site["dirs"]["main"], site["dirs"]["assets"])
-    dst = os.path.join(site["baseurl"], site["dirs"]["assets"])
-    if os.path.exists(dst):
-        shutil.rmtree(dst)
-    shutil.copytree(src, dst)
 
 
 def generate_html(args):
@@ -211,7 +202,6 @@ def generate_html(args):
                             "*." + args.cfg["extension"])
     for file in glob.glob(main_dir):
         parse_markdown(file, args, False)
-    copy_assets(args.cfg)
     return
 
 
@@ -243,7 +233,8 @@ def parseargs():
 
 def serve(args):
     import flask
-    app = flask.Flask(__name__, static_url_path='', static_folder=os.getcwd())
+    parent = os.path.dirname(os.getcwd())
+    app = flask.Flask(__name__, static_url_path='', static_folder=parent)
     app.run(port=args.port)
 
 

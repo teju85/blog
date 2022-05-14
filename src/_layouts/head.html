@@ -2,12 +2,12 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="{{ "assets/main.css" | relative_url(site) }}">
+  <link rel="stylesheet" href="{{ "/src/assets/main.css" | relative_url(site) }}">
 {% if page.needmath %}
-  <link rel="stylesheet" href="{{ "assets/katex.min.css" | relative_url(site) }}">
-  <script rel="src" src="{{ "assets/jquery-1.11.1.min.js" | relative_url(site) }}"></script>
-  <script rel="src" src="{{ "assets/katex.min.js" | relative_url(site) }}"></script>
-  <script rel="src" src="{{ "assets/auto-render.min.js" | relative_url(site) }}"></script>
+  <link rel="stylesheet" href="{{ "/src/assets/katex.min.css" | relative_url(site) }}">
+  <script rel="src" src="{{ "/src/assets/jquery-1.11.1.min.js" | relative_url(site) }}"></script>
+  <script rel="src" src="{{ "/src/assets/katex.min.js" | relative_url(site) }}"></script>
+  <script rel="src" src="{{ "/src/assets/auto-render.min.js" | relative_url(site) }}"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
         renderMathInElement(document.body, {
@@ -21,7 +21,7 @@
   </script>
 {% endif %}
 {% if page.needsearch %}
-  <link rel="stylesheet" href="{{ "assets/filter.css" | relative_url(site) }}">
-  <script rel="src" src="{{ "assets/filter.js" | relative_url(site) }}"></script>
+  <link rel="stylesheet" href="{{ "/src/assets/filter.css" | relative_url(site) }}">
+  <script rel="src" src="{{ "/src/assets/filter.js" | relative_url(site) }}"></script>
 {% endif %}
 </head>
