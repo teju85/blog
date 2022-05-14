@@ -1,0 +1,62 @@
+---
+layout: post
+title: "WSL2 setup"
+tags: wsl2
+---
+
+### Introduction
+WSL2, although provides a nice unix-y abilities while on windows, still has quite
+a bit of rough edges! This collects all the issues I have faced with WSL2 and
+some fixes/workarounds that others have suggested. Since this 
+
+### prevent /etc/resolv.conf from getting overwritten
+This file is responsible for containing your DNS information. By default, this
+gets overwritten upon every shutdown/startup. To fix this, you need the following
+lines put inside `/etc/wsl.conf`: `generateResolvConf = false`. IOW:
+```
+sudo tee /etc/wsl.conf << EOF
+[network]
+generateResolvConf = false
+EOF
+```
+
+I *think* this requires a shutdown/startup of WSL2.
+
+### /etc/resolv.conf gets deleted upon shutdown/startup
+This happens even after one has updated the `/etc/wsl.conf` to explicitly prevent
+the OS from rewriting this file upon startup! Full issue can be found
+[here](https://github.com/microsoft/WSL/issues/6977). This seems to be a
+regression in WSL2. So, for now, the solution is to make this file
+write-protected by doing: `sudo chattr +i /etc/resolv.conf`. Obviously, this
+means that you wont be able to modify this file later as well! So, you'll have
+to remove the write protection before modifying this file and then adding it
+back afterwards.
+
+### Network not working (while NOT on VPN)
+This is one of the common issues. If you are NOT on VPN, then you need to make
+sure that the DNS server as shown by your windows command `ipconfig /all` has
+been updated inside the `/etc/resolv.conf`. If your system has Intel WiFi adapter
+then the following *powershell* command gives you the DNS servers ([Reference](https://gist.github.com/pyther/b7c03579a5ea55fe431561b502ec1ba8)):
+```
+(Get-NetAdapter | Where-Object InterfaceDescription -like "Intel*" | Get-DnsClientServerAddress).ServerAddresses
+```
+
+### Network not working (while on VPN)
+Same as above, but you can use the following command (for eg if you are using
+Cisco's AnyConnect VPN) to know the DNS servers:
+```
+(Get-NetAdapter | Where-Object InterfaceDescription -like "Cisco*" | Get-DnsClientServerAddress).ServerAddresses
+```
+Additionally, I have noticed that it helps to also add the `domain` directive
+which helps resolve short hostnames, if some of the URIs you are using while on
+VPN connection could be shortened.
+
+### After a shutdown, fresh WSL2 instance fails with `The Windows Subsystem for Linux instance has terminated.`
+TODO: haven't yet found a reliable solution that worked for me!
+
+### Fresh WSL2 instance takes quite a bit of time to start
+Basically, everytime I start a fresh WSL2 instance (for eg: after a
+`wsl --shutdown`), I have noticed that it takes almost 5-10 seconds before the
+commandline shows up. I have seen this happening only after my upgrade to Windows 11.
+
+TODO: haven't yet found a reliable solution that worked for me!
