@@ -33,4 +33,4 @@ _commit:
 	git commit -m "$(COMMIT_MSG)" || echo
 
 serve:
-	env PYTHONPATH=gen python gen/pykyll.py -serve
+	env PYTHONPATH=gen python3 gen/pykyll.py -serve
