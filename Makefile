@@ -13,7 +13,7 @@ default:
 	@echo " . generate  - generate the pykyll pages"
 
 generate:
-	env PYTHONPATH=gen python gen/pykyll.py -cfg $(CFG)
+	env PYTHONPATH=gen python3 gen/pykyll.py -cfg $(CFG)
 
 commit:
 	@read -p "Enter commit message: " cmtMsg && \

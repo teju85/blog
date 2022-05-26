@@ -64,7 +64,8 @@
     <h3>Introduction</h3>
 <p>WSL2, although provides a nice unix-y abilities while on windows, still has quite
 a bit of rough edges! This collects all the issues I have faced with WSL2 and
-some fixes/workarounds that others have suggested. Since this</p>
+some fixes/workarounds that others have suggested. This assumes that you know
+how to and also have installed WSL2 on your device.</p>
 <h3>prevent /etc/resolv.conf from getting overwritten</h3>
 <p>This file is responsible for containing your DNS information. By default, this
 gets overwritten upon every shutdown/startup. To fix this, you need the following
@@ -99,6 +100,11 @@ Cisco&#x27;s AnyConnect VPN) to know the DNS servers:</p>
 <p>Additionally, I have noticed that it helps to also add the <code>domain</code> directive
 which helps resolve short hostnames, if some of the URIs you are using while on
 VPN connection could be shortened.</p>
+<h3>emacs</h3>
+<p>If you are on Windows 11, it already natively supports <a href="https://docs.microsoft.com/en-us/windows/wsl/tutorials/gui-apps">running GUI apps</a>.
+On top of that, emacs already also <a href="https://mail.gnu.org/archive/html/emacs-devel/2021-12/msg01732.html">added support</a>
+for pure GTK. So, build emacs from source with adding the option <code>--with-pgtk</code>
+to the &quot;configure&quot; command to make use of this feature.</p>
 <h3>After a shutdown, launch of a fresh WSL2 instance fails</h3>
 <p>The error message seen is: <code>The Windows Subsystem for Linux instance has terminated.</code></p>
 <p>Update 26/05/2022: As per <a href="https://github.com/microsoft/WSL/issues/5110">this issue</a>
