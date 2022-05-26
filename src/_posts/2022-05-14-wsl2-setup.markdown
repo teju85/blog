@@ -51,7 +51,14 @@ Additionally, I have noticed that it helps to also add the `domain` directive
 which helps resolve short hostnames, if some of the URIs you are using while on
 VPN connection could be shortened.
 
-### After a shutdown, fresh WSL2 instance fails with `The Windows Subsystem for Linux instance has terminated.`
+### After a shutdown, launch of a fresh WSL2 instance fails
+The error message seen is: `The Windows Subsystem for Linux instance has terminated.`
+
+Update 26/05/2022: As per [this issue](https://github.com/microsoft/WSL/issues/5110)
+It is typically caused due to failure to mount NAS drives (in my case they are
+work-related network drives which are mounted while I'm on VPN). However, in my
+case, it fails even when I'm on VPN.
+
 TODO: haven't yet found a reliable solution that worked for me!
 
 ### Fresh WSL2 instance takes quite a bit of time to start
@@ -59,4 +66,8 @@ Basically, everytime I start a fresh WSL2 instance (for eg: after a
 `wsl --shutdown`), I have noticed that it takes almost 5-10 seconds before the
 commandline shows up. I have seen this happening only after my upgrade to Windows 11.
 
-TODO: haven't yet found a reliable solution that worked for me!
+Update 26/05/2022: There are some nice tips on [this issue](https://github.com/microsoft/WSL/issues/4737)
+however none of them helped me, except for looking at the output of `dmesg` after
+the terminal comes up. The issue in my case turned out to be mounting my network
+drives for work purposes. That takes a while, I need those and thus there's not
+much I can do about it! :(
