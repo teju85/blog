@@ -45,6 +45,11 @@
         Published: 2022-05-14
       </time>
       
+        <br/>
+        <time class="dt-published" datetime="2022-05-26" itemprop="datePublished">
+          Last Modifed: 2022-05-26
+        </time>
+      
     </p>
   </header>
 
@@ -94,13 +99,22 @@ Cisco&#x27;s AnyConnect VPN) to know the DNS servers:</p>
 <p>Additionally, I have noticed that it helps to also add the <code>domain</code> directive
 which helps resolve short hostnames, if some of the URIs you are using while on
 VPN connection could be shortened.</p>
-<h3>After a shutdown, fresh WSL2 instance fails with <code>The Windows Subsystem for Linux instance has terminated.</code></h3>
+<h3>After a shutdown, launch of a fresh WSL2 instance fails</h3>
+<p>The error message seen is: <code>The Windows Subsystem for Linux instance has terminated.</code></p>
+<p>Update 26/05/2022: As per <a href="https://github.com/microsoft/WSL/issues/5110">this issue</a>
+It is typically caused due to failure to mount NAS drives (in my case they are
+work-related network drives which are mounted while I&#x27;m on VPN). However, in my
+case, it fails even when I&#x27;m on VPN.</p>
 <p>TODO: haven&#x27;t yet found a reliable solution that worked for me!</p>
 <h3>Fresh WSL2 instance takes quite a bit of time to start</h3>
 <p>Basically, everytime I start a fresh WSL2 instance (for eg: after a
 <code>wsl --shutdown</code>), I have noticed that it takes almost 5-10 seconds before the
 commandline shows up. I have seen this happening only after my upgrade to Windows 11.</p>
-<p>TODO: haven&#x27;t yet found a reliable solution that worked for me!</p>
+<p>Update 26/05/2022: There are some nice tips on <a href="https://github.com/microsoft/WSL/issues/4737">this issue</a>
+however none of them helped me, except for looking at the output of <code>dmesg</code> after
+the terminal comes up. The issue in my case turned out to be mounting my network
+drives for work purposes. That takes a while, I need those and thus there&#x27;s not
+much I can do about it! :(</p>
 
   </div>
   <a class="u-url" href="/blog/_posts/2022-05-14-wsl2-setup.html" hidden></a>
