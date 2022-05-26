@@ -1,0 +1,27 @@
+---
+layout: post
+title: "Sequence to Sequence learning using neural networks"
+tags: tech-notes paper-notes
+---
+
+### Summary
+Main paper can be found [here](https://arxiv.org/pdf/1409.3215).
+
+- general architecture
+  - encoder = deep LSTMs to convert input-seq into a fixed-dim vector
+  - decoder = deep LSTMs to decode this fixed-dim vector into output-seq
+- contributions
+  - reverse the input seq!
+    - this way, the temporal dependency between the input/output seq's
+      will be closer, thereby improving the accuracy
+  - encoder/decoder LSTMs
+    - negligible increase in computation cost
+    - generalizes and thus enables multiple-language translation
+- training
+  - 8-GPU machine
+  - each GPU works on a layer of LSTM (4 layers)
+  - remaining 4 GPUs work on the output softmax
+  - minibatch size = 128
+- this model could decode very long sequences as well!
+- claim: reversing the input-seq can make even RNNs to do seq2seq
+- this work outperforms a mature SMT system!
