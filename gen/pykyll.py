@@ -216,7 +216,7 @@ def parseargs():
         help="Path to the global config file.")
     parser.add_argument("-np", default=10, type=int,
         help="Number of processes to use to run git queries.")
-    parser.add_argument("-port", default=80, type=int,
+    parser.add_argument("-port", default=5000, type=int,
         help="Port where to listen for the http server.")
     parser.add_argument("-serve", action="store_true", default=False,
         help="Start a server to serve these generated files. This will NOT"
