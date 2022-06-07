@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/blog/src/assets/main.css">
+
+  <link rel="stylesheet" href="/blog/src/assets/katex.min.css">
+  <script rel="src" src="/blog/src/assets/jquery-1.11.1.min.js"></script>
+  <script rel="src" src="/blog/src/assets/katex.min.js"></script>
+  <script rel="src" src="/blog/src/assets/auto-render.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+              {left: '$$', right: '$$', display: false},
+              {left: '$', right: '$', display: false}
+          ],
+          throwOnError : false
+        });
+    });
+  </script>
+
+
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/blog/">Quagmire</a>
+
+    <nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon">
+          <svg viewBox="0 0 18 15" width="18px" height="15px">
+            <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+            <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+            <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+          </svg>
+        </span>
+      </label>
+
+      <div class="trigger">
+        <a class="page-link" href="/blog/about.html">About</a>
+        <a class="page-link" href="/blog/allposts.html">All Posts</a>
+        <a class="page-link" href="/blog/tags.html">Tags</a>
+      </div>
+    </nav>
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Fine-grained and Accurate Source Code Differencing</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2022-06-07" itemprop="datePublished">
+        Published: 2022-06-07
+      </time>
+      
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    
+    <li><a href="/blog/tags.html#tech-notes" class="tag">tech-notes</a></li>
+  
+    
+    <li><a href="/blog/tags.html#paper-notes" class="tag">paper-notes</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>Proposal</h3>
+<p>Main paper can be found <a href="https://dl.acm.org/doi/pdf/10.1145/2642937.2642982">here</a>.</p>
+<ul>
+<li>an efficient AST diff algorithm</li>
+<li>not interested in the shorted edit scripts, but the edit script that closely
+mimics the developer&#x27;s intent</li>
+<li>also includes move actions (eg: when doing source code refactor)</li>
+</ul>
+<h3>Summary</h3>
+<ul>
+<li>All the code is open-sourced <a href="https://github.com/GumTreeDiff/gumtree">here</a>.</li>
+<li>AST differencing - computing a sequence of edit actions to transform one AST
+into another (similar to edit distance on strings). This sequence is called
+edit script</li>
+<li>following operations are considered in an edit script
+<ul>
+<li>$$update(t, v)$$ = replace old value of node $$t$$ with value $$v$$</li>
+<li>$$add(t, t_p, i, l, v)$$ = adds a new node $$t$$ with label $$l$$ and value
+$$v$$. It will be added as the $$i$$th child of parent node $$t_p$$, if this
+is not specified, then it will be added as the new root node</li>
+<li>$$delete(t)$$ = delete the node $$t$$</li>
+<li>$$move(t, t_p, i)$$ = move node $$t$$ as the $$i$$th child of parent node
+$$t_p$$. This moves the whole subtree</li>
+</ul>
+</li>
+<li>If move operation is included, finding the shortest sequence of edits will be
+a NP-hard problem</li>
+<li>typical solutions involve 2 step process
+<ul>
+<li>finding the mapping between nodes of the 2 ASTs</li>
+<li>use this mapping to compute the sequence of edits</li>
+</ul>
+</li>
+<li>this paper only focuses on the first step. For second step the authors refer
+us to <a href="http://ilpubs.stanford.edu:8090/115/1/1995-46.pdf">this work</a></li>
+<li>This is further split into 2 sub-steps
+<ul>
+<li>greedy top-down algo to find isomorphism in the sub trees - anchor mappings</li>
+<li>bottom-up algo where 2 nodes match if their descendants include a large
+number of anchor mappings - container mapping. When 2 nodes match, apply an
+optimal algo to search for additional mappings (recovery mapping) among their
+descendants</li>
+</ul>
+</li>
+<li>height of a node is 1 if it is a leaf node, else maximum height of all its
+children plus 1.</li>
+<li>top-down phase
+<ul>
+<li>uses data structure called height-indexed priority list. It is a sequence of
+nodes with decreasing height. Following are the ops supported
+<ul>
+<li>push - pushes a node onto the list</li>
+<li>peekMax - returns the greatest height of the list</li>
+<li>pop - returns and removes all nodes with height peekMax</li>
+<li>open - pushes all children of a given node into the list</li>
+</ul>
+</li>
+<li>dice function - ratio of common descendants between 2 nodes
+<ul>
+<li>$$dice(t_1, t_2, M) = \frac{2 |t_1 \epsilon s(t_1)|}{|s(t_1)| + |s(t_2)|}$$</li>
+<li>$$M$$ = mapping</li>
+<li>$$s(t_<em>)$$ = set of descendants of $$t_</em>$$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>bottom-up phase
+<ul>
+<li>takes the output of the top-down phase as input</li>
+<li>maps the remaining unmapped nodes from top-down phase</li>
+</ul>
+</li>
+<li>the perf bottleneck of this approach is the parsing time to generate the ASTs
+<ul>
+<li>thus a &quot;simple&quot; difference tool like <code>diff</code> can be a lot faster than this!</li>
+<li>however, such tools are limited to only line-level granularity</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <a class="u-url" href="/blog/_posts/2022-06-07-source-code-diff.html" hidden></a>
+</article>
+      </div>
+    </main>
+    <footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>
