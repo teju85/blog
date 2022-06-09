@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/blog/src/assets/main.css">
+
+  <link rel="stylesheet" href="/blog/src/assets/katex.min.css">
+  <script rel="src" src="/blog/src/assets/jquery-1.11.1.min.js"></script>
+  <script rel="src" src="/blog/src/assets/katex.min.js"></script>
+  <script rel="src" src="/blog/src/assets/auto-render.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+              {left: '$$', right: '$$', display: false},
+              {left: '$', right: '$', display: false}
+          ],
+          throwOnError : false
+        });
+    });
+  </script>
+
+
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/blog/">Quagmire</a>
+
+    <nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon">
+          <svg viewBox="0 0 18 15" width="18px" height="15px">
+            <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+            <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+            <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+          </svg>
+        </span>
+      </label>
+
+      <div class="trigger">
+        <a class="page-link" href="/blog/about.html">About</a>
+        <a class="page-link" href="/blog/allposts.html">All Posts</a>
+        <a class="page-link" href="/blog/tags.html">Tags</a>
+      </div>
+    </nav>
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">GPU acceleration of ADMM for large-scale quadratic programming</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2022-06-09" itemprop="datePublished">
+        Published: 2022-06-09
+      </time>
+      
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    
+    <li><a href="/blog/tags.html#tech-notes" class="tag">tech-notes</a></li>
+  
+    
+    <li><a href="/blog/tags.html#paper-notes" class="tag">paper-notes</a></li>
+  
+    
+    <li><a href="/blog/tags.html#optimization" class="tag">optimization</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>Proposal</h3>
+<p>Main paper can be found <a href="https://reader.elsevier.com/reader/sd/pii/S0743731520303063?token=88E3B1DBA7F55B6EE103DFDC371572B2669AE48C3FE0A77678C012B6B6D79EE4E778E4BCFCF7458AA9B679F402C23900&amp;originRegion=eu-west-1&amp;originCreation=20220609132905">here</a>.</p>
+<ul>
+<li>GPU accelerated ADMM solver for Quadratic Programming</li>
+<li>Focus on accelerating a single but a large-scale problem</li>
+<li>Based on the OSQP work, but instead of using direct solver, the authors use an
+indirect (iterative) solver</li>
+</ul>
+<h3>Summary</h3>
+<h4>Notation</h4>
+<ul>
+<li>$$S_{++}^n$$ = symmetric positive definite matrix of dimension $$n x n$$</li>
+<li>$$S_{+}^n$$ = symmetric positive semi-definite matrix of dimension $$n x n$$</li>
+<li>$$||x||_2 = \sqrt{x^T x}$$ = L2 norm</li>
+<li>$$||x||<em>{\infty} = max_i |x_i|$$ = $$L</em>{\infty}$$ norm</li>
+<li>$$||x||_K = \sqrt{x^T K x}$$
+<ul>
+<li>$$K$$-norm of $$x$$</li>
+<li>$$K \epsilon S_{++}^n$$</li>
+</ul>
+</li>
+<li>$$\Pi_C(x) = argmin_{y \epsilon C} ||x - y||_2$$ = Euclidean projection of
+$$x$$ onto a convex set $$C$$.</li>
+<li>$$x_{+} = max(x, 0)$$ = Euclidean projection onto non-negative orthant</li>
+<li>$$x_{-} = min(x, 0)$$ = Euclidean projection onto non-positive orthant</li>
+</ul>
+<h4>Problem</h4>
+<ul>
+<li>minimize $$\frac{1}{2} x^T P x + q^T x$$ subject to $$l \le A x \le u$$
+<ul>
+<li>$$P \epsilon S_{+}^n$$</li>
+<li>$$A \epsilon R^{m x n}$$</li>
+<li>$$x$$ = variables to optimize</li>
+<li>$$z = A x$$</li>
+</ul>
+</li>
+<li>Optimality conditions for this are:
+<ul>
+<li>$$A x - z = 0$$</li>
+<li>$$P x + q + A^T y = 0$$</li>
+<li>$$l \le z \le u$$</li>
+<li>$$y_{-}^T (z - l) = 0$$</li>
+<li>$$y_{+}^T (z - u) = 0$$</li>
+<li>$$y \epsilon R^m$$ = lagrangian multipliers</li>
+</ul>
+</li>
+<li>certificate of primal infeasiblity
+<ul>
+<li>$$A^T y&#x27; = 0$$</li>
+<li>$$l^T y&#x27;_{-} + u^T y&#x27;{+} \lt 0$$</li>
+<li>for a $$y&#x27; \epsilon R^m$$</li>
+</ul>
+</li>
+<li>certificate of dual infeasiblity
+<ul>
+<li>$$P x&#x27; = 0$$</li>
+<li>$$q^T x&#x27; \lt 0$$</li>
+<li>$$(A x)_j = 0$$ if $$l_j \epsilon R u_j \epsilon R$$</li>
+<li>$$(A x)_j \ge 0$$ if $$l_j \epsilon R u_j = \infty$$</li>
+<li>$$(A x)_j \le 0$$ if $$l_j = -\infty u_j \epsilon R$$</li>
+<li>for a $$x&#x27; \epsilon R^n$$</li>
+</ul>
+</li>
+</ul>
+<h4>OSQP algorithm</h4>
+<ul>
+<li>For solving convex QPs. Main paper <a href="https://arxiv.org/pdf/1711.08013.pdf">here</a></li>
+<li>$$x^0, y^0, z^0$$ = initial solution</li>
+<li>parameters
+<ul>
+<li>$$\sigma &gt; 0$$ = penalty parameter</li>
+<li>$$R \epsilon S_{++}^n$$ = penalty parameter. It is a diagonal matrix</li>
+<li>$$\alpha \epsilon (0, 2)$$ = relaxation parameter</li>
+</ul>
+</li>
+<li>$$k = 0$$</li>
+<li>while not terminated
+<ul>
+<li>$$x&#x27;^{k+1}, z&#x27;^{k+1} = argmin_{x&#x27;,z&#x27;} \frac{1}{2}x&#x27;^T P x&#x27; + q^T x&#x27; + \frac{\sigma}{2}||x&#x27; - x^k||_2^2 + \frac{1}{2}||z&#x27; - z^k + R^{-1}y^k||_R^2$$
+<ul>
+<li>$$(x&#x27;, z&#x27;) s.t A x&#x27; = z&#x27;$$</li>
+</ul>
+</li>
+<li>$$x^{k+1} = \alpha x&#x27;^{k+1} + (1 - \alpha) x^k$$</li>
+<li>$$z^{k+1} = \Pi_{[l,u]}(\alpha z&#x27;^{k+1} + (1 - \alpha)z^k + R^{-1}y^k)$$</li>
+<li>$$y^{k+1} = y^k + R(\alpha z&#x27;^{k+1} + (1 - \alpha)z^k - z^{k+1})$$</li>
+<li>$$k = k + 1$$</li>
+</ul>
+</li>
+<li>Above Euclidean projection onto the box can be simply solved as:
+<ul>
+<li>$$\Pi_{[l,u]}(z) = min(max(z, l), u)$$</li>
+</ul>
+</li>
+<li>Termination condition for convergence detection
+<ul>
+<li>$$||r_p^k||_{\infty} \le \epsilon_p$$</li>
+<li>$$||r_d^k||_{\infty} \le \epsilon_d$$</li>
+<li>where
+<ul>
+<li>$$r_p^k = A x^k - z^k$$ = primal residual</li>
+<li>$$r_d^k = P x^k + q + A^T y^k$$ = dual residual</li>
+<li>$$\epsilon_p \ge 0$$ = tolerance level</li>
+<li>$$\epsilon_d \ge 0$$ = tolerance level</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Termination condition for infeasibility detection
+<ul>
+<li>$$||A^T \delta y^k||_{\infty} \le \epsilon_p^i$$</li>
+<li>$$l^T a_{-} + u^T a_{+} &lt; \epsilon_p^i$$
+<ul>
+<li>$$a = \delta y^k$$</li>
+</ul>
+</li>
+<li>$$||P^T \delta x^k||_{\infty} \le \epsilon_d^i$$</li>
+<li>$$q^T \delta x^k \lt \epsilon_d^i$$</li>
+<li>$$(A \delta x^k)_j \epsilon [-\epsilon_d^i, \epsilon_d^i]$$ if $$l_j \epsilon R u_j \epsilon R$$</li>
+<li>$$(A \delta x^k)_j \ge -\epsilon_d^i$$ if $$l_j \epsilon R u_j = \infty$$</li>
+<li>$$(A \delta x^k)_j \le \epsilon_d^i$$ if $$l_j = -\infty u_i \epsilon R$$</li>
+<li>where
+<ul>
+<li>$$\delta x^k = x^{k+1} - x^k$$</li>
+<li>$$\delta y^k = y^{k+1} - y^k$$</li>
+<li>$$\delta z^k = z^{k+1} - z^k$$</li>
+<li>$$\epsilon_p^i \ge 0$$ = tolerance level</li>
+<li>$$\epsilon_d^i \ge 0$$ = tolerance level</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4>Solving KKT matrix</h4>
+<ul>
+<li>the argmin in the above algorithm requires solution to an equality-constrained QP
+<ul>
+<li>$$[P + \sigma I, A^T; A, -R^{-1}] [x&#x27;^{k+1}; v^{k+1}] = [\sigma x^k - q; z^k - R^{-1} y^k]$$</li>
+<li>then from this one can compute: $$z&#x27;{k+1} = z^k + R^{-1}(v^{k+1} - y^k)$$</li>
+<li>The above matrix is called KKT matrix</li>
+</ul>
+</li>
+<li>OSQP solves this directly by factorizing the KKT matrix and then performing
+forward and backward substitutions. This can be done once at the beginning of
+the iteration since KKT matrix doesn&#x27;t change during the iterations.</li>
+<li>ADMM suffers from poor convergence when the problems are ill-conditioned. Solution
+is to perform pre-conditioning. OSQP uses a modified Ruiz equilibration for this.</li>
+<li>Due to pre-conditioning, the $$R$$ matrix will get updated which means one has
+to do the factorization again. OSQP, thus, chooses to update this matrix very
+rarely</li>
+</ul>
+<h4>Preconditioned conjugate gradient method</h4>
+<ul>
+<li>Instead of solving the KKT system directly, one way would be to indirectly
+solve it via indirect method on the reduced KKT system by eliminating $$v^{k+1}$$
+<ul>
+<li>$$(P + \sigma I + A^T R A) x&#x27;^{k+1} = \sigma x^k - q + A^T (R z^k - y^k)$$</li>
+<li>then from this one can compute: $$z&#x27;^{k+1} = A x&#x27;^{k+1}$$</li>
+</ul>
+</li>
+<li>reduced KKT matrix is always positive definite. So, we can use conjugate
+gradient method, which can solve a linear system in at most $$n$$ iterations</li>
+<li>however, for large systems, we can approximate the solution by terminating after
+$$d &lt;&lt; n$$ iterations</li>
+<li>Also, note that solving $$K x = b$$ is equivalent to minimizing the following
+unconstrained optimization problem: $$f(x) = \frac{1}{2}x^T K x - b x$$!</li>
+<li>PCG algorithm is thus as follows
+<ul>
+<li>$$x^0$$ = initial value</li>
+<li>$$M$$ = preconditioner matrix</li>
+<li>$$r^0 = K x^0 - b$$</li>
+<li>$$y^0 = M^{-1} r^0$$</li>
+<li>$$p^0 = -y^0$$</li>
+<li>$$k = 0$$</li>
+<li>while $$||r^k|| \gt \epsilon ||b||$$
+<ul>
+<li>$$\alpha^k = -\frac{r^k y^k}{p^k K p^k}$$</li>
+<li>$$x^{k+1} = x^k + \alpha^k p^k$$</li>
+<li>$$r^{k+1} = r^k + \alpha^k K p^k$$</li>
+<li>$$y^{k+1} = M^{-1} r^{k+1}$$</li>
+<li>$$\beta^{k+1} = \frac{r^{k+1} y^{k+1}}{r^k y^k}$$</li>
+<li>$$p^{k+1} = -y^{k+1} + \beta^{k+1} p^k$$</li>
+<li>$$k = k + 1$$</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>preconditioner $$M$$ is set as the diagonal or Jacobi preconditioner. It is
+simply the diagonal elements of $$K$$</li>
+</ul>
+<h4>GPU implementation details</h4>
+<ul>
+<li>$$N = nnz(P) + nnz(A)$$</li>
+<li>OSQP evaluates the termination criteria once every 25 iterations, but here the
+authors evaluate this once every 5 iterations</li>
+<li>OSQP sets
+<ul>
+<li>$$\alpha = 1.6$$</li>
+<li>$$\sigma = 10^{-6}$$</li>
+</ul>
+</li>
+<li>uses PCG method instead of a $$LDL^T$$ factorization as done in OSQP</li>
+<li>$$\rho$$ is updated once every 10 iterations</li>
+<li>sparse matrices $$A$$ and $$P$$ are stored in CSR format</li>
+<li>$$P$$ is stored fully (unlike OSQP which only stores upper triangular part)
+because computing $$P x$$ will be faster this way</li>
+<li>Stores both $$A$$ and $$A^T$$ because we need to compute $$^T y$$</li>
+<li>Authors choose $$R = \rho I$$, which makes the reduced KKT system to:
+<ul>
+<li>$$(P + \sigma I + \rho A^T A) x&#x27;^{k+1} = \sigma x^k - q + A^T (\rho z^k - y^k)$$</li>
+</ul>
+</li>
+<li>preconditioner is evaluated as
+<ul>
+<li>$$diag(M) = diag(P) + \sigma 1 + \rho diag(A^T A)$$</li>
+<li>thus, we only need to compute the diagonal elements of $$A^T A$$</li>
+</ul>
+</li>
+<li>termination criteria and warm starts
+<ul>
+<li>the above reduced KKT system does not have to solved exactly every time!</li>
+<li>so the authors solve this approximately at first and then try to solve them
+more accurately over the iterations</li>
+<li>this means, start with a smaller number of PCG iterations initially and then
+using warm-starts by setting $$x^0$$ in PCG as $$x&#x27;^k$$ from the previous
+ADMM iteration</li>
+</ul>
+</li>
+<li>choosing $$\epsilon$$ in PCG iterations
+<ul>
+<li>$$\epsilon = max(\lambda \sqrt{a b}, \epsilon_m)$$</li>
+<li>$$\lambda \epsilon (0, 1)$$ = parameter. They set it to 0.15 in the experiments</li>
+<li>$$\epsilon_m$$ = parameter. They set it to $$10^{-7}$$ in the experiments</li>
+<li>$$a = ||s_p^k||_{\infty}$$</li>
+<li>$$b = ||s_d^k||_{\infty}$$</li>
+<li>$$s_p^k = E r_p^k$$ = scaled primal residuals</li>
+<li>$$s_d^k = c D r_d^k$$ = scaled dual residuals</li>
+</ul>
+</li>
+<li>uses thrust, cusparse, cublas libraries from CTK for all the numerics</li>
+<li>cuda implementation is <a href="https://github.com/oxfordcontrol/osqp/tree/cuda-1.0">here</a>
+and its python interface is <a href="https://github.com/oxfordcontrol/cuosqp">here</a></li>
+</ul>
+
+  </div>
+  <a class="u-url" href="/blog/_posts/2022-06-09-admm-gpu.html" hidden></a>
+</article>
+      </div>
+    </main>
+    <footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>
