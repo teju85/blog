@@ -1,0 +1,175 @@
+---
+layout: post
+title: "GPU acceleration of ADMM for large-scale quadratic programming"
+needmath: true
+tags: tech-notes paper-notes optimization
+---
+
+### Proposal
+Main paper can be found [here](https://reader.elsevier.com/reader/sd/pii/S0743731520303063?token=88E3B1DBA7F55B6EE103DFDC371572B2669AE48C3FE0A77678C012B6B6D79EE4E778E4BCFCF7458AA9B679F402C23900&originRegion=eu-west-1&originCreation=20220609132905).
+
+* GPU accelerated ADMM solver for Quadratic Programming
+* Focus on accelerating a single but a large-scale problem
+* Based on the OSQP work, but instead of using direct solver, the authors use an
+  indirect (iterative) solver
+
+### Summary
+
+#### Notation
+- $$S_{++}^n$$ = symmetric positive definite matrix of dimension $$n x n$$
+- $$S_{+}^n$$ = symmetric positive semi-definite matrix of dimension $$n x n$$
+- $$||x||_2 = \sqrt{x^T x}$$ = L2 norm
+- $$||x||_{\infty} = max_i |x_i|$$ = $$L_{\infty}$$ norm
+- $$||x||_K = \sqrt{x^T K x}$$
+  - $$K$$-norm of $$x$$
+  - $$K \epsilon S_{++}^n$$
+- $$\Pi_C(x) = argmin_{y \epsilon C} ||x - y||_2$$ = Euclidean projection of
+  $$x$$ onto a convex set $$C$$.
+- $$x_{+} = max(x, 0)$$ = Euclidean projection onto non-negative orthant
+- $$x_{-} = min(x, 0)$$ = Euclidean projection onto non-positive orthant
+
+#### Problem
+- minimize $$\frac{1}{2} x^T P x + q^T x$$ subject to $$l \le A x \le u$$
+  - $$P \epsilon S_{+}^n$$
+  - $$A \epsilon R^{m x n}$$
+  - $$x$$ = variables to optimize
+  - $$z = A x$$
+- Optimality conditions for this are:
+  - $$A x - z = 0$$
+  - $$P x + q + A^T y = 0$$
+  - $$l \le z \le u$$
+  - $$y_{-}^T (z - l) = 0$$
+  - $$y_{+}^T (z - u) = 0$$
+  - $$y \epsilon R^m$$ = lagrangian multipliers
+- certificate of primal infeasiblity
+  - $$A^T y' = 0$$
+  - $$l^T y'_{-} + u^T y'{+} \lt 0$$
+  - for a $$y' \epsilon R^m$$
+- certificate of dual infeasiblity
+  - $$P x' = 0$$
+  - $$q^T x' \lt 0$$
+  - $$(A x)_j = 0$$ if $$l_j \epsilon R u_j \epsilon R$$
+  - $$(A x)_j \ge 0$$ if $$l_j \epsilon R u_j = \infty$$
+  - $$(A x)_j \le 0$$ if $$l_j = -\infty u_j \epsilon R$$
+  - for a $$x' \epsilon R^n$$
+
+#### OSQP algorithm
+- For solving convex QPs. Main paper [here](https://arxiv.org/pdf/1711.08013.pdf)
+- $$x^0, y^0, z^0$$ = initial solution
+- parameters
+  - $$\sigma > 0$$ = penalty parameter
+  - $$R \epsilon S_{++}^n$$ = penalty parameter. It is a diagonal matrix
+  - $$\alpha \epsilon (0, 2)$$ = relaxation parameter
+- $$k = 0$$
+- while not terminated
+  - $$x'^{k+1}, z'^{k+1} = argmin_{x',z'} \frac{1}{2}x'^T P x' + q^T x' + \frac{\sigma}{2}||x' - x^k||_2^2 + \frac{1}{2}||z' - z^k + R^{-1}y^k||_R^2$$
+    - $$(x', z') s.t A x' = z'$$
+  - $$x^{k+1} = \alpha x'^{k+1} + (1 - \alpha) x^k$$
+  - $$z^{k+1} = \Pi_{[l,u]}(\alpha z'^{k+1} + (1 - \alpha)z^k + R^{-1}y^k)$$
+  - $$y^{k+1} = y^k + R(\alpha z'^{k+1} + (1 - \alpha)z^k - z^{k+1})$$
+  - $$k = k + 1$$
+- Above Euclidean projection onto the box can be simply solved as:
+  - $$\Pi_{[l,u]}(z) = min(max(z, l), u)$$
+- Termination condition for convergence detection
+  - $$||r_p^k||_{\infty} \le \epsilon_p$$
+  - $$||r_d^k||_{\infty} \le \epsilon_d$$
+  - where
+    - $$r_p^k = A x^k - z^k$$ = primal residual
+    - $$r_d^k = P x^k + q + A^T y^k$$ = dual residual
+    - $$\epsilon_p \ge 0$$ = tolerance level
+    - $$\epsilon_d \ge 0$$ = tolerance level
+- Termination condition for infeasibility detection
+  - $$||A^T \delta y^k||_{\infty} \le \epsilon_p^i$$
+  - $$l^T a_{-} + u^T a_{+} < \epsilon_p^i$$
+    - $$a = \delta y^k$$
+  - $$||P^T \delta x^k||_{\infty} \le \epsilon_d^i$$
+  - $$q^T \delta x^k \lt \epsilon_d^i$$
+  - $$(A \delta x^k)_j \epsilon [-\epsilon_d^i, \epsilon_d^i]$$ if $$l_j \epsilon R u_j \epsilon R$$
+  - $$(A \delta x^k)_j \ge -\epsilon_d^i$$ if $$l_j \epsilon R u_j = \infty$$
+  - $$(A \delta x^k)_j \le \epsilon_d^i$$ if $$l_j = -\infty u_i \epsilon R$$
+  - where
+    - $$\delta x^k = x^{k+1} - x^k$$
+    - $$\delta y^k = y^{k+1} - y^k$$
+    - $$\delta z^k = z^{k+1} - z^k$$
+    - $$\epsilon_p^i \ge 0$$ = tolerance level
+    - $$\epsilon_d^i \ge 0$$ = tolerance level
+
+#### Solving KKT matrix
+- the argmin in the above algorithm requires solution to an equality-constrained QP
+  - $$[P + \sigma I, A^T; A, -R^{-1}] [x'^{k+1}; v^{k+1}] = [\sigma x^k - q; z^k - R^{-1} y^k]$$
+  - then from this one can compute: $$z'{k+1} = z^k + R^{-1}(v^{k+1} - y^k)$$
+  - The above matrix is called KKT matrix
+- OSQP solves this directly by factorizing the KKT matrix and then performing
+  forward and backward substitutions. This can be done once at the beginning of
+  the iteration since KKT matrix doesn't change during the iterations.
+- ADMM suffers from poor convergence when the problems are ill-conditioned. Solution
+  is to perform pre-conditioning. OSQP uses a modified Ruiz equilibration for this.
+- Due to pre-conditioning, the $$R$$ matrix will get updated which means one has
+  to do the factorization again. OSQP, thus, chooses to update this matrix very
+  rarely
+
+#### Preconditioned conjugate gradient method
+- Instead of solving the KKT system directly, one way would be to indirectly
+  solve it via indirect method on the reduced KKT system by eliminating $$v^{k+1}$$
+  - $$(P + \sigma I + A^T R A) x'^{k+1} = \sigma x^k - q + A^T (R z^k - y^k)$$
+  - then from this one can compute: $$z'^{k+1} = A x'^{k+1}$$
+- reduced KKT matrix is always positive definite. So, we can use conjugate
+  gradient method, which can solve a linear system in at most $$n$$ iterations
+- however, for large systems, we can approximate the solution by terminating after
+  $$d << n$$ iterations
+- Also, note that solving $$K x = b$$ is equivalent to minimizing the following
+  unconstrained optimization problem: $$f(x) = \frac{1}{2}x^T K x - b x$$!
+- PCG algorithm is thus as follows
+  - $$x^0$$ = initial value
+  - $$M$$ = preconditioner matrix
+  - $$r^0 = K x^0 - b$$
+  - $$y^0 = M^{-1} r^0$$
+  - $$p^0 = -y^0$$
+  - $$k = 0$$
+  - while $$||r^k|| \gt \epsilon ||b||$$
+    - $$\alpha^k = -\frac{r^k y^k}{p^k K p^k}$$
+    - $$x^{k+1} = x^k + \alpha^k p^k$$
+    - $$r^{k+1} = r^k + \alpha^k K p^k$$
+    - $$y^{k+1} = M^{-1} r^{k+1}$$
+    - $$\beta^{k+1} = \frac{r^{k+1} y^{k+1}}{r^k y^k}$$
+    - $$p^{k+1} = -y^{k+1} + \beta^{k+1} p^k$$
+    - $$k = k + 1$$
+- preconditioner $$M$$ is set as the diagonal or Jacobi preconditioner. It is
+  simply the diagonal elements of $$K$$
+
+#### GPU implementation details
+- $$N = nnz(P) + nnz(A)$$
+- OSQP evaluates the termination criteria once every 25 iterations, but here the
+  authors evaluate this once every 5 iterations
+- OSQP sets
+  - $$\alpha = 1.6$$
+  - $$\sigma = 10^{-6}$$
+- uses PCG method instead of a $$LDL^T$$ factorization as done in OSQP
+- $$\rho$$ is updated once every 10 iterations
+- sparse matrices $$A$$ and $$P$$ are stored in CSR format
+- $$P$$ is stored fully (unlike OSQP which only stores upper triangular part)
+  because computing $$P x$$ will be faster this way
+- Stores both $$A$$ and $$A^T$$ because we need to compute $$^T y$$
+- Authors choose $$R = \rho I$$, which makes the reduced KKT system to:
+  - $$(P + \sigma I + \rho A^T A) x'^{k+1} = \sigma x^k - q + A^T (\rho z^k - y^k)$$
+- preconditioner is evaluated as
+  - $$diag(M) = diag(P) + \sigma 1 + \rho diag(A^T A)$$
+  - thus, we only need to compute the diagonal elements of $$A^T A$$
+- termination criteria and warm starts
+  - the above reduced KKT system does not have to solved exactly every time!
+  - so the authors solve this approximately at first and then try to solve them
+    more accurately over the iterations
+  - this means, start with a smaller number of PCG iterations initially and then
+    using warm-starts by setting $$x^0$$ in PCG as $$x'^k$$ from the previous
+    ADMM iteration
+- choosing $$\epsilon$$ in PCG iterations
+  - $$\epsilon = max(\lambda \sqrt{a b}, \epsilon_m)$$
+  - $$\lambda \epsilon (0, 1)$$ = parameter. They set it to 0.15 in the experiments
+  - $$\epsilon_m$$ = parameter. They set it to $$10^{-7}$$ in the experiments
+  - $$a = ||s_p^k||_{\infty}$$
+  - $$b = ||s_d^k||_{\infty}$$
+  - $$s_p^k = E r_p^k$$ = scaled primal residuals
+  - $$s_d^k = c D r_d^k$$ = scaled dual residuals
+- uses thrust, cusparse, cublas libraries from CTK for all the numerics
+- cuda implementation is [here](https://github.com/oxfordcontrol/osqp/tree/cuda-1.0)
+  and its python interface is [here](https://github.com/oxfordcontrol/cuosqp)
