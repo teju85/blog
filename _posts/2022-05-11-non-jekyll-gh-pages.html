@@ -66,17 +66,18 @@ static webpage generator and hosting those pages via <a href="https://pages.gith
 </ul>
 <h3>pykyll!</h3>
 <p>This is my python based (almost) jekyll compliant static page generator. The
-whole project is basically just a <a href="https://github.com/teju85/blog/blob/gh-pages/gen/pykyll.py">single python file</a>.
+whole project is basically just a <a href="https://github.com/teju85/pykyll/blob/main/pykyll.py">single python file</a>.
 Ofcourse, it depends on the awesome <a href="https://github.com/miyuchina/mistletoe">mistletoe</a>
 project for markdown to html converter. So, technically this is not a single
 file based python project :)</p>
+<p>Update 2022/06/12: This project is now hosted standalone <a href="https://github.com/teju85/pykyll">here</a></p>
 <p>It follows a config based approach for generating the html pages out of the
 markdown files. My config file is <a href="https://github.com/teju85/blog/blob/gh-pages/config.json">here</a>.</p>
-<p>All of these are simplified with a top-level <code>Makefile</code> in the github repo.</p>
+<p>All of these are simplified with a top-level <code>./build.sh</code> in the github repo.</p>
 <ul>
-<li>In order to build the html files: <code>make generate</code></li>
+<li>In order to build the html files: <code>./build.sh generate</code></li>
 <li>In order to start a http server to serve these files (mainly to be used during
-development): <code>make serve</code>. (For now, as a workaround, you&#x27;ll need to create a
+development): <code>./build.sh serve</code>. (For now, as a workaround, you&#x27;ll need to create a
 symlink to the current directory with the same name as that of &#x27;base_url&#x27; as
 in the config file) You&#x27;ll also need to install the &quot;flask&quot; python module in
 order to run the server.</li>
