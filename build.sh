@@ -87,6 +87,9 @@ while [ "$1" != "" ]; do
         "sync")
             sync
             shift;;
+        "serve")
+            serve
+            shift;;
         "-h")
             printHelp $0
             shift
