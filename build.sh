@@ -1,16 +1,16 @@
 #!/bin/bash
 ## USAGE:
-##   build.sh [-h] [commit|push|publish|generate]
+##   build.sh [-h] [generate|commit|push|publish|sync|serve]
 ##
 ## OPTIONS:
 ##   -h        Print this help and exit
+##   generate  Generate the pykyll pages
 ##   commit    Commit all the changes locally. This will NOT push changes to the
 ##             remote
 ##   push      Push the changes to the remote repo
 ##   publish   Generate the pages, commit the changes and then push everything
 ##             to the remote repo. Same as "./build.sh generate commit push"
 ##   serve     Start the server to test changes locally
-##   generate  Generate the pykyll pages"
 ##   sync      Pull latest changes from the pykyll project
 ##
 ## NOTE:
@@ -58,7 +58,9 @@ function checkRoot() {
 }
 
 function clone() {
-    git clone git@github.com:teju85/pykyll.git $PYKYLL_PATH
+    if [ ! -d $PYKYLL_PATH ]; then
+        git clone git@github.com:teju85/pykyll.git $PYKYLL_PATH
+    fi
 }
 
 function sync() {
@@ -67,9 +69,7 @@ function sync() {
 }
 
 checkRoot
-if [ ! -d "$PYKYLL_PATH" ]; then
-    clone
-fi
+clone
 while [ "$1" != "" ]; do
     case "$1" in
         "generate")
