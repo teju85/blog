@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/blog/src/assets/main.css">
+
+  <link rel="stylesheet" href="/blog/src/assets/katex.min.css">
+  <script rel="src" src="/blog/src/assets/jquery-1.11.1.min.js"></script>
+  <script rel="src" src="/blog/src/assets/katex.min.js"></script>
+  <script rel="src" src="/blog/src/assets/auto-render.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+              {left: '$$', right: '$$', display: false},
+              {left: '$', right: '$', display: false}
+          ],
+          throwOnError : false
+        });
+    });
+  </script>
+
+
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/blog/">Quagmire</a>
+
+    <nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon">
+          <svg viewBox="0 0 18 15" width="18px" height="15px">
+            <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+            <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+            <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+          </svg>
+        </span>
+      </label>
+
+      <div class="trigger">
+        <a class="page-link" href="/blog/about.html">About</a>
+        <a class="page-link" href="/blog/allposts.html">All Posts</a>
+        <a class="page-link" href="/blog/tags.html">Tags</a>
+      </div>
+    </nav>
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">GraphCast: Learning skillful medium-range global weather forecasting</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2023-01-23" itemprop="datePublished">
+        Published: 2023-01-23
+      </time>
+      
+        <br/>
+        <time class="dt-published" datetime="" itemprop="datePublished">
+          Last Modifed: 
+        </time>
+      
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    
+    <li><a href="/blog/tags.html#tech-notes" class="tag">tech-notes</a></li>
+  
+    
+    <li><a href="/blog/tags.html#paper-notes" class="tag">paper-notes</a></li>
+  
+    
+    <li><a href="/blog/tags.html#graph" class="tag">graph</a></li>
+  
+    
+    <li><a href="/blog/tags.html#gnn" class="tag">gnn</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3>Proposal</h3>
+<p>Main paper can be found <a href="https://arxiv.org/pdf/2212.12794.pdf">here</a>.</p>
+<ul>
+<li>ML based weather simulator</li>
+<li>compares against HRES from ECMWF</li>
+<li>10-day forecasts at 6-hour intervals, in under 60s on a TPUv4</li>
+<li>autoregressive model</li>
+<li>uses GNN as its underlying model (in an encode-process-decode config), with a
+form of multi-mesh-graph of the earth</li>
+</ul>
+<h3>Summary</h3>
+<ul>
+<li>ECMWF has 2 parts: data assimilation and forecasting (HRES and ENS). This
+paper focuses on using ML-based techniques for the latter part.</li>
+<li>HRES generates 0.1 degree resolution 10-day forecasts whereas this paper limits
+itself to 0.25 degrees.</li>
+<li>NWP (Numerical Weather Prediction) methods scale well with compute, whereas
+ML based methods scale well with increasing amount of data.</li>
+<li>Dataset is ERA5 from ECMWF</li>
+<li>looks at 37 different vertical pressure levels (instead of altitude)</li>
+<li>target variables
+<ul>
+<li>5 surface variables</li>
+<li>6 atmospheric variables at 37 different vertical pressure levels</li>
+<li>total of $$5 + (37 x 6) = 227$$ variables</li>
+</ul>
+</li>
+<li>at any given point in time, these variables could change over the 1038240
+locations of the grid of the earth
+<ul>
+<li>$$(\frac{180}{0.25} + 1) (\frac{360}{0.25})$$</li>
+</ul>
+</li>
+<li>thus, there are a total of $$1038240 x 227 = 235680480$$ inputs</li>
+<li>internally, however, these locations are represented with a multi-mesh structure
+which has homogeneous spatial resolution over the globe in the form of icosahedrons
+<ul>
+<li>this enables long-range interactions with just a few message-passing steps</li>
+<li>in here, coarse mesh nodes are a subset of finer mesh nodes</li>
+</ul>
+</li>
+<li>dataset split
+<ul>
+<li>training - 1979-2015</li>
+<li>validation - 2016-2017</li>
+<li>test - 2018</li>
+</ul>
+</li>
+<li>weather prediction strategy
+<ul>
+<li>$$X&#x27;^{t+1} = GraphCast(X^t, X^{t-1})$$</li>
+<li>for predicting multiple steps ahead in the future, this equation is iteratively
+applied in an autoregressive fashion</li>
+</ul>
+</li>
+<li>encoder
+<ul>
+<li>maps the input data into the learned features on the multi-mesh</li>
+<li>uses a GNN arch</li>
+<li>assumes directed edges from the grid points to the multi-mesh nodes</li>
+</ul>
+</li>
+<li>processor
+<ul>
+<li>16-layer deep GNN to perform message passing on the multi-mesh</li>
+</ul>
+</li>
+<li>decoder
+<ul>
+<li>reversal of encoder</li>
+<li>only predicts the change in the next timestep (NOT the value itself)</li>
+</ul>
+</li>
+<li>training
+<ul>
+<li>minizing objective function over 12 timesteps (= 3 days) against ERA5</li>
+<li>gradient is computed by backprop through the entire autoregressive sequence</li>
+<li>can potentially be retrained/finetuned regularly based on recent weather data</li>
+<li>training took 3 weeks on 32x TPUv4, data parallel, gradient-checkpointing
+and using low-precision arithmetic</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <a class="u-url" href="/blog/_posts/2023-01-23-graphcast.html" hidden></a>
+</article>
+      </div>
+    </main>
+    <footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>
