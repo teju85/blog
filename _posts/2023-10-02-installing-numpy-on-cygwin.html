@@ -37,60 +37,46 @@
 </header>
     <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <div class="home">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Installing 'numpy' on cygwin</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2023-10-02" itemprop="datePublished">
+        Published: 2023-10-02
+      </time>
+      
+        <br/>
+        <time class="dt-published" datetime="" itemprop="datePublished">
+          Last Modifed: 
+        </time>
+      
+    </p>
+  </header>
+
+  <ul class="tags">
   
+    
+    <li><a href="/blog/tags.html#tools" class="tag">tools</a></li>
   
-  <h2 class="post-list-heading">Recent Posts</h2>
-  <ul class="post-list">
-    
-    
-      <li>
-        <span class="post-meta">2023-10-02</span>
-        <h3>
-          <a class="post-link" href="/blog/_posts/2023-10-02-installing-numpy-on-cygwin.html">
-            Installing 'numpy' on cygwin
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <span class="post-meta">2023-09-12</span>
-        <h3>
-          <a class="post-link" href="/blog/_posts/2023-09-12-arm-arch-notes.html">
-            ARM Architecture notes
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <span class="post-meta">2023-08-23</span>
-        <h3>
-          <a class="post-link" href="/blog/_posts/2023-08-23-stoic-mental-strength.html">
-            Stoic principles for a strong mind
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <span class="post-meta">2023-01-23</span>
-        <h3>
-          <a class="post-link" href="/blog/_posts/2023-01-23-graphcast.html">
-            GraphCast: Learning skillful medium-range global weather forecasting
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <span class="post-meta">2022-12-01</span>
-        <h3>
-          <a class="post-link" href="/blog/_posts/2022-12-01-lp-free-mip.html">
-            Feasibility Jump: an LP-free Lagrangian MIP heuristic
-          </a>
-        </h3>
-      </li>
-    
   </ul>
-</div>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Recently, I wanted to use &#x27;numpy&#x27; from the python environment inside my cygwin installation.
+I had python version 3.8 and also had <code>python38-devel</code> and <code>libopenblas</code> installed already.
+I even made sure that my cygwin version is &gt;= 3.3. Even after this, my attempt at installing
+numpy using <code>python3 -m pip install numpy</code> failed with the following error:</p>
+<pre><code>      Run-time dependency openblas found: NO (tried pkgconfig and cmake)
+      Run-time dependency openblas found: NO (tried pkgconfig and cmake)
+
+      ../../numpy/meson.build:207:4: ERROR: Problem encountered: No BLAS library detected! Install one, or use the `allow-noblas` build option (note, this may be up to 100x slower for some linear algebra operations).
+</code></pre>
+<p>In the end, I noticed that there&#x27;s already a <code>python38-numpy</code> package in the cygwin repo.
+I was able to install that package successfully and after that, I could use <code>numpy</code> from
+my python3.8 REPL!</p>
+
+  </div>
+  <a class="u-url" href="/blog/_posts/2023-10-02-installing-numpy-on-cygwin.html" hidden></a>
+</article>
       </div>
     </main>
     <footer class="site-footer h-card">

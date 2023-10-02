@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/blog/src/assets/main.css">
+
+
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/blog/">Quagmire</a>
+
+    <nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon">
+          <svg viewBox="0 0 18 15" width="18px" height="15px">
+            <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+            <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+            <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+          </svg>
+        </span>
+      </label>
+
+      <div class="trigger">
+        <a class="page-link" href="/blog/about.html">About</a>
+        <a class="page-link" href="/blog/allposts.html">All Posts</a>
+        <a class="page-link" href="/blog/tags.html">Tags</a>
+      </div>
+    </nav>
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">ARM Architecture notes</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2023-09-12" itemprop="datePublished">
+        Published: 2023-09-12
+      </time>
+      
+        <br/>
+        <time class="dt-published" datetime="" itemprop="datePublished">
+          Last Modifed: 
+        </time>
+      
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    
+    <li><a href="/blog/tags.html#architecture" class="tag">architecture</a></li>
+  
+    
+    <li><a href="/blog/tags.html#arm" class="tag">arm</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2>Introduction</h2>
+<p>Collection of some ARM architecture related information which could come in handy.
+This is mostly going to be a live-document. As and when I continue to find new
+information, I&#x27;ll be updating this page (mostly for my perusal in the future).</p>
+<h2>Random tidbits</h2>
+<ul>
+<li>NVIDIA Grace GPU is Neoverse V2 based (code named Demeter). Implements ARMv9.0-A ISA.</li>
+<li>AWS Gravitron3 is Neoverse V1 based (code named Zeus). Implements ARMv8.4-A and ARMv8.6-A ISA&#x27;s.</li>
+<li>Ampere Altra is Neoverse N1 based.</li>
+<li>Neoverse V3 is code named Poseidon</li>
+<li>Neoverse V2 is based off of Cortex X3.</li>
+</ul>
+<h2>Nomenclature</h2>
+<ul>
+<li><em>Neoverse</em> - 64b ARM processor cores</li>
+<li><em>Neoverse V series</em> - for HPC</li>
+<li><em>Neoverse N series</em> - for datacenter</li>
+<li><em>Neoverse E series</em> - for edge computing</li>
+<li><em>BTB</em> - Branch Target Buffer</li>
+<li><em>Rename</em> - ??</li>
+<li><em>IQ</em> - Issue Queue</li>
+<li><em>SX</em> - ??</li>
+<li><em>MX</em> - ??</li>
+<li><em>VX</em> - ??</li>
+<li><em>SB</em> - Store Buffer</li>
+<li><em>SA</em> - Set Associative</li>
+<li><em>TQ</em> - Transaction Queue (to queue L2$ misses)</li>
+<li><em>SLC</em> - System Level Cache</li>
+</ul>
+<h2>Architecture</h2>
+<h3>Neoverse V2 Core arch</h3>
+<ul>
+<li>frontend
+<ul>
+<li>eight-wide OOO core</li>
+<li>much deeper branch predictor, hiding L1-I$ miss latency (ideal for super branchy codes)</li>
+<li>BTB capacity of 12K entries. It is 2-level.</li>
+<li>2 predicted branches per cycle</li>
+<li>L1-I$ - 64kB 4-way SA</li>
+<li>Frontend does 8uops and 6insts per cycle</li>
+</ul>
+</li>
+<li>decode
+<ul>
+<li>Decoder width is 6 insts (in order to match that of Frontend&#x27;s output). Generates 8-wide uops as output</li>
+</ul>
+</li>
+<li>backend
+<ul>
+<li>few of the reg-reg and imm mov ops execute with zero latency</li>
+<li>more instruction fusion (CMP + CSEL/CSET)</li>
+<li>Vector and FP instructions go to the VX schedulers (dual-ported)</li>
+</ul>
+</li>
+<li>load/store
+<ul>
+<li>2 load/store pipes and 1 load pipe (=&gt; 3 mem ops per cycle)</li>
+<li>48 entry TLB</li>
+</ul>
+</li>
+<li>Memory subsystem
+<ul>
+<li>2MB L2$ (8-way SA), 4 independent banks</li>
+<li>64B read or write per 2 cycles per bank to L1$ (10 cycles load to use latency)</li>
+<li>L2$ also caches L1-I$ (i.e. instruction coherency)</li>
+<li>L2$ to next level cache is via AMBA CHI with 32B uni-directional bandwidth</li>
+</ul>
+</li>
+<li>A V2 core consists of ALUs, L1$ and L2$. They are connected with each other using CMN-700 mesh interconnect</li>
+<li>maximum possible mesh size is 12x12 (most likely to hit reticle limit)</li>
+<li>CMN-700 also maintains coherency via snoop filters</li>
+</ul>
+<h2>References</h2>
+<ol>
+<li>https://en.wikipedia.org/wiki/ARM_Neoverse</li>
+<li>https://chipsandcheese.com/2023/09/11/hot-chips-2023-arms-neoverse-v2/</li>
+</ol>
+
+  </div>
+  <a class="u-url" href="/blog/_posts/2023-09-12-arm-arch-notes.html" hidden></a>
+</article>
+      </div>
+    </main>
+    <footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>
