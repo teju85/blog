@@ -46,8 +46,8 @@
       </time>
       
         <br/>
-        <time class="dt-published" datetime="" itemprop="datePublished">
-          Last Modifed: 
+        <time class="dt-published" datetime="2023-10-02" itemprop="datePublished">
+          Last Modifed: 2023-10-02
         </time>
       
     </p>
@@ -70,18 +70,29 @@ This is mostly going to be a live-document. As and when I continue to find new
 information, I&#x27;ll be updating this page (mostly for my perusal in the future).</p>
 <h2>Random tidbits</h2>
 <ul>
+<li>Aarch64 (64b arch version) of ARM cpu&#x27;s were introduced in Armv8-A.
+<ul>
+<li>Execution state - 64b GPR&#x27;s, 64b PC, SP (for each implemented exception level), ELR</li>
+</ul>
+</li>
 <li>NVIDIA Grace GPU is Neoverse V2 based (code named Demeter). Implements ARMv9.0-A ISA.</li>
 <li>AWS Gravitron3 is Neoverse V1 based (code named Zeus). Implements ARMv8.4-A and ARMv8.6-A ISA&#x27;s.</li>
 <li>Ampere Altra is Neoverse N1 based.</li>
 <li>Neoverse V3 is code named Poseidon</li>
 <li>Neoverse V2 is based off of Cortex X3.</li>
+<li>V series typically are in the 80-350W TDP range.</li>
+<li>Armv9.0A extends the architecture from Armv8.0-A till Armv8.6-A.</li>
 </ul>
 <h2>Nomenclature</h2>
 <ul>
-<li><em>Neoverse</em> - 64b ARM processor cores</li>
-<li><em>Neoverse V series</em> - for HPC</li>
-<li><em>Neoverse N series</em> - for datacenter</li>
-<li><em>Neoverse E series</em> - for edge computing</li>
+<li><em>Neoverse</em> - 64b ARM processor cores
+<ul>
+<li><em>V series</em> - HPC</li>
+<li><em>N series</em> - datacenter</li>
+<li><em>E series</em> - edge computing</li>
+</ul>
+</li>
+<li><em>AMBA</em> - Advanced Microcontroller Bus Architecture. Family of protocols for SoC interconnect.</li>
 <li><em>BTB</em> - Branch Target Buffer</li>
 <li><em>Rename</em> - ??</li>
 <li><em>IQ</em> - Issue Queue</li>
@@ -92,8 +103,33 @@ information, I&#x27;ll be updating this page (mostly for my perusal in the futur
 <li><em>SA</em> - Set Associative</li>
 <li><em>TQ</em> - Transaction Queue (to queue L2$ misses)</li>
 <li><em>SLC</em> - System Level Cache</li>
+<li><em>SP</em> - Stack Pointer</li>
+<li><em>ELR</em> - Exception Link Register</li>
+<li><em>PC</em> - Program Counter</li>
+<li><em>GPR</em> - General Purpose Register</li>
+<li><em>Neon</em> - SIMD processing using dedicated SIMD and floating-point register banks. 128b, 64b,
+32b, 16b, 8b register accesses are possible.</li>
+<li><em>PSR</em> - Program Status Register. Holds PSTATE info</li>
+<li><em>PSTATE</em> - Abstraction of the process state</li>
+<li><em>SPSR</em> - Saved PSR. Copy of current PSR of the cores saved by HW during an exception</li>
 </ul>
-<h2>Architecture</h2>
+<h2>Architecture (Neoverse V2)</h2>
+<h3>Overview</h3>
+<ul>
+<li>aarch64 execution state across all EL0-EL3</li>
+<li>supports BF16/INT8 formats as well</li>
+<li>instruction execution pipeline overview
+<ul>
+<li>instruction fetch</li>
+<li>decode into macro-ops (MOP)</li>
+<li>register renaming and dispatch</li>
+<li>MOPs split into upto 2 micro-ops (uOP)</li>
+<li>uOPs wait for their operands</li>
+<li>finally, OOO issue to one of 17 issue pipelines</li>
+<li>each issue pipeline can take one uOP per cycle</li>
+</ul>
+</li>
+</ul>
 <h3>Neoverse V2 Core arch</h3>
 <ul>
 <li>frontend
@@ -140,6 +176,8 @@ information, I&#x27;ll be updating this page (mostly for my perusal in the futur
 <ol>
 <li>https://en.wikipedia.org/wiki/ARM_Neoverse</li>
 <li>https://chipsandcheese.com/2023/09/11/hot-chips-2023-arms-neoverse-v2/</li>
+<li>https://developer.arm.com/documentation/105565/latest/</li>
+<li>https://developer.arm.com/documentation/PJDOC-466751330-593177/latest/</li>
 </ol>
 
   </div>
