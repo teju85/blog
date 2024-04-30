@@ -1,0 +1,40 @@
+---
+layout: post
+title: "Installing 'pi-hole' on Raspberry Pi"
+tags: tools raspberrypi
+---
+
+My installation notes:
+```
+# download raspbian image from this URL: https://www.raspberrypi.com/software/operating-systems
+# flash the image using "Raspberry Pi Imager"
+# boot your rpi
+
+# update the SW on your rpi first
+sudo apt-get update
+sudo apt-get upgrade
+sudo reboot now
+
+# setup prereqs for pi-hole
+sudo apt-get install dhcpcd5 ufw
+
+# assign static IP
+dns=`grep nameserver /etc/resolv.conf | head -n1 | awk '{print $2}'`
+if=`ip r | head -n1 | awk '{print $5}'`
+router=`ip r | head -n1 | awk '{print $3}'`
+ip=`ip r | head -n1 | awk '{print $9}'`
+echo "interface $if"
+echo "static_routers=$router"
+echo "static domain_name_servers=$dns"
+echo "static ip_address=$ip/24"
+echo "# append the above 4 lines to '/etc/dhcpcd.conf'"
+
+# get the changes into effect
+sudo reboot now
+
+# download pi-hole installer and run it
+wget -O basic-install.sh https://install.pi-hole.net
+chmod +x basic-install.sh
+sudo bash basic-install.sh
+# and follow the instructions ...
+```
