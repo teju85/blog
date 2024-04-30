@@ -46,6 +46,17 @@ information, I'll be updating this page (mostly for my perusal in the future).
 - *PSR* - Program Status Register. Holds PSTATE info
 - *PSTATE* - Abstraction of the process state
 - *SPSR* - Saved PSR. Copy of current PSR of the cores saved by HW during an exception
+- *MPKI* - Misses Per Kilo Instructions
+- *PTW* - Page Table Walker
+- *Core* - that which contains ALU, FP, L1, L2 units
+- *Uncore* - rest of the units L3, memory controller, PCIe root complex, etc
+- Profiles
+  - A-Profile - Application - for HPC segment
+  - R-Profile - Real-Time - for workloads with realtime requirements
+  - M-Profile - Microcontroller - for power-efficient devices
+- *BSA* - Base System Architecture - HW system arch that system SW can rely on.
+  IOW, things that an OS needs like interrupt controllers, timers, etc.
+- *SVE* - Scalable Vector Instructions, for SIMD execution.
 
 ## Architecture (Neoverse V2)
 ### Overview
