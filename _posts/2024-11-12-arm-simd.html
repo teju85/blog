@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/blog/src/assets/main.css">
+
+
+</head>
+  <body>
+    <header class="site-header" role="banner">
+  <div class="wrapper">
+    
+    
+    <a class="site-title" rel="author" href="/blog/">Quagmire</a>
+
+    <nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon">
+          <svg viewBox="0 0 18 15" width="18px" height="15px">
+            <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+            <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+            <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+          </svg>
+        </span>
+      </label>
+
+      <div class="trigger">
+        <a class="page-link" href="/blog/about.html">About</a>
+        <a class="page-link" href="/blog/allposts.html">All Posts</a>
+        <a class="page-link" href="/blog/tags.html">Tags</a>
+      </div>
+    </nav>
+  </div>
+</header>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Notes on ARM SIMD</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2024-11-12" itemprop="datePublished">
+        Published: 2024-11-12
+      </time>
+      
+        <br/>
+        <time class="dt-published" datetime="" itemprop="datePublished">
+          Last Modifed: 
+        </time>
+      
+    </p>
+  </header>
+
+  <ul class="tags">
+  
+    
+    <li><a href="/blog/tags.html#architecture" class="tag">architecture</a></li>
+  
+    
+    <li><a href="/blog/tags.html#arm" class="tag">arm</a></li>
+  
+  </ul>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2>Introduction</h2>
+<p>Collection of some ARM SIMD related information which could come in handy. This
+is mostly going to be a live-document. As and when I continue to find new
+information, I&#x27;ll be updating this page (mostly for my perusal in the future).</p>
+<ul>
+<li>
+<p>NEON</p>
+<ul>
+<li>SIMD instructions</li>
+<li>No predicates allowed</li>
+<li>Vector lengths fixed in the Arch</li>
+<li>Introduced in Armv7-A</li>
+<li>32x 128b regs (V0-31)</li>
+<li>int, fp32, fp64 ops are supported</li>
+<li>All NEON intrinsics can be found <a href="https://developer.arm.com/architectures/instruction-sets/intrinsics/">here</a></li>
+</ul>
+</li>
+<li>
+<p>SVE</p>
+<ul>
+<li>Generalized extensions for SIMD instructions</li>
+<li>VLA (Vector Length Agnostic)</li>
+<li>HW implementors are free to choose the width (128b to 2048b)</li>
+<li>Supports predicated registers.</li>
+<li>Optional extension in Armv8-A</li>
+<li><code>svcntb()</code> (and <code>svcntw()</code>?) will tell you the vector width at runtime</li>
+<li>16x predicte regs (P0-15)
+<ul>
+<li>P0-7 - preds for load/store/math</li>
+<li>P8-15 - preds for loop control</li>
+</ul>
+</li>
+<li>32x SVE regs which use the same lower 128b from NEON regs (Z0-31)</li>
+<li>FFR (First Fault Reg) for SW speculation</li>
+<li>Armv9-A introduces SVE2 as an extension to SVE instructions</li>
+<li>All SVE intrinsics can be found <a href="https://developer.arm.com/documentation/100987/0000/">here</a></li>
+<li>features
+<ul>
+<li>gather-load, scatter-store</li>
+<li>per-lane predication</li>
+<li>predicate-driven loop control</li>
+<li>vector partitioning for SW-managed speculation (FFR)</li>
+<li>extended FP and bitwise horizontal reductions</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>SVE2</p>
+<ul>
+<li>superset of SVE and NEON</li>
+<li>from Armv9-A</li>
+<li>regs are same from SVE + Scalable vector system control regs (ZCR_Elx, x = 1, 2, 3)</li>
+<li>ZCR_Elx.LEN defines the vector length for the current and lower exception levels</li>
+<li>features
+<ul>
+<li>all of SVE</li>
+<li>replicates existing NEON instructions</li>
+<li>complex arithmetic</li>
+<li>crypto</li>
+<li>genomics</li>
+<li>etc</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Prefer to use libaries that already use these instructions (eg: ARMPL), then, prefer to use intrinsics. Finally, if perf is very important, look at using inline assembly.</p>
+</li>
+<li>
+<p>arm_neon.h and arm_sve.h (use the <code>__ARM_FEATURE_SVE</code> macro!) for using NEON and SVE instructions respectively</p>
+</li>
+<li>
+<p>use <code>restrict</code> keyword in order to guarantee compiler of non-aliasing of pointers. This can lead to, for eg, compiler using <code>ldp</code> instructions. It&#x27;ll in general emit lesser instructions. It can also aid compiler in autovectorization.</p>
+</li>
+<li>
+<p><a href="https://learn.arm.com/learning-paths/cross-platform/memory-latency/what-is-latency/">Nice table</a> on various memory latencies.</p>
+</li>
+<li>
+<p><code>__builtin_prefetch()</code> helps with SW prefetching</p>
+</li>
+<li>
+<p>type-casts are almost always costlier than a simple copy (6 cycles on Neoverse N1 and 3 on N2)</p>
+</li>
+<li>
+<p>not autovectorizable loops (usually!)</p>
+<ul>
+<li>non countable loops (Eg: <code>while</code> with <code>break</code>)</li>
+<li>no function calls in the loop</li>
+<li>no branches or if/else/switch statements in the loop (not true for iteration invariant conditionals)</li>
+<li>only inner loops are autovectorized</li>
+<li>data interdependent iterations</li>
+</ul>
+</li>
+<li>
+<p>for simd codes prefer SoA vs AoS and keep the data as packed as possible (these all sound similar for GPU optimization as well!)</p>
+</li>
+</ul>
+<h2>References</h2>
+<ul>
+<li>https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/Learn%20the%20Architecture/102131_0100_01_SVE_and_Neon_coding_compared.pdf?revision=feaaf72e-a941-461c-bd92-0d960d0f8615</li>
+<li>https://learn.arm.com/learning-paths/servers-and-cloud-computing/sve/sve_basics/</li>
+<li>https://www.arm.com/developer-hub/servers-and-cloud-computing/arm-simd</li>
+<li>https://developer.arm.com/documentation/102340/0100</li>
+<li>https://www.stonybrook.edu/commcms/ookami/support/_docs/ARM_SVE_tutorial.pdf</li>
+<li>https://www.stonybrook.edu/commcms/ookami/support/_docs/5%20-%20Advanced%20SVE.pdf</li>
+</ul>
+
+  </div>
+  <a class="u-url" href="/blog/_posts/2024-11-12-arm-simd.html" hidden></a>
+</article>
+      </div>
+    </main>
+    <footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-3">
+        <p>Stuff I find cool/useful</p>
+      </div>
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

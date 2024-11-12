@@ -1,0 +1,75 @@
+---
+layout: post
+title: "Notes on ARM SIMD"
+tags: architecture arm
+---
+
+## Introduction
+Collection of some ARM SIMD related information which could come in handy. This
+is mostly going to be a live-document. As and when I continue to find new
+information, I'll be updating this page (mostly for my perusal in the future).
+
+- NEON
+  - SIMD instructions
+  - No predicates allowed
+  - Vector lengths fixed in the Arch
+  - Introduced in Armv7-A
+  - 32x 128b regs (V0-31)
+  - int, fp32, fp64 ops are supported
+  - All NEON intrinsics can be found [here](https://developer.arm.com/architectures/instruction-sets/intrinsics/)
+
+- SVE
+  - Generalized extensions for SIMD instructions
+  - VLA (Vector Length Agnostic)
+  - HW implementors are free to choose the width (128b to 2048b)
+  - Supports predicated registers.
+  - Optional extension in Armv8-A
+  - `svcntb()` (and `svcntw()`?) will tell you the vector width at runtime
+  - 16x predicte regs (P0-15)
+    - P0-7 - preds for load/store/math
+    - P8-15 - preds for loop control
+  - 32x SVE regs which use the same lower 128b from NEON regs (Z0-31)
+  - FFR (First Fault Reg) for SW speculation
+  - Armv9-A introduces SVE2 as an extension to SVE instructions
+  - All SVE intrinsics can be found [here](https://developer.arm.com/documentation/100987/0000/)
+  - features
+    - gather-load, scatter-store
+    - per-lane predication
+    - predicate-driven loop control
+    - vector partitioning for SW-managed speculation (FFR)
+    - extended FP and bitwise horizontal reductions
+
+- SVE2
+  - superset of SVE and NEON
+  - from Armv9-A
+  - regs are same from SVE + Scalable vector system control regs (ZCR_Elx, x = 1, 2, 3)
+  - ZCR_Elx.LEN defines the vector length for the current and lower exception levels
+  - features
+    - all of SVE
+    - replicates existing NEON instructions
+    - complex arithmetic
+    - crypto
+    - genomics
+    - etc
+
+- Prefer to use libaries that already use these instructions (eg: ARMPL), then, prefer to use intrinsics. Finally, if perf is very important, look at using inline assembly.
+- arm_neon.h and arm_sve.h (use the `__ARM_FEATURE_SVE` macro!) for using NEON and SVE instructions respectively
+- use `restrict` keyword in order to guarantee compiler of non-aliasing of pointers. This can lead to, for eg, compiler using `ldp` instructions. It'll in general emit lesser instructions. It can also aid compiler in autovectorization.
+- [Nice table](https://learn.arm.com/learning-paths/cross-platform/memory-latency/what-is-latency/) on various memory latencies.
+- `__builtin_prefetch()` helps with SW prefetching
+- type-casts are almost always costlier than a simple copy (6 cycles on Neoverse N1 and 3 on N2)
+- not autovectorizable loops (usually!)
+  - non countable loops (Eg: `while` with `break`)
+  - no function calls in the loop
+  - no branches or if/else/switch statements in the loop (not true for iteration invariant conditionals)
+  - only inner loops are autovectorized
+  - data interdependent iterations
+- for simd codes prefer SoA vs AoS and keep the data as packed as possible (these all sound similar for GPU optimization as well!)
+
+## References
+- https://developer.arm.com/-/media/Arm%20Developer%20Community/PDF/Learn%20the%20Architecture/102131_0100_01_SVE_and_Neon_coding_compared.pdf?revision=feaaf72e-a941-461c-bd92-0d960d0f8615
+- https://learn.arm.com/learning-paths/servers-and-cloud-computing/sve/sve_basics/
+- https://www.arm.com/developer-hub/servers-and-cloud-computing/arm-simd
+- https://developer.arm.com/documentation/102340/0100
+- https://www.stonybrook.edu/commcms/ookami/support/_docs/ARM_SVE_tutorial.pdf
+- https://www.stonybrook.edu/commcms/ookami/support/_docs/5%20-%20Advanced%20SVE.pdf
